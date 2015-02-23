@@ -1,0 +1,21 @@
+{
+    "environmentSettings": {
+        "webSite": {
+            "name": "Lvgaga",
+            "location": "Japan East"
+        },
+        "databases": [
+            {
+                "connectionStringName": "DefaultConnection",
+                "databaseName": "Lvgaga_db",
+                "serverName": "",
+                "user": "LvgagaMembership",
+                "password": "",
+                "edition": "",
+                "size": "",
+                "collation": "",
+                "location": "Japan East"
+            }
+        ]
+    }
+}
