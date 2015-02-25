@@ -7,17 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga", "Lvgaga\Lvgaga.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga.Tests", "Lvgaga.Tests\Lvgaga.Tests.csproj", "{36CD74D5-325F-4596-889F-8CE5367583D2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{4BE223D4-EB3E-4A5C-BF5A-7D71018F38B4}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
-		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{255D356A-2915-4806-A236-41F17EB0459B}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\Configurations\Lvgaga-WAWS-dev.json = PublishScripts\Configurations\Lvgaga-WAWS-dev.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,8 +24,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{255D356A-2915-4806-A236-41F17EB0459B} = {4BE223D4-EB3E-4A5C-BF5A-7D71018F38B4}
 	EndGlobalSection
 EndGlobal
