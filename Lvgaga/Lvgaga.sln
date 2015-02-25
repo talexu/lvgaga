@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga", "Lvgaga\Lvgaga.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga.Tests", "Lvgaga.Tests\Lvgaga.Tests.csproj", "{36CD74D5-325F-4596-889F-8CE5367583D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvModel", "LvModel\LvModel.csproj", "{0A8D207B-759D-491E-A8E4-AD5768DC09B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{36CD74D5-325F-4596-889F-8CE5367583D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36CD74D5-325F-4596-889F-8CE5367583D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36CD74D5-325F-4596-889F-8CE5367583D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
