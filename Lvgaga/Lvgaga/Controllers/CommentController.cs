@@ -18,7 +18,7 @@ namespace Lvgaga.Controllers
 
         [Route("{id}")]
         // GET: comments/5
-        public ActionResult Show(int id)
+        public ActionResult Show(string id)
         {
             return View();
         }
