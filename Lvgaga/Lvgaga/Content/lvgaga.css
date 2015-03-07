@@ -13,4 +13,11 @@
 .comment-box {
   margin-bottom: 10px;
 }
+.text-comment {
+  color: #333;
+  font-size: 0.8em;
+}
+.hr-comment {
+  margin: 15px 0 10px 0;
+}
 /*# sourceMappingURL=lvgaga.css.map */
