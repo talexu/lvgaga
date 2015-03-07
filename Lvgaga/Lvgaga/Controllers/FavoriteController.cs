@@ -6,19 +6,12 @@ using System.Web.Mvc;
 
 namespace Lvgaga.Controllers
 {
-    [RoutePrefix("comments")]
-    public class CommentController : Controller
+    [RoutePrefix("favorites")]
+    public class FavoriteController : Controller
     {
-        // GET: comments
         [Route]
+        // GET: Favorite
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        [Route("{id}")]
-        // GET: comments/5
-        public ActionResult Show(string id)
         {
             return View();
         }
