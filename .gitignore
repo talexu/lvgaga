@@ -18,6 +18,10 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+# Node
+node_modules/
+bower_components/
+
 # Roslyn cache directories
 *.ide/
 
