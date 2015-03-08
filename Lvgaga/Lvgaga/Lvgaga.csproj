@@ -29,6 +29,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -173,6 +175,32 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bower_components\blueimp-bootstrap-image-gallery\css\bootstrap-image-gallery.css" />
+    <Content Include="bower_components\blueimp-bootstrap-image-gallery\css\bootstrap-image-gallery.min.css" />
+    <Content Include="bower_components\blueimp-bootstrap-image-gallery\img\loading.gif" />
+    <Content Include="bower_components\blueimp-bootstrap-image-gallery\js\bootstrap-image-gallery.js" />
+    <Content Include="bower_components\blueimp-bootstrap-image-gallery\js\bootstrap-image-gallery.min.js" />
+    <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery-indicator.css" />
+    <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery-video.css" />
+    <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery.css" />
+    <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery.min.css" />
+    <Content Include="bower_components\blueimp-gallery\img\error.png" />
+    <Content Include="bower_components\blueimp-gallery\img\error.svg" />
+    <Content Include="bower_components\blueimp-gallery\img\loading.gif" />
+    <Content Include="bower_components\blueimp-gallery\img\play-pause.png" />
+    <Content Include="bower_components\blueimp-gallery\img\play-pause.svg" />
+    <Content Include="bower_components\blueimp-gallery\img\video-play.png" />
+    <Content Include="bower_components\blueimp-gallery\img\video-play.svg" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery-fullscreen.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery-indicator.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery-video.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery-vimeo.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery-youtube.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-gallery.min.js" />
+    <Content Include="bower_components\blueimp-gallery\js\blueimp-helper.js" />
+    <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.js" />
+    <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\lvgaga.css">
@@ -251,7 +279,6 @@
     <Content Include="Views\Favorite\Index.Mobile.cshtml" />
     <None Include="Views\Favorite\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
