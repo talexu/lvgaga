@@ -191,6 +191,7 @@
     <Content Include="Content\lvgaga.css.map">
       <DependentUpon>lvgaga.css</DependentUpon>
     </Content>
+    <Content Include="bower.json" />
     <None Include="Properties\PublishProfiles\lvgaga.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
