@@ -175,11 +175,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bower_components\blueimp-bootstrap-image-gallery\css\bootstrap-image-gallery.css" />
-    <Content Include="bower_components\blueimp-bootstrap-image-gallery\css\bootstrap-image-gallery.min.css" />
-    <Content Include="bower_components\blueimp-bootstrap-image-gallery\img\loading.gif" />
-    <Content Include="bower_components\blueimp-bootstrap-image-gallery\js\bootstrap-image-gallery.js" />
-    <Content Include="bower_components\blueimp-bootstrap-image-gallery\js\bootstrap-image-gallery.min.js" />
     <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery-indicator.css" />
     <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery-video.css" />
     <Content Include="bower_components\blueimp-gallery\css\blueimp-gallery.css" />
@@ -292,6 +287,7 @@
       <Name>LvModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

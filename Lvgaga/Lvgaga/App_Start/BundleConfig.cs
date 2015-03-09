@@ -18,8 +18,7 @@ namespace Lvgaga
                         "~/Scripts/jquery.lazyload*"));
 
             bundles.Add(new ScriptBundle("~/bundles/gallery").Include(
-                        "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
-                        "~/bower_components/blueimp-bootstrap-image-gallery/js/bootstrap-image-gallery.min.js"));
+                        "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -36,8 +35,7 @@ namespace Lvgaga
                       "~/Content/lvgaga.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/gallery").Include(
-                      "~/bower_components/blueimp-gallery/css/blueimp-gallery.min.css",
-                      "~/bower_components/blueimp-bootstrap-image-gallery/css/bootstrap-image-gallery.min.css"));
+                      "~/bower_components/blueimp-gallery/css/blueimp-gallery.min.css"));
         }
     }
 }
