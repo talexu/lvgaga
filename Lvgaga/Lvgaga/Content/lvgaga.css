@@ -26,4 +26,14 @@
 .hr-comment {
   margin: 15px 0 10px 0;
 }
+.blueimp-gallery > .fav-nav {
+  position: absolute;
+  display: none;
+}
+.blueimp-gallery-controls > .fav-nav {
+  display: block;
+}
+.btn-white {
+  color: #ccc;
+}
 /*# sourceMappingURL=lvgaga.css.map */

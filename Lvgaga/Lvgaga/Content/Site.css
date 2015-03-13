@@ -23,3 +23,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Outline button */
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
+}
