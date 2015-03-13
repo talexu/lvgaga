@@ -63,6 +63,8 @@ namespace Lvgaga
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            app.UseSinaWeiboAuthentication("423226773", "b61e12b1b81979bf43e31760f2f3cd8e");
         }
     }
 }

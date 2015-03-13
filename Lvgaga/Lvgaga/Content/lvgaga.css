@@ -20,6 +20,9 @@
   color: #333;
   font-size: 0.9em;
 }
+.txb-comment {
+  max-width: none;
+}
 .hr-comment {
   margin: 15px 0 10px 0;
 }
