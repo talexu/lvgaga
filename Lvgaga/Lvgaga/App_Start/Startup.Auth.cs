@@ -54,9 +54,9 @@ namespace Lvgaga
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1563391700611817",
+               appSecret: "6450b790e4cfb3fd863c09a49f7aeb8c");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
