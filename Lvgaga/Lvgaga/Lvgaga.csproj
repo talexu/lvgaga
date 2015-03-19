@@ -298,9 +298,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
     <Content Include="Views\Home\Index.Mobile.cshtml" />
-    <Content Include="Views\Comment\Index.cshtml" />
     <Content Include="Views\Comment\Show.Mobile.cshtml" />
-    <Content Include="Views\Comment\Index.Mobile.cshtml" />
     <None Include="Views\Comment\Show.cshtml" />
     <Content Include="Views\Favorite\Index.Mobile.cshtml" />
     <None Include="Views\Favorite\Index.cshtml" />

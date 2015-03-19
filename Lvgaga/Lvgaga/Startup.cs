@@ -1,7 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using Lvgaga;
+using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Lvgaga.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 namespace Lvgaga
 {
     public partial class Startup

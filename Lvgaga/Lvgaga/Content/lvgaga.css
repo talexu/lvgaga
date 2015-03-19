@@ -1,19 +1,23 @@
-﻿.img-tumblr {
-  width: 100%;
-}
-.content {
+﻿.content {
   margin: 10px;
+}
+.container-block {
+  padding: 0 10px 0 10px;
+  margin-top: 10px;
+}
+.img-tumblr {
+  width: 100%;
 }
 .hr-tumblr {
   margin: 20px 0 0 0;
 }
-.text-date {
+.date-tumblr {
   color: #ccc;
 }
 .btn-selected {
   color: crimson;
 }
-.comment-box {
+.box-comment {
   margin-bottom: 10px;
 }
 .text-comment {
