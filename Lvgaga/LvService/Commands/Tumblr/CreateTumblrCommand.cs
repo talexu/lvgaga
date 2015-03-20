@@ -23,11 +23,14 @@ namespace LvService.Commands.Tumblr
             base.Execute(parameter);
 
             dynamic p = parameter as ExpandoObject;
-            if (p != null)
-            {
-                CloudTable table = p.table;
+            if (p == null) return;
 
-            }
+            var table = p.table;
+            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.ViewModel);
+            if (table == null || tumblrEntity == null) return;
+
+            var insertOperation = TableOperation.Insert(tumblrEntity);
+            table.Execute(insertOperation);
         }
     }
 }

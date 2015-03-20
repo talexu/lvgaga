@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvModel.Azure.StorageTable
@@ -24,11 +19,11 @@ namespace LvModel.Azure.StorageTable
         public string Text { get; set; }
         public DateTime CreateTime { get; set; }
         public TumblrState State { get; set; }
+    }
 
-        public enum TumblrState
-        {
-            Active = 0,
-            Inactive = 1
-        }
+    public enum TumblrState
+    {
+        Active = 0,
+        Inactive = 1
     }
 }

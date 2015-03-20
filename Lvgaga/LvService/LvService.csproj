@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Factories\ITableEntityFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\Common\AzureStorageCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateTumblrCommand.cs" />

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
+using LvService.Factories;
 
 namespace LvService.Commands.Common
 {
     public class AzureStorageCommand : ICommand
     {
         private readonly ICommand _command;
+        public ITableEntityFactory TableEntityFactory;
 
         public AzureStorageCommand()
         {
