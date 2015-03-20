@@ -35,7 +35,6 @@ namespace LvService.Commands.Tumblr
             if (table == null || tumblrEntity == null) return;
 
             p.Entity = tumblrEntity;
-            p.RelativeUri = tumblrEntity.Uri;
             await table.ExecuteAsync(TableOperation.Insert(tumblrEntity));
 
             base.Execute(p as object);

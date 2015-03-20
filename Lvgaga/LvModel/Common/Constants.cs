@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LvModel.Common
+﻿namespace LvModel.Common
 {
     public class Constants
     {
@@ -12,6 +10,6 @@ namespace LvModel.Common
         Image = 0,
         Audio = 1,
         Video = 2,
-        Gif = 3,
+        Gif = 3
     }
 }

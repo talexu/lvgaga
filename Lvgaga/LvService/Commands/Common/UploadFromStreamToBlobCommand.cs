@@ -28,7 +28,7 @@ namespace LvService.Commands.Common
         {
             if (CanExecute(p))
             {
-                string relativeUri = p.RelativeUri;
+                string relativeUri = p.Entity.Uri;
                 HttpPostedFileBase file = p.File;
                 if (!String.IsNullOrEmpty(relativeUri) && file != null)
                 {

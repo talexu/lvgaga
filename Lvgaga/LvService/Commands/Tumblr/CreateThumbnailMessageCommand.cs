@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using LvService.Commands.Common;
 using LvService.Factories;
 using Microsoft.WindowsAzure.Storage.Queue;

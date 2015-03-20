@@ -6,7 +6,7 @@
     <meta property="wb:webmaster" content="ccbdf471ac1c6649" />
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    @RenderSection("styles", required: false)
+    @RenderSection("styles", false)
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -41,6 +41,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 </body>
 </html>
