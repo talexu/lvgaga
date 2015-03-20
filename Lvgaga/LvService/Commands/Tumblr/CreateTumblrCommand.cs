@@ -1,12 +1,15 @@
-﻿using System.Dynamic;
-using System.Windows.Input;
+﻿using LvModel.Azure.StorageTable;
+using LvModel.View.Tumblr;
 using LvService.Commands.Common;
+using LvService.Factories;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateTumblrCommand : AzureStorageCommand
+    public class CreateTumblrCommand : CommandChain
     {
+        public ITableEntityFactory TableEntityFactory { get; set; }
+
         public CreateTumblrCommand()
         {
 
@@ -18,19 +21,26 @@ namespace LvService.Commands.Tumblr
 
         }
 
-        public override void Execute(object parameter)
+        public override bool CanExecute(dynamic p)
         {
-            base.Execute(parameter);
+            return p.Table is CloudTable && p.ViewModel is TumblrViewModel;
+        }
 
-            dynamic p = parameter as ExpandoObject;
-            if (p == null) return;
+        public override async void Execute(dynamic p)
+        {
+            if (!CanExecute(p)) return;
 
-            var table = p.table;
-            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.ViewModel);
+            CloudTable table = p.Table;
+            TumblrEntity tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.ViewModel);
             if (table == null || tumblrEntity == null) return;
 
             var insertOperation = TableOperation.Insert(tumblrEntity);
-            table.Execute(insertOperation);
+
+            p.Entity = tumblrEntity;
+            p.RelativeUri = tumblrEntity.Uri;
+            base.Execute(p as object);
+
+            await table.ExecuteAsync(insertOperation);
         }
     }
 }

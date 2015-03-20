@@ -1,10 +1,9 @@
-﻿using LvModel.Azure.StorageTable;
-using LvModel.View.Tumblr;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Factories
 {
     public interface ITableEntityFactory
     {
-        TumblrEntity CreateTumblrEntity(TumblrViewModel tumblrViewModel);
+        ITableEntity CreateTumblrEntity(dynamic p);
     }
 }

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Azure\StorageQueue\CreateThumbnailMessage.cs" />
     <Compile Include="Azure\StorageTable\CommentEntity.cs" />
     <Compile Include="Azure\StorageTable\FavoriteEntity.cs" />
     <Compile Include="Azure\StorageTable\TumblrEntity.cs" />
