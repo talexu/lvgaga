@@ -29,10 +29,13 @@ namespace LvService.Commands.Tumblr
 
         public override async void Execute(dynamic p)
         {
-            dynamic message = QueueMessageFactory.CreateCreateThumbnailMessage(p.FileAbsoluteUri);
-            if (message != null)
+            if (CanExecute(p))
             {
-                await ThumbnailRequestQueue.AddMessageAsync(message);
+                dynamic message = QueueMessageFactory.CreateCreateThumbnailMessage(p.FileAbsoluteUri);
+                if (message != null)
+                {
+                    await ThumbnailRequestQueue.AddMessageAsync(message);
+                }
             }
 
             base.Execute(p as object);

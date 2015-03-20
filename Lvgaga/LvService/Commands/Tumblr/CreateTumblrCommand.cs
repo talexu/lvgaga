@@ -34,13 +34,11 @@ namespace LvService.Commands.Tumblr
             TumblrEntity tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.ViewModel);
             if (table == null || tumblrEntity == null) return;
 
-            var insertOperation = TableOperation.Insert(tumblrEntity);
-
             p.Entity = tumblrEntity;
             p.RelativeUri = tumblrEntity.Uri;
-            base.Execute(p as object);
+            await table.ExecuteAsync(TableOperation.Insert(tumblrEntity));
 
-            await table.ExecuteAsync(insertOperation);
+            base.Execute(p as object);
         }
     }
 }
