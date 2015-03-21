@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Threading.Tasks;
 using LvService.Commands.Common;
 using LvService.Factories;
 
@@ -25,7 +26,7 @@ namespace LvService.Commands.Tumblr
             return !String.IsNullOrEmpty(p.FileAbsoluteUri);
         }
 
-        public override async void Execute(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
             if (CanExecute(p))
             {
@@ -36,7 +37,7 @@ namespace LvService.Commands.Tumblr
                 }
             }
 
-            base.Execute(p as ExpandoObject);
+            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace LvService.Commands.Common
@@ -30,7 +31,7 @@ namespace LvService.Commands.Common
             }
         }
 
-        public override async void Execute(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
             if (CanExecute(p))
             {
@@ -47,7 +48,7 @@ namespace LvService.Commands.Common
                 }
             }
 
-            base.Execute(p as ExpandoObject);
+            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

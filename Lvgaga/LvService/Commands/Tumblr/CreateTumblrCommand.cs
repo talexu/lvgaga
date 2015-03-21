@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
@@ -37,7 +38,7 @@ namespace LvService.Commands.Tumblr
             }
         }
 
-        public override async void Execute(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
             if (!CanExecute(p)) return;
 
@@ -48,7 +49,7 @@ namespace LvService.Commands.Tumblr
             p.TableEntity = tumblrEntity;
             await table.ExecuteAsync(TableOperation.Insert(tumblrEntity));
 
-            base.Execute(p as ExpandoObject);
+            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -33,15 +34,15 @@ namespace LvService.Commands.Tumblr
             }
         }
 
-        public override void Execute(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
             if (!CanExecute(p)) return;
 
             CloudTable table = p.Table;
             TableOperation retrieveOperation = TableOperation.Retrieve<TumblrEntity>(p.PartitionKey, p.RowKey);
-            p.Result = table.ExecuteAsync(retrieveOperation).Result.Result;
+            p.Result = (await table.ExecuteAsync(retrieveOperation)).Result;
 
-            base.Execute(p as ExpandoObject);
+            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

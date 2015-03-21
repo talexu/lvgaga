@@ -1,4 +1,6 @@
-﻿namespace LvService.Commands.Common
+﻿using System.Threading.Tasks;
+
+namespace LvService.Commands.Common
 {
     public class CommandChain : ICommand
     {
@@ -19,9 +21,9 @@
             return _command != null && _command.CanExecute(p);
         }
 
-        public virtual void Execute(dynamic p)
+        public virtual async Task ExecuteAsync(dynamic p)
         {
-            if (_command != null && _command.CanExecute(p)) _command.Execute(p);
+            if (_command != null && _command.CanExecute(p)) await _command.ExecuteAsync(p);
         }
     }
 }

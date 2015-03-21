@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
@@ -21,7 +22,7 @@ namespace LvService.Tests.Commands.Tumblr
         public CreateReadTumblrCommandTests(AzureStorageFixture fixture)
         {
             _fixture = fixture;
-            _createTumblrCommand = new CreateTumblrCommand()
+            _createTumblrCommand = new CreateTumblrCommand
             {
                 TableEntityFactory = new TableEntityFactory()
             };
@@ -30,18 +31,18 @@ namespace LvService.Tests.Commands.Tumblr
             _tableName = Constants.TumblrTableName;
         }
 
-        [Fact()]
+        [Fact]
         public void CanExecuteTest_Return_False_Null()
         {
             Assert.False(_createTumblrCommand.CanExecute(null));
         }
 
-        [Fact()]
-        public void CanExecuteTest_Return_True()
+        [Fact]
+        public async Task CanExecuteTest_Return_True()
         {
             dynamic p = new ExpandoObject();
-            p.Table = _fixture.AzureStorage.GetTableReference(_tableName);
-            p.TumblrText = new TumblrText()
+            p.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+            p.TumblrText = new TumblrText
             {
                 Text = "Test text",
                 Category = TumblrCategory.C1
@@ -50,20 +51,20 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.True(_createTumblrCommand.CanExecute(p));
         }
 
-        [Fact()]
-        public void ExecuteTest()
+        [Fact]
+        public async Task ExecuteTest()
         {
             dynamic cp = new ExpandoObject();
-            cp.Table = _fixture.AzureStorage.GetTableReference(_tableName);
+            cp.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
             cp.TumblrText = GetTestTumblrText();
-            _createTumblrCommand.Execute(cp);
+            await _createTumblrCommand.ExecuteAsync(cp);
             TumblrEntity entity = cp.TableEntity;
 
             dynamic rp = new ExpandoObject();
-            rp.Table = _fixture.AzureStorage.GetTableReference(_tableName);
+            rp.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
             rp.PartitionKey = entity.PartitionKey;
             rp.RowKey = entity.RowKey;
-            _readTumblrCommand.Execute(rp);
+            await _readTumblrCommand.ExecuteAsync(rp);
             TumblrEntity entity2 = rp.Result;
 
             Assert.Equal(entity, entity2);
@@ -71,7 +72,7 @@ namespace LvService.Tests.Commands.Tumblr
 
         private static TumblrText GetTestTumblrText()
         {
-            return new TumblrText()
+            return new TumblrText
             {
                 Text = Guid.NewGuid().ToString(),
                 Category = TumblrCategory.C1

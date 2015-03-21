@@ -1,9 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.DbContexts
 {
     public interface IAzureStorage
     {
-        CloudTable GetTableReference(string tableName);
+        Task<CloudTable> GetTableReferenceAsync(string tableName);
     }
 }

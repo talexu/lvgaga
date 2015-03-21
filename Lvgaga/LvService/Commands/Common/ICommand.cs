@@ -1,8 +1,10 @@
-﻿namespace LvService.Commands.Common
+﻿using System.Threading.Tasks;
+
+namespace LvService.Commands.Common
 {
     public interface ICommand
     {
         bool CanExecute(dynamic p);
-        void Execute(dynamic p);
+        Task ExecuteAsync(dynamic p);
     }
 }

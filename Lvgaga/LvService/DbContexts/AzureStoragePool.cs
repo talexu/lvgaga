@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -15,12 +16,12 @@ namespace LvService.DbContexts
             _cloudTables = new Dictionary<string, CloudTable>();
         }
 
-        public CloudTable GetTableReference(string tableName)
+        public async Task<CloudTable> GetTableReferenceAsync(string tableName)
         {
             CloudTable table;
             if (_cloudTables.TryGetValue(tableName, out table)) return table;
 
-            table = _azureStorage.GetTableReference(tableName);
+            table = await _azureStorage.GetTableReferenceAsync(tableName);
             _cloudTables.TryAddValue(tableName, table);
             return table;
         }

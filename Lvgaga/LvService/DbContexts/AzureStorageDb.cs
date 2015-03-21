@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.DbContexts
@@ -17,10 +18,10 @@ namespace LvService.DbContexts
             TableClient = StorageAccount.CreateCloudTableClient();
         }
 
-        public virtual CloudTable GetTableReference(string tableName)
+        public virtual async Task<CloudTable> GetTableReferenceAsync(string tableName)
         {
             var table = TableClient.GetTableReference(tableName);
-            table.CreateIfNotExists();
+            await table.CreateIfNotExistsAsync();
 
             return table;
         }
