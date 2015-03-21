@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Dynamic;
 using LvModel.Azure.StorageTable;
-using LvModel.View.Tumblr;
 using LvService.Commands.Common;
-using LvService.Factories;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateTumblrCommand : AzureStorageCommand
+    public class ReadTumblrCommand : AzureStorageCommand
     {
-        public ITableEntityFactory TableEntityFactory { get; set; }
-
-        public CreateTumblrCommand()
+        public ReadTumblrCommand()
         {
 
         }
 
-        public CreateTumblrCommand(ICommand command)
+        public ReadTumblrCommand(ICommand command)
             : base(command)
         {
 
@@ -29,7 +25,7 @@ namespace LvService.Commands.Tumblr
 
             try
             {
-                return p.TumblrText is TumblrText;
+                return !String.IsNullOrEmpty(p.PartitionKey) && !String.IsNullOrEmpty(p.RowKey);
             }
             catch (Exception)
             {
@@ -37,16 +33,13 @@ namespace LvService.Commands.Tumblr
             }
         }
 
-        public override async void Execute(dynamic p)
+        public override void Execute(dynamic p)
         {
             if (!CanExecute(p)) return;
 
             CloudTable table = p.Table;
-            TumblrEntity tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.TumblrText);
-            if (table == null || tumblrEntity == null) return;
-
-            p.TableEntity = tumblrEntity;
-            await table.ExecuteAsync(TableOperation.Insert(tumblrEntity));
+            TableOperation retrieveOperation = TableOperation.Retrieve<TumblrEntity>(p.PartitionKey, p.RowKey);
+            p.Result = table.ExecuteAsync(retrieveOperation).Result.Result;
 
             base.Execute(p as ExpandoObject);
         }

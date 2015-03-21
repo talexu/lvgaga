@@ -2,7 +2,7 @@
 {
     public class Constants
     {
-
+        public const string TumblrTableName = "tumblrs";
     }
 
     public enum MediaType

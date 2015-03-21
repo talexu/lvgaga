@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Dynamic;
 using System.Web;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace LvService.Commands.Common
 {
-    public class UploadFromStreamToBlobCommand : CommandChain
+    public class UploadFromStreamToBlobCommand : AzureStorageCommand
     {
-        public CloudBlobContainer BlobContainer { get; set; }
-
         public UploadFromStreamToBlobCommand()
         {
 
@@ -21,14 +19,22 @@ namespace LvService.Commands.Common
 
         public override bool CanExecute(dynamic p)
         {
-            return p.RelativeUri is string && p.File is HttpPostedFileBase;
+            if (!base.CanExecute(p as ExpandoObject)) return false;
+            try
+            {
+                return p.TableEntity.Uri is string && p.File is HttpPostedFileBase;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public override async void Execute(dynamic p)
         {
             if (CanExecute(p))
             {
-                string relativeUri = p.Entity.Uri;
+                string relativeUri = p.TableEntity.Uri;
                 HttpPostedFileBase file = p.File;
                 if (!String.IsNullOrEmpty(relativeUri) && file != null)
                 {
@@ -41,7 +47,7 @@ namespace LvService.Commands.Common
                 }
             }
 
-            base.Execute(p as object);
+            base.Execute(p as ExpandoObject);
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Dynamic;
 using LvService.Commands.Common;
 using LvService.Factories;
-using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateThumbnailMessageCommand : CommandChain
+    public class CreateThumbnailMessageCommand : AzureStorageCommand
     {
         public IQueueMessageFactory QueueMessageFactory { get; set; }
-        public CloudQueue ThumbnailRequestQueue { get; set; }
 
         public CreateThumbnailMessageCommand()
         {
@@ -37,7 +36,7 @@ namespace LvService.Commands.Tumblr
                 }
             }
 
-            base.Execute(p as object);
+            base.Execute(p as ExpandoObject);
         }
     }
 }
