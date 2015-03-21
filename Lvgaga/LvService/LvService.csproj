@@ -72,6 +72,7 @@
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Common\UploadFromStreamToBlobCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateThumbnailMessageCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadTumblrsCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />

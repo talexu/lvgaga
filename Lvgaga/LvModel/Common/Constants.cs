@@ -2,7 +2,9 @@
 {
     public class Constants
     {
+        public const string PartitionKey = "PartitionKey";
         public const string TumblrTableName = "tumblrs";
+        public static readonly string MediaTypeImage = MediaType.Image.ToString("G");
     }
 
     public enum MediaType

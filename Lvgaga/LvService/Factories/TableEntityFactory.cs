@@ -11,7 +11,7 @@ namespace LvService.Factories
         public ITableEntity CreateTumblrEntity(dynamic p)
         {
             var now = DateTime.UtcNow;
-            return new TumblrEntity(MediaType.Image.ToString("G"), DateTimeHelper.GetInvertedTicks(now))
+            return new TumblrEntity(Constants.MediaTypeImage, DateTimeHelper.GetInvertedTicks(now))
             {
                 Uri = Guid.NewGuid() + ".jpg",
                 Text = p.Text,
