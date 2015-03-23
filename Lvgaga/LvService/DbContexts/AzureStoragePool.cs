@@ -22,7 +22,7 @@ namespace LvService.DbContexts
             if (_cloudTables.TryGetValue(tableName, out table)) return table;
 
             table = await _azureStorage.GetTableReferenceAsync(tableName);
-            _cloudTables.TryAddValue(tableName, table);
+            _cloudTables.AddOrUpdateValue(tableName, table);
             return table;
         }
     }

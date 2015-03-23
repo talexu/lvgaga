@@ -24,7 +24,7 @@ namespace LvService.Utilities
             IDictionary<char, double> freq1 = new SortedDictionary<char, double>();
             foreach (var c in cs1.Concat(cs2))
             {
-                freq1.TryAddValue(c, 0);
+                freq1.AddOrUpdateValue(c, 0);
             }
             IDictionary<char, double> freq2 = new SortedDictionary<char, double>(freq1);
 
