@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace LvService.Utilities
 {
-    public static class StringExtension
+    public static class StringExtensions
     {
         public static bool CosineEqual(this string str1, string str2)
         {

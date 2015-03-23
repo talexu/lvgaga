@@ -1,9 +1,8 @@
-﻿using System;
+﻿using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Microsoft.WindowsAzure.Storage.Table;
 
-namespace LvService.Commands.Common
+namespace LvService.Commands.Azure.Storage
 {
     public class AzureStorageCommand : CommandChain
     {
@@ -19,18 +18,6 @@ namespace LvService.Commands.Common
             : base(command)
         {
 
-        }
-
-        public override bool CanExecute(dynamic p)
-        {
-            try
-            {
-                return p.Table is CloudTable;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
     }
 }

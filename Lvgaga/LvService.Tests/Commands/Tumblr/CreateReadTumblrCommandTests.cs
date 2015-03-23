@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
+using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.Factories;
+using LvService.Utilities;
 using Xunit;
 
 namespace LvService.Tests.Commands.Tumblr
@@ -13,7 +15,10 @@ namespace LvService.Tests.Commands.Tumblr
     public class CreateReadTumblrCommandTests : IClassFixture<AzureStorageFixture>
     {
         private readonly CreateTumblrCommand _createTumblrCommand;
-        private readonly ReadTumblrCommand _readTumblrCommand;
+        private readonly ReadTableEntityCommand _readTableEntityCommand;
+        private readonly ReadTableEntitiesCommand _readTableEntitiesCommand;
+        private readonly UpdateTableEntityCommand _updateTableEntityCommand;
+        private readonly DeleteTableEntityCommand _deleteTableEntityCommand;
 
         private readonly AzureStorageFixture _fixture;
 
@@ -22,52 +27,58 @@ namespace LvService.Tests.Commands.Tumblr
         public CreateReadTumblrCommandTests(AzureStorageFixture fixture)
         {
             _fixture = fixture;
+            _tableName = Constants.TumblrTableName;
+
+            // create
             _createTumblrCommand = new CreateTumblrCommand
             {
-                TableEntityFactory = new TableEntityFactory()
-            };
-            _readTumblrCommand = new ReadTumblrCommand();
-
-            _tableName = Constants.TumblrTableName;
-        }
-
-        [Fact]
-        public void CanExecuteTest_Return_False_Null()
-        {
-            Assert.False(_createTumblrCommand.CanExecute(null));
-        }
-
-        [Fact]
-        public async Task CanExecuteTest_Return_True()
-        {
-            dynamic p = new ExpandoObject();
-            p.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
-            p.TumblrText = new TumblrText
-            {
-                Text = "Test text",
-                Category = TumblrCategory.C1
+                TableEntityFactory = new TableEntityFactory(),
+                NextCommand = new CreateTableEntityCommand()
             };
 
-            Assert.True(_createTumblrCommand.CanExecute(p));
+            // read
+            _readTableEntityCommand = new ReadTableEntityCommand();
+            _readTableEntitiesCommand = new ReadTableEntitiesCommand();
+
+            // update
+            _updateTableEntityCommand = new UpdateTableEntityCommand();
+
+            // delete
+            _deleteTableEntityCommand = new DeleteTableEntityCommand();
         }
 
         [Fact]
-        public async Task ExecuteTest()
+        public async Task CrudExecuteTest()
         {
+            var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+
             dynamic cp = new ExpandoObject();
-            cp.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+            cp.Table = table;
             cp.TumblrText = GetTestTumblrText();
             await _createTumblrCommand.ExecuteAsync(cp);
-            TumblrEntity entity = cp.TableEntity;
+            TumblrEntity entity = cp.Entity;
 
             dynamic rp = new ExpandoObject();
-            rp.Table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+            rp.Table = table;
             rp.PartitionKey = entity.PartitionKey;
             rp.RowKey = entity.RowKey;
-            await _readTumblrCommand.ExecuteAsync(rp);
-            TumblrEntity entity2 = rp.Result;
+            TumblrEntity entityR = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.True(entity.ToJsonString().CosineEqual(entityR.ToJsonString()));
 
-            Assert.Equal(entity, entity2);
+            entityR.Text = "Changed text";
+            dynamic up = new ExpandoObject();
+            up.Table = table;
+            up.Entity = entityR;
+            await _updateTableEntityCommand.ExecuteAsync(up);
+            TumblrEntity entityUr = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.True(entityR.Text.Equals(entityUr.Text));
+
+            dynamic dp = new ExpandoObject();
+            dp.Table = table;
+            dp.Entity = entityUr;
+            _deleteTableEntityCommand.ExecuteAsync(dp);
+            TumblrEntity entityD = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(dp);
+            Assert.Null(entityD);
         }
 
         private static TumblrText GetTestTumblrText()

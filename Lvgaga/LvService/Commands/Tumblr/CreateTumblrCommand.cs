@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Dynamic;
 using System.Threading.Tasks;
-using LvModel.Azure.StorageTable;
 using LvModel.View.Tumblr;
+using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
 using LvService.Factories;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateTumblrCommand : AzureStorageCommand
+    public class CreateTumblrCommand : CommandChain
     {
         public ITableEntityFactory TableEntityFactory { get; set; }
+        private TumblrText _tumblrText;
 
         public CreateTumblrCommand()
         {
-
+            NextCommand = new CreateTableEntityCommand();
         }
 
         public CreateTumblrCommand(ICommand command)
@@ -26,11 +26,10 @@ namespace LvService.Commands.Tumblr
 
         public override bool CanExecute(dynamic p)
         {
-            if (!base.CanExecute(p as ExpandoObject)) return false;
-
             try
             {
-                return p.TumblrText is TumblrText;
+                _tumblrText = p.TumblrText;
+                return _tumblrText != null;
             }
             catch (Exception)
             {
@@ -42,13 +41,10 @@ namespace LvService.Commands.Tumblr
         {
             if (!CanExecute(p)) return;
 
-            CloudTable table = p.Table;
-            TumblrEntity tumblrEntity = TableEntityFactory.CreateTumblrEntity(p.TumblrText);
-            if (table == null || tumblrEntity == null) return;
+            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(_tumblrText);
+            if (tumblrEntity == null) return;
 
-            p.TableEntity = tumblrEntity;
-            await table.ExecuteAsync(TableOperation.Insert(tumblrEntity));
-
+            p.Entity = tumblrEntity;
             await base.ExecuteAsync(p as ExpandoObject);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace LvService.Utilities
 {
-    public static class DictionaryExtension
+    public static class DictionaryExtensions
     {
         public static bool TryAddValue<TK, TV>(this IDictionary<TK, TV> dic, TK key, TV value)
         {
