@@ -56,5 +56,12 @@ namespace LvService.Tests.Utilities
             _fixture.InitializeFolder(_testDataFolder);
             Assert.False(_fixture.ReadAllText(file1).CosineEqual(_fixture.ReadAllText(file2)));
         }
+
+        [Fact]
+        public void ToStream_ToString_Return_True_WhenInvokeTwice()
+        {
+            const string str = "Test string";
+            Assert.Equal(str, str.ToMemoryStream().ToStringFromMemoryStream());
+        }
     }
 }

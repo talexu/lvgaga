@@ -9,6 +9,7 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.Factories;
+using LvService.Tests.Commands.Azure.Storage;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;

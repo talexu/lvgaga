@@ -2,9 +2,20 @@
 {
     public class Constants
     {
+        #region Blob
+
+        public const string ImageContainerName = "images";
+
+        #endregion
+
+
+        #region Storage Table
+
         public const string PartitionKey = "PartitionKey";
         public const string TumblrTableName = "tumblrs";
         public static readonly string MediaTypeImage = MediaType.Image.ToString("G");
+
+        #endregion
     }
 
     public enum MediaType

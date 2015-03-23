@@ -89,7 +89,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Commands\Tumblr\AzureStorageFixture.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\AzureStorageFixture.cs" />
     <Compile Include="Commands\Tumblr\CreateReadTumblrCommandTests.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

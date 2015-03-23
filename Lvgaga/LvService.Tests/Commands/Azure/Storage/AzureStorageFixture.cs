@@ -1,6 +1,6 @@
 ﻿using LvService.DbContexts;
 
-namespace LvService.Tests.Commands.Tumblr
+namespace LvService.Tests.Commands.Azure.Storage
 {
     public class AzureStorageFixture
     {
@@ -8,7 +8,8 @@ namespace LvService.Tests.Commands.Tumblr
 
         public AzureStorageFixture()
         {
-            AzureStorage = new AzureStorageDb();
+            //AzureStorage = new AzureStorageDb();
+            AzureStorage = new AzureStoragePool(new AzureStorageDb());
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using MathNet.Numerics;
 using Newtonsoft.Json.Linq;
 
@@ -8,6 +10,8 @@ namespace LvService.Utilities
 {
     public static class StringExtensions
     {
+        #region Cosine distance
+
         public static bool CosineEqual(this string str1, string str2)
         {
             return Math.Abs(str1.GetCosineDistanceByKv(str2)) <= 0;
@@ -111,5 +115,21 @@ namespace LvService.Utilities
                     break;
             }
         }
+
+        #endregion
+
+        #region Stream
+
+        public static MemoryStream ToMemoryStream(this string str)
+        {
+            return new MemoryStream(Encoding.UTF8.GetBytes(str ?? ""));
+        }
+
+        public static string ToStringFromMemoryStream(this MemoryStream stream)
+        {
+            return Encoding.UTF8.GetString(stream.ToArray());
+        }
+
+        #endregion
     }
 }

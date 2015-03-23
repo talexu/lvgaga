@@ -74,7 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Azure\Storage\AzureStorageCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\BlobCrudCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\DownloadToStreamCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\DeleteBlobCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntityCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\TableEntitiesCommandChain.cs" />
@@ -110,9 +113,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\Azure\Storage\Blob\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
