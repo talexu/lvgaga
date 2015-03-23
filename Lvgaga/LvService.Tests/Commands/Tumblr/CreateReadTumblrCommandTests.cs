@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
@@ -8,6 +10,7 @@ using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.Factories;
 using LvService.Utilities;
+using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;
 
 namespace LvService.Tests.Commands.Tumblr
@@ -81,6 +84,43 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.Null(entityD);
         }
 
+        [Fact]
+        public async Task ReadEntitiesTest()
+        {
+            const int count = 30;
+            const int pageSize = 20;
+            var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+            var texts = GetTestTumblrTexts(count);
+            ICollection<TumblrEntity> entities = new List<TumblrEntity>(count);
+            foreach (dynamic cp in texts.Select(tumblrText => new ExpandoObject()))
+            {
+                cp.Table = table;
+                cp.TumblrText = GetTestTumblrText();
+                await _createTumblrCommand.ExecuteAsync(cp);
+                TumblrEntity entity = cp.Entity;
+                entities.Add(entity);
+            }
+
+            dynamic rp = new ExpandoObject();
+            rp.Table = table;
+            rp.Filter = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
+                Constants.MediaTypeImage);
+            rp.TakeCount = pageSize;
+            var entitiesR = await _readTableEntitiesCommand.ExecutesAsync<TumblrEntity>(rp);
+            Assert.Equal(pageSize, entitiesR.Count);
+
+            foreach (var tumblrEntity in entities)
+            {
+                dynamic dp = new ExpandoObject();
+                dp.Table = table;
+                dp.Entity = tumblrEntity;
+                await _deleteTableEntityCommand.ExecuteAsync(dp);
+            }
+
+            var entitiesRd = await _readTableEntitiesCommand.ExecutesAsync<TumblrEntity>(rp);
+            Assert.Equal(0, entitiesRd.Count);
+        }
+
         private static TumblrText GetTestTumblrText()
         {
             return new TumblrText
@@ -88,6 +128,17 @@ namespace LvService.Tests.Commands.Tumblr
                 Text = Guid.NewGuid().ToString(),
                 Category = TumblrCategory.C1
             };
+        }
+
+        private static IEnumerable<TumblrText> GetTestTumblrTexts(int count)
+        {
+            ICollection<TumblrText> results = new List<TumblrText>(count);
+            for (var i = 0; i < count; i++)
+            {
+                results.Add(GetTestTumblrText());
+            }
+
+            return results;
         }
     }
 }
