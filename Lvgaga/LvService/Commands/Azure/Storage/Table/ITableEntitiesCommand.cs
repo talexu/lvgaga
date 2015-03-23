@@ -4,10 +4,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public interface IEntityTableCommand
+    public interface ITableEntitiesCommand
     {
         bool CanExecute<T>(dynamic p) where T : ITableEntity, new();
-        Task<T> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new();
-        Task<List<T>> ExecutesAsync<T>(dynamic p) where T : ITableEntity, new();
+        Task<List<T>> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new();
     }
 }

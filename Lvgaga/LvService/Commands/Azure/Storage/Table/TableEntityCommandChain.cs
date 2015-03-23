@@ -4,16 +4,16 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class EntityTableCommandChain : IEntityTableCommand
+    public class TableEntityCommandChain : ITableEntityCommand
     {
-        public IEntityTableCommand NextCommand { get; set; }
+        public ITableEntityCommand NextCommand { get; set; }
 
-        public EntityTableCommandChain()
+        public TableEntityCommandChain()
         {
 
         }
 
-        public EntityTableCommandChain(IEntityTableCommand command)
+        public TableEntityCommandChain(ITableEntityCommand command)
         {
             NextCommand = command;
         }
@@ -27,12 +27,6 @@ namespace LvService.Commands.Azure.Storage.Table
         {
             if (NextCommand != null && NextCommand.CanExecute<T>(p)) return await NextCommand.ExecuteAsync<T>(p);
             return default(T);
-        }
-
-        public virtual async Task<List<T>> ExecutesAsync<T>(dynamic p) where T : ITableEntity, new()
-        {
-            if (NextCommand != null && NextCommand.CanExecute<T>(p)) return await NextCommand.ExecutesAsync<T>(p);
-            return null;
         }
     }
 }

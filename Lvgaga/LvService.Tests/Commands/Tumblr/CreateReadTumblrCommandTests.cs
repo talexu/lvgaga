@@ -55,12 +55,14 @@ namespace LvService.Tests.Commands.Tumblr
         {
             var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
 
+            // create entity
             dynamic cp = new ExpandoObject();
             cp.Table = table;
             cp.TumblrText = GetTestTumblrText();
             await _createTumblrCommand.ExecuteAsync(cp);
             TumblrEntity entity = cp.Entity;
 
+            // read entity
             dynamic rp = new ExpandoObject();
             rp.Table = table;
             rp.PartitionKey = entity.PartitionKey;
@@ -68,6 +70,7 @@ namespace LvService.Tests.Commands.Tumblr
             TumblrEntity entityR = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.True(entity.ToJsonString().CosineEqual(entityR.ToJsonString()));
 
+            // update entity
             entityR.Text = "Changed text";
             dynamic up = new ExpandoObject();
             up.Table = table;
@@ -76,6 +79,7 @@ namespace LvService.Tests.Commands.Tumblr
             TumblrEntity entityUr = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.True(entityR.Text.Equals(entityUr.Text));
 
+            // delete entity
             dynamic dp = new ExpandoObject();
             dp.Table = table;
             dp.Entity = entityUr;
@@ -92,6 +96,8 @@ namespace LvService.Tests.Commands.Tumblr
             var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
             var texts = GetTestTumblrTexts(count);
             ICollection<TumblrEntity> entities = new List<TumblrEntity>(count);
+
+            // create test entities
             foreach (dynamic cp in texts.Select(tumblrText => new ExpandoObject()))
             {
                 cp.Table = table;
@@ -101,14 +107,16 @@ namespace LvService.Tests.Commands.Tumblr
                 entities.Add(entity);
             }
 
+            // read entities with page size
             dynamic rp = new ExpandoObject();
             rp.Table = table;
             rp.Filter = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
                 Constants.MediaTypeImage);
             rp.TakeCount = pageSize;
-            var entitiesR = await _readTableEntitiesCommand.ExecutesAsync<TumblrEntity>(rp);
+            var entitiesR = await _readTableEntitiesCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.Equal(pageSize, entitiesR.Count);
 
+            // delete all test entities
             foreach (var tumblrEntity in entities)
             {
                 dynamic dp = new ExpandoObject();
@@ -117,7 +125,7 @@ namespace LvService.Tests.Commands.Tumblr
                 await _deleteTableEntityCommand.ExecuteAsync(dp);
             }
 
-            var entitiesRd = await _readTableEntitiesCommand.ExecutesAsync<TumblrEntity>(rp);
+            var entitiesRd = await _readTableEntitiesCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.Equal(0, entitiesRd.Count);
         }
 

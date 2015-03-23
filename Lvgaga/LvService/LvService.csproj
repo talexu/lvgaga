@@ -76,14 +76,16 @@
   <ItemGroup>
     <Compile Include="Commands\Azure\Storage\AzureStorageCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntityCommand.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\EntityTableCommandChain.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\ITableEntitiesCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableEntitiesCommandChain.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableEntityCommandChain.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ReadTableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ReadTableEntityCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\TableCudCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntityCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntityCommand.cs" />
     <Compile Include="Commands\Common\ICommand.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\IEntityTableCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\ITableEntityCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />
     <Compile Include="DbContexts\IAzureStorage.cs" />

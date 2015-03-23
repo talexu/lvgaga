@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class ReadTableEntitiesCommand : EntityTableCommandChain
+    public class ReadTableEntitiesCommand : TableEntitiesCommandChain
     {
         public CloudTable Table { get; private set; }
         public string Filter { get; private set; }
@@ -17,7 +17,7 @@ namespace LvService.Commands.Azure.Storage.Table
 
         }
 
-        public ReadTableEntitiesCommand(IEntityTableCommand command)
+        public ReadTableEntitiesCommand(ITableEntitiesCommand command)
             : base(command)
         {
 
@@ -38,7 +38,7 @@ namespace LvService.Commands.Azure.Storage.Table
             }
         }
 
-        public override async Task<List<T>> ExecutesAsync<T>(dynamic p)
+        public override async Task<List<T>> ExecuteAsync<T>(dynamic p)
         {
             if (!CanExecute<T>(p)) return null;
 
@@ -47,7 +47,7 @@ namespace LvService.Commands.Azure.Storage.Table
                 TakeCount = TakeCount
             }.Where(Filter);
             p.Results = (await Table.ExecuteQuerySegmentedAsync(query, null)).Results;
-            await base.ExecutesAsync<T>(p as ExpandoObject);
+            await base.ExecuteAsync<T>(p as ExpandoObject);
 
             return p.Results;
         }

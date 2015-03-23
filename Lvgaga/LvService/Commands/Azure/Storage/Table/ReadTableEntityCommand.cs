@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class ReadTableEntityCommand : EntityTableCommandChain
+    public class ReadTableEntityCommand : TableEntityCommandChain
     {
         public CloudTable Table { get; private set; }
         public string PartitionKey { get; private set; }
@@ -16,7 +16,7 @@ namespace LvService.Commands.Azure.Storage.Table
 
         }
 
-        public ReadTableEntityCommand(IEntityTableCommand command)
+        public ReadTableEntityCommand(ITableEntityCommand command)
             : base(command)
         {
 
