@@ -93,6 +93,9 @@
     <Compile Include="Commands\Azure\Storage\AzureStorageFixture.cs" />
     <Compile Include="Commands\Tumblr\CreateReadTumblrCommandTests.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />
+    <Compile Include="Factories\TumblrFactoryTests.cs" />
+    <Compile Include="Utilities\UploadFakeDatas.cs" />
+    <Compile Include="Factories\UriFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DateTimeHelperTests.cs" />
     <Compile Include="Utilities\StringExtensionTests.cs" />
@@ -122,6 +125,98 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbContexts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\images\03c3ff2b-17c8-4044-90a0-9638287562ff.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\0f5d8e7e-40f0-42ff-88b3-595c8d1685a1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\19017241-7604-4f8e-8906-5623969cb6c8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\3557cc77-df20-47e7-9a19-1966c0e3a9b8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\3709a33d-29a1-4ed3-a15c-4b94fc1e8dc9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\4410c245-19e4-40b4-9338-666ec768f997.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\4ca81f89-b2ed-48f1-adb2-26aa41bc9e55.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\5ab4e924-73bb-4c6b-9c01-ff6f516e2a66.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\5d12bae2-fa8c-4ae0-8d5f-5bdc12cb6e3f.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\650ba37a-974d-4757-8fa6-7ac0c0e79ceb.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\75d0ca5b-6067-4412-83bc-3028fb3c7272.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\7911f955-43d5-4ef7-a1d5-351a38bdfdb2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\7d0915ea-ecfe-42f7-bec6-30935f48ad89.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\841063af-a954-4297-8229-cc269ee9f466.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\8691513b-ca2e-4406-a914-bf07401dac7a.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\8941a5a3-4896-4a09-b877-73db43473f10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\8be79383-9977-4162-bf9e-7b01d18a54d2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\93eb1e4f-2ac4-401e-a060-ca71e6ee39e5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\963c32e8-4796-44da-836e-184c84a05c2e.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\98ba9e9a-75e2-481b-b21c-d7d215c9290e.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\a09c18c7-8cf9-4155-a1f6-0ae1fe69b0a8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\a83304f6-e449-46c7-be1b-9f2fc4a800b8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\c1f7cad6-23aa-4a32-b428-dd3a8b15b925.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\ca0e48b3-9ca9-4d49-a008-8b4c5b863be3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\d0db90c6-82ee-43df-901e-df8e90e6d9be.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\dc74fa11-5449-4d50-bb46-05909fafdea4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\dcc8b4ba-c9cf-412e-a470-ef28c72e6ad3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\ec70a6ba-0517-4fb6-bce1-f363f9ea5546.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\f35471d8-b3b7-4c06-8553-a51bc03bed9d.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\f75d5548-3e04-4371-a111-96e5fdacdf0f.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

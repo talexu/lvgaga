@@ -1,4 +1,4 @@
-﻿namespace LvService.Factories
+﻿namespace LvService.Factories.Azure.Storage
 {
     public interface IQueueMessageFactory
     {

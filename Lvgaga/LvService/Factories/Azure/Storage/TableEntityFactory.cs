@@ -4,7 +4,7 @@ using LvModel.Common;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace LvService.Factories
+namespace LvService.Factories.Azure.Storage
 {
     public class TableEntityFactory : ITableEntityFactory
     {

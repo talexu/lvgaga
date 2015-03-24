@@ -312,6 +312,10 @@
       <Project>{0a8d207b-759d-491e-a8e4-ad5768dc09b4}</Project>
       <Name>LvModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LvService\LvService.csproj">
+      <Project>{5d15a401-4891-4ba4-b1d3-226db654df03}</Project>
+      <Name>LvService</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

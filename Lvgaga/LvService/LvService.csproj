@@ -95,13 +95,17 @@
     <Compile Include="Factories\Azure\Storage\IQueueMessageFactory.cs" />
     <Compile Include="Factories\Azure\Storage\ITableEntityFactory.cs" />
     <Compile Include="Factories\Azure\Storage\TableEntityFactory.cs" />
+    <Compile Include="Factories\Uri\IUriFactory.cs" />
+    <Compile Include="Factories\Uri\UriFactory.cs" />
     <Compile Include="Factories\ViewModel\ITumblrFactory.cs" />
     <Compile Include="Factories\ViewModel\TumblrFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\Common\CommandChain.cs" />
     <Compile Include="Commands\Tumblr\CreateTumblrCommand.cs" />
+    <Compile Include="Utilities\BlobHelper.cs" />
     <Compile Include="Utilities\DateTimeHelper.cs" />
     <Compile Include="Utilities\DictionaryExtensions.cs" />
+    <Compile Include="Utilities\FakeDataHelper.cs" />
     <Compile Include="Utilities\ObjectExtensions.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
   </ItemGroup>
