@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbContexts\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\images\03c3ff2b-17c8-4044-90a0-9638287562ff.jpg">
