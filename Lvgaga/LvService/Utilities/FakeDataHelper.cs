@@ -8,7 +8,6 @@ using LvModel.View.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace LvService.Utilities
 {
@@ -17,7 +16,7 @@ namespace LvService.Utilities
         private static readonly IAzureStorage AzureStorage = new AzureStoragePool(new AzureStorageDb());
         private static readonly ITumblrFactory TumblrFactory = new TumblrFactory(new UriFactory());
 
-        public static async Task<List<TumblrModel>> GetFakeTumblrModels()
+        public static async Task<List<TumblrModel>> GetFakeTumblrModelsAsync()
         {
             var container = await AzureStorage.GetContainerReferenceAsync(Constants.ImageContainerName);
 

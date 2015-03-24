@@ -1,12 +1,14 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using LvService.Utilities;
 
 namespace Lvgaga.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return View(await FakeDataHelper.GetFakeTumblrModelsAsync());
         }
 
         public ActionResult About()

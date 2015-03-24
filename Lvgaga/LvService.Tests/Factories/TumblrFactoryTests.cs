@@ -1,6 +1,5 @@
-﻿using LvService.Utilities;
-using System.Threading.Tasks;
-using Xunit;
+﻿using System.Threading.Tasks;
+using LvService.Utilities;
 
 namespace LvService.Tests.Factories
 {
@@ -9,7 +8,7 @@ namespace LvService.Tests.Factories
         //[Fact]
         public async Task GetFakeTumblrModels()
         {
-            var models = await FakeDataHelper.GetFakeTumblrModels();
+            var models = await FakeDataHelper.GetFakeTumblrModelsAsync();
         }
     }
 }

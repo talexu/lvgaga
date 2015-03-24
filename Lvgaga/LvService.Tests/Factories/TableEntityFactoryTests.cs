@@ -1,6 +1,5 @@
 ﻿using System.Dynamic;
 using LvModel.Azure.StorageTable;
-using LvService.Factories;
 using LvService.Factories.Azure.Storage;
 using Xunit;
 
