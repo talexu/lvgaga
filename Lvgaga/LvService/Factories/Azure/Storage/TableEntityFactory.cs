@@ -13,7 +13,7 @@ namespace LvService.Factories
             var now = DateTime.UtcNow;
             return new TumblrEntity(Constants.MediaTypeImage, DateTimeHelper.GetInvertedTicks(now))
             {
-                Uri = Guid.NewGuid() + ".jpg",
+                MediaUri = Guid.NewGuid() + ".jpg",
                 Text = p.Text,
                 CreateTime = now,
                 State = TumblrState.Active
