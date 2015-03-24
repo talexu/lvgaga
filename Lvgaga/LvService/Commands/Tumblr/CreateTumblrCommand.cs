@@ -24,7 +24,7 @@ namespace LvService.Commands.Tumblr
 
         }
 
-        public override bool CanExecute(dynamic p)
+        public new bool CanExecute(dynamic p)
         {
             try
             {

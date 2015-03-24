@@ -22,7 +22,7 @@ namespace LvService.Commands.Azure.Storage.Table
 
         }
 
-        public override bool CanExecute<T>(dynamic p)
+        public new bool CanExecute<T>(dynamic p)
         {
             try
             {

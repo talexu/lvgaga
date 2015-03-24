@@ -21,7 +21,7 @@ namespace LvService.Commands.Azure.Storage.Blob
 
         }
 
-        public override bool CanExecute(dynamic p)
+        public new bool CanExecute(dynamic p)
         {
             if (!base.CanExecute(p as ExpandoObject)) return false;
 

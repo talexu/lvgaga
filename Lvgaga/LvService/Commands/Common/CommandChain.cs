@@ -16,14 +16,14 @@ namespace LvService.Commands.Common
             NextCommand = command;
         }
 
-        public virtual bool CanExecute(dynamic p)
+        public bool CanExecute(dynamic p)
         {
-            return NextCommand != null && NextCommand.CanExecute(p);
+            return NextCommand != null;
         }
 
         public virtual async Task ExecuteAsync(dynamic p)
         {
-            if (NextCommand != null && NextCommand.CanExecute(p)) await NextCommand.ExecuteAsync(p);
+            if (CanExecute(p)) await NextCommand.ExecuteAsync(p);
         }
     }
 }
