@@ -75,6 +75,7 @@
     <Compile Include="Azure\StorageTable\TumblrEntity.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Tumblr\TumblrCategory.cs" />
     <Compile Include="View\Tumblr\TumblrModel.cs" />
     <Compile Include="View\Tumblr\TumblrText.cs" />
   </ItemGroup>

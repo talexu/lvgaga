@@ -6,7 +6,6 @@ using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.DbContexts;
-using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -18,12 +17,12 @@ namespace LvService.Services
         private readonly ITableEntitiesCommand _command;
         private readonly ITumblrFactory _tumblrFactory;
 
-        public TumblrService()
-        {
-            _azureStorage = new AzureStoragePool(new AzureStorageDb());
-            _command = new ReadTableEntitiesCommand();
-            _tumblrFactory = new TumblrFactory(new UriFactory());
-        }
+        //public TumblrService()
+        //{
+        //    _azureStorage = new AzureStoragePool(new AzureStorageDb());
+        //    _command = new ReadTableEntitiesCommand();
+        //    _tumblrFactory = new TumblrFactory(new UriFactory());
+        //}
 
         public TumblrService(IAzureStorage azureStorage, ITableEntitiesCommand command, ITumblrFactory tumblrFactory)
         {
@@ -37,7 +36,7 @@ namespace LvService.Services
             dynamic p = new ExpandoObject();
             p.Table = await _azureStorage.GetTableReferenceAsync(Constants.TumblrTableName);
             p.Filter = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
-                Constants.MediaTypeImage);
+                Constants.ImagePartitionKey);
             p.TakeCount = takeCount;
 
             var models = new List<TumblrModel>();

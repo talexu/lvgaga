@@ -15,11 +15,11 @@ namespace LvService.Factories.Uri
             Scheme = "http";
             Port = 80;
             Host = "www.lvgaga.com";
-            _uriBuilder = new UriBuilder()
+            _uriBuilder = new UriBuilder
             {
                 Scheme = Scheme,
                 Port = Port,
-                Host = Host,
+                Host = Host
             };
         }
 

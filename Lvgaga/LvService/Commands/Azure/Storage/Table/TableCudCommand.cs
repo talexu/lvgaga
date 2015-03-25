@@ -6,8 +6,8 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class TableCudCommand : CommandChain
     {
-        public CloudTable Table { get; private set; }
-        public ITableEntity Entity { get; private set; }
+        protected CloudTable Table { get; private set; }
+        protected ITableEntity Entity { get; private set; }
 
         public TableCudCommand()
         {

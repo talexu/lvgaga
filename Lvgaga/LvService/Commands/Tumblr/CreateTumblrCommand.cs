@@ -2,7 +2,6 @@
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.View.Tumblr;
-using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
 using LvService.Factories.Azure.Storage;
 
@@ -11,11 +10,14 @@ namespace LvService.Commands.Tumblr
     public class CreateTumblrCommand : CommandChain
     {
         public ITableEntityFactory TableEntityFactory { get; set; }
+
+        private string _partitionKey;
+        private string _mediaUri;
         private TumblrText _tumblrText;
 
         public CreateTumblrCommand()
         {
-            NextCommand = new CreateTableEntityCommand();
+            
         }
 
         public CreateTumblrCommand(ICommand command)
@@ -28,8 +30,12 @@ namespace LvService.Commands.Tumblr
         {
             try
             {
+                _partitionKey = p.PartitionKey;
+                _mediaUri = p.MediaUri;
                 _tumblrText = p.TumblrText;
-                return _tumblrText != null;
+                return !String.IsNullOrEmpty(_partitionKey) &&
+                       !String.IsNullOrEmpty(_mediaUri) &&
+                       _tumblrText != null;
             }
             catch (Exception)
             {
@@ -41,7 +47,7 @@ namespace LvService.Commands.Tumblr
         {
             if (!CanExecute(p)) return;
 
-            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(_tumblrText);
+            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(p);
             if (tumblrEntity == null) return;
 
             p.Entity = tumblrEntity;

@@ -41,10 +41,8 @@ namespace LvService.Commands.Azure.Storage.Blob
             if (!CanExecute(p)) return;
 
             var blockBlob = CloudBlobContainer.GetBlockBlobReference(BlobName);
-            using (_source)
-            {
-                await blockBlob.UploadFromStreamAsync(_source);
-            }
+            await blockBlob.UploadFromStreamAsync(_source);
+            p.MediaUri = blockBlob.Uri.AbsoluteUri;
 
             await base.ExecuteAsync(p as ExpandoObject);
         }

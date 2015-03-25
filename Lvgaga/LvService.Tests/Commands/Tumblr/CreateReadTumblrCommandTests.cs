@@ -58,6 +58,8 @@ namespace LvService.Tests.Commands.Tumblr
 
             // create entity
             dynamic cp = new ExpandoObject();
+            cp.PartitionKey = Constants.ImagePartitionKey;
+            cp.MediaUri = "http://www.caoliu.com/1024.jpg";
             cp.Table = table;
             cp.TumblrText = GetTestTumblrText();
             await _createTumblrCommand.ExecuteAsync(cp);
@@ -101,6 +103,8 @@ namespace LvService.Tests.Commands.Tumblr
             // create test entities
             foreach (dynamic cp in texts.Select(tumblrText => new ExpandoObject()))
             {
+                cp.PartitionKey = Constants.ImagePartitionKey;
+                cp.MediaUri = "http://www.caoliu.com/1024.jpg";
                 cp.Table = table;
                 cp.TumblrText = GetTestTumblrText();
                 await _createTumblrCommand.ExecuteAsync(cp);
@@ -112,7 +116,7 @@ namespace LvService.Tests.Commands.Tumblr
             dynamic rp = new ExpandoObject();
             rp.Table = table;
             rp.Filter = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
-                Constants.MediaTypeImage);
+                Constants.ImagePartitionKey);
             rp.TakeCount = pageSize;
             var entitiesR = await _readTableEntitiesCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.Equal(pageSize, entitiesR.Count);

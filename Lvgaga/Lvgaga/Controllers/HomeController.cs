@@ -1,16 +1,23 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using LvService.Commands.Azure.Storage.Table;
+using LvService.DbContexts;
+using LvService.Factories.Uri;
+using LvService.Factories.ViewModel;
 using LvService.Services;
 
 namespace Lvgaga.Controllers
 {
     public class HomeController : Controller
     {
-        private ITumblrService _tumblrService;
+        private readonly ITumblrService _tumblrService;
 
         public HomeController()
         {
-            _tumblrService = new TumblrService();
+            _tumblrService = new TumblrService(
+                new AzureStoragePool(new AzureStorageDb()),
+                new ReadTableEntitiesCommand(),
+                new TumblrFactory(new UriFactory()));
         }
 
         public HomeController(ITumblrService tumblrService)

@@ -9,11 +9,6 @@ namespace LvService.Tests.Utilities
         private string[] _folders;
         private string _dir;
 
-        public TestFilesLoader()
-        {
-
-        }
-
         public void InitializeFolder(string[] newFolders)
         {
             _folders = newFolders;

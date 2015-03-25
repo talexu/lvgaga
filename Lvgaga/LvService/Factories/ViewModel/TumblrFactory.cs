@@ -26,7 +26,7 @@ namespace LvService.Factories.ViewModel
         {
             if (tumblrEntity == null) return null;
 
-            var result = new TumblrModel()
+            var result = new TumblrModel
             {
                 PartitionKey = tumblrEntity.PartitionKey,
                 RowKey = tumblrEntity.RowKey,

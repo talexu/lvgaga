@@ -89,6 +89,7 @@
     <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntityCommand.cs" />
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntityCommand.cs" />
+    <Compile Include="Commands\Tumblr\ChangeTumblrRowkeyToZeroCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />
     <Compile Include="DbContexts\IAzureStorage.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Utilities\BlobHelper.cs" />
     <Compile Include="Utilities\DateTimeHelper.cs" />
     <Compile Include="Utilities\DictionaryExtensions.cs" />
-    <Compile Include="Utilities\FakeDataHelper.cs" />
     <Compile Include="Utilities\ObjectExtensions.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
   </ItemGroup>

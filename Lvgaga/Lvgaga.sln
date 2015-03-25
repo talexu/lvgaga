@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvService", "LvService\LvSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvService.Tests", "LvService.Tests\LvService.Tests.csproj", "{BC25F624-7701-450E-BEF5-40C6570CD845}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvFakeData", "LvFakeData\LvFakeData.csproj", "{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{BC25F624-7701-450E-BEF5-40C6570CD845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC25F624-7701-450E-BEF5-40C6570CD845}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC25F624-7701-450E-BEF5-40C6570CD845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
