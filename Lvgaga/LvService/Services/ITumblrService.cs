@@ -6,6 +6,6 @@ namespace LvService.Services
 {
     public interface ITumblrService
     {
-        Task<List<TumblrModel>> GetTumblrModelsAsync(int takeCount);
+        Task<List<TumblrModel>> GetTumblrModelsAsync(TumblrCategory category, int takeCount);
     }
 }

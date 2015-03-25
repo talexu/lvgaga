@@ -21,6 +21,7 @@ namespace LvService.Tests.Commands.Tumblr
         private readonly CreateTumblrCommand _createTumblrCommand;
         private readonly ReadTableEntityCommand _readTableEntityCommand;
         private readonly ReadTableEntitiesCommand _readTableEntitiesCommand;
+        private readonly ReadTumblrEntityWithCategoryCommand _readTumblrEntityWithCategoryCommand;
         private readonly UpdateTableEntityCommand _updateTableEntityCommand;
         private readonly DeleteTableEntityCommand _deleteTableEntityCommand;
 
@@ -43,6 +44,7 @@ namespace LvService.Tests.Commands.Tumblr
             // read
             _readTableEntityCommand = new ReadTableEntityCommand();
             _readTableEntitiesCommand = new ReadTableEntitiesCommand();
+            _readTumblrEntityWithCategoryCommand = new ReadTumblrEntityWithCategoryCommand(_readTableEntitiesCommand);
 
             // update
             _updateTableEntityCommand = new UpdateTableEntityCommand();
@@ -120,6 +122,19 @@ namespace LvService.Tests.Commands.Tumblr
             rp.TakeCount = pageSize;
             var entitiesR = await _readTableEntitiesCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.Equal(pageSize, entitiesR.Count);
+
+            // read entities with category
+            dynamic rpc = new ExpandoObject();
+            rpc.Table = table;
+            rpc.PartitionKey = Constants.ImagePartitionKey;
+            rpc.Category = TumblrCategory.C1;
+            rpc.TakeCount = pageSize;
+            var entitiesRc = await _readTumblrEntityWithCategoryCommand.ExecuteAsync<TumblrEntity>(rpc);
+            Assert.Equal(pageSize, entitiesRc.Count);
+
+            rpc.Category = TumblrCategory.All;
+            var entitiesRa = await _readTumblrEntityWithCategoryCommand.ExecuteAsync<TumblrEntity>(rpc);
+            Assert.Equal(0, entitiesRa.Count);
 
             // delete all test entities
             foreach (var tumblrEntity in entities)

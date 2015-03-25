@@ -12,6 +12,7 @@
         #region Storage Table
 
         public const string PartitionKey = "PartitionKey";
+        public const string RowKey = "RowKey";
         public const string TumblrTableName = "tumblrs";
         public static readonly string ImagePartitionKey = MediaType.Image.ToString("G");
 

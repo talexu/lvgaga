@@ -7,7 +7,6 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.DbContexts;
 using LvService.Factories.ViewModel;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Services
 {
@@ -17,12 +16,10 @@ namespace LvService.Services
         private readonly ITableEntitiesCommand _command;
         private readonly ITumblrFactory _tumblrFactory;
 
-        //public TumblrService()
-        //{
-        //    _azureStorage = new AzureStoragePool(new AzureStorageDb());
-        //    _command = new ReadTableEntitiesCommand();
-        //    _tumblrFactory = new TumblrFactory(new UriFactory());
-        //}
+        public TumblrService()
+        {
+
+        }
 
         public TumblrService(IAzureStorage azureStorage, ITableEntitiesCommand command, ITumblrFactory tumblrFactory)
         {
@@ -31,20 +28,15 @@ namespace LvService.Services
             _tumblrFactory = tumblrFactory;
         }
 
-        public async Task<List<TumblrModel>> GetTumblrModelsAsync(int takeCount)
+        public async Task<List<TumblrModel>> GetTumblrModelsAsync(TumblrCategory category, int takeCount)
         {
             dynamic p = new ExpandoObject();
             p.Table = await _azureStorage.GetTableReferenceAsync(Constants.TumblrTableName);
-            p.Filter = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
-                Constants.ImagePartitionKey);
+            p.PartitionKey = Constants.ImagePartitionKey;
+            p.Category = category;
             p.TakeCount = takeCount;
 
-            var models = new List<TumblrModel>();
-            foreach (var e in await _command.ExecuteAsync<TumblrEntity>(p))
-            {
-                models.Add(_tumblrFactory.CreateTumblrModel(e));
-            }
-            return models;
+            return _tumblrFactory.CreateTumblrModels(await _command.ExecuteAsync<TumblrEntity>(p));
         }
     }
 }

@@ -2,13 +2,16 @@
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
+using LvModel.View.Tumblr;
 using LvService.Commands.Common;
 
 namespace LvService.Commands.Tumblr
 {
     public class ChangeTumblrRowkeyToZeroCommand : CommandChain
     {
+        private readonly string _allCategory = TumblrCategory.All.ToString("D");
         private TumblrEntity _entity;
+
         public ChangeTumblrRowkeyToZeroCommand()
         {
 
@@ -37,8 +40,7 @@ namespace LvService.Commands.Tumblr
         {
             if (!CanExecute(p)) return;
 
-            _entity.RowKey = '0' + _entity.RowKey.Substring(1);
-            p.Entity = _entity;
+            _entity.RowKey = _allCategory + _entity.RowKey.Substring(1);
 
             await base.ExecuteAsync(p as ExpandoObject);
         }
