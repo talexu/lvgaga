@@ -33,11 +33,11 @@ namespace LvService.DbContexts
             // Retrieve a reference to a container. 
             var container = _blobClient.GetContainerReference(containerName);
             // Create the container if it doesn't already exist.
+            await container.CreateIfNotExistsAsync();
             container.SetPermissions(new BlobContainerPermissions
             {
                 PublicAccess = BlobContainerPublicAccessType.Blob
             });
-            await container.CreateIfNotExistsAsync();
 
             return container;
         }

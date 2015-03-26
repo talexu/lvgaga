@@ -13,7 +13,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
         public CrdTableEntityCommandTests(AzureStorageFixture fixture)
             : base(fixture)
         {
-            _tempTableName = fixture.GetRandomTableName();
+            _tempTableName = fixture.GetRandomName(AzureStorageFixture.TablePrefix);
         }
 
         [Fact]

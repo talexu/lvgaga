@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Dynamic;
 using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
-using LvModel.Common;
-using LvService.Commands.Azure.Storage.Blob;
 using LvService.Tests.Utilities;
 using LvService.Utilities;
 using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Blob
 {
-    public class BlobCrdCommandTests : IClassFixture<AzureStorageFixture>
+    public class BlobCrdCommandTests : AzureStorageTestsBase
     {
-        private readonly AzureStorageFixture _azureStorageFixture;
-        private readonly UploadFromStreamCommand _uploadFromStreamCommand;
-        private readonly DownloadToStreamCommand _downloadToStreamCommand;
-        private readonly DeleteBlobCommand _deleteBlobCommand;
+        private readonly string _tempContainerName;
 
-        public BlobCrdCommandTests(AzureStorageFixture azureStorageFixture)
+        public BlobCrdCommandTests(AzureStorageFixture fixture)
+            : base(fixture)
         {
-            _azureStorageFixture = azureStorageFixture;
-            _uploadFromStreamCommand = new UploadFromStreamCommand();
-            _downloadToStreamCommand = new DownloadToStreamCommand();
-            _deleteBlobCommand = new DeleteBlobCommand();
+            _tempContainerName = fixture.GetRandomName(AzureStorageFixture.ContainerPrefix);
         }
 
         [Fact]
@@ -34,29 +28,32 @@ namespace LvService.Tests.Commands.Azure.Storage.Blob
             // upload
             dynamic p = new ExpandoObject();
             p.Container =
-                await _azureStorageFixture.AzureStorage.GetContainerReferenceAsync(Constants.ImageContainerName);
+                await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             p.Stream = content.ToMemoryStream();
             p.BlobName = fileName;
-            await _uploadFromStreamCommand.ExecuteAsync(p);
+            await Fixture.UploadFromStreamCommand.ExecuteAsync(p);
 
             // download
             dynamic pd = new ExpandoObject();
             pd.Container =
-                await _azureStorageFixture.AzureStorage.GetContainerReferenceAsync(Constants.ImageContainerName);
+                await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pd.BlobName = fileName;
-            await _downloadToStreamCommand.ExecuteAsync(pd);
-            var download = pd.Result;
+            await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
+            MemoryStream ms = pd.Stream;
+            var download = ms.ToStringFromMemoryStream();
             Assert.Equal(content, download);
 
             // delete
             dynamic pdd = new ExpandoObject();
             pdd.Container =
-                await _azureStorageFixture.AzureStorage.GetContainerReferenceAsync(Constants.ImageContainerName);
+                await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pdd.BlobName = fileName;
-            await _deleteBlobCommand.ExecuteAsync(pdd);
-            await _downloadToStreamCommand.ExecuteAsync(pd);
-            var download2 = pd.Result;
+            await Fixture.DeleteBlobCommand.ExecuteAsync(pdd);
+            await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
+            var download2 = pd.Stream;
             Assert.Null(download2);
+
+            Fixture.DeleteContainerCommand.ExecuteAsync(p);
         }
     }
 }

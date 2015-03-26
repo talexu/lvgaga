@@ -16,7 +16,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
         public UpdateTableEntitiesCommandTests(AzureStorageFixture fixture)
             : base(fixture)
         {
-            _tempTableName = fixture.GetRandomTableName();
+            _tempTableName = fixture.GetRandomName(AzureStorageFixture.TablePrefix);
         }
 
         [Fact]

@@ -5,7 +5,6 @@ using System.Dynamic;
 using System.IO;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
-using LvService.Utilities;
 
 namespace LvService.Commands.Azure.Storage.Blob
 {
@@ -32,11 +31,11 @@ namespace LvService.Commands.Azure.Storage.Blob
                 try
                 {
                     await blockBlob.DownloadToStreamAsync(memoryStream);
-                    p.Result = memoryStream.ToStringFromMemoryStream();
+                    p.Stream = memoryStream;
                 }
                 catch (Exception)
                 {
-                    p.Result = null;
+                    p.Stream = null;
                 }
 
             }
