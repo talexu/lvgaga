@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
@@ -30,7 +31,7 @@ namespace Lvgaga.Controllers
         public async Task<ActionResult> Index()
         {
             //return View(await FakeDataHelper.GetFakeTumblrModelsAsync());
-            return View(await _tumblrService.GetTumblrModelsAsync(TumblrCategory.All, 20));
+            return View(await _tumblrService.GetTumblrModelsAsync(Constants.ImagePartitionKey, TumblrCategory.All, 20));
         }
 
         public ActionResult About()

@@ -28,11 +28,11 @@ namespace LvService.Services
             _tumblrFactory = tumblrFactory;
         }
 
-        public async Task<List<TumblrModel>> GetTumblrModelsAsync(TumblrCategory category, int takeCount)
+        public async Task<List<TumblrModel>> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
         {
             dynamic p = new ExpandoObject();
             p.Table = await _azureStorage.GetTableReferenceAsync(Constants.TumblrTableName);
-            p.PartitionKey = Constants.ImagePartitionKey;
+            p.PartitionKey = partitionKey;
             p.Category = category;
             p.TakeCount = takeCount;
 
