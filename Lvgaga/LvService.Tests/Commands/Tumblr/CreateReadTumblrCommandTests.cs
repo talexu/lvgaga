@@ -19,6 +19,7 @@ namespace LvService.Tests.Commands.Tumblr
     public class CreateReadTumblrCommandTests : IClassFixture<AzureStorageFixture>
     {
         private readonly CreateTumblrCommand _createTumblrCommand;
+        private readonly CreateTableEntitiesCommand _createTableEntitiesCommand;
         private readonly ReadTableEntityCommand _readTableEntityCommand;
         private readonly ReadTableEntitiesCommand _readTableEntitiesCommand;
         private readonly ReadTumblrEntityWithCategoryCommand _readTumblrEntityWithCategoryCommand;
@@ -40,6 +41,7 @@ namespace LvService.Tests.Commands.Tumblr
                 TableEntityFactory = new TableEntityFactory(),
                 NextCommand = new CreateTableEntityCommand()
             };
+            _createTableEntitiesCommand = new CreateTableEntitiesCommand();
 
             // read
             _readTableEntityCommand = new ReadTableEntityCommand();
@@ -147,6 +149,63 @@ namespace LvService.Tests.Commands.Tumblr
 
             var entitiesRd = await _readTableEntitiesCommand.ExecuteAsync<TumblrEntity>(rp);
             Assert.Equal(0, entitiesRd.Count);
+        }
+
+        [Fact]
+        public async Task BatchCreateTableEntitiesTest()
+        {
+            var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+
+            // Create
+            var entityFactory = new TableEntityFactory();
+            dynamic p = new ExpandoObject();
+            p.PartitionKey = Constants.ImagePartitionKey;
+            p.MediaUri = "http://www.caoliu.com/1024.jpg";
+            p.TumblrText = GetTestTumblrText();
+            TumblrEntity entity1 = entityFactory.CreateTumblrEntity(p);
+
+            p.MediaUri = "http://www.caoliu.com/2048.jpg";
+            p.TumblrText = GetTestTumblrText();
+            TumblrEntity entity2 = entityFactory.CreateTumblrEntity(p);
+
+            dynamic pb = new ExpandoObject();
+            pb.Table = table;
+            pb.Entities = new[] { entity1, entity2 };
+            await _createTableEntitiesCommand.ExecuteAsync(pb);
+
+            // Read
+            dynamic rp = new ExpandoObject();
+            rp.Table = table;
+            rp.PartitionKey = entity1.PartitionKey;
+            rp.RowKey = entity1.RowKey;
+            TumblrEntity entityR1 = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.Equal(entity1.RowKey, entityR1.RowKey);
+            Assert.Equal(entity1.MediaUri, entityR1.MediaUri);
+            Assert.Equal(entity1.Text, entityR1.Text);
+
+            rp = new ExpandoObject();
+            rp.Table = table;
+            rp.PartitionKey = entity2.PartitionKey;
+            rp.RowKey = entity2.RowKey;
+            TumblrEntity entityR2 = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.Equal(entity2.RowKey, entityR2.RowKey);
+            Assert.Equal(entity2.MediaUri, entityR2.MediaUri);
+            Assert.Equal(entity2.Text, entityR2.Text);
+
+            // Delete
+            dynamic dp = new ExpandoObject();
+            dp.Table = table;
+            dp.Entity = entity1;
+            _deleteTableEntityCommand.ExecuteAsync(dp);
+            TumblrEntity entityD1 = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(dp);
+            Assert.Null(entityD1);
+
+            dp = new ExpandoObject();
+            dp.Table = table;
+            dp.Entity = entity2;
+            _deleteTableEntityCommand.ExecuteAsync(dp);
+            TumblrEntity entityD2 = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(dp);
+            Assert.Null(entityD2);
         }
 
         private static TumblrText GetTestTumblrText()

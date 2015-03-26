@@ -66,7 +66,7 @@ namespace LvFakeData
                 }
             }
         }
-        private IEnumerable<string> GetTestImages()
+        private static IEnumerable<string> GetTestImages()
         {
             var theFolder = new DirectoryInfo(Path.GetFullPath("..\\..\\Resources\\images"));
             return theFolder.GetFiles().Select(nextFile => nextFile.FullName).ToList();

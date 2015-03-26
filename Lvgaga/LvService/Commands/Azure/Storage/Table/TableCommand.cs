@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Dynamic;
 using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class TableCudCommand : TableCommand
+    public class TableCommand : CommandChain
     {
-        protected ITableEntity Entity { get; private set; }
+        protected CloudTable Table { get; private set; }
 
-        public TableCudCommand()
+        public TableCommand()
         {
 
         }
 
-        public TableCudCommand(ICommand command)
+        public TableCommand(ICommand command)
             : base(command)
         {
 
@@ -22,12 +21,10 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public new bool CanExecute(dynamic p)
         {
-            if (!base.CanExecute(p as ExpandoObject)) return false;
-
             try
             {
-                Entity = p.Entity;
-                return Entity != null;
+                Table = p.Table;
+                return Table != null;
             }
             catch (Exception)
             {

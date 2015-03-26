@@ -78,8 +78,11 @@
     <Compile Include="Commands\Azure\Storage\Blob\DownloadToStreamCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\DeleteBlobCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\CreateTableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntityCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntitiesCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableCudBatchCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\TableEntitiesCommandChain.cs" />
     <Compile Include="Commands\Azure\Storage\Table\TableEntityCommandChain.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ReadTableEntitiesCommand.cs" />
