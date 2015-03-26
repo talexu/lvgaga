@@ -80,6 +80,7 @@
     <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntityCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\DeleteTableCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\TableCommand.cs" />

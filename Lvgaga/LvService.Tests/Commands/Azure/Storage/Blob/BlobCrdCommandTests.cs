@@ -9,14 +9,14 @@ using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Blob
 {
-    public class UploadFromStreamCommandTests : IClassFixture<AzureStorageFixture>
+    public class BlobCrdCommandTests : IClassFixture<AzureStorageFixture>
     {
         private readonly AzureStorageFixture _azureStorageFixture;
         private readonly UploadFromStreamCommand _uploadFromStreamCommand;
         private readonly DownloadToStreamCommand _downloadToStreamCommand;
         private readonly DeleteBlobCommand _deleteBlobCommand;
 
-        public UploadFromStreamCommandTests(AzureStorageFixture azureStorageFixture)
+        public BlobCrdCommandTests(AzureStorageFixture azureStorageFixture)
         {
             _azureStorageFixture = azureStorageFixture;
             _uploadFromStreamCommand = new UploadFromStreamCommand();

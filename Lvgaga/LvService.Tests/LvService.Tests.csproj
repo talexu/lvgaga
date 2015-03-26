@@ -89,15 +89,19 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\AzureStorageFixture.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\BlobCrdCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntitiesCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntityCommandTests.cs" />
+    <Compile Include="Utilities\AzureStorageFixture.cs" />
     <Compile Include="Commands\Tumblr\CreateReadTumblrCommandTests.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />
     <Compile Include="Factories\UriFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\AzureStorageTestsBase.cs" />
     <Compile Include="Utilities\DateTimeHelperTests.cs" />
     <Compile Include="Utilities\ObjectExtensionTests.cs" />
     <Compile Include="Utilities\StringExtensionTests.cs" />
+    <Compile Include="Utilities\TestDataGenerator.cs" />
     <Compile Include="Utilities\TestFilesLoader.cs" />
   </ItemGroup>
   <ItemGroup>
