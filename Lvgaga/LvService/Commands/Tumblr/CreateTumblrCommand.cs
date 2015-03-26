@@ -55,12 +55,19 @@ namespace LvService.Commands.Tumblr
             p.Entity = tumblrEntity;
 
             // Create the copy of TumblrEntity with the category of all
-            var tempCategory = _tumblrText.Category;
-            _tumblrText.Category = TumblrCategory.All;
-            var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
-            if (tumblrEntityCateOfAll == null) return;
-            p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
-            _tumblrText.Category = tempCategory;
+            if (_tumblrText.Category.Equals(TumblrCategory.All))
+            {
+                p.Entities = new List<ITableEntity> { tumblrEntity };
+            }
+            else
+            {
+                var tempCategory = _tumblrText.Category;
+                _tumblrText.Category = TumblrCategory.All;
+                var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
+                if (tumblrEntityCateOfAll == null) return;
+                p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
+                _tumblrText.Category = tempCategory;
+            }
 
             await base.ExecuteAsync(p as ExpandoObject);
         }

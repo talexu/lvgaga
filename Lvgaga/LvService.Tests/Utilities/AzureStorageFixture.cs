@@ -2,7 +2,9 @@
 using LvModel.Common;
 using LvService.Commands.Azure.Storage.Blob;
 using LvService.Commands.Azure.Storage.Table;
+using LvService.Commands.Tumblr;
 using LvService.DbContexts;
+using LvService.Factories.Azure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Tests.Utilities
@@ -35,6 +37,15 @@ namespace LvService.Tests.Utilities
         public UpdateTableEntitiesCommand UpdateTableEntitiesCommand = new UpdateTableEntitiesCommand();
         public DeleteTableEntityCommand DeleteTableEntityCommand = new DeleteTableEntityCommand();
         public DeleteTableEntitiesCommand DeleteTableEntitiesCommand = new DeleteTableEntitiesCommand();
+
+        // Tumblr
+        public CreateTumblrCommand CreateTumblrCommand = new CreateTumblrCommand
+        {
+            TableEntityFactory = new TableEntityFactory()
+        };
+
+        public ReadTumblrEntityWithCategoryCommand ReadTumblrEntityWithCategoryCommand =
+            new ReadTumblrEntityWithCategoryCommand(new ReadTableEntitiesCommand());
 
         public AzureStorageFixture()
         {

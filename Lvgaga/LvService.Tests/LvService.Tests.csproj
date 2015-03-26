@@ -94,8 +94,9 @@
     <Compile Include="Commands\Azure\Storage\Table\CrdTableEntitiesCommandTests.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CrdTableEntityCommandTests.cs" />
     <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntityCommandTests.cs" />
+    <Compile Include="Commands\Tumblr\CreateTumblrCommandTests.cs" />
+    <Compile Include="Commands\Tumblr\ReadTumblrCommandTests.cs" />
     <Compile Include="Utilities\AzureStorageFixture.cs" />
-    <Compile Include="Commands\Tumblr\CreateReadTumblrCommandTests.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />
     <Compile Include="Factories\UriFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
