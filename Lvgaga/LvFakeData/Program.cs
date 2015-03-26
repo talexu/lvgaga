@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             var helper = new FakeHelper();
-            helper.UploadTestImagesToBlob().Wait();
+            helper.UploadTestTumblrs().Wait();
         }
     }
 }

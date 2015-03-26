@@ -17,27 +17,28 @@ namespace LvFakeData
     public class FakeHelper
     {
         private readonly IAzureStorage _azureStorage;
-        private readonly ICommand _command;
 
         public FakeHelper()
         {
             _azureStorage = new AzureStoragePool(new AzureStorageDb());
-            _command = new UploadFromStreamCommand(
-                new CreateTumblrCommand(
-                    new CreateTableEntityCommand(
-                        new ChangeTumblrRowkeyToZeroCommand(
-                            new CreateTableEntityCommand()))) { TableEntityFactory = new TableEntityFactory() });
+
         }
 
-        public FakeHelper(IAzureStorage azureStorage, ICommand command)
+        public async Task UploadTestTumblrs(ICommand command = null)
         {
-            _azureStorage = azureStorage;
-            _command = command;
-        }
+            if (command == null)
+            {
+                //command = new UploadFromStreamCommand(
+                //new CreateTumblrCommand(
+                //    new CreateTableEntityCommand(
+                //        new ChangeTumblrRowkeyToZeroCommand(
+                //            new CreateTableEntityCommand()))) { TableEntityFactory = new TableEntityFactory() });
 
-        #region Blob
-        public async Task UploadTestImagesToBlob()
-        {
+                command = new UploadFromStreamCommand(
+                    new CreateTumblrCommand(
+                        new CreateTableEntitiesCommand()) { TableEntityFactory = new TableEntityFactory() });
+            }
+
             foreach (var testImage in GetTestImages())
             {
                 using (Stream stream = File.OpenRead(testImage))
@@ -62,19 +63,15 @@ namespace LvFakeData
                     p.Table = await _azureStorage.GetTableReferenceAsync(Constants.TumblrTableName);
 
                     // Execute
-                    await _command.ExecuteAsync(p);
+                    await command.ExecuteAsync(p);
                 }
             }
         }
+
         private static IEnumerable<string> GetTestImages()
         {
             var theFolder = new DirectoryInfo(Path.GetFullPath("..\\..\\Resources\\images"));
             return theFolder.GetFiles().Select(nextFile => nextFile.FullName).ToList();
         }
-        #endregion
-
-        #region Table
-
-        #endregion
     }
 }
