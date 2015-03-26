@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
 using LvService.Factories.Azure.Storage;
+using LvService.Utilities;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
@@ -17,7 +20,7 @@ namespace LvService.Commands.Tumblr
 
         public CreateTumblrCommand()
         {
-            
+
         }
 
         public CreateTumblrCommand(ICommand command)
@@ -47,10 +50,19 @@ namespace LvService.Commands.Tumblr
         {
             if (!CanExecute(p)) return;
 
+            // Create TumblrEntity
             var tumblrEntity = TableEntityFactory.CreateTumblrEntity(p);
             if (tumblrEntity == null) return;
-
             p.Entity = tumblrEntity;
+
+            // Create the copy of TumblrEntity with the category of all
+            var tempCategory = _tumblrText.Category;
+            _tumblrText.Category = TumblrCategory.All;
+            var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
+            if (tumblrEntityCateOfAll == null) return;
+            p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
+            _tumblrText.Category = tempCategory;
+
             await base.ExecuteAsync(p as ExpandoObject);
         }
     }

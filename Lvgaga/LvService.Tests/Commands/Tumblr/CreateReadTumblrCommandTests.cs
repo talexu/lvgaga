@@ -25,6 +25,7 @@ namespace LvService.Tests.Commands.Tumblr
         private readonly ReadTumblrEntityWithCategoryCommand _readTumblrEntityWithCategoryCommand;
         private readonly UpdateTableEntityCommand _updateTableEntityCommand;
         private readonly DeleteTableEntityCommand _deleteTableEntityCommand;
+        private readonly DeleteTableEntitiesCommand _deleteTableEntitiesCommand;
 
         private readonly AzureStorageFixture _fixture;
 
@@ -53,6 +54,53 @@ namespace LvService.Tests.Commands.Tumblr
 
             // delete
             _deleteTableEntityCommand = new DeleteTableEntityCommand();
+            _deleteTableEntitiesCommand = new DeleteTableEntitiesCommand();
+        }
+
+        [Fact]
+        public async Task TestCreateTumblrWithAllCategory()
+        {
+            var table = await _fixture.AzureStorage.GetTableReferenceAsync(_tableName);
+            var createTumblrCommand = new CreateTumblrCommand(new CreateTableEntitiesCommand())
+            {
+                TableEntityFactory = new TableEntityFactory()
+            };
+
+            // create entity
+            dynamic cp = new ExpandoObject();
+            cp.PartitionKey = Constants.ImagePartitionKey;
+            cp.MediaUri = "http://www.caoliu.com/1024.jpg";
+            cp.Table = table;
+            cp.TumblrText = GetTestTumblrText();
+            await createTumblrCommand.ExecuteAsync(cp);
+            TumblrEntity entity = cp.Entity;
+            IEnumerable<ITableEntity> entities = cp.Entities;
+
+            Assert.NotNull(entity);
+            Assert.NotNull(entities);
+            Assert.Equal(2, entities.Count());
+
+            Assert.Equal(cp.PartitionKey, entity.PartitionKey);
+            Assert.Equal(cp.MediaUri, entity.MediaUri);
+            Assert.Equal(cp.TumblrText.Text, entity.Text);
+
+            // read entity
+            dynamic rp = new ExpandoObject();
+            rp.Table = table;
+            rp.PartitionKey = entity.PartitionKey;
+            rp.RowKey = entity.RowKey;
+            TumblrEntity entityR = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.NotNull(entityR);
+
+            rp.RowKey = TumblrCategory.All.ToString("D") + entity.RowKey.Substring(1);
+            TumblrEntity entityRa = await _readTableEntityCommand.ExecuteAsync<TumblrEntity>(rp);
+            Assert.NotNull(entityRa);
+
+            // delete entity
+            dynamic dp = new ExpandoObject();
+            dp.Table = table;
+            dp.Entities = entities;
+            await _deleteTableEntitiesCommand.ExecuteAsync(dp);
         }
 
         [Fact]

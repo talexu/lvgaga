@@ -19,5 +19,11 @@ namespace LvService.Utilities
 
             return eobj;
         }
+
+        public static T CloneByJson<T>(this T obj)
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
     }
 }
