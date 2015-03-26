@@ -9,11 +9,11 @@ using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Table
 {
-    public class DeleteTableEntitiesCommandTests : AzureStorageTestsBase
+    public class CrdTableEntitiesCommandTests : AzureStorageTestsBase
     {
         private readonly string _tempTableName;
 
-        public DeleteTableEntitiesCommandTests(AzureStorageFixture fixture)
+        public CrdTableEntitiesCommandTests(AzureStorageFixture fixture)
             : base(fixture)
         {
             _tempTableName = fixture.GetRandomTableName();
@@ -89,6 +89,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
             pd.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pd.Entities = entities;
             await Fixture.DeleteTableEntitiesCommand.ExecuteAsync(pd);
+
             dynamic pr2 = new ExpandoObject();
             pr2.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pr2.Filter = Fixture.GetTableFilterByPartitionKey(partitionKey);

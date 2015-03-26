@@ -6,11 +6,11 @@ using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Table
 {
-    public class DeleteTableEntityCommandTests : AzureStorageTestsBase
+    public class CrdTableEntityCommandTests : AzureStorageTestsBase
     {
         private readonly string _tempTableName;
 
-        public DeleteTableEntityCommandTests(AzureStorageFixture fixture)
+        public CrdTableEntityCommandTests(AzureStorageFixture fixture)
             : base(fixture)
         {
             _tempTableName = fixture.GetRandomTableName();
@@ -54,11 +54,13 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
         {
             var entity = TestDataGenerator.GetTableEntity();
 
+            // create
             dynamic pc = new ExpandoObject();
             pc.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pc.Entity = entity;
             await Fixture.CreateTableEntityCommand.ExecuteAsync(pc);
 
+            // read
             dynamic pr = new ExpandoObject();
             pr.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pr.PartitionKey = entity.PartitionKey;
@@ -68,6 +70,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
             Assert.Equal(entity.PartitionKey, entityR.PartitionKey);
             Assert.Equal(entity.RowKey, entityR.RowKey);
 
+            // delete
             dynamic pd = new ExpandoObject();
             pd.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pd.Entity = entity;
@@ -77,7 +80,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
             pr2.Table = await Fixture.AzureStorage.GetTableReferenceAsync(_tempTableName);
             pr2.PartitionKey = entity.PartitionKey;
             pr2.RowKey = entity.RowKey;
-            TableEntity entityR2 = await Fixture.ReadTableEntityCommand.ExecuteAsync<TableEntity>(pr);
+            TableEntity entityR2 = await Fixture.ReadTableEntityCommand.ExecuteAsync<TableEntity>(pr2);
             Assert.Null(entityR2);
 
             await Fixture.DeleteTableCommand.ExecuteAsync(pc);

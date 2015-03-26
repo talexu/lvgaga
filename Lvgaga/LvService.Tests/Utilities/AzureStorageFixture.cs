@@ -4,7 +4,7 @@ using LvService.Commands.Azure.Storage.Table;
 using LvService.DbContexts;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace LvService.Tests.Commands.Azure.Storage
+namespace LvService.Tests.Utilities
 {
     public class AzureStorageFixture
     {
@@ -18,6 +18,8 @@ namespace LvService.Tests.Commands.Azure.Storage
         public CreateTableEntitiesCommand CreateTableEntitiesCommand = new CreateTableEntitiesCommand();
         public ReadTableEntityCommand ReadTableEntityCommand = new ReadTableEntityCommand();
         public ReadTableEntitiesCommand ReadTableEntitiesCommand = new ReadTableEntitiesCommand();
+        public UpdateTableEntityCommand UpdateTableEntityCommand = new UpdateTableEntityCommand();
+        public UpdateTableEntitiesCommand UpdateTableEntitiesCommand = new UpdateTableEntitiesCommand();
         public DeleteTableEntityCommand DeleteTableEntityCommand = new DeleteTableEntityCommand();
         public DeleteTableEntitiesCommand DeleteTableEntitiesCommand = new DeleteTableEntitiesCommand();
 

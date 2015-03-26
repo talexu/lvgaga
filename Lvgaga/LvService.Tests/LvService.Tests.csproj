@@ -90,8 +90,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Commands\Azure\Storage\Blob\BlobCrdCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntitiesCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntityCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntitiesCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\CrdTableEntitiesCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\CrdTableEntityCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntityCommandTests.cs" />
     <Compile Include="Utilities\AzureStorageFixture.cs" />
     <Compile Include="Commands\Tumblr\CreateReadTumblrCommandTests.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />
