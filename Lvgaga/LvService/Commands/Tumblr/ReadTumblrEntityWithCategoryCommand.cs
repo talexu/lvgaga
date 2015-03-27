@@ -14,13 +14,18 @@ namespace LvService.Commands.Tumblr
         private string _partitionKey;
         private int _category;
 
-        public ReadTumblrEntityWithCategoryCommand(ITableEntitiesCommand command = null)
+        public ReadTumblrEntityWithCategoryCommand()
+        {
+
+        }
+
+        public ReadTumblrEntityWithCategoryCommand(ITableEntitiesCommand command)
             : base(command)
         {
 
         }
 
-        public new bool CanExecute(dynamic p)
+        public new bool CanExecute<T>(dynamic p)
         {
             try
             {
@@ -38,7 +43,7 @@ namespace LvService.Commands.Tumblr
         {
             await base.ExecuteAsync<T>(p as ExpandoObject);
 
-            if (!CanExecute(p)) return null;
+            if (!CanExecute<T>(p)) return null;
 
             var filterByPk = TableQuery.GenerateFilterCondition(LvConstants.PartitionKey, QueryComparisons.Equal,
                 _partitionKey);

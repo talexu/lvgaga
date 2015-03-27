@@ -8,7 +8,12 @@ namespace LvService.Commands.Azure.Storage.Blob
     {
         protected string BlobName;
 
-        public BlobCrudCommand(ICommand command = null)
+        public BlobCrudCommand()
+        {
+
+        }
+
+        public BlobCrudCommand(ICommand command)
             : base(command)
         {
 

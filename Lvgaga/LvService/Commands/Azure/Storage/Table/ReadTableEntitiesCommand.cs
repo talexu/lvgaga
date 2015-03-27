@@ -12,13 +12,18 @@ namespace LvService.Commands.Azure.Storage.Table
         public string Filter { get; private set; }
         public int TakeCount { get; private set; }
 
-        public ReadTableEntitiesCommand(ITableEntitiesCommand command = null)
+        public ReadTableEntitiesCommand()
+        {
+
+        }
+
+        public ReadTableEntitiesCommand(ITableEntitiesCommand command)
             : base(command)
         {
 
         }
 
-        public new bool CanExecute(dynamic p)
+        public new bool CanExecute<T>(dynamic p)
         {
             try
             {
@@ -37,7 +42,7 @@ namespace LvService.Commands.Azure.Storage.Table
         {
             await base.ExecuteAsync<T>(p as ExpandoObject);
 
-            if (!CanExecute(p)) return null;
+            if (!CanExecute<T>(p)) return null;
 
             var query = new TableQuery<T>
             {

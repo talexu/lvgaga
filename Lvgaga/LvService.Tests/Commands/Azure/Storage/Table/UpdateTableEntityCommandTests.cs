@@ -74,6 +74,8 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
             Assert.Equal(entity.Text, entityR.Text);
 
             // update
+            var tempMediaUri = entity.MediaUri;
+            var tempText = entity.Text;
             entity.MediaUri = "modified media uri";
             entity.Text = "modified text";
             dynamic pu = new ExpandoObject();

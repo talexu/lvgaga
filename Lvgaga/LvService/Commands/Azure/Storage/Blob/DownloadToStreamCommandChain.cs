@@ -7,7 +7,12 @@ namespace LvService.Commands.Azure.Storage.Blob
     {
         public IDownloadToStreamCommand PreviousCommand { get; set; }
 
-        public DownloadToStreamCommandChain(IDownloadToStreamCommand command = null)
+        public DownloadToStreamCommandChain()
+        {
+
+        }
+
+        public DownloadToStreamCommandChain(IDownloadToStreamCommand command)
         {
             PreviousCommand = command;
         }

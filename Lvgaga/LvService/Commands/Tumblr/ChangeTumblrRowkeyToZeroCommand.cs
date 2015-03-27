@@ -12,7 +12,12 @@ namespace LvService.Commands.Tumblr
         private readonly string _allCategory = TumblrCategory.All.ToString("D");
         private TumblrEntity _entity;
 
-        public ChangeTumblrRowkeyToZeroCommand(ICommand command = null)
+        public ChangeTumblrRowkeyToZeroCommand()
+        {
+
+        }
+
+        public ChangeTumblrRowkeyToZeroCommand(ICommand command)
             : base(command)
         {
 

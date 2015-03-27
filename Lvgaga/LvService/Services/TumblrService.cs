@@ -16,6 +16,11 @@ namespace LvService.Services
         private readonly ITableEntitiesCommand _command;
         private readonly ITumblrFactory _tumblrFactory;
 
+        public TumblrService()
+        {
+
+        }
+
         public TumblrService(IAzureStorage azureStorage, ITableEntitiesCommand command, ITumblrFactory tumblrFactory)
         {
             _azureStorage = azureStorage;

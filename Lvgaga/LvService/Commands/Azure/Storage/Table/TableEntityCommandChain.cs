@@ -7,7 +7,12 @@ namespace LvService.Commands.Azure.Storage.Table
     {
         public ITableEntityCommand PreviousCommand { get; set; }
 
-        public TableEntityCommandChain(ITableEntityCommand command = null)
+        public TableEntityCommandChain()
+        {
+
+        }
+
+        public TableEntityCommandChain(ITableEntityCommand command)
         {
             PreviousCommand = command;
         }
