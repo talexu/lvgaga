@@ -19,10 +19,11 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public override async Task ExecuteAsync(dynamic p)
         {
-            if (!CanExecute(p as ExpandoObject)) return;
-            await Table.DeleteIfExistsAsync();
-
             await base.ExecuteAsync(p as ExpandoObject);
+
+            if (!CanExecute(p as ExpandoObject)) return;
+
+            await Table.DeleteIfExistsAsync();
         }
     }
 }

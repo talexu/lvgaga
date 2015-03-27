@@ -1,15 +1,11 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace LvService.Commands.Azure.Storage.Blob
 {
-    public class DeleteContainerCommand : CommandChain
+    public class DeleteContainerCommand : ContainerCommand
     {
-        protected CloudBlobContainer CloudBlobContainer;
-
         public DeleteContainerCommand()
         {
 
@@ -21,26 +17,13 @@ namespace LvService.Commands.Azure.Storage.Blob
 
         }
 
-        public new bool CanExecute(dynamic p)
-        {
-            try
-            {
-                CloudBlobContainer = p.Container;
-                return CloudBlobContainer != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         public override async Task ExecuteAsync(dynamic p)
         {
+            await base.ExecuteAsync(p as ExpandoObject);
+
             if (!CanExecute(p as ExpandoObject)) return;
 
-            await CloudBlobContainer.DeleteIfExistsAsync();
-
-            await base.ExecuteAsync(p as ExpandoObject);
+            await Container.DeleteIfExistsAsync();
         }
     }
 }

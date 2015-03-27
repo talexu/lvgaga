@@ -47,6 +47,8 @@ namespace LvService.Commands.Tumblr
 
         public override async Task ExecuteAsync(dynamic p)
         {
+            await base.ExecuteAsync(p as ExpandoObject);
+
             if (!CanExecute(p)) return;
 
             // Create TumblrEntity
@@ -68,8 +70,6 @@ namespace LvService.Commands.Tumblr
                 p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
                 _tumblrText.Category = tempCategory;
             }
-
-            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

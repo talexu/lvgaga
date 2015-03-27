@@ -39,13 +39,12 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public override async Task<T> ExecuteAsync<T>(dynamic p)
         {
+            await base.ExecuteAsync<T>(p as ExpandoObject);
+
             if (!CanExecute<T>(p)) return default(T);
 
             var retrieveOperation = TableOperation.Retrieve<T>(PartitionKey, RowKey);
-            p.Result = (await Table.ExecuteAsync(retrieveOperation)).Result;
-            await base.ExecuteAsync<T>(p as ExpandoObject);
-
-            return p.Result;
+            return (T)(await Table.ExecuteAsync(retrieveOperation)).Result;
         }
     }
 }

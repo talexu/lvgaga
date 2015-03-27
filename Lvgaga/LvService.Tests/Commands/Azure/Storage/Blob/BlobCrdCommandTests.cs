@@ -38,8 +38,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Blob
             pd.Container =
                 await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pd.BlobName = fileName;
-            await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
-            MemoryStream ms = pd.Stream;
+            MemoryStream ms = await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
             var download = ms.ToStringFromMemoryStream();
             Assert.Equal(content, download);
 
@@ -49,8 +48,7 @@ namespace LvService.Tests.Commands.Azure.Storage.Blob
                 await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pdd.BlobName = fileName;
             await Fixture.DeleteBlobCommand.ExecuteAsync(pdd);
-            await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
-            var download2 = pd.Stream;
+            var download2 = await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
             Assert.Null(download2);
 
             Fixture.DeleteContainerCommand.ExecuteAsync(p);

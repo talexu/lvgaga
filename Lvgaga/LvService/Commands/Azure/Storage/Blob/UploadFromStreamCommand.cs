@@ -38,13 +38,13 @@ namespace LvService.Commands.Azure.Storage.Blob
 
         public override async Task ExecuteAsync(dynamic p)
         {
+            await base.ExecuteAsync(p as ExpandoObject);
+
             if (!CanExecute(p)) return;
 
-            var blockBlob = CloudBlobContainer.GetBlockBlobReference(BlobName);
+            var blockBlob = Container.GetBlockBlobReference(BlobName);
             await blockBlob.UploadFromStreamAsync(_source);
             p.MediaUri = blockBlob.Uri.AbsoluteUri;
-
-            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

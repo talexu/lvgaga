@@ -31,7 +31,7 @@ namespace LvService.Services
         public async Task<List<TumblrModel>> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
         {
             dynamic p = new ExpandoObject();
-            p.Table = await _azureStorage.GetTableReferenceAsync(Constants.TumblrTableName);
+            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
             p.PartitionKey = partitionKey;
             p.Category = category;
             p.TakeCount = takeCount;

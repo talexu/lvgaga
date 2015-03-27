@@ -1,10 +1,10 @@
 ﻿namespace LvModel.Common
 {
-    public class Constants
+    public class LvConstants
     {
         #region Blob
 
-        public const string ImageContainerName = "images";
+        public const string ContainerNameOfImage = "images";
 
         #endregion
 
@@ -13,8 +13,8 @@
 
         public const string PartitionKey = "PartitionKey";
         public const string RowKey = "RowKey";
-        public const string TumblrTableName = "tumblrs";
-        public static readonly string ImagePartitionKey = MediaType.Image.ToString("G");
+        public const string TableNameOfTumblr = "tumblrs";
+        public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("G");
 
         #endregion
     }

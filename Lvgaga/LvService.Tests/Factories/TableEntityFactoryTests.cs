@@ -21,7 +21,7 @@ namespace LvService.Tests.Factories
         public void CreateTumblrEntityTest()
         {
             dynamic p = new ExpandoObject();
-            p.PartitionKey = Constants.ImagePartitionKey;
+            p.PartitionKey = LvConstants.PartitionKeyOfImage;
             p.MediaUri = "uri";
             p.TumblrText = new TumblrText
             {

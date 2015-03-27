@@ -6,7 +6,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class TableEntitiesCommandChain : ITableEntitiesCommand
     {
-        public ITableEntitiesCommand NextCommand { get; set; }
+        public ITableEntitiesCommand PreviousCommand { get; set; }
 
         public TableEntitiesCommandChain()
         {
@@ -15,17 +15,17 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public TableEntitiesCommandChain(ITableEntitiesCommand command)
         {
-            NextCommand = command;
+            PreviousCommand = command;
         }
 
         public bool CanExecute<T>(dynamic p) where T : ITableEntity, new()
         {
-            return NextCommand != null;
+            return PreviousCommand != null;
         }
 
         public virtual async Task<List<T>> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new()
         {
-            if (CanExecute<T>(p)) return await NextCommand.ExecuteAsync<T>(p);
+            if (CanExecute<T>(p)) return await PreviousCommand.ExecuteAsync<T>(p);
             return null;
         }
     }

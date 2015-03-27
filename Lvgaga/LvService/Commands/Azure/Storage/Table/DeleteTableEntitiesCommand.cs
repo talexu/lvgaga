@@ -20,6 +20,8 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public override async Task ExecuteAsync(dynamic p)
         {
+            await base.ExecuteAsync(p as ExpandoObject);
+
             if (!CanExecute(p)) return;
 
             var batchOperation = new TableBatchOperation();
@@ -28,8 +30,6 @@ namespace LvService.Commands.Azure.Storage.Table
                 batchOperation.Delete(entity);
             }
             await Table.ExecuteBatchAsync(batchOperation);
-
-            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

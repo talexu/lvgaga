@@ -41,19 +41,21 @@ namespace LvService.Commands.Tumblr
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)
         {
+            await base.ExecuteAsync<T>(p as ExpandoObject);
+
             if (!CanExecute<T>(p)) return null;
 
-            var filterByPk = TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal,
+            var filterByPk = TableQuery.GenerateFilterCondition(LvConstants.PartitionKey, QueryComparisons.Equal,
                 _partitionKey);
             var filterByRk = TableQuery.CombineFilters(
-                TableQuery.GenerateFilterCondition(Constants.RowKey, QueryComparisons.GreaterThanOrEqual,
+                TableQuery.GenerateFilterCondition(LvConstants.RowKey, QueryComparisons.GreaterThanOrEqual,
                     _category.ToString()),
                 TableOperators.And,
-                TableQuery.GenerateFilterCondition(Constants.RowKey, QueryComparisons.LessThan,
+                TableQuery.GenerateFilterCondition(LvConstants.RowKey, QueryComparisons.LessThan,
                     (_category + 1).ToString()));
             p.Filter = TableQuery.CombineFilters(filterByPk, TableOperators.And, filterByRk);
 
-            return await base.ExecuteAsync<T>(p as ExpandoObject);
+            return null;
         }
     }
 }

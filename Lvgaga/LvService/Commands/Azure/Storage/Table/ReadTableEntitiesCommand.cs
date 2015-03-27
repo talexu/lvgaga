@@ -40,16 +40,15 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)
         {
+            await base.ExecuteAsync<T>(p as ExpandoObject);
+
             if (!CanExecute<T>(p)) return null;
 
             var query = new TableQuery<T>
             {
                 TakeCount = TakeCount
             }.Where(Filter);
-            p.Results = (await Table.ExecuteQuerySegmentedAsync(query, null)).Results;
-            await base.ExecuteAsync<T>(p as ExpandoObject);
-
-            return p.Results;
+            return (await Table.ExecuteQuerySegmentedAsync(query, null)).Results;
         }
     }
 }

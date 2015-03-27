@@ -45,8 +45,8 @@ namespace LvService.Tests.Utilities
             TableEntityFactory = new TableEntityFactory()
         };
 
-        public ReadTumblrEntityWithCategoryCommand ReadTumblrEntityWithCategoryCommand =
-            new ReadTumblrEntityWithCategoryCommand(new ReadTableEntitiesCommand());
+        public ReadTableEntitiesCommand ReadTumblrEntityWithCategoryCommand =
+            new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand());
 
         public AzureStorageFixture()
         {
@@ -61,7 +61,7 @@ namespace LvService.Tests.Utilities
 
         public string GetTableFilterByPartitionKey(string partitionKey)
         {
-            return TableQuery.GenerateFilterCondition(Constants.PartitionKey, QueryComparisons.Equal, partitionKey);
+            return TableQuery.GenerateFilterCondition(LvConstants.PartitionKey, QueryComparisons.Equal, partitionKey);
         }
     }
 }

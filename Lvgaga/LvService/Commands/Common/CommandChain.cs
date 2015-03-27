@@ -4,7 +4,7 @@ namespace LvService.Commands.Common
 {
     public class CommandChain : ICommand
     {
-        public ICommand NextCommand { get; set; }
+        public ICommand PreviousCommand { get; set; }
 
         public CommandChain()
         {
@@ -13,17 +13,17 @@ namespace LvService.Commands.Common
 
         public CommandChain(ICommand command)
         {
-            NextCommand = command;
+            PreviousCommand = command;
         }
 
         public bool CanExecute(dynamic p)
         {
-            return NextCommand != null;
+            return PreviousCommand != null;
         }
 
         public virtual async Task ExecuteAsync(dynamic p)
         {
-            if (CanExecute(p)) await NextCommand.ExecuteAsync(p);
+            if (CanExecute(p)) await PreviousCommand.ExecuteAsync(p);
         }
     }
 }

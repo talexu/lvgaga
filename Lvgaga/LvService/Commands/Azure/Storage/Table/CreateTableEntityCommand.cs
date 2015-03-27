@@ -20,10 +20,11 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public override async Task ExecuteAsync(dynamic p)
         {
-            if (!CanExecute(p)) return;
-            await Table.ExecuteAsync(TableOperation.Insert(Entity));
-
             await base.ExecuteAsync(p as ExpandoObject);
+
+            if (!CanExecute(p)) return;
+
+            await Table.ExecuteAsync(TableOperation.Insert(Entity));
         }
     }
 }

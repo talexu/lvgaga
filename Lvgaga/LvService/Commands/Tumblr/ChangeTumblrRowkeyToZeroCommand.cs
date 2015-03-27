@@ -38,11 +38,11 @@ namespace LvService.Commands.Tumblr
 
         public override async Task ExecuteAsync(dynamic p)
         {
+            await base.ExecuteAsync(p as ExpandoObject);
+
             if (!CanExecute(p)) return;
 
             _entity.RowKey = _allCategory + _entity.RowKey.Substring(1);
-
-            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

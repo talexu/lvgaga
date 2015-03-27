@@ -1,46 +1,60 @@
-﻿
-
-using System;
+﻿using System;
 using System.Dynamic;
 using System.IO;
 using System.Threading.Tasks;
-using LvService.Commands.Common;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace LvService.Commands.Azure.Storage.Blob
 {
-    public class DownloadToStreamCommand : BlobCrudCommand
+    public class DownloadToStreamCommand : DownloadToStreamCommandChain
     {
+        protected CloudBlobContainer Container;
+        protected string BlobName;
+
         public DownloadToStreamCommand()
         {
 
         }
 
-        public DownloadToStreamCommand(ICommand command)
+        public DownloadToStreamCommand(IDownloadToStreamCommand command)
             : base(command)
         {
 
         }
 
-        public override async Task ExecuteAsync(dynamic p)
+        public new bool CanExecute(dynamic p)
         {
-            if (!CanExecute(p)) return;
+            try
+            {
+                Container = p.Container;
+                BlobName = p.BlobName;
+                return Container != null && !String.IsNullOrEmpty(BlobName);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
-            var blockBlob = CloudBlobContainer.GetBlockBlobReference(BlobName);
+        public override async Task<Stream> ExecuteAsync(dynamic p)
+        {
+            await base.ExecuteAsync(p as ExpandoObject);
+
+            if (!CanExecute(p)) return null;
+
+            var blockBlob = Container.GetBlockBlobReference(BlobName);
             using (var memoryStream = new MemoryStream())
             {
                 try
                 {
                     await blockBlob.DownloadToStreamAsync(memoryStream);
-                    p.Stream = memoryStream;
+                    return memoryStream;
                 }
                 catch (Exception)
                 {
-                    p.Stream = null;
+                    return null;
                 }
-
             }
-
-            await base.ExecuteAsync(p as ExpandoObject);
         }
     }
 }

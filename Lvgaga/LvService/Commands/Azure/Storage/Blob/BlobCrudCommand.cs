@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Dynamic;
 using LvService.Commands.Common;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace LvService.Commands.Azure.Storage.Blob
 {
-    public class BlobCrudCommand : CommandChain
+    public class BlobCrudCommand : ContainerCommand
     {
-        protected CloudBlobContainer CloudBlobContainer;
         protected string BlobName;
 
         public BlobCrudCommand()
@@ -22,11 +21,12 @@ namespace LvService.Commands.Azure.Storage.Blob
 
         public new bool CanExecute(dynamic p)
         {
+            if (!base.CanExecute(p as ExpandoObject)) return false;
+
             try
             {
-                CloudBlobContainer = p.Container;
                 BlobName = p.BlobName;
-                return CloudBlobContainer != null && !String.IsNullOrEmpty(BlobName);
+                return !String.IsNullOrEmpty(BlobName);
             }
             catch (Exception)
             {

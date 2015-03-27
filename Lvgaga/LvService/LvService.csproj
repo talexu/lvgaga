@@ -74,10 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Azure\Storage\Blob\ContainerCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\BlobCrudCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\DeleteContainerCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\DownloadToStreamCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\DownloadToStreamCommandChain.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\DeleteBlobCommand.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\IDownloadToStreamCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\UploadFromStreamCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntitiesCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\CreateTableEntityCommand.cs" />
