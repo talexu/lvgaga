@@ -1,4 +1,5 @@
 ﻿using System;
+using LvModel.View.Tumblr;
 
 namespace LvService.Factories.Uri
 {
@@ -27,6 +28,16 @@ namespace LvService.Factories.Uri
         {
             _uriBuilder.Path = path;
             return _uriBuilder.Uri.AbsolutePath;
+        }
+
+        public static string GetTumblrRowKey(TumblrCategory category, string invertedTicks)
+        {
+            return string.Format("{0}_{1}", category.ToString("D"), invertedTicks);
+        }
+
+        public static string GetInvertedTicks(string tumblrRowKey)
+        {
+            return tumblrRowKey.Substring(2);
         }
     }
 }

@@ -1,15 +1,8 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using LvModel.Common;
 using LvModel.View.Tumblr;
-using LvService.Commands.Azure.Storage.Table;
-using LvService.Commands.Tumblr;
-using LvService.DbContexts;
-using LvService.Factories.Uri;
-using LvService.Factories.ViewModel;
 using LvService.Services;
-using Microsoft.WindowsAzure.Storage;
 
 namespace Lvgaga.Controllers
 {

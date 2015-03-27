@@ -1,9 +1,7 @@
 using System;
-using System.Web.Configuration;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
-using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
 using LvService.Services;
@@ -48,28 +46,52 @@ namespace Lvgaga
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
-            container.RegisterInstance(CloudStorageAccount.Parse(
-                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            //container.RegisterInstance(CloudStorageAccount.Parse(
+            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof (AzureStorageDb)));
 
-            const string emptyTumblrReader = "Empty/TumblrReader";
-            container.RegisterType<ITableEntitiesCommand, ReadTumblrEntityWithCategoryCommand>(emptyTumblrReader,
+            // Common
+            const string emptyEntityReader = "empty://entity/reader";
+            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader,
                 new InjectionConstructor());
-            const string homeEntitiesReader = "Tumblr/EntitiesReader";
-            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(homeEntitiesReader,
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyTumblrReader)));
-
             container.RegisterType<IUriFactory, UriFactory>(new ContainerControlledLifetimeManager());
+
+            // Tumblr
+            const string emptyTumblrsReader = "empty://tumblrs/reader";
+            container.RegisterType<ITableEntitiesCommand, ReadTumblrEntitiesWithCategoryCommand>(emptyTumblrsReader,
+                new InjectionConstructor());
+            const string homeEntitiesReader = "tumblr://entities/reader";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(homeEntitiesReader,
+                new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyTumblrsReader)));
+
             container.RegisterType<ITumblrFactory, TumblrFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof (IUriFactory)));
 
             container.RegisterType<ITumblrService, TumblrService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     typeof (IAzureStorage),
+                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ITableEntitiesCommand>(homeEntitiesReader),
                     typeof (ITumblrFactory)));
+
+            // Comment
+            const string emptyCommentsReader = "empty://comments/reader";
+            container.RegisterType<ITableEntitiesCommand, ReadCommentEntitiesCommand>(emptyCommentsReader,
+                new InjectionConstructor());
+            const string commentEntitiesReader = "comments://entities/reader";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
+                new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
+
+            container.RegisterType<ICommentFactory, CommentFactory>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ICommentService, CommentService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    typeof (IAzureStorage),
+                    typeof (ITumblrService),
+                    new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
+                    typeof (ICommentFactory)));
         }
     }
 }

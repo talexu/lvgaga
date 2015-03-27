@@ -9,17 +9,17 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
-    public class ReadTumblrEntityWithCategoryCommand : TableEntitiesCommandChain
+    public class ReadTumblrEntitiesWithCategoryCommand : TableEntitiesCommandChain
     {
         private string _partitionKey;
         private int _category;
 
-        public ReadTumblrEntityWithCategoryCommand()
+        public ReadTumblrEntitiesWithCategoryCommand()
         {
 
         }
 
-        public ReadTumblrEntityWithCategoryCommand(ITableEntitiesCommand command)
+        public ReadTumblrEntitiesWithCategoryCommand(ITableEntitiesCommand command)
             : base(command)
         {
 

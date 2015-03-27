@@ -26,17 +26,17 @@ namespace LvService.Factories.ViewModel
         {
             if (tumblrEntity == null) return null;
 
-            var result = new TumblrModel
+            return new TumblrModel
             {
                 PartitionKey = tumblrEntity.PartitionKey,
                 RowKey = tumblrEntity.RowKey,
-                Uri = _uriFactory.CreateUri(Path.Combine(CommentControllerName, tumblrEntity.RowKey)),
+                Uri =
+                    _uriFactory.CreateUri(Path.Combine(CommentControllerName,
+                        UriFactory.GetInvertedTicks(tumblrEntity.RowKey))),
                 MediaUri = tumblrEntity.MediaUri,
                 Text = tumblrEntity.Text,
                 CreateTime = tumblrEntity.CreateTime
             };
-
-            return result;
         }
 
         public List<TumblrModel> CreateTumblrModels(IEnumerable<TumblrEntity> tumblrEntities)

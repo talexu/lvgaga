@@ -100,7 +100,8 @@
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntityCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateCommentCommand.cs" />
-    <Compile Include="Commands\Tumblr\ReadTumblrEntityWithCategoryCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadCommentEntitiesCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadTumblrEntitiesWithCategoryCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />
     <Compile Include="DbContexts\IAzureStorage.cs" />
@@ -109,11 +110,15 @@
     <Compile Include="Factories\Azure\Storage\TableEntityFactory.cs" />
     <Compile Include="Factories\Uri\IUriFactory.cs" />
     <Compile Include="Factories\Uri\UriFactory.cs" />
+    <Compile Include="Factories\ViewModel\CommentFactory.cs" />
+    <Compile Include="Factories\ViewModel\ICommentFactory.cs" />
     <Compile Include="Factories\ViewModel\ITumblrFactory.cs" />
     <Compile Include="Factories\ViewModel\TumblrFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\Common\CommandChain.cs" />
     <Compile Include="Commands\Tumblr\CreateTumblrCommand.cs" />
+    <Compile Include="Services\CommentService.cs" />
+    <Compile Include="Services\ICommentService.cs" />
     <Compile Include="Services\ITumblrService.cs" />
     <Compile Include="Services\TumblrService.cs" />
     <Compile Include="Utilities\BlobHelper.cs" />

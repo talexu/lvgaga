@@ -47,6 +47,7 @@ namespace LvService.Tests.Commands.Tumblr
             var entity0 = entities[0];
             var entity1 = entities[1];
             Assert.Equal(entity0.PartitionKey, entity1.PartitionKey);
+            Assert.Equal(entity0.RowKey.Substring(1), entity1.RowKey.Substring(1));
             Assert.Equal(tumblrText.Category.ToString("D"), entity0.RowKey.Substring(0, 1));
             Assert.Equal(TumblrCategory.All.ToString("D"), entity1.RowKey.Substring(0, 1));
         }

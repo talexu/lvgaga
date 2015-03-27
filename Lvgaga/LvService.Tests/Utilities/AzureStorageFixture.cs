@@ -46,7 +46,7 @@ namespace LvService.Tests.Utilities
         };
 
         public ReadTableEntitiesCommand ReadTumblrEntityWithCategoryCommand =
-            new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand());
+            new ReadTableEntitiesCommand(new ReadTumblrEntitiesWithCategoryCommand());
 
         // Comment
         public CreateCommentCommand CreateCommentCommand = new CreateCommentCommand

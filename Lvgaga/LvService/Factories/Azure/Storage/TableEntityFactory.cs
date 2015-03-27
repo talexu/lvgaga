@@ -1,6 +1,7 @@
 ﻿using System;
 using LvModel.Azure.StorageTable;
 using LvModel.View.Tumblr;
+using LvService.Factories.Uri;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -17,9 +18,25 @@ namespace LvService.Factories.Azure.Storage
             TumblrText tumblrText = p.TumblrText;
 
             var now = GetUtcNow();
+            string invertedTicks = null;
+            try
+            {
+                invertedTicks = p.InvertedTicks;
+            }
+            catch (Exception)
+            {
+                invertedTicks = DateTimeHelper.GetInvertedTicks(now);
+            }
+            finally
+            {
+                if (!String.IsNullOrEmpty(invertedTicks))
+                {
+                    p.InvertedTicks = invertedTicks;
+                }
+            }
 
             return new TumblrEntity(partitionKey,
-                string.Format("{0}_{1}", tumblrText.Category.ToString("D"), DateTimeHelper.GetInvertedTicks(now)))
+                UriFactory.GetTumblrRowKey(tumblrText.Category, invertedTicks))
             {
                 MediaUri = mediaUri,
                 Text = tumblrText.Text,

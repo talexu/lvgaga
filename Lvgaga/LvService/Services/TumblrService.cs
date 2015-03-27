@@ -13,7 +13,8 @@ namespace LvService.Services
     public class TumblrService : ITumblrService
     {
         private readonly IAzureStorage _azureStorage;
-        private readonly ITableEntitiesCommand _command;
+        private readonly ITableEntityCommand _entityCommand;
+        private readonly ITableEntitiesCommand _entitiesCommand;
         private readonly ITumblrFactory _tumblrFactory;
 
         public TumblrService()
@@ -21,11 +22,22 @@ namespace LvService.Services
 
         }
 
-        public TumblrService(IAzureStorage azureStorage, ITableEntitiesCommand command, ITumblrFactory tumblrFactory)
+        public TumblrService(IAzureStorage azureStorage, ITableEntityCommand entityCommand, ITableEntitiesCommand entitiesCommand, ITumblrFactory tumblrFactory)
         {
             _azureStorage = azureStorage;
-            _command = command;
+            _entityCommand = entityCommand;
+            _entitiesCommand = entitiesCommand;
             _tumblrFactory = tumblrFactory;
+        }
+
+        public async Task<TumblrModel> GetTumblrModelAsync(string partitionKey, string rowKey)
+        {
+            dynamic p = new ExpandoObject();
+            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
+            p.PartitionKey = partitionKey;
+            p.RowKey = rowKey;
+
+            return _tumblrFactory.CreateTumblrModel(await _entityCommand.ExecuteAsync<TumblrEntity>(p));
         }
 
         public async Task<List<TumblrModel>> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
@@ -36,7 +48,7 @@ namespace LvService.Services
             p.Category = category;
             p.TakeCount = takeCount;
 
-            return _tumblrFactory.CreateTumblrModels(await _command.ExecuteAsync<TumblrEntity>(p));
+            return _tumblrFactory.CreateTumblrModels(await _entitiesCommand.ExecuteAsync<TumblrEntity>(p));
         }
     }
 }

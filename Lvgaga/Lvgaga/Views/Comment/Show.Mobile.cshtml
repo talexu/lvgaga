@@ -1,11 +1,12 @@
-﻿@{
+﻿@model LvModel.View.Comment.CommentModel
+@{
     ViewBag.Title = "Comment Page";
 }
 <div>
-    <img class="img-tumblr" src="https://lvgaga.blob.core.windows.net/images/00db95ba-b973-414c-8543-1462c01be5d2.jpg" alt=""/>
+    <img class="img-tumblr" src="@Model.MediaUri" alt="" />
     <div class="content">
-        <p class="text-tumblr">你也曾当过笨蛋，也曾试着当瞎子 当聋子的去信任一个人，你也知道世界上最可悲的就是自我欺骗，但是人笨过傻过瞎过就够了，你更要懂得爱自己，而不是一直重蹈覆辙，还自以为多痴情。</p>
-        <p class="date-tumblr">2015-2-25</p>
+        <p class="text-tumblr">@Model.Text</p>
+        <p class="date-tumblr">@Model.CreateTime</p>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
     </div>
@@ -16,12 +17,12 @@
                 <button class="btn btn-default" type="button">评论</button>
             </span>
         </div><!-- /input-group -->
-        @for (var i = 0; i < 21; i++)
+        @foreach (var comment in Model.Comments)
         {
             <div>
                 <hr class="hr-comment" />
-                <a>张磊</a>
-                <p class="text-comment">我非常同意上边这段话，特别是被北海道甩了的那一天，她对我说的每一句话都深深地刻在我心里，然而我却只对她说了一句“Hi”。</p>
+                <a>@comment.UserName</a>
+                <p class="text-comment">@comment.Text</p>
             </div>
         }
     </div>

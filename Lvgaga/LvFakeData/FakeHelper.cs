@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Blob;
@@ -25,50 +27,55 @@ namespace LvFakeData
 
         }
 
-        public async Task UploadTestTumblrs(ICommand command = null)
+        public async Task UploadTestTumblrs()
         {
-            if (command == null)
-            {
-                //command = new UploadFromStreamCommand(
-                //new CreateTumblrCommand(
-                //    new CreateTableEntityCommand(
-                //        new ChangeTumblrRowkeyToZeroCommand(
-                //            new CreateTableEntityCommand()))) { TableEntityFactory = new TableEntityFactory() });
-
-                //command = new UploadFromStreamCommand(
-                //    new CreateTumblrCommand(
-                //        new CreateTableEntitiesCommand()) { TableEntityFactory = new TableEntityFactory() });
-
-                command = new CreateTableEntitiesCommand(
+            ICommand createTumblrCommand = new CreateTableEntitiesCommand(
                     new CreateTumblrCommand(
                         new UploadFromStreamCommand()) { TableEntityFactory = new TableEntityFactory() });
-            }
+
+            ICommand createCommentCommand = new CreateTableEntityCommand(
+                new CreateCommentCommand() { TableEntityFactory = new TableEntityFactory() });
 
             foreach (var testImage in GetTestImages())
             {
                 using (Stream stream = File.OpenRead(testImage))
                 {
                     // upload
-                    dynamic p = new ExpandoObject();
+                    dynamic pTumblr = new ExpandoObject();
 
                     // Blob
-                    p.Container = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
-                    p.Stream = stream;
-                    p.BlobName = Path.GetFileName(testImage);
+                    pTumblr.Container = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
+                    pTumblr.Stream = stream;
+                    pTumblr.BlobName = Path.GetFileName(testImage);
 
                     // Create Tumblr
-                    p.PartitionKey = LvConstants.PartitionKeyOfImage;
-                    p.TumblrText = new TumblrText
+                    pTumblr.PartitionKey = LvConstants.PartitionKeyOfImage;
+                    pTumblr.TumblrText = new TumblrText
                     {
                         Text = "你也曾当过笨蛋，也曾试着当瞎子当聋子的去信任一个人，你也知道世界上最可悲的就是自我欺骗，但是人笨过傻过瞎过就够了，你更要懂得爱自己，而不是一直重蹈覆辙，还自以为多痴情。",
                         Category = TumblrCategory.C1
                     };
 
                     // Table
-                    p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
+                    pTumblr.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
 
                     // Execute
-                    await command.ExecuteAsync(p);
+                    await createTumblrCommand.ExecuteAsync(pTumblr);
+
+                    // Create Comment
+                    TumblrEntity tumblrEntity = pTumblr.Entity;
+                    dynamic pComment = new ExpandoObject();
+                    pComment.PartitionKey = tumblrEntity.RowKey.Substring(2);
+                    pComment.UserId = "UserID@" + Guid.NewGuid();
+                    pComment.UserName = "张磊";
+                    pComment.Text = "我非常同意上边这段话，特别是被北海道甩了的那一天，她对我说的每一句话都深深地刻在我心里，然而我却只对她说了一句“Hi”。";
+                    pComment.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
+
+                    for (var i = 0; i < 12; i++)
+                    {
+                        // Execute
+                        await createCommentCommand.ExecuteAsync(pComment);
+                    }
                 }
             }
         }
