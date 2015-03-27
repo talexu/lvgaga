@@ -56,7 +56,7 @@ namespace Lvgaga
             const string emptyTumblrReader = "Empty/TumblrReader";
             container.RegisterType<ITableEntitiesCommand, ReadTumblrEntityWithCategoryCommand>(emptyTumblrReader,
                 new InjectionConstructor());
-            const string homeEntitiesReader = "Home/EntitiesReader";
+            const string homeEntitiesReader = "Tumblr/EntitiesReader";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(homeEntitiesReader,
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyTumblrReader)));

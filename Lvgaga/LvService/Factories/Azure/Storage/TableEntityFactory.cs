@@ -16,12 +16,7 @@ namespace LvService.Factories.Azure.Storage
             string mediaUri = p.MediaUri;
             TumblrText tumblrText = p.TumblrText;
 
-            DateTime now;
-            do
-            {
-                now = DateTime.UtcNow;
-            } while (_lastTime.Equals(now));
-            _lastTime = now;
+            var now = GetUtcNow();
 
             return new TumblrEntity(partitionKey,
                 string.Format("{0}_{1}", tumblrText.Category.ToString("D"), DateTimeHelper.GetInvertedTicks(now)))
@@ -29,8 +24,39 @@ namespace LvService.Factories.Azure.Storage
                 MediaUri = mediaUri,
                 Text = tumblrText.Text,
                 CreateTime = now,
-                State = TumblrState.Active
+                State = EntityState.Active
             };
+        }
+
+        public ITableEntity CreateCommentEntity(dynamic p)
+        {
+            string partitionKey = p.PartitionKey;
+            string userId = p.UserId;
+            string userName = p.UserName;
+            string text = p.Text;
+
+            var now = GetUtcNow();
+
+            return new CommentEntity(partitionKey, DateTimeHelper.GetInvertedTicks(now))
+            {
+                UserId = userId,
+                UserName = userName,
+                Text = text,
+                CommentTime = now,
+                State = EntityState.Active
+            };
+        }
+
+        private DateTime GetUtcNow()
+        {
+            DateTime now;
+            do
+            {
+                now = DateTime.UtcNow;
+            } while (_lastTime.Equals(now));
+            _lastTime = now;
+
+            return now;
         }
     }
 }

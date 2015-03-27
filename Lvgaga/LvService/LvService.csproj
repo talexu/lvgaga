@@ -99,7 +99,7 @@
     <Compile Include="Commands\Azure\Storage\Table\DeleteTableEntityCommand.cs" />
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntityCommand.cs" />
-    <Compile Include="Commands\Tumblr\ChangeTumblrRowkeyToZeroCommand.cs" />
+    <Compile Include="Commands\Tumblr\CreateCommentCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrEntityWithCategoryCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />

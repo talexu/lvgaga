@@ -14,9 +14,9 @@ namespace LvService.Tests.Factories
         }
 
         [Theory]
-        [InlineData("comments", "http://www.lvgaga.com/comments")]
-        [InlineData("comments/1", "http://www.lvgaga.com/comments/1")]
-        [InlineData("", "http://www.lvgaga.com/")]
+        [InlineData("comments", "/comments")]
+        [InlineData("comments/1", "/comments/1")]
+        [InlineData("", "/")]
         public void CreateUri_Return_CorrectUri(string path, string expected)
         {
             Assert.Equal(expected, _fixture.UriFactory.CreateUri(path));
@@ -25,7 +25,7 @@ namespace LvService.Tests.Factories
         [Fact]
         public void CreateUri_Return_CorrectUri_PathCombine()
         {
-            Assert.Equal("http://www.lvgaga.com/comments/1",
+            Assert.Equal("/comments/1",
                 _fixture.UriFactory.CreateUri(Path.Combine("comments", "1")));
         }
     }

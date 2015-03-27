@@ -26,7 +26,7 @@ namespace LvService.Factories.Uri
         public string CreateUri(string path)
         {
             _uriBuilder.Path = path;
-            return _uriBuilder.Uri.AbsoluteUri;
+            return _uriBuilder.Uri.AbsolutePath;
         }
     }
 }

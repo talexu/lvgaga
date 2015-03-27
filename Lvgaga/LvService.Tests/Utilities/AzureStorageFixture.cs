@@ -48,6 +48,12 @@ namespace LvService.Tests.Utilities
         public ReadTableEntitiesCommand ReadTumblrEntityWithCategoryCommand =
             new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand());
 
+        // Comment
+        public CreateCommentCommand CreateCommentCommand = new CreateCommentCommand
+        {
+            TableEntityFactory = new TableEntityFactory()
+        };
+
         public AzureStorageFixture()
         {
             //AzureStorage = new AzureStorageDb();

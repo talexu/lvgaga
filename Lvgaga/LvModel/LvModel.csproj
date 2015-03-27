@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Azure\StorageQueue\CreateThumbnailMessage.cs" />
     <Compile Include="Azure\StorageTable\CommentEntity.cs" />
+    <Compile Include="Azure\StorageTable\EntityState.cs" />
     <Compile Include="Azure\StorageTable\FavoriteEntity.cs" />
     <Compile Include="Azure\StorageTable\TumblrEntity.cs" />
     <Compile Include="Common\LvConstants.cs" />

@@ -36,7 +36,7 @@ namespace LvService.Tests.Factories
                     DateTimeHelper.GetInvertedTicks(data.CreateTime)), data.RowKey);
             Assert.Equal(p.MediaUri, data.MediaUri);
             Assert.Equal(p.TumblrText.Text, data.Text);
-            Assert.Equal(TumblrState.Active, data.State);
+            Assert.Equal(EntityState.Active, data.State);
         }
     }
 }

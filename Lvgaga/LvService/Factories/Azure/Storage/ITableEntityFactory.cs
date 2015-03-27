@@ -5,5 +5,6 @@ namespace LvService.Factories.Azure.Storage
     public interface ITableEntityFactory
     {
         ITableEntity CreateTumblrEntity(dynamic p);
+        ITableEntity CreateCommentEntity(dynamic p);
     }
 }
