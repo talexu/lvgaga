@@ -8,6 +8,7 @@ using LvService.DbContexts;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
 using LvService.Services;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Lvgaga.Controllers
 {
@@ -18,8 +19,8 @@ namespace Lvgaga.Controllers
         public HomeController()
         {
             _tumblrService = new TumblrService(
-                new AzureStoragePool(new AzureStorageDb()),
-                new ReadTumblrEntityWithCategoryCommand(new ReadTableEntitiesCommand()),
+                new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount)),
+                new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand()),
                 new TumblrFactory(new UriFactory()));
         }
 
@@ -31,7 +32,7 @@ namespace Lvgaga.Controllers
         public async Task<ActionResult> Index()
         {
             //return View(await FakeDataHelper.GetFakeTumblrModelsAsync());
-            return View(await _tumblrService.GetTumblrModelsAsync(Constants.ImagePartitionKey, TumblrCategory.All, 20));
+            return View(await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20));
         }
 
         public ActionResult About()

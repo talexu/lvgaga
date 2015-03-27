@@ -91,96 +91,106 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\images\03c3ff2b-17c8-4044-90a0-9638287562ff.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\0f5d8e7e-40f0-42ff-88b3-595c8d1685a1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\19017241-7604-4f8e-8906-5623969cb6c8.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\3557cc77-df20-47e7-9a19-1966c0e3a9b8.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\3709a33d-29a1-4ed3-a15c-4b94fc1e8dc9.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\4410c245-19e4-40b4-9338-666ec768f997.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\4ca81f89-b2ed-48f1-adb2-26aa41bc9e55.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\5ab4e924-73bb-4c6b-9c01-ff6f516e2a66.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\5d12bae2-fa8c-4ae0-8d5f-5bdc12cb6e3f.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\650ba37a-974d-4757-8fa6-7ac0c0e79ceb.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\75d0ca5b-6067-4412-83bc-3028fb3c7272.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\7911f955-43d5-4ef7-a1d5-351a38bdfdb2.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\7d0915ea-ecfe-42f7-bec6-30935f48ad89.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\841063af-a954-4297-8229-cc269ee9f466.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\8691513b-ca2e-4406-a914-bf07401dac7a.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\8941a5a3-4896-4a09-b877-73db43473f10.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\8be79383-9977-4162-bf9e-7b01d18a54d2.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\93eb1e4f-2ac4-401e-a060-ca71e6ee39e5.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\963c32e8-4796-44da-836e-184c84a05c2e.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\98ba9e9a-75e2-481b-b21c-d7d215c9290e.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\a09c18c7-8cf9-4155-a1f6-0ae1fe69b0a8.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\a83304f6-e449-46c7-be1b-9f2fc4a800b8.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\c1f7cad6-23aa-4a32-b428-dd3a8b15b925.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\ca0e48b3-9ca9-4d49-a008-8b4c5b863be3.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\d0db90c6-82ee-43df-901e-df8e90e6d9be.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\dc74fa11-5449-4d50-bb46-05909fafdea4.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\dcc8b4ba-c9cf-412e-a470-ef28c72e6ad3.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\ec70a6ba-0517-4fb6-bce1-f363f9ea5546.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\f35471d8-b3b7-4c06-8553-a51bc03bed9d.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\images\f75d5548-3e04-4371-a111-96e5fdacdf0f.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Resources\images\000a96a3-75bd-4b6b-8b3d-8fd0deda8057.jpg" />
+    <Content Include="Resources\images\00d75eaf-e19d-4236-8321-5dbdf117e114.jpg" />
+    <Content Include="Resources\images\00db95ba-b973-414c-8543-1462c01be5d2.jpg" />
+    <Content Include="Resources\images\00fde273-a16f-47c1-8830-56710b8fd371.jpg" />
+    <Content Include="Resources\images\01ed448e-b888-4697-9ff2-1300c4a77dfe.jpg" />
+    <Content Include="Resources\images\01f22a94-bdc3-4df5-90a9-9e9ab184ec92.jpg" />
+    <Content Include="Resources\images\02a094d9-2d02-4168-854e-ace6d83f3494.jpg" />
+    <Content Include="Resources\images\02a1f2df-1d1f-4fab-80ff-3ae3f0c62674.jpg" />
+    <Content Include="Resources\images\02ea396b-ba2a-4f4a-bb15-ed6952e1d66e.jpg" />
+    <Content Include="Resources\images\02ef63a1-2574-49a8-8e15-f1d01965620e.jpg" />
+    <Content Include="Resources\images\03e1195d-8ae9-4726-9777-49bacda33864.jpg" />
+    <Content Include="Resources\images\0a40546c-1e54-44d2-b06d-c1a1df59e395.jpg" />
+    <Content Include="Resources\images\0a75f7da-ae77-48a4-98ee-a0adfdd43200.jpg" />
+    <Content Include="Resources\images\0a8fc7db-88f1-42bd-9e86-b2958f83485c.jpg" />
+    <Content Include="Resources\images\0b0ca203-9c7b-4dc7-9f2c-7a1a90eeaaab.jpg" />
+    <Content Include="Resources\images\0b2e5bb6-f7a8-4495-aea4-0c779da76a24.jpg" />
+    <Content Include="Resources\images\0b5ca56f-8b66-42a7-9797-b38a28fec7a6.jpg" />
+    <Content Include="Resources\images\0b8f0b8f-f1f3-49b6-b21d-de1dbe62efec.jpg" />
+    <Content Include="Resources\images\0bc4c884-f607-41a2-a800-f92debee3fd3.jpg" />
+    <Content Include="Resources\images\0bc9f999-a4ec-4ada-969d-f9f28e43b563.jpg" />
+    <Content Include="Resources\images\0c093397-12d4-4800-ad15-adb4c78fa361.jpg" />
+    <Content Include="Resources\images\0c50be63-e0db-452f-8255-889bd694bc2d.jpg" />
+    <Content Include="Resources\images\0ce23a71-bb41-4e15-8e04-98c6435c9c31.jpg" />
+    <Content Include="Resources\images\0d4b5f29-937d-4e0e-af8c-aaab6d681d54.jpg" />
+    <Content Include="Resources\images\0d52b48a-b6ea-47bb-a877-c75cea66e2ab.jpg" />
+    <Content Include="Resources\images\0dafd4bb-95af-4b2e-beaa-6ea015ac7feb.jpg" />
+    <Content Include="Resources\images\0e7aa65e-6d9a-4117-8532-2b96eeb3b4d1.jpg" />
+    <Content Include="Resources\images\0e87522e-5db7-4acd-8188-fe87578a942c.jpg" />
+    <Content Include="Resources\images\0e8d3973-fada-4049-95bf-fc75c37799d4.jpg" />
+    <Content Include="Resources\images\0ecc4de2-fc24-4e59-be3d-48e0eeeb411a.jpg" />
+    <Content Include="Resources\images\0eec2314-375a-4d5a-8a23-8878e7cf0247.jpg" />
+    <Content Include="Resources\images\0fb6a789-dff0-4a60-af66-47d43f2febab.jpg" />
+    <Content Include="Resources\images\0fbc2bdf-80e9-4ad0-b943-348638de5d21.jpg" />
+    <Content Include="Resources\images\0fd8a482-3140-4301-9d34-c0ffed1a64ed.jpg" />
+    <Content Include="Resources\images\0fec1c95-4d06-4cc9-a5fb-1d46170eb05a.jpg" />
+    <Content Include="Resources\images\1a0bf754-718f-4f5e-8368-fc16362e4288.jpg" />
+    <Content Include="Resources\images\1a6de845-1362-4489-8340-ac7c785e63f2.jpg" />
+    <Content Include="Resources\images\1acb1075-04a6-422f-9147-f464f336d856.jpg" />
+    <Content Include="Resources\images\1ad7fb51-3a95-43da-9763-503c6194f21c.jpg" />
+    <Content Include="Resources\images\1adcc188-bf62-4ed3-b847-7d78a01cc699.jpg" />
+    <Content Include="Resources\images\1b5cfc17-673f-4c4a-aa35-428ff2d4229e.jpg" />
+    <Content Include="Resources\images\1b74bc50-5e91-4eb4-9f0a-896e8cbc27c2.jpg" />
+    <Content Include="Resources\images\1b79f7de-53e0-4aa8-96af-b152cea608b5.jpg" />
+    <Content Include="Resources\images\1b7dabd8-065f-46a5-921a-fd0d81de788a.jpg" />
+    <Content Include="Resources\images\1ba12d73-3d21-4a4f-bb03-18f0dcca121a.jpg" />
+    <Content Include="Resources\images\1bb00499-51a9-4183-90f6-12eaf47ae6cf.jpg" />
+    <Content Include="Resources\images\1c4e394f-f07a-4926-b4e8-a8c4f99a9583.jpg" />
+    <Content Include="Resources\images\1c62b9e5-54af-4ed7-8e4d-64a743a824ee.jpg" />
+    <Content Include="Resources\images\1c84e16e-5150-4a50-8f51-d6cb5c7531bc.jpg" />
+    <Content Include="Resources\images\1ccf598d-1628-443e-baa9-84732b66c34e.jpg" />
+    <Content Include="Resources\images\1ce7b203-00f8-42b0-95aa-a6308c98bacc.jpg" />
+    <Content Include="Resources\images\1ceb74d5-6b95-4f95-8b60-7f9c8cb94289.jpg" />
+    <Content Include="Resources\images\1cf52595-73a4-4f04-88ba-a86b5db8f8db.jpg" />
+    <Content Include="Resources\images\1d2f76fb-35c0-4377-8015-dee29370d242.jpg" />
+    <Content Include="Resources\images\1d79f322-d043-4f25-a8a0-e96ee695287a.jpg" />
+    <Content Include="Resources\images\1db60100-e2fb-4c8c-b129-aaddce197efc.jpg" />
+    <Content Include="Resources\images\1e02a94f-6906-4939-8de1-957ad70ad43b.jpg" />
+    <Content Include="Resources\images\1ea6ef75-9c32-43a3-9eaf-57b2f87c8f95.jpg" />
+    <Content Include="Resources\images\1efc77aa-6191-40e4-ba77-68ec7d27cfc6.jpg" />
+    <Content Include="Resources\images\2a4d0f10-af8b-407c-9657-bce71d139afd.jpg" />
+    <Content Include="Resources\images\2a959c0c-53d7-44db-8caf-4e700d97d873.jpg" />
+    <Content Include="Resources\images\2aac6373-be87-4816-950b-fcd421275f09.jpg" />
+    <Content Include="Resources\images\2ab2c7ea-05af-458a-9b5d-1801b957f408.jpg" />
+    <Content Include="Resources\images\2ae0dced-ccae-432a-b7f1-c98859b288b9.jpg" />
+    <Content Include="Resources\images\2aedca2b-6f44-4687-a6c7-615ceee055e1.jpg" />
+    <Content Include="Resources\images\2af4777b-3fae-4fad-b831-dee0f56869ba.jpg" />
+    <Content Include="Resources\images\2afcb06b-60bd-44d9-82c3-e3e6216e8ac2.jpg" />
+    <Content Include="Resources\images\2b1f3293-a003-4bd9-bb2a-7347be74f821.jpg" />
+    <Content Include="Resources\images\2b32ebc8-b6e5-4a63-953c-e91d6d75a86f.jpg" />
+    <Content Include="Resources\images\2b51771f-e707-4b03-bb78-1324378e98b2.jpg" />
+    <Content Include="Resources\images\2c775892-3aa2-46a4-86f9-31181fa0412d.jpg" />
+    <Content Include="Resources\images\2c827e8f-b51d-4713-83da-ae2164560260.jpg" />
+    <Content Include="Resources\images\2cc00ace-0f79-4cea-8b78-555602a0d382.jpg" />
+    <Content Include="Resources\images\2d16a6d9-cace-488b-965a-20754698f368.jpg" />
+    <Content Include="Resources\images\2d51227a-13d1-45af-99ec-40df7f647358.jpg" />
+    <Content Include="Resources\images\2d6e52fd-5276-4e21-867d-a6116e6cea78.jpg" />
+    <Content Include="Resources\images\2dc5b22f-adee-493d-869b-fd7a251b408e.jpg" />
+    <Content Include="Resources\images\2ddbb642-8be7-4e8b-b291-6dbda0b6333f.jpg" />
+    <Content Include="Resources\images\2de9a2f7-e891-409c-aff3-a304563286f2.jpg" />
+    <Content Include="Resources\images\2e1ce5c5-0606-4829-b07c-601650ac9ab7.jpg" />
+    <Content Include="Resources\images\2e2660da-2d74-4dc6-b5c5-106bee386953.jpg" />
+    <Content Include="Resources\images\2e46dce3-4275-47ef-ba14-3501b0c579f6.jpg" />
+    <Content Include="Resources\images\2e47dfa5-0ace-4769-9aff-d3d6b8d11d24.jpg" />
+    <Content Include="Resources\images\2e5cf4ea-aca1-4d6a-becc-5d2ceb71030c.jpg" />
+    <Content Include="Resources\images\2e6d4d27-162a-46d8-a676-c761e983c0b8.jpg" />
+    <Content Include="Resources\images\2eb7eb6c-9a69-4998-9494-ac02cdc4b49c.jpg" />
+    <Content Include="Resources\images\2ecf388d-444b-490c-91e7-321a5aa9960e.jpg" />
+    <Content Include="Resources\images\2ef698dd-56bb-4651-8809-173c9b5b1a66.jpg" />
+    <Content Include="Resources\images\2f08fcda-1a97-40ac-969a-04a996235a7a.jpg" />
+    <Content Include="Resources\images\2f0e0448-2fed-4042-930a-362a1d282ac9.jpg" />
+    <Content Include="Resources\images\2f577786-264c-4481-8e1d-c743b03a085a.jpg" />
+    <Content Include="Resources\images\2f634791-42f2-44e5-a6db-c0d2c30f21de.jpg" />
+    <Content Include="Resources\images\2f7851dd-e3c9-45c6-b51a-37479c813f1e.jpg" />
+    <Content Include="Resources\images\2fbec678-06ec-43d1-bb7b-db678f138fca.jpg" />
+    <Content Include="Resources\images\2fc1be63-48ad-4ac9-9395-1cede903e054.jpg" />
+    <Content Include="Resources\images\3a230868-6308-42b2-bb6e-8960a87ba590.jpg" />
+    <Content Include="Resources\images\3a574939-7f62-4367-b9cc-7914fe749a9b.jpg" />
+    <Content Include="Resources\images\3a6cda83-49c0-4d08-b4d4-e5399dcaad26.jpg" />
+    <Content Include="Resources\images\3abfaad8-5b77-44b4-a22a-7ab05a9f9b2a.jpg" />
+    <Content Include="Resources\images\3b40a530-1b85-423e-b65c-6f14cf114d22.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
