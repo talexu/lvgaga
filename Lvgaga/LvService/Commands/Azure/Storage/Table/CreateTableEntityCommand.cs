@@ -7,12 +7,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class CreateTableEntityCommand : TableCudCommand
     {
-        public CreateTableEntityCommand()
-        {
-
-        }
-
-        public CreateTableEntityCommand(ICommand command)
+        public CreateTableEntityCommand(ICommand command = null)
             : base(command)
         {
 

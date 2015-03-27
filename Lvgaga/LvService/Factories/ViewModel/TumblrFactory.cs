@@ -12,11 +12,6 @@ namespace LvService.Factories.ViewModel
         private const string CommentControllerName = "comments";
         private readonly IUriFactory _uriFactory;
 
-        public TumblrFactory()
-        {
-
-        }
-
         public TumblrFactory(IUriFactory uriFactory)
         {
             _uriFactory = uriFactory;

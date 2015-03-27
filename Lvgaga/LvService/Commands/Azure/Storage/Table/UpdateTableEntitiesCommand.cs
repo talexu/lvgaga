@@ -7,12 +7,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class UpdateTableEntitiesCommand : TableCudBatchCommand
     {
-        public UpdateTableEntitiesCommand()
-        {
-
-        }
-
-        public UpdateTableEntitiesCommand(ICommand command)
+        public UpdateTableEntitiesCommand(ICommand command = null)
             : base(command)
         {
 

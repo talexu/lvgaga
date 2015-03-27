@@ -6,12 +6,7 @@ namespace LvService.Commands.Common
     {
         public ICommand PreviousCommand { get; set; }
 
-        public CommandChain()
-        {
-
-        }
-
-        public CommandChain(ICommand command)
+        public CommandChain(ICommand command = null)
         {
             PreviousCommand = command;
         }

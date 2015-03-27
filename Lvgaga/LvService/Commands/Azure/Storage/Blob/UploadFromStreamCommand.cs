@@ -10,12 +10,7 @@ namespace LvService.Commands.Azure.Storage.Blob
     {
         private Stream _source;
 
-        public UploadFromStreamCommand()
-        {
-
-        }
-
-        public UploadFromStreamCommand(ICommand command)
+        public UploadFromStreamCommand(ICommand command = null)
             : base(command)
         {
 

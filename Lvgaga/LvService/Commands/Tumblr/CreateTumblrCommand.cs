@@ -17,12 +17,7 @@ namespace LvService.Commands.Tumblr
         private string _mediaUri;
         private TumblrText _tumblrText;
 
-        public CreateTumblrCommand()
-        {
-
-        }
-
-        public CreateTumblrCommand(ICommand command)
+        public CreateTumblrCommand(ICommand command = null)
             : base(command)
         {
 

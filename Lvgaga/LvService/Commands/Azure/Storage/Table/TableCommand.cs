@@ -8,12 +8,7 @@ namespace LvService.Commands.Azure.Storage.Table
     {
         protected CloudTable Table { get; private set; }
 
-        public TableCommand()
-        {
-
-        }
-
-        public TableCommand(ICommand command)
+        public TableCommand(ICommand command = null)
             : base(command)
         {
 

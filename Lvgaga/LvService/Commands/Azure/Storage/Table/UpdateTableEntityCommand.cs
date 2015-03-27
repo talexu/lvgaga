@@ -7,12 +7,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class UpdateTableEntityCommand : TableCudCommand
     {
-        public UpdateTableEntityCommand()
-        {
-
-        }
-
-        public UpdateTableEntityCommand(ICommand command)
+        public UpdateTableEntityCommand(ICommand command = null)
             : base(command)
         {
 

@@ -11,12 +11,7 @@ namespace LvService.Commands.Azure.Storage.Blob
         protected CloudBlobContainer Container;
         protected string BlobName;
 
-        public DownloadToStreamCommand()
-        {
-
-        }
-
-        public DownloadToStreamCommand(IDownloadToStreamCommand command)
+        public DownloadToStreamCommand(IDownloadToStreamCommand command = null)
             : base(command)
         {
 

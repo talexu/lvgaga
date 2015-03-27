@@ -6,12 +6,7 @@ namespace LvService.Commands.Azure.Storage.Blob
 {
     public class DeleteBlobCommand : BlobCrudCommand
     {
-        public DeleteBlobCommand()
-        {
-
-        }
-
-        public DeleteBlobCommand(ICommand command)
+        public DeleteBlobCommand(ICommand command = null)
             : base(command)
         {
 

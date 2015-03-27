@@ -9,12 +9,7 @@ namespace LvService.Commands.Azure.Storage.Table
     {
         protected ITableEntity Entity { get; private set; }
 
-        public TableCudCommand()
-        {
-
-        }
-
-        public TableCudCommand(ICommand command)
+        public TableCudCommand(ICommand command = null)
             : base(command)
         {
 

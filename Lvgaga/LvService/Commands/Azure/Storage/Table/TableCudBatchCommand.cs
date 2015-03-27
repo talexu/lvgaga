@@ -11,12 +11,7 @@ namespace LvService.Commands.Azure.Storage.Table
     {
         protected IEnumerable<ITableEntity> Entities { get; private set; }
 
-        public TableCudBatchCommand()
-        {
-
-        }
-
-        public TableCudBatchCommand(ICommand command)
+        public TableCudBatchCommand(ICommand command = null)
             : base(command)
         {
 

@@ -7,12 +7,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class DeleteTableEntityCommand : TableCudCommand
     {
-        public DeleteTableEntityCommand()
-        {
-
-        }
-
-        public DeleteTableEntityCommand(ICommand command)
+        public DeleteTableEntityCommand(ICommand command = null)
             : base(command)
         {
 

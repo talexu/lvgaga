@@ -11,18 +11,13 @@ namespace LvService.Commands.Azure.Storage.Table
         public string PartitionKey { get; private set; }
         public string RowKey { get; private set; }
 
-        public ReadTableEntityCommand()
-        {
-
-        }
-
-        public ReadTableEntityCommand(ITableEntityCommand command)
+        public ReadTableEntityCommand(ITableEntityCommand command = null)
             : base(command)
         {
 
         }
 
-        public new bool CanExecute<T>(dynamic p)
+        public new bool CanExecute(dynamic p)
         {
             try
             {
@@ -41,7 +36,7 @@ namespace LvService.Commands.Azure.Storage.Table
         {
             await base.ExecuteAsync<T>(p as ExpandoObject);
 
-            if (!CanExecute<T>(p)) return default(T);
+            if (!CanExecute(p)) return default(T);
 
             var retrieveOperation = TableOperation.Retrieve<T>(PartitionKey, RowKey);
             return (T)(await Table.ExecuteAsync(retrieveOperation)).Result;
