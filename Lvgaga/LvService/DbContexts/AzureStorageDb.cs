@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -10,12 +11,12 @@ namespace LvService.DbContexts
         private readonly CloudBlobClient _blobClient;
         private readonly CloudTableClient _tableClient;
 
-        public AzureStorageDb()
+        public AzureStorageDb(CloudStorageAccount storageAccount = null)
         {
-            //StorageAccount =
-            //    CloudStorageAccount.Parse(
-            //       WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString);
-            var storageAccount = CloudStorageAccount.DevelopmentStorageAccount;
+            storageAccount = storageAccount ??
+                             CloudStorageAccount.Parse(
+                                 WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString);
+            //storageAccount = CloudStorageAccount.DevelopmentStorageAccount;
             _blobClient = storageAccount.CreateCloudBlobClient();
             _tableClient = storageAccount.CreateCloudTableClient();
         }

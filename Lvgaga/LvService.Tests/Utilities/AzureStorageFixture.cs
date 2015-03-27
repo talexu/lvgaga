@@ -5,6 +5,7 @@ using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Tests.Utilities
@@ -50,7 +51,7 @@ namespace LvService.Tests.Utilities
         public AzureStorageFixture()
         {
             //AzureStorage = new AzureStorageDb();
-            AzureStorage = new AzureStoragePool(new AzureStorageDb());
+            AzureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
         }
 
         public string GetRandomName(string prefix)

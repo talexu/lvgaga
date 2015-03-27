@@ -11,6 +11,7 @@ using LvService.Commands.Common;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
+using Microsoft.WindowsAzure.Storage;
 
 namespace LvFakeData
 {
@@ -20,7 +21,7 @@ namespace LvFakeData
 
         public FakeHelper()
         {
-            _azureStorage = new AzureStoragePool(new AzureStorageDb());
+            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
 
         }
 
