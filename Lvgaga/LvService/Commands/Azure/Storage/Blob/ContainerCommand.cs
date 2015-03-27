@@ -8,7 +8,12 @@ namespace LvService.Commands.Azure.Storage.Blob
     {
         protected CloudBlobContainer Container;
 
-        public ContainerCommand(ICommand command = null)
+        public ContainerCommand()
+        {
+
+        }
+
+        public ContainerCommand(ICommand command)
             : base(command)
         {
 

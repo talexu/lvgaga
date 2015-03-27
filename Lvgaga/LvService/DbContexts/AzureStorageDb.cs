@@ -11,7 +11,7 @@ namespace LvService.DbContexts
         private readonly CloudBlobClient _blobClient;
         private readonly CloudTableClient _tableClient;
 
-        public AzureStorageDb(CloudStorageAccount storageAccount = null)
+        public AzureStorageDb(CloudStorageAccount storageAccount)
         {
             storageAccount = storageAccount ??
                              CloudStorageAccount.Parse(

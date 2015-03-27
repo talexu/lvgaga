@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using LvModel.Common;
 using LvModel.View.Tumblr;
@@ -16,14 +17,6 @@ namespace Lvgaga.Controllers
     {
         private readonly ITumblrService _tumblrService;
 
-        public HomeController()
-        {
-            _tumblrService = new TumblrService(
-                new AzureStoragePool(new AzureStorageDb()),
-                new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand()),
-                new TumblrFactory(new UriFactory()));
-        }
-
         public HomeController(ITumblrService tumblrService)
         {
             _tumblrService = tumblrService;
@@ -31,8 +24,8 @@ namespace Lvgaga.Controllers
 
         public async Task<ActionResult> Index()
         {
-            //return View(await FakeDataHelper.GetFakeTumblrModelsAsync());
-            return View(await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20));
+            return
+                View(await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20));
         }
 
         public ActionResult About()
