@@ -19,7 +19,7 @@ namespace Lvgaga.Controllers
         public HomeController()
         {
             _tumblrService = new TumblrService(
-                new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount)),
+                new AzureStoragePool(new AzureStorageDb()),
                 new ReadTableEntitiesCommand(new ReadTumblrEntityWithCategoryCommand()),
                 new TumblrFactory(new UriFactory()));
         }
