@@ -391,6 +391,7 @@
     <Content Include="Views\Tumblr\Index.Mobile.cshtml" />
     <Content Include="Views\Comment\Get.cshtml" />
     <Content Include="Views\Comment\Get.Mobile.cshtml" />
+    <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
