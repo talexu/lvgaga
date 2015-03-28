@@ -9,6 +9,11 @@ namespace Lvgaga.Controllers
     {
         private readonly ICommentService _commentService;
 
+        public CommentController()
+        {
+            
+        }
+
         public CommentController(ICommentService commentService)
         {
             _commentService = commentService;

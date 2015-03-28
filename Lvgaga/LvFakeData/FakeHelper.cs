@@ -34,7 +34,7 @@ namespace LvFakeData
                         new UploadFromStreamCommand()) { TableEntityFactory = new TableEntityFactory() });
 
             ICommand createCommentCommand = new CreateTableEntityCommand(
-                new CreateCommentCommand() { TableEntityFactory = new TableEntityFactory() });
+                new CreateCommentCommand { TableEntityFactory = new TableEntityFactory() });
 
             foreach (var testImage in GetTestImages())
             {

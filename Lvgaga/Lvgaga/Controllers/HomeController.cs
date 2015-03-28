@@ -1,12 +1,30 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using LvModel.Common;
+using LvModel.View.Tumblr;
+using LvService.Services;
 
 namespace Lvgaga.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly ITumblrService _tumblrService;
+
+        public HomeController()
         {
-            return View();
+
+        }
+
+        public HomeController(ITumblrService tumblrServic)
+        {
+            _tumblrService = tumblrServic;
+        }
+
+        // GET: Tumblr
+        public async Task<ActionResult> Index()
+        {
+            return
+                View(await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20));
         }
 
         public ActionResult About()

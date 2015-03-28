@@ -5,6 +5,7 @@ using LvModel.Common;
 using LvModel.View.Comment;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
+using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
@@ -14,16 +15,33 @@ namespace LvService.Services
     public class CommentService : ICommentService
     {
         private readonly IAzureStorage _azureStorage;
-        private readonly ITumblrService _tumblrService;
+        private readonly ICommand _createCommentCommand;
         private readonly ITableEntitiesCommand _entitiesCommand;
+        private readonly ITumblrService _tumblrService;
+
         private readonly ICommentFactory _commentFactory;
 
-        public CommentService(IAzureStorage azureStorage, ITumblrService tumblrService, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory)
+        public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory)
         {
             _azureStorage = azureStorage;
+            _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
             _entitiesCommand = entitiesCommand;
             _commentFactory = commentFactory;
+        }
+
+        public async Task<bool> CreateCommentAsync(string partitionKey, PostedComment comment)
+        {
+            dynamic p = new ExpandoObject();
+            p.PartitionKey = partitionKey;
+            p.UserId = comment.UserId;
+            p.UserName = comment.UserName;
+            p.Text = comment.Text;
+            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
+
+            await _createCommentCommand.ExecuteAsync(p);
+
+            return true;
         }
 
         public async Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount)

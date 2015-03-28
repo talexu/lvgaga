@@ -1,9 +1,10 @@
 using System;
-using System.Web.Configuration;
 using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
+using LvService.Commands.Common;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
+using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
 using LvService.Services;
@@ -51,9 +52,9 @@ namespace Lvgaga.App_Start
             container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
 
             // Cloud
-            container.RegisterInstance(CloudStorageAccount.Parse(
-                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
-            //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
+            //container.RegisterInstance(CloudStorageAccount.Parse(
+            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(AzureStorageDb)));
 
@@ -88,12 +89,18 @@ namespace Lvgaga.App_Start
             const string commentEntitiesReader = "comments://entities/reader";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
+            container.RegisterType<CreateCommentCommand, CreateCommentCommand>(new InjectionConstructor(),
+                new InjectionProperty("TableEntityFactory", typeof (TableEntityFactory)));
+            const string createCommentCommand = "post:comments://entity";
+            container.RegisterType<ICommand, CreateTableEntityCommand>(createCommentCommand,
+                new InjectionConstructor(typeof(CreateCommentCommand)));
 
             container.RegisterType<ICommentFactory, CommentFactory>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<ICommentService, CommentService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     typeof(IAzureStorage),
+                    new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
                     typeof(ICommentFactory)));
