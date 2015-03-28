@@ -24,6 +24,7 @@
                 <div>
                     <hr class="hr-comment" />
                     <a>@comment.UserName</a>
+                    <p class="date-comment pull-right">@comment.CommentTime.ToString("d")</p>
                     <p class="text-comment">@comment.Text</p>
                 </div>
             }
@@ -45,6 +46,7 @@
                 cms.prepend($("<div></div>").
                     append($("<hr></hr>").addClass("hr-comment")).
                     append($("<a></a>").text(data.UserName)).
+                    append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
                     append($("<p></p>").addClass("text-comment").text(data.Text)));
                 txb.val("");
             });
