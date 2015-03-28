@@ -3,6 +3,7 @@ using System.Linq;
 using LvModel.Azure.StorageTable;
 using LvModel.View.Comment;
 using LvModel.View.Tumblr;
+using LvService.Factories.Uri;
 
 namespace LvService.Factories.ViewModel
 {
@@ -35,7 +36,7 @@ namespace LvService.Factories.ViewModel
             return new CommentModel()
             {
                 PartitionKey = tumblr.PartitionKey,
-                RowKey = tumblr.RowKey,
+                RowKey = UriFactory.GetInvertedTicks(tumblr.RowKey),
                 Uri = tumblr.Uri,
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,

@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
@@ -30,7 +31,7 @@ namespace LvService.Services
             _commentFactory = commentFactory;
         }
 
-        public async Task<bool> CreateCommentAsync(string partitionKey, PostedComment comment)
+        public async Task<CommentEntity> CreateCommentAsync(string partitionKey, PostedComment comment)
         {
             dynamic p = new ExpandoObject();
             p.PartitionKey = partitionKey;
@@ -40,8 +41,7 @@ namespace LvService.Services
             p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
 
             await _createCommentCommand.ExecuteAsync(p);
-
-            return true;
+            return p.Entity;
         }
 
         public async Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount)

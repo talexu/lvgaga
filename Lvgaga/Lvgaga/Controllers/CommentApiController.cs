@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Lvgaga.App_Start;
+using LvModel.Azure.StorageTable;
 using LvModel.View.Comment;
 using LvService.Services;
 using Microsoft.Practices.Unity;
@@ -33,8 +34,12 @@ namespace Lvgaga.Controllers
         [Route("{partitionKey}/{rowKey}")]
         public async Task<IHttpActionResult> Post(string partitionKey, string rowKey, [FromBody] PostedComment comment)
         {
-            var result = await _commentService.CreateCommentAsync(rowKey, comment);
-            return Ok();
+            var entity = await _commentService.CreateCommentAsync(rowKey, comment);
+            if (entity != null)
+            {
+                return Created(Request.RequestUri, entity);
+            }
+            return BadRequest();
         }
     }
 }

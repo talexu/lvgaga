@@ -1,9 +1,10 @@
-﻿@model LvModel.View.Comment.CommentModel
+﻿@using Microsoft.AspNet.Identity
+@model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
 <div>
-    <img class="img-tumblr" src="@Model.MediaUri" alt="" />
+    <img class="img-tumblr" src="@Model.MediaUri" alt=""/>
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
@@ -12,9 +13,9 @@
     </div>
     <div class="content">
         <div class="input-group box-comment">
-            <input type="text" class="form-control txb-comment" placeholder="评论">
+            <input id="txb_comment" type="text" class="form-control txb-comment" placeholder="评论">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">评论</button>
+                <button id="btn_send" class="btn btn-default" type="button">评论</button>
             </span>
         </div><!-- /input-group -->
         @foreach (var comment in Model.Comments)
@@ -27,3 +28,18 @@
         }
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $("#btn_send").click(function () {
+            $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
+            {
+                "UserId" : "@User.Identity.GetUserId()",
+                "UserName" : "@User.Identity.GetUserName()",
+                "Text" : $("#txb_comment").val()
+            }, function (data) {
+                alert(data.Text);
+            });
+        });
+    </script>
+}
