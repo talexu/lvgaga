@@ -1,4 +1,5 @@
 using System;
+using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
@@ -50,7 +51,7 @@ namespace Lvgaga
             //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
             container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(typeof (AzureStorageDb)));
+                new InjectionConstructor(typeof(AzureStorageDb)));
 
             // Common
             const string emptyEntityReader = "empty://entity/reader";
@@ -67,14 +68,14 @@ namespace Lvgaga
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyTumblrsReader)));
 
             container.RegisterType<ITumblrFactory, TumblrFactory>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(typeof (IUriFactory)));
+                new InjectionConstructor(typeof(IUriFactory)));
 
             container.RegisterType<ITumblrService, TumblrService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
-                    typeof (IAzureStorage),
+                    typeof(IAzureStorage),
                     new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ITableEntitiesCommand>(homeEntitiesReader),
-                    typeof (ITumblrFactory)));
+                    typeof(ITumblrFactory)));
 
             // Comment
             const string emptyCommentsReader = "empty://comments/reader";
@@ -88,10 +89,14 @@ namespace Lvgaga
 
             container.RegisterType<ICommentService, CommentService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
-                    typeof (IAzureStorage),
-                    typeof (ITumblrService),
+                    typeof(IAzureStorage),
+                    typeof(ITumblrService),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
-                    typeof (ICommentFactory)));
+                    typeof(ICommentFactory)));
+
+            // Identity
+            container.RegisterType<AccountController, AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
         }
     }
 }
