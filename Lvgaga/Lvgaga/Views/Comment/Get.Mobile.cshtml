@@ -4,7 +4,7 @@
     ViewBag.Title = "评论";
 }
 <div>
-    <img class="img-tumblr" src="@Model.MediaUri" alt=""/>
+    <img class="img-tumblr" src="@Model.MediaUri" alt="" />
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
@@ -18,27 +18,35 @@
                 <button id="btn_send" class="btn btn-default" type="button">评论</button>
             </span>
         </div><!-- /input-group -->
-        @foreach (var comment in Model.Comments)
-        {
-            <div>
-                <hr class="hr-comment" />
-                <a>@comment.UserName</a>
-                <p class="text-comment">@comment.Text</p>
-            </div>
-        }
+        <div id="div_comments">
+            @foreach (var comment in Model.Comments)
+            {
+                <div>
+                    <hr class="hr-comment" />
+                    <a>@comment.UserName</a>
+                    <p class="text-comment">@comment.Text</p>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
 @section scripts{
     <script>
         $("#btn_send").click(function () {
+            var txb = $("#txb_comment");
+            var cms = $("#div_comments");
             $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
             {
-                "UserId" : "@User.Identity.GetUserId()",
-                "UserName" : "@User.Identity.GetUserName()",
-                "Text" : $("#txb_comment").val()
+                "UserId": "@User.Identity.GetUserId()",
+                "UserName": "@User.Identity.GetUserName()",
+                "Text": txb.val()
             }, function (data) {
-                alert(data.Text);
+                cms.prepend($("<div></div>").
+                    append($("<hr></hr>").addClass("hr-comment")).
+                    append($("<a></a>").text(data.UserName)).
+                    append($("<p></p>").addClass("text-comment").text(data.Text)));
+                txb.val("");
             });
         });
     </script>
