@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using LvModel.Common;
 using LvService.Services;
 
 namespace Lvgaga.Controllers
@@ -15,11 +14,11 @@ namespace Lvgaga.Controllers
             _commentService = commentService;
         }
 
-        [Route("{id}")]
-        // GET: comments/5
-        public async Task<ActionResult> Show(string id)
+        // GET: Comment
+        [Route("{partitionKey}/{rowKey}")]
+        public async Task<ActionResult> Get(string partitionKey, string rowKey)
         {
-            return View(await _commentService.GetCommentsAsync(LvConstants.PartitionKeyOfImage, id, 20));
+            return View(await _commentService.GetCommentsAsync(partitionKey, rowKey, 20));
         }
     }
 }

@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga", "Lvgaga\Lvgaga.csproj", "{777D598E-72C2-4461-85FE-4468337EBAD8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga.Tests", "Lvgaga.Tests\Lvgaga.Tests.csproj", "{36CD74D5-325F-4596-889F-8CE5367583D2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvModel", "LvModel\LvModel.csproj", "{0A8D207B-759D-491E-A8E4-AD5768DC09B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5CC973D9-E946-460A-B28A-2788315D3E45}"
@@ -22,20 +18,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvService.Tests", "LvServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvFakeData", "LvFakeData\LvFakeData.csproj", "{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga", "Lvgaga\Lvgaga.csproj", "{8A8A6987-25CF-4805-B729-2C53C69CF2C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvgaga.Tests", "Lvgaga.Tests\Lvgaga.Tests.csproj", "{C2D0AE48-E066-498C-9ACD-07BF96777586}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{777D598E-72C2-4461-85FE-4468337EBAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{777D598E-72C2-4461-85FE-4468337EBAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{777D598E-72C2-4461-85FE-4468337EBAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{777D598E-72C2-4461-85FE-4468337EBAD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36CD74D5-325F-4596-889F-8CE5367583D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36CD74D5-325F-4596-889F-8CE5367583D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36CD74D5-325F-4596-889F-8CE5367583D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36CD74D5-325F-4596-889F-8CE5367583D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A8D207B-759D-491E-A8E4-AD5768DC09B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,6 +44,14 @@ Global
 		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55CA7579-F2DC-492E-98B7-36FC45E7FCB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8A6987-25CF-4805-B729-2C53C69CF2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8A6987-25CF-4805-B729-2C53C69CF2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8A6987-25CF-4805-B729-2C53C69CF2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8A6987-25CF-4805-B729-2C53C69CF2C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D0AE48-E066-498C-9ACD-07BF96777586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D0AE48-E066-498C-9ACD-07BF96777586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D0AE48-E066-498C-9ACD-07BF96777586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D0AE48-E066-498C-9ACD-07BF96777586}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,7 +31,7 @@ namespace LvService.Factories.ViewModel
                 PartitionKey = tumblrEntity.PartitionKey,
                 RowKey = tumblrEntity.RowKey,
                 Uri =
-                    _uriFactory.CreateUri(Path.Combine(CommentControllerName,
+                    _uriFactory.CreateUri(Path.Combine(CommentControllerName, tumblrEntity.PartitionKey,
                         UriFactory.GetInvertedTicks(tumblrEntity.RowKey))),
                 MediaUri = tumblrEntity.MediaUri,
                 Text = tumblrEntity.Text,

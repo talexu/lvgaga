@@ -14,7 +14,7 @@ namespace Lvgaga
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            // 在此处插入电子邮件服务可发送电子邮件。
             return Task.FromResult(0);
         }
     }
@@ -23,12 +23,12 @@ namespace Lvgaga
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            // 在此处插入 SMS 服务可发送短信。
             return Task.FromResult(0);
         }
     }
 
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    // 配置此应用程序中使用的应用程序用户管理器。UserManager 在 ASP.NET Identity 中定义，并由此应用程序使用。
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -39,38 +39,38 @@ namespace Lvgaga
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-            // Configure validation logic for usernames
+            // 配置用户名的验证逻辑
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
 
-            // Configure validation logic for passwords
+            // 配置密码的验证逻辑
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false
+                RequireNonLetterOrDigit = true,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
             };
 
-            // Configure user lockout defaults
+            // 配置用户锁定默认值
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
-            // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            // 注册双重身份验证提供程序。此应用程序使用手机和电子邮件作为接收用于验证用户的代码的一个步骤
+            // 你可以编写自己的提供程序并将其插入到此处。
+            manager.RegisterTwoFactorProvider("电话代码", new PhoneNumberTokenProvider<ApplicationUser>
             {
-                MessageFormat = "Your security code is {0}"
+                MessageFormat = "你的安全代码是 {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("电子邮件代码", new EmailTokenProvider<ApplicationUser>
             {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
+                Subject = "安全代码",
+                BodyFormat = "你的安全代码是 {0}"
             });
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
@@ -84,7 +84,7 @@ namespace Lvgaga
         }
     }
 
-    // Configure the application sign-in manager which is used in this application.
+    // 配置要在此应用程序中使用的应用程序登录管理器。
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)

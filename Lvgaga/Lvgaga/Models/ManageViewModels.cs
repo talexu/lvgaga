@@ -29,14 +29,14 @@ namespace Lvgaga.Models
     public class SetPasswordViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "新密码")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "确认新密码")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -44,18 +44,18 @@ namespace Lvgaga.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "当前密码")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "新密码")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "确认新密码")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "新密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -63,19 +63,19 @@ namespace Lvgaga.Models
     {
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "电话号码")]
         public string Number { get; set; }
     }
 
     public class VerifyPhoneNumberViewModel
     {
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "代码")]
         public string Code { get; set; }
 
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "电话号码")]
         public string PhoneNumber { get; set; }
     }
 

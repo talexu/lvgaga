@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<LvModel.View.Tumblr.TumblrModel>
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "全部分类";
 }
 
 <div>
@@ -22,3 +22,14 @@
         <button type="button" class="btn btn-default btn-block">加载更多</button>
     </div>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jquerylazy")
+    <script>
+        $(function () {
+            $("img.lazy").lazyload({
+                effect: "fadeIn"
+            });
+        });
+    </script>
+}

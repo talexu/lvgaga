@@ -11,7 +11,10 @@ namespace Lvgaga
 
             routes.MapMvcAttributeRoutes();
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Tumblr", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

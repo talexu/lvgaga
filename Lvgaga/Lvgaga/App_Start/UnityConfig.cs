@@ -1,4 +1,5 @@
 using System;
+using System.Web.Configuration;
 using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
@@ -9,7 +10,7 @@ using LvService.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.WindowsAzure.Storage;
 
-namespace Lvgaga
+namespace Lvgaga.App_Start
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -17,7 +18,6 @@ namespace Lvgaga
     public class UnityConfig
     {
         #region Unity Container
-
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
@@ -32,7 +32,6 @@ namespace Lvgaga
         {
             return container.Value;
         }
-
         #endregion
 
         /// <summary>Registers the type mappings with the Unity container.</summary>
@@ -47,9 +46,14 @@ namespace Lvgaga
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
-            //container.RegisterInstance(CloudStorageAccount.Parse(
-            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
-            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
+            // Identify
+            container.RegisterType<AccountController, AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
+
+            // Cloud
+            container.RegisterInstance(CloudStorageAccount.Parse(
+                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(AzureStorageDb)));
 
@@ -93,10 +97,6 @@ namespace Lvgaga
                     typeof(ITumblrService),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
                     typeof(ICommentFactory)));
-
-            // Identity
-            container.RegisterType<AccountController, AccountController>(new InjectionConstructor());
-            container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
         }
     }
 }

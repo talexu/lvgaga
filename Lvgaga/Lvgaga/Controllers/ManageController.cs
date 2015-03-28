@@ -54,12 +54,12 @@ namespace Lvgaga.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "已更改你的密码。"
+                : message == ManageMessageId.SetPasswordSuccess ? "已设置你的密码。"
+                : message == ManageMessageId.SetTwoFactorSuccess ? "已设置你的双重身份验证提供程序。"
+                : message == ManageMessageId.Error ? "出现错误。"
+                : message == ManageMessageId.AddPhoneSuccess ? "已添加你的电话号码。"
+                : message == ManageMessageId.RemovePhoneSuccess ? "已删除你的电话号码。"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -87,7 +87,7 @@ namespace Lvgaga.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -115,14 +115,14 @@ namespace Lvgaga.Controllers
             {
                 return View(model);
             }
-            // Generate the token and send it
+            // 生成令牌并发送该令牌
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "你的安全代码是: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -139,7 +139,7 @@ namespace Lvgaga.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -154,7 +154,7 @@ namespace Lvgaga.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -164,7 +164,7 @@ namespace Lvgaga.Controllers
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
-            // Send an SMS through the SMS provider to verify the phone number
+            // 通过 SMS 提供程序发送短信以验证电话号码
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
@@ -184,12 +184,12 @@ namespace Lvgaga.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            // 如果我们进行到这一步时某个地方出错，则重新显示表单
+            ModelState.AddModelError("", "无法验证电话号码");
             return View(model);
         }
 
@@ -205,7 +205,7 @@ namespace Lvgaga.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
@@ -233,7 +233,7 @@ namespace Lvgaga.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, false, false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
@@ -262,14 +262,14 @@ namespace Lvgaga.Controllers
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
-                        await SignInManager.SignInAsync(user, false, false);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
                     return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
                 AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
+            // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }
 
@@ -278,8 +278,8 @@ namespace Lvgaga.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "已删除外部登录名。"
+                : message == ManageMessageId.Error ? "出现错误。"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
@@ -302,7 +302,7 @@ namespace Lvgaga.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
-            // Request a redirect to the external login provider to link a login for the current user
+            // 请求重定向至外部登录提供程序，以链接当前用户的登录名
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
@@ -330,8 +330,8 @@ namespace Lvgaga.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
-        // Used for XSRF protection when adding external logins
+#region 帮助程序
+        // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager

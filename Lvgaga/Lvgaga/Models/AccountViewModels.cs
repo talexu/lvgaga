@@ -7,7 +7,7 @@ namespace Lvgaga.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         public string Email { get; set; }
     }
 
@@ -30,11 +30,11 @@ namespace Lvgaga.Models
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "代码")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "记住此浏览器?")]
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
@@ -43,23 +43,23 @@ namespace Lvgaga.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
     }
 
@@ -67,18 +67,18 @@ namespace Lvgaga.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "确认密码")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -86,18 +86,18 @@ namespace Lvgaga.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "确认密码")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "密码和确认密码不匹配。")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -107,7 +107,7 @@ namespace Lvgaga.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "电子邮件")]
         public string Email { get; set; }
     }
 }

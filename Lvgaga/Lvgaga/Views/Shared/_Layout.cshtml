@@ -1,17 +1,28 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="wb:webmaster" content="ccbdf471ac1c6649" />
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - 小清新语录</title>
     @Styles.Render("~/Content/css")
     @RenderSection("styles", false)
     @Scripts.Render("~/bundles/modernizr")
 
+    <script type="text/javascript">
+        var appInsights=window.appInsights||function(config){
+            function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.appendChild(o),t.cookie=r.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)s("track"+i.pop());return config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
+        }({
+            instrumentationKey:"40bc1a42-5f07-45b4-9de1-bb57118cb606"
+        });
+        
+        window.appInsights=appInsights;
+        appInsights.trackPageView();
+    </script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -19,13 +30,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("小清新语录", "Index", "Tumblr", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
+                    <li>@Html.ActionLink("关于", "About", "Home")</li>
+                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -35,12 +46,12 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", false)
+    @RenderSection("scripts", required: false)
 </body>
 </html>
