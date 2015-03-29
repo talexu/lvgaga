@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-@model LvModel.View.Comment.CommentModel
+﻿@model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
@@ -34,21 +33,31 @@
 
 @section scripts{
     <script>
-        $("#btn_send").click(function () {
+        $("#btn_send").click(function() {
             var txb = $("#txb_comment");
             var cms = $("#div_comments");
             $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
             {
-                "UserId": "@User.Identity.GetUserId()",
-                "UserName": "@User.Identity.GetUserName()",
                 "Text": txb.val()
-            }, function (data) {
-                cms.prepend($("<div></div>").
-                    append($("<hr></hr>").addClass("hr-comment")).
-                    append($("<a></a>").text(data.UserName)).
-                    append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
-                    append($("<p></p>").addClass("text-comment").text(data.Text)));
-                txb.val("");
+            }).done(function(data, textStatus, jqXHR) {
+                switch (jqXHR.status) {
+                case 201:
+                    cms.prepend($("<div></div>").
+                        append($("<hr></hr>").addClass("hr-comment")).
+                        append($("<a></a>").text(data.UserName)).
+                        append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
+                        append($("<p></p>").addClass("text-comment").text(data.Text)));
+                    txb.val("");
+                    break;
+                case 200:
+                    var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
+                    if (res.status === 401) {
+                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                    }
+                    break;
+                default:
+
+                }
             });
         });
     </script>
