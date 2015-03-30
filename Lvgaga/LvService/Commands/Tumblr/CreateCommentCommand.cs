@@ -6,10 +6,8 @@ using LvService.Factories.Azure.Storage;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateCommentCommand : CommandChain
+    public class CreateCommentCommand : CreateLvEntityCommand
     {
-        public ITableEntityFactory TableEntityFactory { get; set; }
-
         private string _partitionKey;
         private string _userId;
         private string _userName;

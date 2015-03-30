@@ -64,6 +64,11 @@ namespace LvService.Factories.Azure.Storage
             };
         }
 
+        public ITableEntity CreateFavoriteEntity(dynamic p)
+        {
+            return null;
+        }
+
         private DateTime GetUtcNow()
         {
             DateTime now;

@@ -100,6 +100,8 @@
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Azure\Storage\Table\ITableEntityCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateCommentCommand.cs" />
+    <Compile Include="Commands\Tumblr\CreateFavoriteCommand.cs" />
+    <Compile Include="Commands\Tumblr\CreateLvEntityCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadCommentEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrEntitiesWithCategoryCommand.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />

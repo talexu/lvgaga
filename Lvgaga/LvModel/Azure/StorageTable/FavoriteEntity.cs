@@ -2,14 +2,14 @@
 
 namespace LvModel.Azure.StorageTable
 {
-    public class FavoriteEntity : TableEntity
+    public class FavoriteEntity : TumblrEntity
     {
+        public string PartitionKeyOfTumblr { get; set; }
+
         public FavoriteEntity(string userId, string tumblrId)
         {
             PartitionKey = userId;
             RowKey = tumblrId;
         }
-
-        public bool State { get; set; }
     }
 }

@@ -6,5 +6,6 @@ namespace LvService.Factories.Azure.Storage
     {
         ITableEntity CreateTumblrEntity(dynamic p);
         ITableEntity CreateCommentEntity(dynamic p);
+        ITableEntity CreateFavoriteEntity(dynamic p);
     }
 }

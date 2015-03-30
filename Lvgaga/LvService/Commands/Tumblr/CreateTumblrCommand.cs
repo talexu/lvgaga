@@ -9,10 +9,8 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
-    public class CreateTumblrCommand : CommandChain
+    public class CreateTumblrCommand : CreateLvEntityCommand
     {
-        public ITableEntityFactory TableEntityFactory { get; set; }
-
         private string _partitionKey;
         private string _mediaUri;
         private TumblrText _tumblrText;
