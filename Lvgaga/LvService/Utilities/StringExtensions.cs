@@ -10,6 +10,24 @@ namespace LvService.Utilities
 {
     public static class StringExtensions
     {
+        #region Split
+
+        public static string[] SplitByUnderline(this string str)
+        {
+            return String.IsNullOrEmpty(str) ? null : str.Split('_');
+        }
+
+        public static string SubstringByUnderline(this string str, int index)
+        {
+            return str.SplitByUnderline()[index];
+        }
+
+        public static string JoinByUnderline(this string[] strs)
+        {
+            return string.Join("_", strs);
+        }
+        #endregion
+
         #region Cosine distance
 
         public static bool CosineEqual(this string str1, string str2)

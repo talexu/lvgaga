@@ -7,13 +7,13 @@ namespace LvService.Factories.Uri
     {
         string CreateUri(string path);
 
-        string GetTumblrRowKey(TumblrCategory category, string invertedTicks);
-        string GetInvertedTicksFromTumblrRowKey(string rowKey);
+        string CreateTumblrRowKey(TumblrCategory category, string invertedTicks);
+        string CreateInvertedTicksByTumblrRowKey(string rowKey);
 
-        string GetCommentPartitionKey(string invertedTicks, MediaType mediaType);
-        string GetInvertedTicksFromCommentPartitionKey(string partitionKey);
+        string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType);
+        string CreateInvertedTicksByCommentPartitionKey(string partitionKey);
 
-        string GetFavoriteRowKey(string invertedTicks, MediaType mediaType);
-        string GetInvertedTicksFromFavoriteRowKey(string rowKey);
+        string CreateFavoriteRowKey(MediaType mediaType, string invertedTicks);
+        string CreateInvertedTicksByFavoriteRowKey(string rowKey);
     }
 }

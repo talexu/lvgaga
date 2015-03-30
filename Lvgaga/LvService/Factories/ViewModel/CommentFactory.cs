@@ -48,7 +48,7 @@ namespace LvService.Factories.ViewModel
             return new CommentModel()
             {
                 PartitionKey = tumblr.PartitionKey,
-                RowKey = _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey),
+                RowKey = _uriFactory.CreateInvertedTicksByTumblrRowKey(tumblr.RowKey),
                 Uri = tumblr.Uri,
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,

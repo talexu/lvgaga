@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Text.RegularExpressions;
 using LvModel.Common;
 using LvModel.View.Tumblr;
+using LvService.Utilities;
 
 namespace LvService.Factories.Uri
 {
@@ -33,58 +34,37 @@ namespace LvService.Factories.Uri
             return _uriBuilder.Uri.AbsolutePath;
         }
 
-        // Tumblr - MediaType_InvertedTicks
-        public string GetTumblrRowKey(TumblrCategory category, string invertedTicks)
+        // Tumblr - TumblrCategory_InvertedTicks
+        public string CreateTumblrRowKey(TumblrCategory category, string invertedTicks)
         {
-            return CombineDoubleValueByUnderline(category.ToString("D"), invertedTicks);
+            return new[] { category.ToString("D"), invertedTicks }.JoinByUnderline();
         }
 
-        public string GetInvertedTicksFromTumblrRowKey(string rowKey)
+        public string CreateInvertedTicksByTumblrRowKey(string rowKey)
         {
-            dynamic r = DoubleSplitByUnderline(rowKey);
-            return r.G2;
+            return rowKey.SubstringByUnderline(1);
         }
 
         // Comment - InvertedTicks_MediaType
-        public string GetCommentPartitionKey(string invertedTicks, MediaType mediaType)
+        public string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType)
         {
-            return CombineDoubleValueByUnderline(invertedTicks, mediaType.ToString("D"));
+            return new[] { invertedTicks, mediaType.ToString("D") }.JoinByUnderline();
         }
 
-        public string GetInvertedTicksFromCommentPartitionKey(string partitionKey)
+        public string CreateInvertedTicksByCommentPartitionKey(string partitionKey)
         {
-            dynamic r = DoubleSplitByUnderline(partitionKey);
-            return r.G1;
+            return partitionKey.SubstringByUnderline(0);
         }
 
-        // Favorite - InvertedTicks_MediaType
-        public string GetFavoriteRowKey(string invertedTicks, MediaType mediaType)
+        // Favorite - MediaType_InvertedTicks
+        public string CreateFavoriteRowKey(MediaType mediaType, string invertedTicks)
         {
-            return CombineDoubleValueByUnderline(invertedTicks, mediaType.ToString("D"));
+            return new[] { mediaType.ToString("D"), invertedTicks }.JoinByUnderline();
         }
 
-        public string GetInvertedTicksFromFavoriteRowKey(string rowKey)
+        public string CreateInvertedTicksByFavoriteRowKey(string rowKey)
         {
-            dynamic r = DoubleSplitByUnderline(rowKey);
-            return r.G1;
-        }
-
-        // Utilities
-        private static ExpandoObject DoubleSplitByUnderline(string str)
-        {
-            var reg = new Regex(@"^(.+?)_(.+?)$");
-            dynamic p = new ExpandoObject();
-
-            var g = reg.Match(str);
-            p.G1 = g.Groups[1].Value;
-            p.G2 = g.Groups[2].Value;
-
-            return p;
-        }
-
-        private static string CombineDoubleValueByUnderline(string v1, string v2)
-        {
-            return string.Format("{0}_{1}", v1, v2);
+            return rowKey.SubstringByUnderline(1);
         }
     }
 }

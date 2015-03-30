@@ -46,7 +46,7 @@ namespace LvService.Factories.Azure.Storage
                 }
             }
 
-            return new TumblrEntity(partitionKey, _uriFactory.GetTumblrRowKey(tumblrText.Category, invertedTicks))
+            return new TumblrEntity(partitionKey, _uriFactory.CreateTumblrRowKey(tumblrText.Category, invertedTicks))
             {
                 MediaUri = mediaUri,
                 Text = tumblrText.Text,

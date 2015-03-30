@@ -48,7 +48,7 @@ namespace LvService.Services
 
         public async Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount)
         {
-            var rowKeyAll = _uriFactory.GetTumblrRowKey(TumblrCategory.All, rowKey);
+            var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
                 await
                     _tumblrService.GetTumblrModelAsync(partitionKey, rowKeyAll);

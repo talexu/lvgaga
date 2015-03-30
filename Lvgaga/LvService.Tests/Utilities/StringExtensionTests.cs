@@ -1,4 +1,5 @@
-﻿using LvModel.View.Tumblr;
+﻿using System.Linq;
+using LvModel.View.Tumblr;
 using LvService.Utilities;
 using Xunit;
 
@@ -12,6 +13,21 @@ namespace LvService.Tests.Utilities
         public StringExtensionTests(TestFilesLoader fixture)
         {
             _fixture = fixture;
+        }
+
+        [Theory]
+        [InlineData("123_456", new[] { "123", "456" })]
+        public void SplitByUnderline_Return_CorrectStrings(string str, string[] strs)
+        {
+            Assert.True(strs.SequenceEqual(str.SplitByUnderline()));
+        }
+
+        [Theory]
+        [InlineData("123_456", 0, "123")]
+        [InlineData("123_456", 1, "456")]
+        public void SubstringByUnderline_Return_CorrectString(string str, int index, string strp)
+        {
+            Assert.Equal(strp, str.SubstringByUnderline(index));
         }
 
         [Theory]
