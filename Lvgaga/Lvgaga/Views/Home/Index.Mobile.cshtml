@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<LvModel.View.Tumblr.TumblrModel>
 @{
-    ViewBag.Title = "全部分类";
+    ViewBag.Title = "首页";
 }
 
 <div>
@@ -26,10 +26,12 @@
 @section scripts{
     @Scripts.Render("~/bundles/jquerylazy")
     <script>
-        $(function () {
-            $("img.lazy").lazyload({
-                effect: "fadeIn"
+        (function() {
+            $(function() {
+                $("img.lazy").lazyload({
+                    effect: "fadeIn"
+                });
             });
-        });
+        })();
     </script>
 }

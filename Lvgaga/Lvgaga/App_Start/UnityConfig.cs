@@ -12,7 +12,7 @@ using LvService.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.WindowsAzure.Storage;
 
-namespace Lvgaga.App_Start
+namespace Lvgaga
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -91,8 +91,8 @@ namespace Lvgaga.App_Start
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
             container.RegisterType<CreateCommentCommand, CreateCommentCommand>(new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof (TableEntityFactory)));
-            const string createCommentCommand = "post:comments://entity";
+                new InjectionProperty("TableEntityFactory", typeof(TableEntityFactory)));
+            const string createCommentCommand = "post comments://entity";
             container.RegisterType<ICommand, CreateTableEntityCommand>(createCommentCommand,
                 new InjectionConstructor(typeof(CreateCommentCommand)));
 

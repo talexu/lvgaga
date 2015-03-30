@@ -33,32 +33,37 @@
 
 @section scripts{
     <script>
-        $("#btn_send").click(function() {
+        (function() {
             var txb = $("#txb_comment");
             var cms = $("#div_comments");
-            $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
-            {
-                "Text": txb.val()
-            }).done(function(data, textStatus, jqXHR) {
-                switch (jqXHR.status) {
-                case 201:
-                    cms.prepend($("<div></div>").
-                        append($("<hr></hr>").addClass("hr-comment")).
-                        append($("<a></a>").text(data.UserName)).
-                        append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
-                        append($("<p></p>").addClass("text-comment").text(data.Text)));
-                    txb.val("");
-                    break;
-                case 200:
-                    var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
-                    if (res.status === 401) {
-                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                    }
-                    break;
-                default:
+            $("#btn_send").click(function() {
+                var text = txb.val();
+                if (text.trim()) {
+                    $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
+                    {
+                        "Text": text
+                    }).done(function(data, textStatus, jqXHR) {
+                        switch (jqXHR.status) {
+                        case 201:
+                            cms.prepend($("<div></div>").
+                                append($("<hr></hr>").addClass("hr-comment")).
+                                append($("<a></a>").text(data.UserName)).
+                                append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
+                                append($("<p></p>").addClass("text-comment").text(data.Text)));
+                            txb.val("");
+                            break;
+                        case 200:
+                            var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
+                            if (res.status === 401) {
+                                $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                            }
+                            break;
+                        default:
 
+                        }
+                    });
                 }
             });
-        });
+        })();
     </script>
 }

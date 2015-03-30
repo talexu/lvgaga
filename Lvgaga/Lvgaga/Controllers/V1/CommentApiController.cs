@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
-using Lvgaga.App_Start;
 using LvModel.View.Comment;
 using LvService.Services;
 using Microsoft.AspNet.Identity;
-using Microsoft.Practices.Unity;
 
-namespace Lvgaga.Controllers
+namespace Lvgaga.Controllers.V1
 {
     [RoutePrefix("api/v1/comments")]
     public class CommentApiController : ApiController

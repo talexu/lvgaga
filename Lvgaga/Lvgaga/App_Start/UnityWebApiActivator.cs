@@ -1,10 +1,11 @@
 using System.Web.Http;
+using Lvgaga;
 using Microsoft.Practices.Unity.WebApi;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Lvgaga.App_Start.UnityWebApiActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(Lvgaga.App_Start.UnityWebApiActivator), "Shutdown")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebApiActivator), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebApiActivator), "Shutdown")]
 
-namespace Lvgaga.App_Start
+namespace Lvgaga
 {
     /// <summary>Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET</summary>
     public static class UnityWebApiActivator

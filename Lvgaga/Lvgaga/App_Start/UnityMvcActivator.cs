@@ -1,13 +1,13 @@
 using System.Linq;
 using System.Web.Mvc;
-using Lvgaga.App_Start;
+using Lvgaga;
 using Microsoft.Practices.Unity.Mvc;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]
 [assembly: ApplicationShutdownMethod(typeof(UnityWebActivator), "Shutdown")]
 
-namespace Lvgaga.App_Start
+namespace Lvgaga
 {
     /// <summary>Provides the bootstrapping for integrating Unity with ASP.NET MVC.</summary>
     public static class UnityWebActivator
