@@ -15,7 +15,7 @@ namespace Lvgaga.Controllers
 
         public CommentApiController()
         {
-            _commentService = UnityConfig.GetConfiguredContainer().Resolve<ICommentService>();
+
         }
 
         public CommentApiController(ICommentService commentService)
