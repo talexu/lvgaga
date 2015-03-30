@@ -1,5 +1,4 @@
-﻿using System;
-using LvService.Commands.Common;
+﻿using LvService.Commands.Common;
 
 namespace LvService.Commands.Tumblr
 {

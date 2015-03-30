@@ -5,6 +5,7 @@ using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
+using LvService.Factories.Uri;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -42,7 +43,7 @@ namespace LvService.Tests.Utilities
         // Tumblr
         public CreateTumblrCommand CreateTumblrCommand = new CreateTumblrCommand
         {
-            TableEntityFactory = new TableEntityFactory()
+            TableEntityFactory = new TableEntityFactory(new UriFactory())
         };
 
         public ReadTableEntitiesCommand ReadTumblrEntityWithCategoryCommand =
@@ -51,7 +52,7 @@ namespace LvService.Tests.Utilities
         // Comment
         public CreateCommentCommand CreateCommentCommand = new CreateCommentCommand
         {
-            TableEntityFactory = new TableEntityFactory()
+            TableEntityFactory = new TableEntityFactory(new UriFactory())
         };
 
         public AzureStorageFixture()

@@ -131,5 +131,13 @@ namespace LvService.Utilities
         }
 
         #endregion
+
+        #region Enum
+        public static TEnum ToEnum<TEnum>(this string str) where TEnum : struct
+        {
+            TEnum result;
+            return Enum.TryParse(str, out result) ? result : default(TEnum);
+        }
+        #endregion
     }
 }

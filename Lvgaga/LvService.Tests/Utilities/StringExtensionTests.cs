@@ -1,4 +1,5 @@
-﻿using LvService.Utilities;
+﻿using LvModel.View.Tumblr;
+using LvService.Utilities;
 using Xunit;
 
 namespace LvService.Tests.Utilities
@@ -45,6 +46,7 @@ namespace LvService.Tests.Utilities
             Assert.True(_fixture.ReadAllText(file1).CosineEqual(_fixture.ReadAllText(file2)));
         }
 
+        [Theory]
         [InlineData("json_o.json", "json_d1.json")]
         [InlineData("json_o.json", "json_d2.json")]
         [InlineData("json_o.json", "json_d3.json")]
@@ -62,6 +64,18 @@ namespace LvService.Tests.Utilities
         {
             const string str = "Test string";
             Assert.Equal(str, str.ToMemoryStream().ToStringFromMemoryStream());
+        }
+
+        [Theory]
+        [InlineData("All", TumblrCategory.All)]
+        [InlineData(0, TumblrCategory.All)]
+        [InlineData("0", TumblrCategory.All)]
+        [InlineData("C1", TumblrCategory.C1)]
+        [InlineData(1, TumblrCategory.C1)]
+        [InlineData("1", TumblrCategory.C1)]
+        public void ToEnum_Return_CorrectTumblrCategory(string str, TumblrCategory category)
+        {
+            Assert.Equal(category, str.ToEnum<TumblrCategory>());
         }
     }
 }

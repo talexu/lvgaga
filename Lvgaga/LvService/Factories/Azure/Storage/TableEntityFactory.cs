@@ -9,7 +9,18 @@ namespace LvService.Factories.Azure.Storage
 {
     public class TableEntityFactory : ITableEntityFactory
     {
+        private readonly IUriFactory _uriFactory;
         private DateTime _lastTime = DateTime.UtcNow;
+
+        public TableEntityFactory()
+        {
+
+        }
+
+        public TableEntityFactory(IUriFactory uriFactory)
+        {
+            _uriFactory = uriFactory;
+        }
 
         public ITableEntity CreateTumblrEntity(dynamic p)
         {
@@ -35,8 +46,7 @@ namespace LvService.Factories.Azure.Storage
                 }
             }
 
-            return new TumblrEntity(partitionKey,
-                UriFactory.GetTumblrRowKey(tumblrText.Category, invertedTicks))
+            return new TumblrEntity(partitionKey, _uriFactory.GetTumblrRowKey(tumblrText.Category, invertedTicks))
             {
                 MediaUri = mediaUri,
                 Text = tumblrText.Text,

@@ -20,14 +20,17 @@ namespace LvService.Services
         private readonly ITumblrService _tumblrService;
 
         private readonly ICommentFactory _commentFactory;
+        private readonly IUriFactory _uriFactory;
 
-        public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory)
+        public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
+            ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory, IUriFactory uriFactory)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
             _entitiesCommand = entitiesCommand;
             _commentFactory = commentFactory;
+            _uriFactory = uriFactory;
         }
 
         public async Task<CommentEntity> CreateCommentAsync(string partitionKey, PostedComment comment)
@@ -45,7 +48,7 @@ namespace LvService.Services
 
         public async Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount)
         {
-            var rowKeyAll = UriFactory.GetTumblrRowKey(TumblrCategory.All, rowKey);
+            var rowKeyAll = _uriFactory.GetTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
                 await
                     _tumblrService.GetTumblrModelAsync(partitionKey, rowKeyAll);

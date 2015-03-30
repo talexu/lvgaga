@@ -1,9 +1,10 @@
 using System.Web.Http;
 using Lvgaga;
 using Microsoft.Practices.Unity.WebApi;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebApiActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebApiActivator), "Shutdown")]
+[assembly: PreApplicationStartMethod(typeof(UnityWebApiActivator), "Start")]
+[assembly: ApplicationShutdownMethod(typeof(UnityWebApiActivator), "Shutdown")]
 
 namespace Lvgaga
 {

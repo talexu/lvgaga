@@ -4,7 +4,6 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
-using LvService.Factories.Azure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr

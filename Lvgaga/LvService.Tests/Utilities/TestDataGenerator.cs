@@ -4,13 +4,14 @@ using System.Dynamic;
 using LvModel.Azure.StorageTable;
 using LvModel.View.Tumblr;
 using LvService.Factories.Azure.Storage;
+using LvService.Factories.Uri;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Tests.Utilities
 {
     public class TestDataGenerator
     {
-        private static readonly TableEntityFactory TableEntityFactory = new TableEntityFactory();
+        private static readonly TableEntityFactory TableEntityFactory = new TableEntityFactory(new UriFactory());
 
         #region ITableEntity
         public static ITableEntity GetTableEntity(string partitionKey = null, string rowKey = null)

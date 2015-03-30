@@ -64,6 +64,8 @@ namespace Lvgaga
             container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader,
                 new InjectionConstructor());
             container.RegisterType<IUriFactory, UriFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITableEntityFactory, TableEntityFactory>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(IUriFactory)));
 
             // Tumblr
             const string emptyTumblrsReader = "empty://tumblrs/reader";
@@ -91,7 +93,7 @@ namespace Lvgaga
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
             container.RegisterType<CreateCommentCommand, CreateCommentCommand>(new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof(TableEntityFactory)));
+                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)));
             const string createCommentCommand = "post comments://entity";
             container.RegisterType<ICommand, CreateTableEntityCommand>(createCommentCommand,
                 new InjectionConstructor(typeof(CreateCommentCommand)));
@@ -104,7 +106,8 @@ namespace Lvgaga
                     new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
-                    typeof(ICommentFactory)));
+                    typeof(ICommentFactory),
+                    typeof(IUriFactory)));
         }
     }
 }

@@ -8,7 +8,6 @@
 
         #endregion
 
-
         #region Storage Table
 
         public const string PartitionKey = "PartitionKey";
@@ -22,9 +21,10 @@
 
     public enum MediaType
     {
-        Image = 0,
-        Audio = 1,
-        Video = 2,
-        Gif = 3
+        All = 0,
+        Image = 1,
+        Audio = 2,
+        Video = 3,
+        Gif = 4
     }
 }

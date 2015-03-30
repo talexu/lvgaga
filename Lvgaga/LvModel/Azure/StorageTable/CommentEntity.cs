@@ -3,6 +3,10 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvModel.Azure.StorageTable
 {
+    /// <summary>
+    /// 评论实体, PartitionKey为"反向时间戳/媒体类型", RowKey为"反向时间戳(发评论的)"
+    /// 此处PartitionKey无文字类型的概念, 因为该实体和文字类型是一对多的关系
+    /// </summary>
     public class CommentEntity : TableEntity
     {
         /// <summary>
