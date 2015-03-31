@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
+using LvModel.Azure.StorageTable;
+using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
+using LvService.Factories.Uri;
+using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
@@ -14,6 +19,7 @@ namespace LvService.Commands.Tumblr
         private string _mediaUri;
         private string _thumbnailUri;
         private TumblrText _tumblrText;
+        public IUriFactory UriFactory { get; set; }
 
         public CreateTumblrCommand()
         {
@@ -60,24 +66,43 @@ namespace LvService.Commands.Tumblr
             if (!CanExecute(p)) return;
 
             // Create TumblrEntity
-            var tumblrEntity = TableEntityFactory.CreateTumblrEntity(p);
+            TumblrEntity tumblrEntity = TableEntityFactory.CreateTumblrEntity(p);
             if (tumblrEntity == null) return;
             p.Entity = tumblrEntity;
 
             // Create the copy of TumblrEntity with the category of all
-            if (_tumblrText.Category.Equals(TumblrCategory.All))
+            //if (_tumblrText.Category.Equals(TumblrCategory.All))
+            //{
+            //    p.Entities = new List<ITableEntity> { tumblrEntity };
+            //}
+            //else
+            //{
+            //    var tempCategory = _tumblrText.Category;
+            //    _tumblrText.Category = TumblrCategory.All;
+            //    var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
+            //    if (tumblrEntityCateOfAll == null) return;
+            //    p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
+            //    _tumblrText.Category = tempCategory;
+            //}
+
+            var entities = new List<TumblrEntity> { tumblrEntity };
+            if (!_tumblrText.Category.Equals(TumblrCategory.All))
             {
-                p.Entities = new List<ITableEntity> { tumblrEntity };
+                var copyEntity = tumblrEntity.CloneByJson();
+                copyEntity.RowKey = UriFactory.ReplaceTumblrCategoryOfRowKey(tumblrEntity.RowKey, TumblrCategory.All);
+                entities.Add(copyEntity);
             }
-            else
+            if (!tumblrEntity.PartitionKey.Equals(LvConstants.PartitionKeyOfAll))
             {
-                var tempCategory = _tumblrText.Category;
-                _tumblrText.Category = TumblrCategory.All;
-                var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
-                if (tumblrEntityCateOfAll == null) return;
-                p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
-                _tumblrText.Category = tempCategory;
+                var copyEntities = entities.CloneByJson<TumblrEntity>();
+                foreach (var copyEntity in copyEntities)
+                {
+                    copyEntity.PartitionKey = LvConstants.PartitionKeyOfAll;
+                    entities.Add(copyEntity);
+                }
             }
+
+            p.Entities = entities.Cast<ITableEntity>().ToList();
         }
     }
 }

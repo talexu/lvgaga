@@ -43,6 +43,11 @@ namespace LvService.Factories.Uri
             return rowKey.SubstringByUnderline(1);
         }
 
+        public string ReplaceTumblrCategoryOfRowKey(string rowKey, TumblrCategory category)
+        {
+            return CreateTumblrRowKey(category, GetInvertedTicksFromTumblrRowKey(rowKey));
+        }
+
         // Comment - InvertedTicks_MediaType
         public string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType)
         {

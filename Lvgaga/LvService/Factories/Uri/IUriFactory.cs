@@ -9,6 +9,7 @@ namespace LvService.Factories.Uri
 
         string CreateTumblrRowKey(TumblrCategory category, string invertedTicks);
         string GetInvertedTicksFromTumblrRowKey(string rowKey);
+        string ReplaceTumblrCategoryOfRowKey(string rowKey, TumblrCategory category);
 
         string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType);
         string GetInvertedTicksFromCommentPartitionKey(string partitionKey);

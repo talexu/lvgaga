@@ -46,7 +46,8 @@ namespace LvService.Tests.Utilities
         // Tumblr
         public CreateTumblrCommand CreateTumblrCommand = new CreateTumblrCommand
         {
-            TableEntityFactory = new TableEntityFactory(new UriFactory())
+            TableEntityFactory = new TableEntityFactory(new UriFactory()),
+            UriFactory = new UriFactory()
         };
 
         public ReadTableEntitiesCommand ReadTumblrEntityWithCategoryCommand =

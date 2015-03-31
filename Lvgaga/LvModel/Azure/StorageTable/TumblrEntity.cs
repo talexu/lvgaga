@@ -1,4 +1,6 @@
 ﻿using System;
+using LvModel.Common;
+using LvModel.View.Tumblr;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvModel.Azure.StorageTable
@@ -18,8 +20,10 @@ namespace LvModel.Azure.StorageTable
             RowKey = inverseCreateTime;
         }
 
+        public string MediaType { get; set; }
         public string MediaUri { get; set; }
         public string ThumbnailUri { get; set; }
+        public string TumblrCategory { get; set; }
         public string Text { get; set; }
         public DateTime CreateTime { get; set; }
     }

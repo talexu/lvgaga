@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace LvService.Utilities
@@ -24,6 +26,11 @@ namespace LvService.Utilities
         {
             var json = JsonConvert.SerializeObject(obj);
             return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public static List<T> CloneByJson<T>(this IEnumerable<T> objs)
+        {
+            return objs.Select(obj => obj.CloneByJson()).ToList();
         }
     }
 }
