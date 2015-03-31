@@ -5,6 +5,7 @@
         #region Blob
 
         public const string ContainerNameOfImage = "images";
+        public const string ContainerNameOfThumbnail = "thumbnails";
 
         #endregion
 

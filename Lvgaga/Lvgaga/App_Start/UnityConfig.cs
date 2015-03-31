@@ -1,5 +1,4 @@
 using System;
-using System.Web.Configuration;
 using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
@@ -53,9 +52,9 @@ namespace Lvgaga
             container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
 
             // Cloud
-            container.RegisterInstance(CloudStorageAccount.Parse(
-                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
-            //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
+            //container.RegisterInstance(CloudStorageAccount.Parse(
+            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(AzureStorageDb)));
 

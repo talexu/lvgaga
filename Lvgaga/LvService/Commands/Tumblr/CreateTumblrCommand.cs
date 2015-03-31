@@ -12,6 +12,7 @@ namespace LvService.Commands.Tumblr
     {
         private string _partitionKey;
         private string _mediaUri;
+        private string _thumbnailUri;
         private TumblrText _tumblrText;
 
         public CreateTumblrCommand()
@@ -31,9 +32,11 @@ namespace LvService.Commands.Tumblr
             {
                 _partitionKey = p.PartitionKey;
                 _mediaUri = p.MediaUri;
+                _thumbnailUri = p.ThumbnailUri;
                 _tumblrText = p.TumblrText;
                 return !String.IsNullOrEmpty(_partitionKey) &&
                        !String.IsNullOrEmpty(_mediaUri) &&
+                       !String.IsNullOrEmpty(_thumbnailUri) &&
                        _tumblrText != null;
             }
             catch (Exception)
@@ -45,6 +48,7 @@ namespace LvService.Commands.Tumblr
         public override async Task ExecuteAsync(dynamic p)
         {
             await base.ExecuteAsync(p as ExpandoObject);
+            p.ThumbnailUri = p.BlobUri;
 
             if (!CanExecute(p)) return;
 

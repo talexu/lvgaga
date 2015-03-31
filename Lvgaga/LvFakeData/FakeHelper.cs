@@ -13,6 +13,7 @@ using LvService.Commands.Common;
 using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
+using LvService.Factories.Uri;
 using Microsoft.WindowsAzure.Storage;
 
 namespace LvFakeData
@@ -30,8 +31,11 @@ namespace LvFakeData
         public async Task UploadTestTumblrs()
         {
             ICommand createTumblrCommand = new CreateTableEntitiesCommand(
-                    new CreateTumblrCommand(
-                        new UploadFromStreamCommand()) { TableEntityFactory = new TableEntityFactory() });
+                new CreateTumblrCommand(
+                    new UploadFromStreamCommand(
+                        new UploadThumbnailCommand(
+                            new UploadFromStreamCommand(
+                                new UploadMediaCommand())))) { TableEntityFactory = new TableEntityFactory(new UriFactory()) });
 
             ICommand createCommentCommand = new CreateTableEntityCommand(
                 new CreateCommentCommand { TableEntityFactory = new TableEntityFactory() });
@@ -44,9 +48,10 @@ namespace LvFakeData
                     dynamic pTumblr = new ExpandoObject();
 
                     // Blob
-                    pTumblr.Container = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
-                    pTumblr.Stream = stream;
-                    pTumblr.BlobName = Path.GetFileName(testImage);
+                    pTumblr.ContainerOfMedia = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
+                    pTumblr.ContainerOfThumbnail = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfThumbnail);
+                    pTumblr.StreamOfMedia = stream;
+                    pTumblr.BlobNameOfMedia = Path.GetFileName(testImage);
 
                     // Create Tumblr
                     pTumblr.PartitionKey = LvConstants.PartitionKeyOfImage;
@@ -74,7 +79,7 @@ namespace LvFakeData
                     for (var i = 0; i < 12; i++)
                     {
                         // Execute
-                        await createCommentCommand.ExecuteAsync(pComment);
+                        //await createCommentCommand.ExecuteAsync(pComment);
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace LvService.Commands.Azure.Storage.Blob
 {
     public class UploadFromStreamCommand : BlobCrudCommand
     {
-        private Stream _source;
+        protected Stream Stream;
 
         public UploadFromStreamCommand()
         {
@@ -27,8 +27,8 @@ namespace LvService.Commands.Azure.Storage.Blob
 
             try
             {
-                _source = p.Stream;
-                return _source != null;
+                Stream = p.Stream;
+                return Stream != null;
             }
             catch (Exception)
             {
@@ -43,8 +43,8 @@ namespace LvService.Commands.Azure.Storage.Blob
             if (!CanExecute(p)) return;
 
             var blockBlob = Container.GetBlockBlobReference(BlobName);
-            await blockBlob.UploadFromStreamAsync(_source);
-            p.MediaUri = blockBlob.Uri.AbsoluteUri;
+            await blockBlob.UploadFromStreamAsync(Stream);
+            p.BlobUri = blockBlob.Uri.AbsoluteUri;
         }
     }
 }
