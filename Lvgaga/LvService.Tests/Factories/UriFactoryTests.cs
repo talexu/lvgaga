@@ -40,7 +40,7 @@ namespace LvService.Tests.Factories
         {
             //dynamic r = _fixture.UriFactory.ParseTumblrRowKey(rowKey);
             //Assert.Equal(category, r.TumblrCategory);
-            Assert.Equal(invertedTicks, _fixture.UriFactory.CreateInvertedTicksByTumblrRowKey(rowKey));
+            Assert.Equal(invertedTicks, _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(rowKey));
         }
 
         [Theory]
@@ -51,7 +51,7 @@ namespace LvService.Tests.Factories
             string invertedTicks, MediaType mediaType)
         {
             //dynamic r = _fixture.UriFactory.ParseCommentPartitionKey(partitionKey);
-            Assert.Equal(invertedTicks, _fixture.UriFactory.CreateInvertedTicksByCommentPartitionKey(partitionKey));
+            Assert.Equal(invertedTicks, _fixture.UriFactory.GetInvertedTicksFromCommentPartitionKey(partitionKey));
             //Assert.Equal(mediaType, r.MediaType);
         }
     }

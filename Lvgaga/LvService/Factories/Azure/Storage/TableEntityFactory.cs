@@ -52,8 +52,7 @@ namespace LvService.Factories.Azure.Storage
                 MediaUri = mediaUri,
                 ThumbnailUri = thumbnailUri,
                 Text = tumblrText.Text,
-                CreateTime = now,
-                State = EntityState.Active
+                CreateTime = now
             };
         }
 
@@ -71,14 +70,28 @@ namespace LvService.Factories.Azure.Storage
                 UserId = userId,
                 UserName = userName,
                 Text = text,
-                CommentTime = now,
-                State = EntityState.Active
+                CommentTime = now
             };
         }
 
         public ITableEntity CreateFavoriteEntity(dynamic p)
         {
-            return null;
+            string userId = p.UserId;
+            string partitionKey = p.PartitionKey;
+            string rowKey = p.RowKey;
+            string mediaUri = p.MediaUri;
+            string thumbnailUri = p.ThumbnailUri;
+            string text = p.Text;
+            DateTime createTime = p.CreateTime;
+
+            return new FavoriteEntity(userId,
+                _uriFactory.CreateFavoriteRowKey(partitionKey, _uriFactory.GetInvertedTicksFromTumblrRowKey(rowKey)))
+            {
+                MediaUri = mediaUri,
+                ThumbnailUri = thumbnailUri,
+                Text = text,
+                CreateTime = createTime
+            };
         }
 
         private DateTime GetUtcNow()

@@ -14,6 +14,7 @@ using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
+using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage;
 
 namespace LvFakeData
@@ -30,15 +31,19 @@ namespace LvFakeData
 
         public async Task UploadTestTumblrs()
         {
+            TableEntityFactory tableEntityFactory = new TableEntityFactory(new UriFactory());
             ICommand createTumblrCommand = new CreateTableEntitiesCommand(
                 new CreateTumblrCommand(
                     new UploadFromStreamCommand(
                         new UploadThumbnailCommand(
                             new UploadFromStreamCommand(
-                                new UploadMediaCommand())))) { TableEntityFactory = new TableEntityFactory(new UriFactory()) });
+                                new UploadMediaCommand())))) { TableEntityFactory = tableEntityFactory });
 
             ICommand createCommentCommand = new CreateTableEntityCommand(
-                new CreateCommentCommand { TableEntityFactory = new TableEntityFactory() });
+                new CreateCommentCommand { TableEntityFactory = tableEntityFactory });
+
+            ICommand createFavoriteCommand = new CreateTableEntityCommand(
+                new CreateFavoriteCommand { TableEntityFactory = tableEntityFactory });
 
             foreach (var testImage in GetTestImages())
             {
@@ -66,6 +71,7 @@ namespace LvFakeData
 
                     // Execute
                     await createTumblrCommand.ExecuteAsync(pTumblr);
+                    // Create Tumblr End
 
                     // Create Comment
                     TumblrEntity tumblrEntity = pTumblr.Entity;
@@ -79,8 +85,16 @@ namespace LvFakeData
                     for (var i = 0; i < 12; i++)
                     {
                         // Execute
-                        //await createCommentCommand.ExecuteAsync(pComment);
+                        await createCommentCommand.ExecuteAsync(pComment);
                     }
+                    // Create Comment End
+
+                    // Create Favorite
+                    dynamic pFavorite = tumblrEntity.ToExpandoObject();
+                    pFavorite.UserId = "bjutales";
+                    pFavorite.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
+                    await createFavoriteCommand.ExecuteAsync(pFavorite);
+                    // Create Favorite End
                 }
             }
         }

@@ -28,6 +28,15 @@ namespace LvService.Utilities
         }
         #endregion
 
+        #region Verification
+
+        public static bool AllNotNullOrEmpty(this string[] strs)
+        {
+            return strs.All(str => !String.IsNullOrEmpty(str));
+        }
+
+        #endregion
+
         #region Cosine distance
 
         public static bool CosineEqual(this string str1, string str2)

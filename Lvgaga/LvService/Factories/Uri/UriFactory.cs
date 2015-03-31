@@ -38,7 +38,7 @@ namespace LvService.Factories.Uri
             return new[] { category.ToString("D"), invertedTicks }.JoinByUnderline();
         }
 
-        public string CreateInvertedTicksByTumblrRowKey(string rowKey)
+        public string GetInvertedTicksFromTumblrRowKey(string rowKey)
         {
             return rowKey.SubstringByUnderline(1);
         }
@@ -49,7 +49,7 @@ namespace LvService.Factories.Uri
             return new[] { invertedTicks, mediaType.ToString("D") }.JoinByUnderline();
         }
 
-        public string CreateInvertedTicksByCommentPartitionKey(string partitionKey)
+        public string GetInvertedTicksFromCommentPartitionKey(string partitionKey)
         {
             return partitionKey.SubstringByUnderline(0);
         }
@@ -57,10 +57,15 @@ namespace LvService.Factories.Uri
         // Favorite - MediaType_InvertedTicks
         public string CreateFavoriteRowKey(MediaType mediaType, string invertedTicks)
         {
-            return new[] { mediaType.ToString("D"), invertedTicks }.JoinByUnderline();
+            return CreateFavoriteRowKey(mediaType.ToString("D"), invertedTicks);
         }
 
-        public string CreateInvertedTicksByFavoriteRowKey(string rowKey)
+        public string CreateFavoriteRowKey(string mediaType, string invertedTicks)
+        {
+            return new[] { mediaType, invertedTicks }.JoinByUnderline();
+        }
+
+        public string GetInvertedTicksFromFavoriteRowKey(string rowKey)
         {
             return rowKey.SubstringByUnderline(1);
         }

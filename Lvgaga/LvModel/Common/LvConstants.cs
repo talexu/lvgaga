@@ -15,6 +15,7 @@
         public const string RowKey = "RowKey";
         public const string TableNameOfTumblr = "tumblrs";
         public const string TableNameOfComment = "comments";
+        public const string TableNameOfFavorite = "favorites";
         public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("D");
 
         #endregion

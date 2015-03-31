@@ -8,12 +8,13 @@ namespace LvService.Factories.Uri
         string CreateUri(string path);
 
         string CreateTumblrRowKey(TumblrCategory category, string invertedTicks);
-        string CreateInvertedTicksByTumblrRowKey(string rowKey);
+        string GetInvertedTicksFromTumblrRowKey(string rowKey);
 
         string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType);
-        string CreateInvertedTicksByCommentPartitionKey(string partitionKey);
+        string GetInvertedTicksFromCommentPartitionKey(string partitionKey);
 
         string CreateFavoriteRowKey(MediaType mediaType, string invertedTicks);
-        string CreateInvertedTicksByFavoriteRowKey(string rowKey);
+        string CreateFavoriteRowKey(string mediaType, string invertedTicks);
+        string GetInvertedTicksFromFavoriteRowKey(string rowKey);
     }
 }

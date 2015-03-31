@@ -36,7 +36,6 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.Equal(userId, entity.UserId);
             Assert.Equal(userName, entity.UserName);
             Assert.Equal(text, entity.Text);
-            Assert.Equal(EntityState.Active, entity.State);
             Assert.Equal(DateTimeHelper.GetInvertedTicks(entity.CommentTime), entity.RowKey);
         }
     }

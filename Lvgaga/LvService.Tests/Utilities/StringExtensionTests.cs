@@ -2,6 +2,7 @@
 using LvModel.View.Tumblr;
 using LvService.Utilities;
 using Xunit;
+using Xunit.Sdk;
 
 namespace LvService.Tests.Utilities
 {
@@ -20,6 +21,15 @@ namespace LvService.Tests.Utilities
         public void SplitByUnderline_Return_CorrectStrings(string str, string[] strs)
         {
             Assert.True(strs.SequenceEqual(str.SplitByUnderline()));
+        }
+
+        [Theory]
+        [InlineData(new[] { "123", "456" }, true)]
+        [InlineData(new[] { "123", "" }, false)]
+        [InlineData(new[] { "123", null }, false)]
+        public void AllNotNullOrEmpty_Return_CorrectValue(string[] strs, bool notNullOrEmpty)
+        {
+            Assert.Equal(notNullOrEmpty, strs.AllNotNullOrEmpty());
         }
 
         [Theory]

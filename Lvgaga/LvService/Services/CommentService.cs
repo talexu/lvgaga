@@ -9,6 +9,7 @@ using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
 using LvService.Factories.ViewModel;
+using LvService.Utilities;
 
 namespace LvService.Services
 {
@@ -35,18 +36,15 @@ namespace LvService.Services
 
         public async Task<CommentEntity> CreateCommentAsync(string partitionKey, PostedComment comment)
         {
-            dynamic p = new ExpandoObject();
+            dynamic p = comment.ToExpandoObject();
             p.PartitionKey = partitionKey;
-            p.UserId = comment.UserId;
-            p.UserName = comment.UserName;
-            p.Text = comment.Text;
             p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
 
             await _createCommentCommand.ExecuteAsync(p);
             return p.Entity;
         }
 
-        public async Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount)
+        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount)
         {
             var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =

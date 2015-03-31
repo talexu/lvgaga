@@ -128,7 +128,9 @@
     <Compile Include="Commands\Common\CommandChain.cs" />
     <Compile Include="Commands\Tumblr\CreateTumblrCommand.cs" />
     <Compile Include="Services\CommentService.cs" />
+    <Compile Include="Services\FavoriteService.cs" />
     <Compile Include="Services\ICommentService.cs" />
+    <Compile Include="Services\IFavoriteService.cs" />
     <Compile Include="Services\ITumblrService.cs" />
     <Compile Include="Services\TumblrService.cs" />
     <Compile Include="Utilities\BlobHelper.cs" />

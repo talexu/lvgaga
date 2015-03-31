@@ -45,10 +45,10 @@ namespace LvService.Factories.ViewModel
         {
             if (tumblr == null) return null;
 
-            return new CommentModel()
+            return new CommentModel
             {
                 PartitionKey = tumblr.PartitionKey,
-                RowKey = _uriFactory.CreateInvertedTicksByTumblrRowKey(tumblr.RowKey),
+                RowKey = _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey),
                 Uri = tumblr.Uri,
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,

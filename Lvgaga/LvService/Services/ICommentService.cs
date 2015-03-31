@@ -7,6 +7,6 @@ namespace LvService.Services
     public interface ICommentService
     {
         Task<CommentEntity> CreateCommentAsync(string partitionKey, PostedComment comment);
-        Task<CommentModel> GetCommentsAsync(string partitionKey, string rowKey, int takeCount);
+        Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount);
     }
 }

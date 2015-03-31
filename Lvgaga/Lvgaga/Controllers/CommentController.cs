@@ -23,7 +23,7 @@ namespace Lvgaga.Controllers
         [Route("{partitionKey}/{rowKey}")]
         public async Task<ActionResult> Get(string partitionKey, string rowKey)
         {
-            return View(await _commentService.GetCommentsAsync(partitionKey, rowKey, 20));
+            return View(await _commentService.GetCommentModelsAsync(partitionKey, rowKey, 20));
         }
     }
 }
