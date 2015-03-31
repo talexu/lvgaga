@@ -50,7 +50,7 @@ namespace LvService.Factories.Azure.Storage
             return new TumblrEntity(partitionKey, _uriFactory.CreateTumblrRowKey(tumblrText.Category, invertedTicks))
             {
                 MediaUri = mediaUri,
-                Thumbnail = thumbnailUri,
+                ThumbnailUri = thumbnailUri,
                 Text = tumblrText.Text,
                 CreateTime = now,
                 State = EntityState.Active

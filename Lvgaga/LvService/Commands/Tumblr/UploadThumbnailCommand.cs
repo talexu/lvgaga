@@ -39,7 +39,15 @@ namespace LvService.Commands.Tumblr
         public override async Task ExecuteAsync(dynamic p)
         {
             await base.ExecuteAsync(p as ExpandoObject);
-            p.MediaUri = p.BlobUri;
+            try
+            {
+                p.MediaUri = p.BlobUri;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
 
             if (!CanExecute(p)) return;
 

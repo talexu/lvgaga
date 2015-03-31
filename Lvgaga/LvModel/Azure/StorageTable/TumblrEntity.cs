@@ -19,7 +19,7 @@ namespace LvModel.Azure.StorageTable
         }
 
         public string MediaUri { get; set; }
-        public string Thumbnail { get; set; }
+        public string ThumbnailUri { get; set; }
         public string Text { get; set; }
         public DateTime CreateTime { get; set; }
         public EntityState State { get; set; }

@@ -23,6 +23,7 @@ namespace LvService.Tests.Commands.Tumblr
         {
             const string partitionKey = "TestPartitionKey";
             const string mediaUri = "TestMediaUri";
+            const string thumbnailUri = "TestThumbnailUri";
             var tumblrText = new TumblrText
             {
                 Text = "TestText",
@@ -32,6 +33,7 @@ namespace LvService.Tests.Commands.Tumblr
             dynamic p1 = new ExpandoObject();
             p1.PartitionKey = partitionKey;
             p1.MediaUri = mediaUri;
+            p1.ThumbnailUri = thumbnailUri;
             p1.TumblrText = tumblrText;
 
             await Fixture.CreateTumblrCommand.ExecuteAsync(p1);
@@ -57,6 +59,7 @@ namespace LvService.Tests.Commands.Tumblr
         {
             const string partitionKey = "TestPartitionKey";
             const string mediaUri = "TestMediaUri";
+            const string thumbnailUri = "TestThumbnailUri";
             var tumblrText = new TumblrText
             {
                 Text = "TestText",
@@ -66,6 +69,7 @@ namespace LvService.Tests.Commands.Tumblr
             dynamic p1 = new ExpandoObject();
             p1.PartitionKey = partitionKey;
             p1.MediaUri = mediaUri;
+            p1.ThumbnailUri = thumbnailUri;
             p1.TumblrText = tumblrText;
 
             await Fixture.CreateTumblrCommand.ExecuteAsync(p1);

@@ -15,7 +15,7 @@
         public const string RowKey = "RowKey";
         public const string TableNameOfTumblr = "tumblrs";
         public const string TableNameOfComment = "comments";
-        public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("G");
+        public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("D");
 
         #endregion
     }

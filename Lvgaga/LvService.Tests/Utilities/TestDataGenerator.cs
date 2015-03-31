@@ -64,6 +64,7 @@ namespace LvService.Tests.Utilities
             dynamic p = new ExpandoObject();
             p.PartitionKey = partitionKey ?? Guid.NewGuid().ToString();
             p.MediaUri = String.Format("http://www.caoliu.com/{0}.jpg", Guid.NewGuid());
+            p.ThumbnailUri = String.Format("http://www.caoliu.com/{0}.jpg", Guid.NewGuid());
             p.TumblrText = GetTestTumblrText();
             return TableEntityFactory.CreateTumblrEntity(p);
         }
