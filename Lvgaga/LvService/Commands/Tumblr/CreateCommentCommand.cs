@@ -2,6 +2,7 @@
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
+using LvService.Utilities;
 
 namespace LvService.Commands.Tumblr
 {
@@ -31,10 +32,7 @@ namespace LvService.Commands.Tumblr
                 _userId = p.UserId;
                 _userName = p.UserName;
                 _text = p.Text;
-                return !String.IsNullOrEmpty(_partitionKey) &&
-                       !String.IsNullOrEmpty(_userId) &&
-                       !String.IsNullOrEmpty(_userName) &&
-                       !String.IsNullOrEmpty(_text);
+                return new[] { _partitionKey, _userId, _userName, _text }.AllNotNullOrEmpty();
             }
             catch (Exception)
             {

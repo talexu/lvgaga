@@ -39,10 +39,7 @@ namespace LvService.Commands.Tumblr
                 _mediaUri = p.MediaUri;
                 _thumbnailUri = p.ThumbnailUri;
                 _tumblrText = p.TumblrText;
-                return !String.IsNullOrEmpty(_partitionKey) &&
-                       !String.IsNullOrEmpty(_mediaUri) &&
-                       !String.IsNullOrEmpty(_thumbnailUri) &&
-                       _tumblrText != null;
+                return new[] {_partitionKey, _mediaUri, _thumbnailUri}.AllNotNullOrEmpty() && _tumblrText != null;
             }
             catch (Exception)
             {

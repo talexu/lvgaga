@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Dynamic;
 using System.Threading.Tasks;
+using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
@@ -29,7 +30,7 @@ namespace LvService.Commands.Azure.Storage.Table
                 Table = p.Table;
                 PartitionKey = p.PartitionKey;
                 RowKey = p.RowKey;
-                return Table != null && !String.IsNullOrEmpty(PartitionKey) && !String.IsNullOrEmpty(RowKey);
+                return Table != null && new[] { PartitionKey, RowKey }.AllNotNullOrEmpty();
             }
             catch (Exception)
             {

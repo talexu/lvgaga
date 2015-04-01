@@ -1,4 +1,5 @@
-﻿using LvModel.View.Tumblr;
+﻿using System;
+using LvModel.View.Tumblr;
 using LvService.Utilities;
 using Xunit;
 
@@ -23,9 +24,11 @@ namespace LvService.Tests.Utilities
 
         [Theory]
         [InlineData(new[] { "123", "123" }, true)]
-        [InlineData(new[] { true, true }, true)]
-        [InlineData(new[] { true, false }, false)]
         [InlineData(new[] { 1, 1 }, true)]
+        [InlineData(new[] { true, true }, true)]
+        [InlineData(null, true)]
+        [InlineData(new String[] { }, true)]
+        [InlineData(new[] { true, false }, false)]
         [InlineData(new[] { 1, 2 }, false)]
         [InlineData(new[] { "123", "456" }, false)]
         [InlineData(new[] { "123", null }, false)]

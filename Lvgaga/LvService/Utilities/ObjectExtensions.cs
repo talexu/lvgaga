@@ -30,13 +30,15 @@ namespace LvService.Utilities
 
         public static List<T> CloneByJson<T>(this IEnumerable<T> objs)
         {
-            return objs.Select(obj => obj.CloneByJson()).ToList();
+            return objs == null ? null : objs.Select(obj => obj.CloneByJson()).ToList();
         }
 
         public static bool AllEqual<T>(this T[] objs)
         {
-            var obj = objs.First();
-            return objs.All(s => s != null && s.Equals(obj));
+            if (objs == null) return true;
+            if (!objs.Any()) return true;
+            var first = objs.First();
+            return objs.All(s => s != null && s.Equals(first));
         }
     }
 }
