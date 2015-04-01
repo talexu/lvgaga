@@ -70,21 +70,6 @@ namespace LvService.Commands.Tumblr
             if (tumblrEntity == null) return;
             p.Entity = tumblrEntity;
 
-            // Create the copy of TumblrEntity with the category of all
-            //if (_tumblrText.Category.Equals(TumblrCategory.All))
-            //{
-            //    p.Entities = new List<ITableEntity> { tumblrEntity };
-            //}
-            //else
-            //{
-            //    var tempCategory = _tumblrText.Category;
-            //    _tumblrText.Category = TumblrCategory.All;
-            //    var tumblrEntityCateOfAll = TableEntityFactory.CreateTumblrEntity(p);
-            //    if (tumblrEntityCateOfAll == null) return;
-            //    p.Entities = new List<ITableEntity> { tumblrEntity, tumblrEntityCateOfAll };
-            //    _tumblrText.Category = tempCategory;
-            //}
-
             var entities = new List<TumblrEntity> { tumblrEntity };
             if (!_tumblrText.Category.Equals(TumblrCategory.All))
             {

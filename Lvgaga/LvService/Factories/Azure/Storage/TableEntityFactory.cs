@@ -30,22 +30,7 @@ namespace LvService.Factories.Azure.Storage
             TumblrText tumblrText = p.TumblrText;
 
             var now = GetUtcNow();
-            string invertedTicks = null;
-            try
-            {
-                invertedTicks = p.InvertedTicks;
-            }
-            catch (Exception)
-            {
-                invertedTicks = DateTimeHelper.GetInvertedTicks(now);
-            }
-            finally
-            {
-                if (!String.IsNullOrEmpty(invertedTicks))
-                {
-                    p.InvertedTicks = invertedTicks;
-                }
-            }
+            var invertedTicks = DateTimeHelper.GetInvertedTicks(now);
 
             return new TumblrEntity(partitionKey, _uriFactory.CreateTumblrRowKey(tumblrText.Category, invertedTicks))
             {

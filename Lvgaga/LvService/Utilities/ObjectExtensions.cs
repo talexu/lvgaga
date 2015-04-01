@@ -32,5 +32,11 @@ namespace LvService.Utilities
         {
             return objs.Select(obj => obj.CloneByJson()).ToList();
         }
+
+        public static bool AllEqual<T>(this T[] objs)
+        {
+            var obj = objs.First();
+            return objs.All(s => s != null && s.Equals(obj));
+        }
     }
 }
