@@ -35,7 +35,7 @@ namespace LvService.Factories.Uri
         // Tumblr - TumblrCategory_InvertedTicks
         public string CreateTumblrRowKey(TumblrCategory category, string invertedTicks)
         {
-            return new[] { category.ToString("D"), invertedTicks }.JoinByUnderline();
+            return new[] {category.ToString("D"), invertedTicks}.JoinByUnderline();
         }
 
         public string GetInvertedTicksFromTumblrRowKey(string rowKey)
@@ -51,7 +51,7 @@ namespace LvService.Factories.Uri
         // Comment - InvertedTicks_MediaType
         public string CreateCommentPartitionKey(string invertedTicks, MediaType mediaType)
         {
-            return new[] { invertedTicks, mediaType.ToString("D") }.JoinByUnderline();
+            return new[] {invertedTicks, mediaType.ToString("D")}.JoinByUnderline();
         }
 
         public string GetInvertedTicksFromCommentPartitionKey(string partitionKey)
@@ -67,12 +67,17 @@ namespace LvService.Factories.Uri
 
         public string CreateFavoriteRowKey(string mediaType, string invertedTicks)
         {
-            return new[] { mediaType, invertedTicks }.JoinByUnderline();
+            return new[] {mediaType, invertedTicks}.JoinByUnderline();
         }
 
         public string GetInvertedTicksFromFavoriteRowKey(string rowKey)
         {
             return rowKey.SubstringByUnderline(1);
+        }
+
+        public string ReplaceMediaTypeOfRowKey(string rowKey, MediaType mediaType)
+        {
+            return CreateFavoriteRowKey(mediaType, GetInvertedTicksFromFavoriteRowKey(rowKey));
         }
     }
 }

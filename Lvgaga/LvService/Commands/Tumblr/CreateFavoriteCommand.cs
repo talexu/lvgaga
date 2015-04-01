@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
+using LvModel.Azure.StorageTable;
+using LvModel.Common;
 using LvService.Commands.Common;
 using LvService.Utilities;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Tumblr
 {
@@ -53,9 +58,20 @@ namespace LvService.Commands.Tumblr
             if (!CanExecute(p)) return;
 
             // Create FavoriteEntity
-            var favoriteEntity = TableEntityFactory.CreateFavoriteEntity(p);
+            FavoriteEntity favoriteEntity = TableEntityFactory.CreateFavoriteEntity(p);
             if (favoriteEntity == null) return;
             p.Entity = favoriteEntity;
+
+            // Copies
+            var entities = new List<FavoriteEntity> { favoriteEntity };
+            if (!_partitionKey.Equals(LvConstants.PartitionKeyOfAll))
+            {
+                var copyEntity = favoriteEntity.CloneByJson();
+                copyEntity.RowKey = UriFactory.ReplaceMediaTypeOfRowKey(favoriteEntity.RowKey, MediaType.All);
+                entities.Add(copyEntity);
+            }
+
+            p.Entities = entities.Cast<ITableEntity>().ToList();
         }
     }
 }

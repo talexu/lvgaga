@@ -70,6 +70,8 @@ namespace LvService.Factories.Azure.Storage
             string thumbnailUri = p.ThumbnailUri;
             string text = p.Text;
             DateTime createTime = p.CreateTime;
+            string mediaType = p.MediaType;
+            string tumblrCategory = p.TumblrCategory;
 
             return new FavoriteEntity(userId,
                 _uriFactory.CreateFavoriteRowKey(partitionKey, _uriFactory.GetInvertedTicksFromTumblrRowKey(rowKey)))
@@ -77,7 +79,9 @@ namespace LvService.Factories.Azure.Storage
                 MediaUri = mediaUri,
                 ThumbnailUri = thumbnailUri,
                 Text = text,
-                CreateTime = createTime
+                CreateTime = createTime,
+                MediaType = mediaType,
+                TumblrCategory = tumblrCategory
             };
         }
 

@@ -46,6 +46,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.Equal(tumblrText.Category.ToString("D"), entity.RowKey.Substring(0, 1));
             Assert.Equal(mediaUri, entity.MediaUri);
             Assert.Equal(tumblrText.Text, entity.Text);
+            Assert.Equal(partitionKey, entity.MediaType);
+            Assert.Equal(category.ToString("D"), entity.TumblrCategory);
 
             List<ITableEntity> ientities = p1.Entities;
             var entities = ientities.Cast<TumblrEntity>().ToList();
@@ -112,6 +114,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.Equal(tumblrText.Category.ToString("D"), entity.RowKey.Substring(0, 1));
             Assert.Equal(mediaUri, entity.MediaUri);
             Assert.Equal(tumblrText.Text, entity.Text);
+            Assert.Equal(partitionKey, entity.MediaType);
+            Assert.Equal(category.ToString("D"), entity.TumblrCategory);
 
             List<ITableEntity> ientities = p1.Entities;
             var entities = ientities.Cast<TumblrEntity>().ToList();
@@ -122,10 +126,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.True(new[] { entity0.ThumbnailUri, entity1.ThumbnailUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
             Assert.True(new[] { entity0.CreateTime, entity1.CreateTime }.AllEqual());
-            Assert.True(
-                new[] { entity0.MediaType, entity1.MediaType }.AllEqual());
-            Assert.True(
-                new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
+            Assert.True(new[] { entity0.MediaType, entity1.MediaType }.AllEqual());
+            Assert.True(new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
             Assert.True(new[]
             {
                 Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
@@ -167,6 +169,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.Equal(tumblrText.Category.ToString("D"), entity.RowKey.Substring(0, 1));
             Assert.Equal(mediaUri, entity.MediaUri);
             Assert.Equal(tumblrText.Text, entity.Text);
+            Assert.Equal(partitionKey, entity.MediaType);
+            Assert.Equal(category.ToString("D"), entity.TumblrCategory);
 
             List<ITableEntity> ientities = p1.Entities;
             var entities = ientities.Cast<TumblrEntity>().ToList();
@@ -177,10 +181,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.True(new[] { entity0.ThumbnailUri, entity1.ThumbnailUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
             Assert.True(new[] { entity0.CreateTime, entity1.CreateTime }.AllEqual());
-            Assert.True(
-                new[] { entity0.MediaType, entity1.MediaType }.AllEqual());
-            Assert.True(
-                new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
+            Assert.True(new[] { entity0.MediaType, entity1.MediaType }.AllEqual());
+            Assert.True(new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
             Assert.True(new[]
             {
                 Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),

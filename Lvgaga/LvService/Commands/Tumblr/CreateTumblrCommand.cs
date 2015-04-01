@@ -19,7 +19,6 @@ namespace LvService.Commands.Tumblr
         private string _mediaUri;
         private string _thumbnailUri;
         private TumblrText _tumblrText;
-        public IUriFactory UriFactory { get; set; }
 
         public CreateTumblrCommand()
         {
@@ -70,6 +69,7 @@ namespace LvService.Commands.Tumblr
             if (tumblrEntity == null) return;
             p.Entity = tumblrEntity;
 
+            // Copies
             var entities = new List<TumblrEntity> { tumblrEntity };
             if (!_tumblrText.Category.Equals(TumblrCategory.All))
             {

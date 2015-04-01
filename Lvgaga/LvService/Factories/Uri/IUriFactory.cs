@@ -17,5 +17,6 @@ namespace LvService.Factories.Uri
         string CreateFavoriteRowKey(MediaType mediaType, string invertedTicks);
         string CreateFavoriteRowKey(string mediaType, string invertedTicks);
         string GetInvertedTicksFromFavoriteRowKey(string rowKey);
+        string ReplaceMediaTypeOfRowKey(string rowKey, MediaType mediaType);
     }
 }

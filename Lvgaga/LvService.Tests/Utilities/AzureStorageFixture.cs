@@ -56,13 +56,15 @@ namespace LvService.Tests.Utilities
         // Comment
         public CreateCommentCommand CreateCommentCommand = new CreateCommentCommand
         {
-            TableEntityFactory = new TableEntityFactory(new UriFactory())
+            TableEntityFactory = new TableEntityFactory(new UriFactory()),
+            UriFactory = new UriFactory()
         };
 
         // Favorite
         public CreateFavoriteCommand CreateFavoriteCommand = new CreateFavoriteCommand
         {
-            TableEntityFactory = new TableEntityFactory(new UriFactory())
+            TableEntityFactory = new TableEntityFactory(new UriFactory()),
+            UriFactory = new UriFactory()
         };
 
         public AzureStorageFixture()
