@@ -9,18 +9,6 @@ namespace LvService.Factories.ViewModel
 {
     public class CommentFactory : ICommentFactory
     {
-        private readonly IUriFactory _uriFactory;
-
-        public CommentFactory()
-        {
-
-        }
-
-        public CommentFactory(IUriFactory uriFactory)
-        {
-            _uriFactory = uriFactory;
-        }
-
         public CommentItem CreateCommentItem(CommentEntity entity)
         {
             if (entity == null) return null;
@@ -48,7 +36,7 @@ namespace LvService.Factories.ViewModel
             return new CommentModel
             {
                 PartitionKey = tumblr.PartitionKey,
-                RowKey = _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey),
+                RowKey = tumblr.RowKey,
                 Uri = tumblr.Uri,
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,

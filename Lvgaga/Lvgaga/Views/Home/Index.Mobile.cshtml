@@ -6,7 +6,7 @@
 <div>
     @foreach (var tumblr in Model)
     {
-        <div>
+        <div id="@tumblr.Id" pk="@tumblr.PartitionKey" rk="@tumblr.RowKey">
             <img class="img-tumblr lazy" data-original="@tumblr.MediaUri" alt="" />
             <div class="content">
                 <p class="text-tumblr">@tumblr.Text</p>

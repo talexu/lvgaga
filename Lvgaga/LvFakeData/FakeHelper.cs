@@ -25,25 +25,39 @@ namespace LvFakeData
 
         public FakeHelper()
         {
-            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
-
+            //_azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
+            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagadev;AccountKey=IKD1g3adEkdKbPllg8brzwYfR5ge8R8G7uFFJH/XzSySqHu0/2De7s5dsbVk29JBDhPo5P9w5YU3d5tyn9Vo0w==")));
         }
 
         public async Task UploadTestTumblrs()
         {
-            TableEntityFactory tableEntityFactory = new TableEntityFactory(new UriFactory());
+            var uriFactory = new UriFactory();
+            var tableEntityFactory = new TableEntityFactory(uriFactory);
+
             ICommand createTumblrCommand = new CreateTableEntitiesCommand(
                 new CreateTumblrCommand(
                     new UploadFromStreamCommand(
                         new UploadThumbnailCommand(
                             new UploadFromStreamCommand(
-                                new UploadMediaCommand())))) { TableEntityFactory = tableEntityFactory });
+                                new UploadMediaCommand()))))
+                {
+                    TableEntityFactory = tableEntityFactory,
+                    UriFactory = uriFactory
+                });
 
             ICommand createCommentCommand = new CreateTableEntityCommand(
-                new CreateCommentCommand { TableEntityFactory = tableEntityFactory });
+                new CreateCommentCommand
+                {
+                    TableEntityFactory = tableEntityFactory,
+                    UriFactory = uriFactory
+                });
 
-            ICommand createFavoriteCommand = new CreateTableEntityCommand(
-                new CreateFavoriteCommand { TableEntityFactory = tableEntityFactory });
+            ICommand createFavoriteCommand = new CreateTableEntitiesCommand(
+                new CreateFavoriteCommand
+                {
+                    TableEntityFactory = tableEntityFactory,
+                    UriFactory = uriFactory
+                });
 
             foreach (var testImage in GetTestImages())
             {
@@ -63,7 +77,7 @@ namespace LvFakeData
                     pTumblr.TumblrText = new TumblrText
                     {
                         Text = "你也曾当过笨蛋，也曾试着当瞎子当聋子的去信任一个人，你也知道世界上最可悲的就是自我欺骗，但是人笨过傻过瞎过就够了，你更要懂得爱自己，而不是一直重蹈覆辙，还自以为多痴情。",
-                        Category = TumblrCategory.C1
+                        Category = TumblrCategory.C2
                     };
 
                     // Table
@@ -71,10 +85,11 @@ namespace LvFakeData
 
                     // Execute
                     await createTumblrCommand.ExecuteAsync(pTumblr);
+                    TumblrEntity tumblrEntity = pTumblr.Entity;
                     // Create Tumblr End
 
+                    /*
                     // Create Comment
-                    TumblrEntity tumblrEntity = pTumblr.Entity;
                     dynamic pComment = new ExpandoObject();
                     pComment.PartitionKey = tumblrEntity.RowKey.Substring(2);
                     pComment.UserId = "UserID@" + Guid.NewGuid();
@@ -95,6 +110,7 @@ namespace LvFakeData
                     pFavorite.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
                     await createFavoriteCommand.ExecuteAsync(pFavorite);
                     // Create Favorite End
+                     * */
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace Lvgaga.Controllers
 
         public CommentController()
         {
-            
+
         }
 
         public CommentController(ICommentService commentService)
@@ -23,7 +23,12 @@ namespace Lvgaga.Controllers
         [Route("{partitionKey}/{rowKey}")]
         public async Task<ActionResult> Get(string partitionKey, string rowKey)
         {
-            return View(await _commentService.GetCommentModelsAsync(partitionKey, rowKey, 20));
+            var comments = await _commentService.GetCommentModelsAsync(partitionKey, rowKey, 20);
+            if (comments != null)
+            {
+                return View(comments);
+            }
+            return HttpNotFound();
         }
     }
 }

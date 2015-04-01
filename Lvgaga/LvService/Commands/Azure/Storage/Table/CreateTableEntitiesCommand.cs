@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -24,12 +25,15 @@ namespace LvService.Commands.Azure.Storage.Table
 
             if (!CanExecute(p)) return;
 
-            var batchOperation = new TableBatchOperation();
-            foreach (var entity in Entities)
+            foreach (var group in Entities.GroupBy(e => e.PartitionKey))
             {
-                batchOperation.Insert(entity);
+                var batchOperation = new TableBatchOperation();
+                foreach (var entity in group)
+                {
+                    batchOperation.Insert(entity);
+                }
+                await Table.ExecuteBatchAsync(batchOperation);
             }
-            await Table.ExecuteBatchAsync(batchOperation);
         }
     }
 }

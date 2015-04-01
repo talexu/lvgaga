@@ -26,15 +26,19 @@ namespace LvService.Factories.ViewModel
         {
             if (tumblrEntity == null) return null;
 
+            var invertedTicks = _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblrEntity.RowKey);
+            var path = Path.Combine(tumblrEntity.PartitionKey, invertedTicks);
+
             return new TumblrModel
             {
                 PartitionKey = tumblrEntity.PartitionKey,
-                RowKey = tumblrEntity.RowKey,
-                Uri =
-                    _uriFactory.CreateUri(Path.Combine(CommentControllerName, tumblrEntity.PartitionKey,
-                        _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblrEntity.RowKey))),
+                RowKey = invertedTicks,
+                Id = path,
+                Uri = _uriFactory.CreateUri(Path.Combine(CommentControllerName, path)),
+                MediaType = tumblrEntity.MediaType,
                 MediaUri = tumblrEntity.MediaUri,
-                Thumbnail = tumblrEntity.ThumbnailUri,
+                ThumbnailUri = tumblrEntity.ThumbnailUri,
+                TumblrCategory = tumblrEntity.TumblrCategory,
                 Text = tumblrEntity.Text,
                 CreateTime = tumblrEntity.CreateTime
             };
