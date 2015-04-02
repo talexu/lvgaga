@@ -17,14 +17,14 @@ namespace LvService.Commands.Azure.Storage.Table
             PreviousCommand = command;
         }
 
-        public bool CanExecute<T>(dynamic p) where T : ITableEntity, new()
+        public bool CanExecute(dynamic p)
         {
             return PreviousCommand != null;
         }
 
         public virtual async Task<T> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new()
         {
-            if (CanExecute<T>(p)) return await PreviousCommand.ExecuteAsync<T>(p);
+            if (CanExecute(p)) return await PreviousCommand.ExecuteAsync<T>(p);
             return default(T);
         }
     }

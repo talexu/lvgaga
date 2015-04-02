@@ -43,6 +43,7 @@ namespace LvService.Tests.Commands.Tumblr
 
             const string userId = "userid";
             dynamic p2 = tumblr.ToExpandoObject();
+            p2.RowKey = Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey);
             p2.UserId = userId;
             await Fixture.CreateFavoriteCommand.ExecuteAsync(p2);
             FavoriteEntity favorite = p2.Entity;
@@ -85,6 +86,7 @@ namespace LvService.Tests.Commands.Tumblr
 
             const string userId = "userid";
             dynamic p2 = tumblr.ToExpandoObject();
+            p2.RowKey = Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey);
             p2.UserId = userId;
             await Fixture.CreateFavoriteCommand.ExecuteAsync(p2);
             FavoriteEntity favorite = p2.Entity;

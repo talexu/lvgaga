@@ -1,6 +1,4 @@
 ﻿using System;
-using LvModel.Common;
-using LvModel.View.Tumblr;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvModel.Azure.StorageTable

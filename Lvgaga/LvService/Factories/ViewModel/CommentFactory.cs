@@ -3,7 +3,6 @@ using System.Linq;
 using LvModel.Azure.StorageTable;
 using LvModel.View.Comment;
 using LvModel.View.Tumblr;
-using LvService.Factories.Uri;
 
 namespace LvService.Factories.ViewModel
 {
@@ -41,6 +40,7 @@ namespace LvService.Factories.ViewModel
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,
                 CreateTime = tumblr.CreateTime,
+                IsFavorited = false,
                 Comments = CreateCommentItems(entities)
             };
         }

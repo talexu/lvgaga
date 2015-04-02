@@ -17,6 +17,9 @@
 .btn-selected {
   color: crimson;
 }
+.btn-selected:focus {
+  color: crimson;
+}
 .box-comment {
   margin-bottom: 10px;
 }

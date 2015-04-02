@@ -5,6 +5,11 @@
     /// </summary>
     public class FavoriteEntity : TumblrEntity
     {
+        public FavoriteEntity()
+        {
+
+        }
+
         public FavoriteEntity(string userId, string tumblrId)
         {
             PartitionKey = userId;

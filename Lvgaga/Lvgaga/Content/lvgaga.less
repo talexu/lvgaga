@@ -24,8 +24,12 @@
     color: #ccc;
 }
 
+@selected-color: crimson;
 .btn-selected {
-    color: crimson;
+    color: @selected-color;
+}
+.btn-selected:focus{
+    color: @selected-color;
 }
 
 // comment

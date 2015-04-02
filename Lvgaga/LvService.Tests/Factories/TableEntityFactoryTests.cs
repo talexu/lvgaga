@@ -2,20 +2,18 @@
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
-using LvService.Factories.Azure.Storage;
-using LvService.Factories.Uri;
+using LvService.Tests.Utilities;
 using LvService.Utilities;
 using Xunit;
 
 namespace LvService.Tests.Factories
 {
-    public class TableEntityFactoryTests
+    public class TableEntityFactoryTests : AzureStorageTestsBase
     {
-        private readonly ITableEntityFactory _tableEntityFactory;
-
-        public TableEntityFactoryTests()
+        public TableEntityFactoryTests(AzureStorageFixture fixture)
+            : base(fixture)
         {
-            _tableEntityFactory = new TableEntityFactory(new UriFactory());
+
         }
 
         [Fact]
@@ -30,7 +28,7 @@ namespace LvService.Tests.Factories
                 Text = "Test text",
                 Category = TumblrCategory.C1
             };
-            TumblrEntity data = _tableEntityFactory.CreateTumblrEntity(p);
+            TumblrEntity data = Fixture.TableEntityFactory.CreateTumblrEntity(p);
 
             Assert.Equal(p.PartitionKey, data.PartitionKey);
             Assert.Equal(
@@ -53,18 +51,18 @@ namespace LvService.Tests.Factories
                 Text = "Test text",
                 Category = TumblrCategory.C1
             };
-            TumblrEntity tumblr = _tableEntityFactory.CreateTumblrEntity(p);
+            TumblrEntity tumblr = Fixture.TableEntityFactory.CreateTumblrEntity(p);
 
             const string userId = "userid";
-            var uriFactory = new UriFactory();
             dynamic p1 = tumblr.ToExpandoObject();
+            p1.RowKey = Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey);
             p1.UserId = userId;
-            FavoriteEntity favorite = _tableEntityFactory.CreateFavoriteEntity(p1);
+            FavoriteEntity favorite = Fixture.TableEntityFactory.CreateFavoriteEntity(p1);
 
             Assert.Equal(userId, favorite.PartitionKey);
             Assert.Equal(
-                uriFactory.CreateFavoriteRowKey(p.PartitionKey,
-                    uriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey)), favorite.RowKey);
+                Fixture.UriFactory.CreateFavoriteRowKey(p.PartitionKey,
+                    Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey)), favorite.RowKey);
             Assert.Equal(tumblr.MediaUri, favorite.MediaUri);
             Assert.Equal(tumblr.ThumbnailUri, favorite.ThumbnailUri);
             Assert.Equal(tumblr.Text, favorite.Text);

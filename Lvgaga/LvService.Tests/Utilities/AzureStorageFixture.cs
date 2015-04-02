@@ -21,6 +21,7 @@ namespace LvService.Tests.Utilities
 
         // UriFactory
         public UriFactory UriFactory = new UriFactory();
+        public TableEntityFactory TableEntityFactory = new TableEntityFactory(new UriFactory());
 
         // Container
         public DeleteContainerCommand DeleteContainerCommand = new DeleteContainerCommand();

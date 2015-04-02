@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using LvService.Services;
+using Microsoft.AspNet.Identity;
 
 namespace Lvgaga.Controllers
 {
@@ -23,7 +24,7 @@ namespace Lvgaga.Controllers
         [Route("{partitionKey}/{rowKey}")]
         public async Task<ActionResult> Get(string partitionKey, string rowKey)
         {
-            var comments = await _commentService.GetCommentModelsAsync(partitionKey, rowKey, 20);
+            var comments = await _commentService.GetCommentModelsAsync(partitionKey, rowKey, 20, User.Identity.GetUserId());
             if (comments != null)
             {
                 return View(comments);

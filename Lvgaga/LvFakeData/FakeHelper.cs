@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,6 @@ using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
-using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage;
 
 namespace LvFakeData

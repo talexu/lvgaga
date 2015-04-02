@@ -27,7 +27,7 @@ namespace LvService.Factories.ViewModel
             if (tumblrEntity == null) return null;
 
             var invertedTicks = _uriFactory.GetInvertedTicksFromTumblrRowKey(tumblrEntity.RowKey);
-            var path = Path.Combine(tumblrEntity.PartitionKey, invertedTicks);
+            var path = Path.Combine(tumblrEntity.MediaType, invertedTicks);
 
             return new TumblrModel
             {

@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
@@ -17,6 +18,7 @@ namespace LvService.Services
     {
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createCommentCommand;
+        private readonly ITableEntityCommand _entityCommand;
         private readonly ITableEntitiesCommand _entitiesCommand;
         private readonly ITumblrService _tumblrService;
 
@@ -24,11 +26,13 @@ namespace LvService.Services
         private readonly IUriFactory _uriFactory;
 
         public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
-            ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory, IUriFactory uriFactory)
+            ITableEntityCommand entityCommand, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory,
+            IUriFactory uriFactory)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
+            _entityCommand = entityCommand;
             _entitiesCommand = entitiesCommand;
             _commentFactory = commentFactory;
             _uriFactory = uriFactory;
@@ -44,7 +48,7 @@ namespace LvService.Services
             return p.Entity;
         }
 
-        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount)
+        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount, string userId = null)
         {
             var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
@@ -57,7 +61,18 @@ namespace LvService.Services
             p.PartitionKey = rowKey;
             p.TakeCount = takeCount;
 
-            return _commentFactory.CreateCommentModels(tumblr, await _entitiesCommand.ExecuteAsync<CommentEntity>(p));
+            CommentModel model = _commentFactory.CreateCommentModels(tumblr, await _entitiesCommand.ExecuteAsync<CommentEntity>(p));
+            if (String.IsNullOrEmpty(userId)) return model;
+
+            dynamic pf = new ExpandoObject();
+            pf.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
+            pf.PartitionKey = userId;
+            pf.RowKey = _uriFactory.CreateFavoriteRowKey(partitionKey, rowKey);
+
+            var favorite = await _entityCommand.ExecuteAsync<FavoriteEntity>(pf);
+            model.IsFavorited = favorite != null;
+
+            return model;
         }
     }
 }

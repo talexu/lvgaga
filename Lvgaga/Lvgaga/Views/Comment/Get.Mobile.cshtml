@@ -7,7 +7,7 @@
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
-        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+        <button id="btn_favorite" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
     </div>
     <div class="content">
@@ -32,18 +32,28 @@
 </div>
 
 @section scripts{
+    @Scripts.Render("~/bundles/business")
     <script>
-        (function() {
+    (function() {
+        var isFavorite = @(Model.IsFavorited ? "true" : "false");
+            var btnFavorite = $("#btn_favorite");
+            if (isFavorite) {
+                btnFavorite.addClass("btn-selected");
+            }
+            btnFavorite.on("touchend", function(event) {
+                favorite("@Model.PartitionKey", "@Model.RowKey", $(event.currentTarget));
+            });
+
             var txb = $("#txb_comment");
             var cms = $("#div_comments");
-            $("#btn_send").click(function() {
+            $("#btn_send").on("touchend", function() {
                 var text = txb.val();
                 if (text.trim()) {
                     $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
-                    {
-                        "Text": text
-                    }).done(function(data, textStatus, jqXHR) {
-                        switch (jqXHR.status) {
+                {
+                    "Text": text
+                }).done(function(data, textStatus, jqXHR) {
+                    switch (jqXHR.status) {
                         case 201:
                             cms.prepend($("<div></div>").
                                 append($("<hr></hr>").addClass("hr-comment")).
@@ -60,10 +70,10 @@
                             break;
                         default:
 
-                        }
-                    });
-                }
-            });
-        })();
+                    }
+                });
+            }
+        });
+    })();
     </script>
 }

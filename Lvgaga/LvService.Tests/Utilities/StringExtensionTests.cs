@@ -2,7 +2,6 @@
 using LvModel.View.Tumblr;
 using LvService.Utilities;
 using Xunit;
-using Xunit.Sdk;
 
 namespace LvService.Tests.Utilities
 {

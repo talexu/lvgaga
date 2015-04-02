@@ -6,7 +6,7 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public interface ITableEntitiesCommand
     {
-        bool CanExecute<T>(dynamic p) where T : ITableEntity, new();
+        bool CanExecute(dynamic p);
         Task<List<T>> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new();
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Web.Configuration;
 using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
@@ -20,6 +19,7 @@ namespace Lvgaga
     public class UnityConfig
     {
         #region Unity Container
+
         private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
         {
             var container = new UnityContainer();
@@ -34,6 +34,7 @@ namespace Lvgaga
         {
             return container.Value;
         }
+
         #endregion
 
         /// <summary>Registers the type mappings with the Unity container.</summary>
@@ -53,9 +54,9 @@ namespace Lvgaga
             container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
 
             // Cloud
-            container.RegisterInstance(CloudStorageAccount.Parse(
-                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
-            //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
+            //container.RegisterInstance(CloudStorageAccount.Parse(
+            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(AzureStorageDb)));
 
@@ -86,14 +87,24 @@ namespace Lvgaga
                     typeof(ITumblrFactory)));
 
             // Comment
+            const string emptyFavoriteReader = "empty://favorite/reader";
+            container.RegisterType<ITableEntityCommand, ReadFavoriteEntityCommand>(emptyFavoriteReader,
+                new InjectionConstructor());
+            const string favoriteEntityReader = "favorite://entity/reader";
+            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(favoriteEntityReader,
+                new InjectionConstructor(new ResolvedParameter<ITableEntityCommand>(emptyFavoriteReader)));
+
             const string emptyCommentsReader = "empty://comments/reader";
             container.RegisterType<ITableEntitiesCommand, ReadCommentEntitiesCommand>(emptyCommentsReader,
                 new InjectionConstructor());
             const string commentEntitiesReader = "comments://entities/reader";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
+
             container.RegisterType<CreateCommentCommand, CreateCommentCommand>(new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)));
+                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
+                new InjectionProperty("UriFactory", typeof(IUriFactory)));
+
             const string createCommentCommand = "post comments://entity";
             container.RegisterType<ICommand, CreateTableEntityCommand>(createCommentCommand,
                 new InjectionConstructor(typeof(CreateCommentCommand)));
@@ -105,8 +116,23 @@ namespace Lvgaga
                     typeof(IAzureStorage),
                     new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
+                    new ResolvedParameter<ITableEntityCommand>(favoriteEntityReader),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
                     typeof(ICommentFactory),
+                    typeof(IUriFactory)));
+
+            // Favorite
+            container.RegisterType<CreateFavoriteCommand, CreateFavoriteCommand>(new InjectionConstructor(),
+                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
+                new InjectionProperty("UriFactory", typeof(IUriFactory)));
+            const string createFavoriteCommand = "post favorites://entity";
+            container.RegisterType<ICommand, CreateTableEntitiesCommand>(createFavoriteCommand,
+                new InjectionConstructor(typeof(CreateFavoriteCommand)));
+            container.RegisterType<IFavoriteService, FavoriteService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    typeof(IAzureStorage),
+                    new ResolvedParameter<ICommand>(createFavoriteCommand),
+                    typeof(ITumblrService),
                     typeof(IUriFactory)));
         }
     }

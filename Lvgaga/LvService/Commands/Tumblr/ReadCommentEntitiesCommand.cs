@@ -23,7 +23,7 @@ namespace LvService.Commands.Tumblr
 
         }
 
-        public new bool CanExecute<T>(dynamic p)
+        public new bool CanExecute(dynamic p)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace LvService.Commands.Tumblr
         {
             await base.ExecuteAsync<T>(p as ExpandoObject);
 
-            if (!CanExecute<T>(p)) return null;
+            if (!CanExecute(p)) return null;
 
             p.Filter = TableQuery.GenerateFilterCondition(LvConstants.PartitionKey, QueryComparisons.Equal,
                 _partitionKey);
