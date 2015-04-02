@@ -15,13 +15,15 @@ namespace LvService.Services
     {
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createFavoriteCommand;
+        private readonly ICommand _deleteFavoriteCommand;
         private readonly ITumblrService _tumblrService;
         private readonly IUriFactory _uriFactory;
 
-        public FavoriteService(IAzureStorage azureStorage, ICommand createFavoriteCommand, ITumblrService tumblrService, IUriFactory uriFactory)
+        public FavoriteService(IAzureStorage azureStorage, ICommand createFavoriteCommand, ICommand deleteFavoriteCommand, ITumblrService tumblrService, IUriFactory uriFactory)
         {
             _azureStorage = azureStorage;
             _createFavoriteCommand = createFavoriteCommand;
+            _deleteFavoriteCommand = deleteFavoriteCommand;
             _tumblrService = tumblrService;
             _uriFactory = uriFactory;
         }
@@ -43,6 +45,11 @@ namespace LvService.Services
         }
 
         public Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, MediaType mediaType, int takeCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFavoriteAsync(string userId, string partitionKey, string rowKey)
         {
             throw new NotImplementedException();
         }

@@ -101,6 +101,8 @@ namespace Lvgaga
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(commentEntitiesReader,
                 new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyCommentsReader)));
 
+            // TODO: add delete favorite command
+
             container.RegisterType<CreateCommentCommand, CreateCommentCommand>(new InjectionConstructor(),
                 new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));

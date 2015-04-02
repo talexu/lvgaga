@@ -1,8 +1,8 @@
-﻿function favorite(pk, rk, btn) {
+﻿function favorite(pk, rk, callback) {
     $.post("/api/v1/favorites/".concat(pk, "/", rk)).done(function (data, textStatus, jqXHR) {
         switch (jqXHR.status) {
             case 201:
-                btn.addClass("btn-selected");
+                callback();
                 break;
             case 200:
                 var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
@@ -13,5 +13,14 @@
             default:
 
         }
+    });
+}
+
+function unFavorite(pk, rk, callback) {
+    $.ajax({
+        url: "/api/v1/favorites/".concat(pk, "/", rk),
+        type: "DELETE"
+    }).done(function (data, textStatus, jqXHR) {
+        callback();
     });
 }

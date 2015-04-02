@@ -32,5 +32,13 @@ namespace Lvgaga.Controllers.V1
             }
             return BadRequest();
         }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("{partitionKey}/{rowKey}")]
+        public async Task<IHttpActionResult> Delete(string partitionKey, string rowKey)
+        {
+            return null;
+        }
     }
 }
