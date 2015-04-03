@@ -21,17 +21,28 @@ namespace Lvgaga.Controllers
             _tumblrService = tumblrServic;
         }
 
+        [Route("{mediaType}")]
+        public async Task<ActionResult> Index(string mediaType)
+        {
+            return await ActualIndex(mediaType);
+        }
+
         // GET: Tumblr
         public async Task<ActionResult> Index()
         {
-            ViewBag.MediaType = LvConstants.PartitionKeyOfAll;
+            return await ActualIndex(LvConstants.PartitionKeyOfAll);
+        }
 
-            var tumblrs =
-                await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20);
+        private async Task<ActionResult> ActualIndex(string mediaType)
+        {
+            ViewBag.MediaType = mediaType;
+
+            var tumblrs = await _tumblrService.GetTumblrModelsAsync(mediaType, TumblrCategory.All, 20);
             if (tumblrs == null || !tumblrs.Any()) return HttpNotFound();
 
             ViewBag.From = tumblrs.First().RowKey;
             ViewBag.To = tumblrs.Last().RowKey;
+
             return View(tumblrs);
         }
 
