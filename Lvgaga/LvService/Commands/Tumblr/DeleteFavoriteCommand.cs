@@ -1,6 +1,6 @@
 ﻿namespace LvService.Commands.Tumblr
 {
-    public class ReadFavoriteEntitiesCommand
+    public class DeleteFavoriteCommand
     {
          
     }

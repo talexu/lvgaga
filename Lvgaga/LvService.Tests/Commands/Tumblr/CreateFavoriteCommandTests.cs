@@ -45,7 +45,7 @@ namespace LvService.Tests.Commands.Tumblr
             dynamic p2 = tumblr.ToExpandoObject();
             p2.RowKey = Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey);
             p2.UserId = userId;
-            await Fixture.CreateFavoriteCommand.ExecuteAsync(p2);
+            await Fixture.CreateFavoriteCommandOffline.ExecuteAsync(p2);
             FavoriteEntity favorite = p2.Entity;
             Assert.Equal(favorite.PartitionKey, userId);
             Assert.Equal(favorite.RowKey,
@@ -88,7 +88,7 @@ namespace LvService.Tests.Commands.Tumblr
             dynamic p2 = tumblr.ToExpandoObject();
             p2.RowKey = Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey);
             p2.UserId = userId;
-            await Fixture.CreateFavoriteCommand.ExecuteAsync(p2);
+            await Fixture.CreateFavoriteCommandOffline.ExecuteAsync(p2);
             FavoriteEntity favorite = p2.Entity;
             Assert.Equal(favorite.PartitionKey, userId);
             Assert.Equal(favorite.RowKey,

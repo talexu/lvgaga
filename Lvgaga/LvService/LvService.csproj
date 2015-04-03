@@ -107,9 +107,9 @@
     <Compile Include="Commands\Tumblr\CreateCommentCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateFavoriteCommand.cs" />
     <Compile Include="Commands\Tumblr\CreateLvEntityCommand.cs" />
+    <Compile Include="Commands\Tumblr\DeleteFavoriteCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadCommentEntitiesCommand.cs" />
-    <Compile Include="Commands\Tumblr\ReadFavoriteEntitiesCommand.cs" />
-    <Compile Include="Commands\Tumblr\ReadFavoriteEntityCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadPointFavoriteEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrEntitiesWithCategoryCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadMediaCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadThumbnailCommand.cs" />

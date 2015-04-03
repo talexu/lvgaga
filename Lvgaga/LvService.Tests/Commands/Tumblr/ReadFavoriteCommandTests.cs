@@ -26,7 +26,7 @@ namespace LvService.Tests.Commands.Tumblr
             var mediaType = MediaType.Image.ToString("D");
             var rowKey = Fixture.UriFactory.CreateFavoriteRowKey(mediaType, now);
             // Create
-            FavoriteEntity favorite = new FavoriteEntity(userId, rowKey)
+            var favorite = new FavoriteEntity(userId, rowKey)
             {
                 MediaType = mediaType,
                 CreateTime = DateTime.UtcNow,

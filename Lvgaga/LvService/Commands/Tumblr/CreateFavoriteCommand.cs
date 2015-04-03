@@ -13,7 +13,7 @@ namespace LvService.Commands.Tumblr
 {
     public class CreateFavoriteCommand : CreateLvEntityCommand
     {
-        private string _partitionKey;
+        private string _mediaType;
         private string _rowKey;
         private string _mediaUri;
         private string _thumbnailUri;
@@ -35,14 +35,14 @@ namespace LvService.Commands.Tumblr
         {
             try
             {
-                _partitionKey = p.PartitionKey;
+                _mediaType = p.MediaType;
                 _rowKey = p.RowKey;
                 _mediaUri = p.MediaUri;
                 _thumbnailUri = p.ThumbnailUri;
                 _text = p.Text;
                 _createTime = p.CreateTime;
 
-                return new[] { _partitionKey, _rowKey, _mediaUri, _thumbnailUri, _text }.AllNotNullOrEmpty() &&
+                return new[] { _mediaType, _rowKey, _mediaUri, _thumbnailUri, _text }.AllNotNullOrEmpty() &&
                        _createTime != null;
             }
             catch (Exception)
@@ -64,7 +64,7 @@ namespace LvService.Commands.Tumblr
 
             // Copies
             var entities = new List<FavoriteEntity> { favoriteEntity };
-            if (!_partitionKey.Equals(LvConstants.PartitionKeyOfAll))
+            if (!_mediaType.Equals(LvConstants.PartitionKeyOfAll))
             {
                 var copyEntity = favoriteEntity.CloneByJson();
                 copyEntity.RowKey = UriFactory.ReplaceMediaTypeOfRowKey(favoriteEntity.RowKey, MediaType.All);

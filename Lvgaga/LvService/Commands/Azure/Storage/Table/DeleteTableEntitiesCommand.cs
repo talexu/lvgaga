@@ -1,12 +1,17 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class DeleteTableEntitiesCommand : TableCudBatchCommand
+    public class DeleteTableEntitiesCommand : TableCudBatchCommand, ITableEntitiesCommand
     {
+        public ITableEntitiesCommand TableEntitiesCommand { get; set; }
+
         public DeleteTableEntitiesCommand()
         {
 
@@ -24,12 +29,31 @@ namespace LvService.Commands.Azure.Storage.Table
 
             if (!CanExecute(p)) return;
 
-            var batchOperation = new TableBatchOperation();
-            foreach (var entity in Entities)
+            foreach (var group in Entities.GroupBy(e => e.PartitionKey))
             {
-                batchOperation.Delete(entity);
+                var batchOperation = new TableBatchOperation();
+                foreach (var entity in group)
+                {
+                    batchOperation.Delete(entity);
+                }
+                try
+                {
+                    await Table.ExecuteBatchAsync(batchOperation);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
-            await Table.ExecuteBatchAsync(batchOperation);
+        }
+
+        public async Task<List<T>> ExecuteAsync<T>(dynamic p) where T : ITableEntity, new()
+        {
+            var entities = await TableEntitiesCommand.ExecuteAsync<T>(p as ExpandoObject);
+            p.Entities = entities.Cast<ITableEntity>().ToList();
+            await ExecuteAsync(p);
+
+            return entities;
         }
     }
 }

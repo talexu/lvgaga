@@ -42,14 +42,14 @@
             }
             btnFavorite.on("touchend", function(event) {
                 if (!isFavorite) {
+                    $(event.currentTarget).addClass("btn-selected");
+                    isFavorite = true;
                     favorite("@Model.PartitionKey", "@Model.RowKey", function() {
-                        $(event.currentTarget).addClass("btn-selected");
-                        isFavorite = true;
                     });
                 } else {
+                    $(event.currentTarget).removeClass("btn-selected");
+                    isFavorite = false;
                     unFavorite("@Model.PartitionKey", "@Model.RowKey", function() {
-                        $(event.currentTarget).removeClass("btn-selected");
-                        isFavorite = false;
                     });
                 }
             });

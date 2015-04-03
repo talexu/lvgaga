@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
@@ -32,7 +33,14 @@ namespace LvService.Commands.Azure.Storage.Table
                 {
                     batchOperation.Insert(entity);
                 }
-                await Table.ExecuteBatchAsync(batchOperation);
+                try
+                {
+                    await Table.ExecuteBatchAsync(batchOperation);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
         }
     }

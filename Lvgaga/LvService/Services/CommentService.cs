@@ -18,8 +18,8 @@ namespace LvService.Services
     {
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createCommentCommand;
-        private readonly ITableEntityCommand _entityCommand;
-        private readonly ITableEntitiesCommand _entitiesCommand;
+        private readonly ITableEntityCommand _entityReaderCommand;
+        private readonly ITableEntitiesCommand _entitiesReaderCommand;
         private readonly ITumblrService _tumblrService;
 
         private readonly ICommentFactory _commentFactory;
@@ -32,8 +32,8 @@ namespace LvService.Services
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
-            _entityCommand = entityCommand;
-            _entitiesCommand = entitiesCommand;
+            _entityReaderCommand = entityCommand;
+            _entitiesReaderCommand = entitiesCommand;
             _commentFactory = commentFactory;
             _uriFactory = uriFactory;
         }
@@ -61,7 +61,7 @@ namespace LvService.Services
             p.PartitionKey = rowKey;
             p.TakeCount = takeCount;
 
-            CommentModel model = _commentFactory.CreateCommentModels(tumblr, await _entitiesCommand.ExecuteAsync<CommentEntity>(p));
+            CommentModel model = _commentFactory.CreateCommentModels(tumblr, await _entitiesReaderCommand.ExecuteAsync<CommentEntity>(p));
             if (String.IsNullOrEmpty(userId)) return model;
 
             dynamic pf = new ExpandoObject();
@@ -69,7 +69,7 @@ namespace LvService.Services
             pf.PartitionKey = userId;
             pf.RowKey = _uriFactory.CreateFavoriteRowKey(partitionKey, rowKey);
 
-            var favorite = await _entityCommand.ExecuteAsync<FavoriteEntity>(pf);
+            var favorite = await _entityReaderCommand.ExecuteAsync<FavoriteEntity>(pf);
             model.IsFavorited = favorite != null;
 
             return model;

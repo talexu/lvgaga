@@ -63,8 +63,9 @@ namespace Lvgaga
 
             // Common
             const string emptyEntityReader = "empty://entity/reader";
-            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader,
-                new InjectionConstructor());
+            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader, new InjectionConstructor());
+            const string emptyEntityDeleter = "empty://entity/deleter";
+            container.RegisterType<ICommand, DeleteTableEntityCommand>(emptyEntityDeleter, new InjectionConstructor());
             container.RegisterType<IUriFactory, UriFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITableEntityFactory, TableEntityFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(IUriFactory)));
@@ -88,13 +89,6 @@ namespace Lvgaga
                     typeof(ITumblrFactory)));
 
             // Comment
-            const string emptyFavoriteReader = "empty://favorite/reader";
-            container.RegisterType<ITableEntityCommand, ReadFavoriteEntityCommand>(emptyFavoriteReader,
-                new InjectionConstructor());
-            const string favoriteEntityReader = "favorite://entity/reader";
-            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(favoriteEntityReader,
-                new InjectionConstructor(new ResolvedParameter<ITableEntityCommand>(emptyFavoriteReader)));
-
             const string emptyCommentsReader = "empty://comments/reader";
             container.RegisterType<ITableEntitiesCommand, ReadCommentEntitiesCommand>(emptyCommentsReader,
                 new InjectionConstructor());
@@ -119,7 +113,7 @@ namespace Lvgaga
                     typeof(IAzureStorage),
                     new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
-                    new ResolvedParameter<ITableEntityCommand>(favoriteEntityReader),
+                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
                     typeof(ICommentFactory),
                     typeof(IUriFactory)));
@@ -128,15 +122,28 @@ namespace Lvgaga
             container.RegisterType<CreateFavoriteCommand, CreateFavoriteCommand>(new InjectionConstructor(),
                 new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
+
             const string createFavoriteCommand = "post favorites://entity";
             container.RegisterType<ICommand, CreateTableEntitiesCommand>(createFavoriteCommand,
                 new InjectionConstructor(typeof(CreateFavoriteCommand)));
+
+            container.RegisterType<ReadPointFavoriteEntitiesCommand, ReadPointFavoriteEntitiesCommand>(new InjectionConstructor(),
+                new InjectionProperty("UriFactory", typeof(IUriFactory)));
+            const string favoriteEntityReader = "get favorite://entities";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteEntityReader,
+                new InjectionConstructor(
+                    typeof(ReadPointFavoriteEntitiesCommand)));
+            const string favoriteEntityDeleter = "delete favorite://entities";
+            container.RegisterType<ITableEntitiesCommand, DeleteTableEntitiesCommand>(favoriteEntityDeleter,
+                new InjectionConstructor(),
+                new InjectionProperty("TableEntitiesCommand", new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityReader)));
+
             container.RegisterType<IFavoriteService, FavoriteService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     typeof(IAzureStorage),
+                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ICommand>(createFavoriteCommand),
-                    new ResolvedParameter<ICommand>(createFavoriteCommand),
-                    typeof(ITumblrService),
+                    new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityDeleter),
                     typeof(IUriFactory)));
         }
     }

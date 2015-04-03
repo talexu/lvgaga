@@ -64,7 +64,6 @@ namespace LvService.Factories.Azure.Storage
         public ITableEntity CreateFavoriteEntity(dynamic p)
         {
             string userId = p.UserId;
-            string partitionKey = p.PartitionKey;
             string rowKey = p.RowKey;
             string mediaUri = p.MediaUri;
             string thumbnailUri = p.ThumbnailUri;
@@ -73,7 +72,7 @@ namespace LvService.Factories.Azure.Storage
             string mediaType = p.MediaType;
             string tumblrCategory = p.TumblrCategory;
 
-            return new FavoriteEntity(userId, _uriFactory.CreateFavoriteRowKey(partitionKey, rowKey))
+            return new FavoriteEntity(userId, _uriFactory.CreateFavoriteRowKey(mediaType, rowKey))
             {
                 MediaUri = mediaUri,
                 ThumbnailUri = thumbnailUri,

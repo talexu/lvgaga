@@ -38,7 +38,8 @@ namespace Lvgaga.Controllers.V1
         [Route("{partitionKey}/{rowKey}")]
         public async Task<IHttpActionResult> Delete(string partitionKey, string rowKey)
         {
-            return null;
+            await _favoriteService.DeleteFavoriteAsync(User.Identity.GetUserId(), partitionKey, rowKey);
+            return Ok();
         }
     }
 }

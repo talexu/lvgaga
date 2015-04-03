@@ -62,10 +62,26 @@ namespace LvService.Tests.Utilities
         };
 
         // Favorite
-        public CreateFavoriteCommand CreateFavoriteCommand = new CreateFavoriteCommand
+        public CreateFavoriteCommand CreateFavoriteCommandOffline = new CreateFavoriteCommand
         {
             TableEntityFactory = new TableEntityFactory(new UriFactory()),
             UriFactory = new UriFactory()
+        };
+
+        public CreateTableEntitiesCommand CreateFavoriteCommandOnline = new CreateTableEntitiesCommand(
+            new CreateFavoriteCommand
+            {
+                TableEntityFactory = new TableEntityFactory(new UriFactory()),
+                UriFactory = new UriFactory()
+            });
+
+        public ReadTableEntitiesCommand ReadPointFavoriteEntitiesCommand = new ReadTableEntitiesCommand(
+            new ReadPointFavoriteEntitiesCommand { UriFactory = new UriFactory() });
+
+        public ITableEntitiesCommand DeletePointFavoriteEntitiesCommand = new DeleteTableEntitiesCommand
+        {
+            TableEntitiesCommand =
+                new ReadTableEntitiesCommand(new ReadPointFavoriteEntitiesCommand {UriFactory = new UriFactory()})
         };
 
         public AzureStorageFixture()

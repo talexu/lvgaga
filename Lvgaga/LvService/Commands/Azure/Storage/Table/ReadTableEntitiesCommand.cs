@@ -8,9 +8,8 @@ namespace LvService.Commands.Azure.Storage.Table
 {
     public class ReadTableEntitiesCommand : TableEntitiesCommandChain
     {
-        public CloudTable Table { get; private set; }
-        public string Filter { get; private set; }
-        public int TakeCount { get; private set; }
+        private CloudTable _table;
+        private string _filter;
 
         public ReadTableEntitiesCommand()
         {
@@ -27,10 +26,9 @@ namespace LvService.Commands.Azure.Storage.Table
         {
             try
             {
-                Table = p.Table;
-                Filter = p.Filter;
-                TakeCount = p.TakeCount;
-                return Table != null && !String.IsNullOrEmpty(Filter) && TakeCount > 0;
+                _table = p.Table;
+                _filter = p.Filter;
+                return _table != null && !String.IsNullOrEmpty(_filter);
             }
             catch (Exception)
             {
@@ -44,11 +42,18 @@ namespace LvService.Commands.Azure.Storage.Table
 
             if (!CanExecute(p)) return null;
 
-            var query = new TableQuery<T>
+            var query = new TableQuery<T>();
+            try
             {
-                TakeCount = TakeCount
-            }.Where(Filter);
-            return (await Table.ExecuteQuerySegmentedAsync(query, null)).Results;
+                var takeCount = p.TakeCount;
+                query.TakeCount = takeCount;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+            query = query.Where(_filter);
+            return (await _table.ExecuteQuerySegmentedAsync(query, null)).Results;
         }
     }
 }
