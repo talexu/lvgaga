@@ -24,3 +24,14 @@ function unFavorite(pk, rk, callback) {
         callback();
     });
 }
+
+function getFavoriteIndex(mediaType, from, to, callback) {
+    $.get("/api/v1/favorites/".concat(mediaType, "?", "from=", from, "&", "to=", to)).done(function (data, textStatus, jqXHR) {
+        switch (jqXHR.status) {
+            case 200:
+                callback(data);
+                break;
+            default:
+        }
+    });
+}

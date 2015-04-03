@@ -100,6 +100,7 @@
     <Compile Include="Commands\Tumblr\CreateTumblrCommandTests.cs" />
     <Compile Include="Commands\Tumblr\ReadFavoriteCommandTests.cs" />
     <Compile Include="Commands\Tumblr\ReadPointFavoriteEntitiesCommandTests.cs" />
+    <Compile Include="Commands\Tumblr\ReadRangeFavoriteEntitiesCommandTests.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrCommandTests.cs" />
     <Compile Include="Utilities\AzureStorageFixture.cs" />
     <Compile Include="Factories\TableEntityFactoryTests.cs" />

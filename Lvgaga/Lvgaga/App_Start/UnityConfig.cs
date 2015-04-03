@@ -131,8 +131,14 @@ namespace Lvgaga
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
             const string favoriteEntityReader = "get favorite://entities";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteEntityReader,
-                new InjectionConstructor(
-                    typeof(ReadPointFavoriteEntitiesCommand)));
+                new InjectionConstructor(typeof(ReadPointFavoriteEntitiesCommand)));
+
+            container.RegisterType<ReadRangeFavoriteEntitiesCommand, ReadRangeFavoriteEntitiesCommand>(new InjectionConstructor(),
+                new InjectionProperty("UriFactory", typeof(IUriFactory)));
+            const string favoriteEntitiesReader = "get favorites://entities";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteEntitiesReader,
+                new InjectionConstructor(typeof(ReadRangeFavoriteEntitiesCommand)));
+
             const string favoriteEntityDeleter = "delete favorite://entities";
             container.RegisterType<ITableEntitiesCommand, DeleteTableEntitiesCommand>(favoriteEntityDeleter,
                 new InjectionConstructor(),
@@ -143,6 +149,7 @@ namespace Lvgaga
                     typeof(IAzureStorage),
                     new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ICommand>(createFavoriteCommand),
+                    new ResolvedParameter<ITableEntitiesCommand>(favoriteEntitiesReader),
                     new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityDeleter),
                     typeof(IUriFactory)));
         }

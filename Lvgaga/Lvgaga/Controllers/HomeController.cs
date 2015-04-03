@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using LvModel.Common;
 using LvModel.View.Tumblr;
@@ -23,8 +24,15 @@ namespace Lvgaga.Controllers
         // GET: Tumblr
         public async Task<ActionResult> Index()
         {
-            return
-                View(await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20));
+            ViewBag.MediaType = LvConstants.PartitionKeyOfAll;
+
+            var tumblrs =
+                await _tumblrService.GetTumblrModelsAsync(LvConstants.PartitionKeyOfImage, TumblrCategory.All, 20);
+            if (tumblrs == null || !tumblrs.Any()) return HttpNotFound();
+
+            ViewBag.From = tumblrs.First().RowKey;
+            ViewBag.To = tumblrs.Last().RowKey;
+            return View(tumblrs);
         }
 
         public ActionResult About()

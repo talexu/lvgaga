@@ -11,7 +11,7 @@
             <div class="content">
                 <p class="text-tumblr">@tumblr.Text</p>
                 <p class="date-tumblr">@tumblr.CreateTime</p>
-                <button type="button" class="btn btn-default btn-favorite"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default btn-favorite" pk="@tumblr.PartitionKey" rk="@tumblr.RowKey"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
                 <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
                 <a class="btn btn-default pull-right" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
             </div>
@@ -33,10 +33,27 @@
                     effect: "fadeIn"
                 });
 
+                getFavoriteIndex("@ViewBag.MediaType", "@ViewBag.From", "@ViewBag.To", function (data) {
+                    $(".btn-favorite").each(function () {
+                        var btnCur = $(this);
+                        var rk = btnCur.attr("rk");
+                        if (data[rk]) {
+                            btnCur.addClass("btn-selected");
+                        }
+                    });
+                });
+
                 $(".btn-favorite").on("touchend", function (event) {
-                    //$(event.currentTarget).toggleClass("btn-selected");
-                    var container = $($(event.currentTarget).parents(".container-tumblr")[0]);
-                    favorite(container.attr("pk"), container.attr("rk"), $(event.currentTarget));
+                    var btnCur = $(event.currentTarget);
+                    if (!btnCur.hasClass("btn-selected")) {
+                        btnCur.addClass("btn-selected");
+                        favorite($(event.currentTarget).attr("pk"), btnCur.attr("rk"), function () {
+                        });
+                    } else {
+                        btnCur.removeClass("btn-selected");
+                        unFavorite($(event.currentTarget).attr("pk"), btnCur.attr("rk"), function () {
+                        });
+                    }
                 });
             });
         })();

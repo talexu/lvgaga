@@ -78,10 +78,13 @@ namespace LvService.Tests.Utilities
         public ReadTableEntitiesCommand ReadPointFavoriteEntitiesCommand = new ReadTableEntitiesCommand(
             new ReadPointFavoriteEntitiesCommand { UriFactory = new UriFactory() });
 
+        public ReadTableEntitiesCommand ReadRangeFavoriteEntitiesCommand = new ReadTableEntitiesCommand(
+            new ReadRangeFavoriteEntitiesCommand { UriFactory = new UriFactory() });
+
         public ITableEntitiesCommand DeletePointFavoriteEntitiesCommand = new DeleteTableEntitiesCommand
         {
             TableEntitiesCommand =
-                new ReadTableEntitiesCommand(new ReadPointFavoriteEntitiesCommand {UriFactory = new UriFactory()})
+                new ReadTableEntitiesCommand(new ReadPointFavoriteEntitiesCommand { UriFactory = new UriFactory() })
         };
 
         public AzureStorageFixture()

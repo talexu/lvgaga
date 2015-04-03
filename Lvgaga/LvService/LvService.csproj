@@ -110,6 +110,7 @@
     <Compile Include="Commands\Tumblr\DeleteFavoriteCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadCommentEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadPointFavoriteEntitiesCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadRangeFavoriteEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrEntitiesWithCategoryCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadMediaCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadThumbnailCommand.cs" />

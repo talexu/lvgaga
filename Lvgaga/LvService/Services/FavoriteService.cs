@@ -16,16 +16,18 @@ namespace LvService.Services
     public class FavoriteService : IFavoriteService
     {
         private readonly IAzureStorage _azureStorage;
-        private readonly ITableEntityCommand _entityReaderCommand;
+        private readonly ITableEntityCommand _readEntityCommand;
         private readonly ICommand _createFavoriteCommand;
+        private readonly ITableEntitiesCommand _readRangeFavoriteCommand;
         private readonly ITableEntitiesCommand _deleteFavoriteCommand;
         private readonly IUriFactory _uriFactory;
 
-        public FavoriteService(IAzureStorage azureStorage, ITableEntityCommand entityReaderCommand, ICommand createFavoriteCommand, ITableEntitiesCommand deleteFavoriteCommand, IUriFactory uriFactory)
+        public FavoriteService(IAzureStorage azureStorage, ITableEntityCommand readEntityCommand, ICommand createFavoriteCommand, ITableEntitiesCommand readRangeFavoriteCommand, ITableEntitiesCommand deleteFavoriteCommand, IUriFactory uriFactory)
         {
             _azureStorage = azureStorage;
-            _entityReaderCommand = entityReaderCommand;
+            _readEntityCommand = readEntityCommand;
             _createFavoriteCommand = createFavoriteCommand;
+            _readRangeFavoriteCommand = readRangeFavoriteCommand;
             _deleteFavoriteCommand = deleteFavoriteCommand;
             _uriFactory = uriFactory;
         }
@@ -37,6 +39,19 @@ namespace LvService.Services
 
             await _createFavoriteCommand.ExecuteAsync(p);
             return p.Entity;
+        }
+
+        public async Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, string mediaType,
+            string from, string to)
+        {
+            dynamic p = new ExpandoObject();
+            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
+            p.PartitionKey = userId;
+            p.From = from;
+            p.To = to;
+            p.MediaType = mediaType;
+
+            return await _readRangeFavoriteCommand.ExecuteAsync<FavoriteEntity>(p);
         }
 
         public Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, MediaType mediaType, int takeCount)
@@ -62,7 +77,7 @@ namespace LvService.Services
             p.PartitionKey = partitionKey;
             p.RowKey = rowKey;
 
-            return await _entityReaderCommand.ExecuteAsync<TumblrEntity>(p);
+            return await _readEntityCommand.ExecuteAsync<TumblrEntity>(p);
         }
 
         private async Task<ExpandoObject> GetFavoriteExpandoObjectAsync(string userId, string partitionKey, string rowKey)
