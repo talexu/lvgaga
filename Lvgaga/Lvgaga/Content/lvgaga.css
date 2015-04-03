@@ -17,6 +17,9 @@
 .btn-selected {
   color: crimson;
 }
+.btn-selected:hover {
+  color: crimson;
+}
 .btn-selected:focus {
   color: crimson;
 }
