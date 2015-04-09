@@ -47,13 +47,15 @@
 
             var txb = $("#txb_comment");
             var cms = $("#div_comments");
-            $("#btn_send").on("touchend", function () {
+            var btnSend = $("#btn_send");
+            btnSend.on("touchend", function () {
                 var text = txb.val();
                 if (text.trim()) {
+                    btnSend.attr("disabled", "disabled");
                     $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
                     {
                         "Text": text
-                    }).done(function (data, textStatus, jqXHR) {
+                    }).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
                         switch (jqXHR.status) {
                             case 201:
                                 cms.prepend($("<div></div>").
@@ -72,6 +74,8 @@
                             default:
 
                         }
+                    }).always(function (data, textStatus, jqXHR) {
+                        btnSend.removeAttr("disabled");
                     });
                 }
             });
