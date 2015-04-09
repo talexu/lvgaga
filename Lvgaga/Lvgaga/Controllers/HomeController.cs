@@ -21,7 +21,7 @@ namespace Lvgaga.Controllers
             _tumblrService = tumblrServic;
         }
 
-        [Route("{mediaType}")]
+        [Route("{mediaType:int}")]
         public async Task<ActionResult> Index(string mediaType)
         {
             return await ActualIndex(mediaType);

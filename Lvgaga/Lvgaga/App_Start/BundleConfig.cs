@@ -17,6 +17,9 @@ namespace Lvgaga
             bundles.Add(new ScriptBundle("~/bundles/jquerylazy").Include(
                 "~/Scripts/jquery.lazyload*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/gallery").Include(
+                        "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"));
+
             // 业务逻辑
             bundles.Add(new ScriptBundle("~/bundles/business").Include(
                 "~/Scripts/favorite.js"));
