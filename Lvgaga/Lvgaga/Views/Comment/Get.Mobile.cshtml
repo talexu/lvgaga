@@ -7,7 +7,8 @@
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
-        <button id="btn_favorite" type="button" class="btn btn-default><span class=" glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+        @{ var clsSelected = Model.IsFavorited ? "btn-selected" : String.Empty;}
+        <button id="btn_favorite" type="button" class="btn btn-default @clsSelected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
     </div>
     <div class="content">

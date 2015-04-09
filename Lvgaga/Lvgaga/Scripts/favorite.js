@@ -1,6 +1,6 @@
 ﻿function favorite(pk, rk, btn, callback) {
     btn.attr("disabled", "disabled");
-    $.post("/api/v1/favorites/".concat(pk, "/", rk)).done(function (data, textStatus, jqXHR) {
+    $.post("/api/v1/favorites/".concat(pk, "/", rk)).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
         switch (jqXHR.status) {
             case 201:
                 btn.addClass("btn-selected");
@@ -25,7 +25,7 @@ function unFavorite(pk, rk, btn, callback) {
     $.ajax({
         url: "/api/v1/favorites/".concat(pk, "/", rk),
         type: "DELETE"
-    }).done(function (data, textStatus, jqXHR) {
+    }).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
         btn.removeClass("btn-selected");
         if (callback) callback();
     }).always(function (data, textStatus, jqXHR) {
