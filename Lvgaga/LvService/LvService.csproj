@@ -109,6 +109,7 @@
     <Compile Include="Commands\Tumblr\CreateLvEntityCommand.cs" />
     <Compile Include="Commands\Tumblr\DeleteFavoriteCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadCommentEntitiesCommand.cs" />
+    <Compile Include="Commands\Tumblr\ReadFavoriteEntitiesWithMediaTypeCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadPointFavoriteEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadRangeFavoriteEntitiesCommand.cs" />
     <Compile Include="Commands\Tumblr\ReadTumblrEntitiesWithCategoryCommand.cs" />
@@ -124,7 +125,9 @@
     <Compile Include="Factories\Uri\IUriFactory.cs" />
     <Compile Include="Factories\Uri\UriFactory.cs" />
     <Compile Include="Factories\ViewModel\CommentFactory.cs" />
+    <Compile Include="Factories\ViewModel\FavoriteFactory.cs" />
     <Compile Include="Factories\ViewModel\ICommentFactory.cs" />
+    <Compile Include="Factories\ViewModel\IFavoriteFactory.cs" />
     <Compile Include="Factories\ViewModel\ITumblrFactory.cs" />
     <Compile Include="Factories\ViewModel\TumblrFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -135,21 +135,32 @@ namespace Lvgaga
 
             container.RegisterType<ReadRangeFavoriteEntitiesCommand, ReadRangeFavoriteEntitiesCommand>(new InjectionConstructor(),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
-            const string favoriteEntitiesReader = "get favorites://entities";
-            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteEntitiesReader,
+            const string favoriteRangeEntitiesReader = "get favorites://entities?range";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteRangeEntitiesReader,
                 new InjectionConstructor(typeof(ReadRangeFavoriteEntitiesCommand)));
+
+            const string emptyFavoritesReader = "empty://favorites/reader";
+            container.RegisterType<ITableEntitiesCommand, ReadFavoriteEntitiesWithMediaTypeCommand>(emptyFavoritesReader,
+                new InjectionConstructor());
+            const string favoriteTopEntitiesReader = "get favorites://entities?top";
+            container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteTopEntitiesReader,
+                new InjectionConstructor(new ResolvedParameter<ITableEntitiesCommand>(emptyFavoritesReader)));
 
             const string favoriteEntityDeleter = "delete favorite://entities";
             container.RegisterType<ITableEntitiesCommand, DeleteTableEntitiesCommand>(favoriteEntityDeleter,
                 new InjectionConstructor(),
                 new InjectionProperty("TableEntitiesCommand", new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityReader)));
 
+            container.RegisterType<IFavoriteFactory, FavoriteFactory>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(ITumblrFactory)));
+
             container.RegisterType<IFavoriteService, FavoriteService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     typeof(IAzureStorage),
                     new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ICommand>(createFavoriteCommand),
-                    new ResolvedParameter<ITableEntitiesCommand>(favoriteEntitiesReader),
+                    new ResolvedParameter<ITableEntitiesCommand>(favoriteTopEntitiesReader),
+                    new ResolvedParameter<ITableEntitiesCommand>(favoriteRangeEntitiesReader),
                     new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityDeleter),
                     typeof(IUriFactory)));
         }

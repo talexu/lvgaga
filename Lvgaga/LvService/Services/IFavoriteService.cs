@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
+using LvModel.View.Favorite;
 
 namespace LvService.Services
 {
@@ -9,7 +10,7 @@ namespace LvService.Services
     {
         Task<FavoriteEntity> CreateFavoriteAsync(string userId, string partitionKey, string rowKey);
         Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, string mediaType, string from, string to);
-        Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, MediaType mediaType, int takeCount);
+        Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, string mediaType, int takeCount);
         Task DeleteFavoriteAsync(string userId, string partitionKey, string rowKey);
     }
 }

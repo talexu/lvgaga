@@ -4,11 +4,13 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
+using LvModel.View.Favorite;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
+using LvService.Factories.ViewModel;
 using LvService.Utilities;
 
 namespace LvService.Services
@@ -18,15 +20,20 @@ namespace LvService.Services
         private readonly IAzureStorage _azureStorage;
         private readonly ITableEntityCommand _readEntityCommand;
         private readonly ICommand _createFavoriteCommand;
+        private readonly ITableEntitiesCommand _readTopFavoriteCommand;
         private readonly ITableEntitiesCommand _readRangeFavoriteCommand;
         private readonly ITableEntitiesCommand _deleteFavoriteCommand;
         private readonly IUriFactory _uriFactory;
 
-        public FavoriteService(IAzureStorage azureStorage, ITableEntityCommand readEntityCommand, ICommand createFavoriteCommand, ITableEntitiesCommand readRangeFavoriteCommand, ITableEntitiesCommand deleteFavoriteCommand, IUriFactory uriFactory)
+        public FavoriteService(IAzureStorage azureStorage, ITableEntityCommand readEntityCommand,
+            ICommand createFavoriteCommand, ITableEntitiesCommand readTopFavoriteCommand,
+            ITableEntitiesCommand readRangeFavoriteCommand, ITableEntitiesCommand deleteFavoriteCommand,
+            IUriFactory uriFactory)
         {
             _azureStorage = azureStorage;
             _readEntityCommand = readEntityCommand;
             _createFavoriteCommand = createFavoriteCommand;
+            _readTopFavoriteCommand = readTopFavoriteCommand;
             _readRangeFavoriteCommand = readRangeFavoriteCommand;
             _deleteFavoriteCommand = deleteFavoriteCommand;
             _uriFactory = uriFactory;
@@ -54,9 +61,16 @@ namespace LvService.Services
             return await _readRangeFavoriteCommand.ExecuteAsync<FavoriteEntity>(p);
         }
 
-        public Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, MediaType mediaType, int takeCount)
+        public async Task<List<FavoriteEntity>> GetFavoriteTumblrModelsAsync(string userId, string mediaType,
+            int takeCount)
         {
-            throw new NotImplementedException();
+            dynamic p = new ExpandoObject();
+            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
+            p.PartitionKey = userId;
+            p.MediaType = mediaType;
+            p.TakeCount = takeCount;
+
+            return await _readTopFavoriteCommand.ExecuteAsync<FavoriteEntity>(p);
         }
 
         public async Task DeleteFavoriteAsync(string userId, string partitionKey, string rowKey)
