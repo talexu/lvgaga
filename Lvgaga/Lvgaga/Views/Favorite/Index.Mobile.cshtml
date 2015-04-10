@@ -39,7 +39,8 @@
             var btnComment = $("#btn_comment");
             var txtTumblr = $("#p_text");
             var curTumblr;
-            var cellWidth = Math.round(linksContainer.width() / 5);
+            var containerWidth = linksContainer.width();
+            var cellWidth = containerWidth / Math.ceil(containerWidth / 100);
 
             function fillFavorite(tumblr) {
                 $("<a/>")
