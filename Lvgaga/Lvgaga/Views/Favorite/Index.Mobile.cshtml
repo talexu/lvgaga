@@ -18,6 +18,7 @@
     <a class="play-pause"></a>
     <nav class="navbar navbar-inverse navbar-fixed-bottom fav-nav">
         <div class="container">
+            <p id="p_text" class="text-fav"></p>
             <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
             <button type="button" class="btn btn-default btn-white btn-outline navbar-btn"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
             <a id="btn_comment" class="btn btn-default btn-outline navbar-btn pull-right"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
@@ -36,6 +37,7 @@
             var linksContainer = $("#links");
             var btnFavorite = $("#btn_favorite");
             var btnComment = $("#btn_comment");
+            var txtTumblr = $("#p_text");
             var curTumblr;
             var cellWidth = Math.round(linksContainer.width() / 5);
 
@@ -60,6 +62,7 @@
                 curTumblr = element;
                 var mediaType = element.attr("mediaType");
                 var invertedTicks = element.attr("rowKey").split("_")[1];
+
                 btnFavorite.attr("tp", mediaType);
                 btnFavorite.attr("rk", invertedTicks);
                 if (element.prop("isFavorite") === true) {
@@ -69,6 +72,9 @@
                     btnFavorite.addClass("btn-white");
                     btnFavorite.removeClass("btn-selected");
                 }
+
+                txtTumblr.text(element.attr("tumblrText"));
+
                 btnComment.prop("href", getUri(["/comments", mediaType, invertedTicks]));
                 btnComment.addClass("btn-white");
             });
