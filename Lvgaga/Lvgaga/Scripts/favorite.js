@@ -54,3 +54,7 @@ function getFavorites(mediaType, top, callback) {
         }
     });
 }
+
+function getUri(parameters) {
+    return parameters.join("/");
+}

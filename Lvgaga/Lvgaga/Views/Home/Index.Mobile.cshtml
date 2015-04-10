@@ -46,9 +46,9 @@
                 $(".btn-favorite").on("touchend", function (event) {
                     var btnCur = $(event.currentTarget);
                     if (!btnCur.hasClass("btn-selected")) {
-                        favorite($(event.currentTarget).attr("tp"), btnCur.attr("rk"), btnCur);
+                        favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
                     } else {
-                        unFavorite($(event.currentTarget).attr("tp"), btnCur.attr("rk"), btnCur);
+                        unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
                     }
                 });
             });

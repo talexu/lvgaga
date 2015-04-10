@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
-using LvModel.View.Favorite;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
-using LvService.Factories.ViewModel;
 using LvService.Utilities;
 
 namespace LvService.Services

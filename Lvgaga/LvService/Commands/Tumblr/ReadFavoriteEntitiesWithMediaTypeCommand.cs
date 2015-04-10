@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Common;
-using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table;
 

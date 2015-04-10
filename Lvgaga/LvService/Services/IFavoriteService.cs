@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
-using LvModel.Common;
-using LvModel.View.Favorite;
 
 namespace LvService.Services
 {

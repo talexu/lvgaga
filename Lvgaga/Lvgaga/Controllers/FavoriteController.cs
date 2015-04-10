@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using LvModel.Common;
+﻿using System.Web.Mvc;
 using LvService.Services;
-using Microsoft.AspNet.Identity;
 
 namespace Lvgaga.Controllers
 {
