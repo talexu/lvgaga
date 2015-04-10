@@ -39,6 +39,20 @@ namespace Lvgaga.Controllers.V1
             return NotFound();
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("{partitionKey}")]
+        public async Task<IHttpActionResult> Get(string partitionKey, int top)
+        {
+            var entities =
+                await _favoriteService.GetFavoriteTumblrModelsAsync(User.Identity.GetUserId(), partitionKey, top);
+            if (entities != null && entities.Any())
+            {
+                return Ok(entities);
+            }
+            return NotFound();
+        }
+
         [HttpPost]
         [Authorize]
         [Route("{partitionKey}/{rowKey}")]

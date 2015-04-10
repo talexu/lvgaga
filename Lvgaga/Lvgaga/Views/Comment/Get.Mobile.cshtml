@@ -7,7 +7,8 @@
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
-        <button id="btn_favorite" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+        @{ var clsSelected = Model.IsFavorited ? "btn-selected" : String.Empty;}
+        <button id="btn_favorite" type="button" class="btn btn-default @clsSelected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
     </div>
     <div class="content">
@@ -34,53 +35,47 @@
 @section scripts{
     @Scripts.Render("~/bundles/business")
     <script>
-        (function() {
-            var isFavorite = @(Model.IsFavorited ? "true" : "false");
+        (function () {
             var btnFavorite = $("#btn_favorite");
-            if (isFavorite) {
-                btnFavorite.addClass("btn-selected");
-            }
-            btnFavorite.on("touchend", function(event) {
-                if (!isFavorite) {
-                    $(event.currentTarget).addClass("btn-selected");
-                    isFavorite = true;
-                    favorite("@Model.PartitionKey", "@Model.RowKey", function() {
-                    });
+            btnFavorite.on("touchend", function (event) {
+                if (!btnFavorite.hasClass("btn-selected")) {
+                    favorite("@Model.PartitionKey", "@Model.RowKey", btnFavorite);
                 } else {
-                    $(event.currentTarget).removeClass("btn-selected");
-                    isFavorite = false;
-                    unFavorite("@Model.PartitionKey", "@Model.RowKey", function() {
-                    });
+                    unFavorite("@Model.PartitionKey", "@Model.RowKey", btnFavorite);
                 }
             });
 
             var txb = $("#txb_comment");
             var cms = $("#div_comments");
-            $("#btn_send").on("touchend", function() {
+            var btnSend = $("#btn_send");
+            btnSend.on("touchend", function () {
                 var text = txb.val();
                 if (text.trim()) {
+                    btnSend.attr("disabled", "disabled");
                     $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
                     {
                         "Text": text
-                    }).done(function(data, textStatus, jqXHR) {
+                    }).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
                         switch (jqXHR.status) {
-                        case 201:
-                            cms.prepend($("<div></div>").
-                                append($("<hr></hr>").addClass("hr-comment")).
-                                append($("<a></a>").text(data.UserName)).
-                                append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
-                                append($("<p></p>").addClass("text-comment").text(data.Text)));
-                            txb.val("");
-                            break;
-                        case 200:
-                            var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
-                            if (res.status === 401) {
-                                $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                            }
-                            break;
-                        default:
+                            case 201:
+                                cms.prepend($("<div></div>").
+                                    append($("<hr></hr>").addClass("hr-comment")).
+                                    append($("<a></a>").text(data.UserName)).
+                                    append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
+                                    append($("<p></p>").addClass("text-comment").text(data.Text)));
+                                txb.val("");
+                                break;
+                            case 200:
+                                var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
+                                if (res.status === 401) {
+                                    $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                                }
+                                break;
+                            default:
 
                         }
+                    }).always(function (data, textStatus, jqXHR) {
+                        btnSend.removeAttr("disabled");
                     });
                 }
             });

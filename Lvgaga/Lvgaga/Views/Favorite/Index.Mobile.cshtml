@@ -1,0 +1,99 @@
+﻿@model IEnumerable<LvModel.View.Favorite.FavoriteModel>
+@{
+    ViewBag.Title = "收藏";
+}
+@section styles
+{
+    @Styles.Render("~/Content/css/gallery")
+}
+
+<div id="links"></div>
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom fav-nav">
+        <div class="container">
+            <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn-default btn-white btn-outline navbar-btn"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
+            <a id="btn_comment" class="btn btn-default btn-outline navbar-btn pull-right"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+        </div>
+    </nav>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/gallery")
+    @Scripts.Render("~/bundles/business")
+    <script>
+        $(function() {
+            'use strict';
+            // load data
+            var gallery = $("#blueimp-gallery");
+            var linksContainer = $("#links");
+            var btnFavorite = $("#btn_favorite");
+            var btnComment = $("#btn_comment");
+            var curTumblr;
+            var cellWidth = Math.round(linksContainer.width() / 5);
+
+            function fillFavorite(tumblr) {
+                $("<a/>")
+                    .append($("<img>").prop("src", tumblr.ThumbnailUri).width(cellWidth))
+                    .prop("href", tumblr.MediaUri)
+                    .prop("title", "")
+                    .attr("rowKey", tumblr.RowKey)
+                    .attr("mediaType", tumblr.MediaType)
+                    .attr("tumblrCategory", tumblr.TumblrCategory)
+                    .attr("tumblrText", tumblr.Text)
+                    .attr("createTime", tumblr.CreateTime)
+                    .prop("isFavorite", true)
+                    .attr("data-gallery", "")
+                    .appendTo(linksContainer);
+            }
+
+            gallery.on('slide', function(event, index, slide) {
+                // Gallery slide event handler
+                var element = $(linksContainer.children()[index]);
+                curTumblr = element;
+                var mediaType = element.attr("mediaType");
+                var invertedTicks = element.attr("rowKey").split("_")[1];
+                btnFavorite.attr("tp", mediaType);
+                btnFavorite.attr("rk", invertedTicks);
+                if (element.prop("isFavorite") === true) {
+                    btnFavorite.addClass("btn-selected");
+                    btnFavorite.removeClass("btn-white");
+                } else {
+                    btnFavorite.addClass("btn-white");
+                    btnFavorite.removeClass("btn-selected");
+                }
+                btnComment.prop("href", getUri(["/comments", mediaType, invertedTicks]));
+                btnComment.addClass("btn-white");
+            });
+
+            btnFavorite.on("touchend", function(event) {
+                var btnCur = $(event.currentTarget);
+                if (curTumblr.prop("isFavorite") === false) {
+                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
+                        btnFavorite.removeClass("btn-white");
+                        curTumblr.prop("isFavorite", true);
+                    });
+                } else {
+                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
+                        btnFavorite.addClass("btn-white");
+                        curTumblr.prop("isFavorite", false);
+                    });
+                }
+            });
+
+            getFavorites("0", 10, function(data) {
+                $.each(data, function(index, tumblr) {
+                    fillFavorite(tumblr);
+                });
+            });
+
+        });
+    </script>
+}

@@ -78,6 +78,7 @@
     <Compile Include="View\Comment\CommentItem.cs" />
     <Compile Include="View\Comment\CommentModel.cs" />
     <Compile Include="View\Comment\PostedComment.cs" />
+    <Compile Include="View\Favorite\FavoriteModel.cs" />
     <Compile Include="View\Tumblr\TumblrCategory.cs" />
     <Compile Include="View\Tumblr\TumblrModel.cs" />
     <Compile Include="View\Tumblr\TumblrText.cs" />
@@ -86,9 +87,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\Favorite\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

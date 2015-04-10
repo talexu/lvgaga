@@ -23,8 +23,8 @@ namespace LvFakeData
 
         public FakeHelper()
         {
-            //_azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
-            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagadev;AccountKey=IKD1g3adEkdKbPllg8brzwYfR5ge8R8G7uFFJH/XzSySqHu0/2De7s5dsbVk29JBDhPo5P9w5YU3d5tyn9Vo0w==")));
+            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
+            //_azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagadev;AccountKey=IKD1g3adEkdKbPllg8brzwYfR5ge8R8G7uFFJH/XzSySqHu0/2De7s5dsbVk29JBDhPo5P9w5YU3d5tyn9Vo0w==")));
         }
 
         public async Task UploadTestTumblrs()

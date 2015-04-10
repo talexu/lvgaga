@@ -274,6 +274,7 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FavoriteController.cs" />
     <Compile Include="Controllers\V1\CommentApiController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -310,6 +311,8 @@
     <Content Include="bower_components\blueimp-gallery\js\blueimp-helper.js" />
     <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.js" />
     <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.min.js" />
+    <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.js" />
+    <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -397,6 +400,8 @@
     <Content Include="Views\Comment\Get.Mobile.cshtml" />
     <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
     <Content Include="Views\Home\Index.Mobile.cshtml" />
+    <Content Include="Views\Favorite\Index.cshtml" />
+    <Content Include="Views\Favorite\Index.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
