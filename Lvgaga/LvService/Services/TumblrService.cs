@@ -7,6 +7,7 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.DbContexts;
 using LvService.Factories.ViewModel;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Services
 {
@@ -16,18 +17,21 @@ namespace LvService.Services
         private readonly ITableEntityCommand _entityCommand;
         private readonly ITableEntitiesCommand _entitiesCommand;
         private readonly ITumblrFactory _tumblrFactory;
+        private readonly ISasService _sasService;
 
         public TumblrService()
         {
 
         }
 
-        public TumblrService(IAzureStorage azureStorage, ITableEntityCommand entityCommand, ITableEntitiesCommand entitiesCommand, ITumblrFactory tumblrFactory)
+        public TumblrService(IAzureStorage azureStorage, ITableEntityCommand entityCommand,
+            ITableEntitiesCommand entitiesCommand, ITumblrFactory tumblrFactory, ISasService sasService)
         {
             _azureStorage = azureStorage;
             _entityCommand = entityCommand;
             _entitiesCommand = entitiesCommand;
             _tumblrFactory = tumblrFactory;
+            _sasService = sasService;
         }
 
         public async Task<TumblrModel> GetTumblrModelAsync(string partitionKey, string rowKey)
@@ -51,7 +55,9 @@ namespace LvService.Services
             List<TumblrModel> tumblrs = _tumblrFactory.CreateTumblrModels(await _entitiesCommand.ExecuteAsync<TumblrEntity>(p));
             return new TumblrsModel
             {
-                Tumblrs = tumblrs
+                Tumblrs = tumblrs,
+                Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfTumblr),
+                ContinuationToken = p.ContinuationToken
             };
         }
     }

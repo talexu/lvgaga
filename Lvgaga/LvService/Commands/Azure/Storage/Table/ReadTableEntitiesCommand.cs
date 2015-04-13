@@ -53,7 +53,11 @@ namespace LvService.Commands.Azure.Storage.Table
                 // ignored
             }
             query = query.Where(_filter);
-            return (await _table.ExecuteQuerySegmentedAsync(query, null)).Results;
+
+            var res = await _table.ExecuteQuerySegmentedAsync(query, null);
+            p.ContinuationToken = res.ContinuationToken;
+
+            return res.Results;
         }
     }
 }

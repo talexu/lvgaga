@@ -1,4 +1,6 @@
-﻿@model LvModel.View.Tumblr.TumblrsModel
+﻿@using System.Text.RegularExpressions
+@using LvService.Utilities
+@model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
 }
@@ -28,13 +30,17 @@
     @Scripts.Render("~/bundles/business")
     <script>
         (function () {
-            $(function () {
+            var nextTableName = "@Model.ContinuationToken.NextTableName";
+            var nextPartitionKey = "@Model.ContinuationToken.NextPartitionKey";
+            var nextRowKey = "@Model.ContinuationToken.NextRowKey";
+
+            $(function() {
                 $("img.lazy").lazyload({
                     effect: "fadeIn"
                 });
 
-                getFavoriteIndex("@ViewBag.MediaType", "@ViewBag.From", "@ViewBag.To", function (data) {
-                    $(".btn-favorite").each(function () {
+                getFavoriteIndex("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", function(data) {
+                    $(".btn-favorite").each(function() {
                         var btnCur = $(this);
                         var rk = btnCur.attr("rk");
                         if (data[rk]) {
@@ -43,7 +49,7 @@
                     });
                 });
 
-                $(".btn-favorite").on("touchend", function (event) {
+                $(".btn-favorite").on("touchend", function(event) {
                     var btnCur = $(event.currentTarget);
                     if (!btnCur.hasClass("btn-selected")) {
                         favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);

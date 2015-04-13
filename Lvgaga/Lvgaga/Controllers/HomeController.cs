@@ -40,9 +40,6 @@ namespace Lvgaga.Controllers
             var homeModel = await _tumblrService.GetTumblrModelsAsync(mediaType, TumblrCategory.All, 20);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
-            ViewBag.From = homeModel.Tumblrs.First().RowKey;
-            ViewBag.To = homeModel.Tumblrs.Last().RowKey;
-
             return View(homeModel);
         }
 

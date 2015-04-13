@@ -55,9 +55,9 @@ namespace Lvgaga
             container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
 
             // Cloud
-            container.RegisterInstance(CloudStorageAccount.Parse(
-                WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
-            //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
+            //container.RegisterInstance(CloudStorageAccount.Parse(
+            //    WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
+            container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(AzureStorageDb)));
 
@@ -69,6 +69,8 @@ namespace Lvgaga
             container.RegisterType<IUriFactory, UriFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITableEntityFactory, TableEntityFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(IUriFactory)));
+            container.RegisterType<ISasService, SasService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(IAzureStorage)));
 
             // Tumblr
             const string emptyTumblrsReader = "empty://tumblrs/reader";
@@ -86,7 +88,8 @@ namespace Lvgaga
                     typeof(IAzureStorage),
                     new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
                     new ResolvedParameter<ITableEntitiesCommand>(homeEntitiesReader),
-                    typeof(ITumblrFactory)));
+                    typeof(ITumblrFactory),
+                    typeof(ISasService)));
 
             // Comment
             const string emptyCommentsReader = "empty://comments/reader";
