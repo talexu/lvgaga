@@ -45,7 +45,7 @@ function getFavoriteIndex(mediaType, from, to, callback) {
 }
 
 function getFavorites(mediaType, top, callback) {
-    $.get("/api/v1/favorites/".concat(mediaType, "?", "top=", top)).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
+    $.get("/api/v1/favorites/".concat(mediaType, "?", "$top=", top)).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
         switch (jqXHR.status) {
             case 200:
                 if (callback) callback(data);
@@ -57,4 +57,19 @@ function getFavorites(mediaType, top, callback) {
 
 function getUri(parameters) {
     return parameters.join("/");
+}
+
+function queryTableWithPaging(tableSasUrl, continuationToken, top) {
+    return $.ajax({
+        type: "GET",
+        datatype: "json",
+        url: tableSasUrl.concat("&$top=", top),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
+            xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
+            xhr.setRequestHeader("x-ms-continuation-NextTableName", continuationToken.NextTableName);
+            xhr.setRequestHeader("x-ms-continuation-NextPartitionKey", continuationToken.NextPartitionKey);
+            xhr.setRequestHeader("x-ms-continuation-NextRowKey", continuationToken.NextRowKey);
+        }
+    }).retry({ times: 3 });
 }
