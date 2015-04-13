@@ -1,10 +1,10 @@
-﻿@model IEnumerable<LvModel.View.Tumblr.TumblrModel>
+﻿@model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
 }
 
 <div>
-    @foreach (var tumblr in Model)
+    @foreach (var tumblr in Model.Tumblrs)
     {
         <div id="@tumblr.Id" class="container-tumblr" pk="@tumblr.PartitionKey" rk="@tumblr.RowKey">
             <img class="img-tumblr lazy" data-original="@tumblr.MediaUri" alt="" />

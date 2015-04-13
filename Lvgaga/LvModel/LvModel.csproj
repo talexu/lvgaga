@@ -81,6 +81,7 @@
     <Compile Include="View\Favorite\FavoriteModel.cs" />
     <Compile Include="View\Tumblr\TumblrCategory.cs" />
     <Compile Include="View\Tumblr\TumblrModel.cs" />
+    <Compile Include="View\Tumblr\TumblrsModel.cs" />
     <Compile Include="View\Tumblr\TumblrText.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -137,7 +137,9 @@
     <Compile Include="Services\FavoriteService.cs" />
     <Compile Include="Services\ICommentService.cs" />
     <Compile Include="Services\IFavoriteService.cs" />
+    <Compile Include="Services\ISasService.cs" />
     <Compile Include="Services\ITumblrService.cs" />
+    <Compile Include="Services\SasService.cs" />
     <Compile Include="Services\TumblrService.cs" />
     <Compile Include="Utilities\BlobHelper.cs" />
     <Compile Include="Utilities\DateTimeHelper.cs" />

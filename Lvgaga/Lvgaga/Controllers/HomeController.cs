@@ -37,13 +37,13 @@ namespace Lvgaga.Controllers
         {
             ViewBag.MediaType = mediaType;
 
-            var tumblrs = await _tumblrService.GetTumblrModelsAsync(mediaType, TumblrCategory.All, 20);
-            if (tumblrs == null || !tumblrs.Any()) return HttpNotFound();
+            var homeModel = await _tumblrService.GetTumblrModelsAsync(mediaType, TumblrCategory.All, 20);
+            if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
-            ViewBag.From = tumblrs.First().RowKey;
-            ViewBag.To = tumblrs.Last().RowKey;
+            ViewBag.From = homeModel.Tumblrs.First().RowKey;
+            ViewBag.To = homeModel.Tumblrs.Last().RowKey;
 
-            return View(tumblrs);
+            return View(homeModel);
         }
 
         public ActionResult About()
