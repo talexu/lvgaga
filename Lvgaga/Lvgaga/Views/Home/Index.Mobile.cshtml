@@ -72,7 +72,7 @@
 
                 $("#btn_load").on("touchend", function(event) {
                     var last = $(".container-tumblr:last");
-                    queryTableWithContinuationToken(sas, continuationToken, 20).done(function(data, textStatus, jqXHR) {
+                    queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20 }).done(function(data, textStatus, jqXHR) {
                             $.each(data.value, function(index, tumblr) {
                                 var rk = getInvertedTicks(tumblr.RowKey);
                                 var cp = template.clone();

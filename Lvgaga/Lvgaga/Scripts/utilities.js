@@ -63,11 +63,26 @@ function getInvertedTicks(rowKey) {
     return rowKey.slice(2);
 }
 
-function queryTableWithContinuationToken(tableSasUrl, continuationToken, top) {
+function queryTableWithContinuationToken(tableSasUrl, params) {
+    var uri = tableSasUrl;
+    if (params.continuationToken) {
+        if (params.continuationToken.NextPartitionKey) {
+            uri = uri.concat("&NextPartitionKey=", params.continuationToken.NextPartitionKey);
+        }
+        if (params.continuationToken.NextRowKey) {
+            uri = uri.concat("&NextRowKey=", params.continuationToken.NextRowKey);
+        }
+    }
+    if (params.top) {
+        uri = uri.concat("&$top=", params.top);
+    }
+    if (params.filter) {
+        uri = uri.concat("&$filter=", encodeURIComponent(params.filter));
+    }
     return $.ajax({
         type: "GET",
         datatype: "json",
-        url: tableSasUrl.concat("&NextPartitionKey=", continuationToken.NextPartitionKey, "&NextRowKey=", continuationToken.NextRowKey, "&$top=", top),
+        url: uri,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
             xhr.setRequestHeader("Accept", "application/json;odata=nometadata");

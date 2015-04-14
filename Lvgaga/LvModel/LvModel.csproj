@@ -79,6 +79,7 @@
     <Compile Include="View\Comment\CommentModel.cs" />
     <Compile Include="View\Comment\PostedComment.cs" />
     <Compile Include="View\Favorite\FavoriteModel.cs" />
+    <Compile Include="View\Favorite\FavoritesModel.cs" />
     <Compile Include="View\Tumblr\TumblrCategory.cs" />
     <Compile Include="View\Tumblr\TumblrModel.cs" />
     <Compile Include="View\Tumblr\TumblrsModel.cs" />

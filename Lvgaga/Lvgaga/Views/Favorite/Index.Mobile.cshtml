@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LvModel.View.Favorite.FavoriteModel>
+﻿@model LvModel.View.Favorite.FavoritesModel
 @{
     ViewBag.Title = "收藏";
 }
@@ -8,6 +8,9 @@
 }
 
 <div id="links"></div>
+<div class="container-block">
+    <button id="btn_load" type="button" class="btn btn-default btn-block">加载更多</button>
+</div>
 <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <div class="slides"></div>
@@ -27,11 +30,13 @@
 </div>
 
 @section scripts {
-    @Scripts.Render("~/bundles/gallery")
-    @Scripts.Render("~/bundles/business")
+    @Scripts.Render("~/bundles/favorite")
     <script>
-        $(function() {
+        $(function () {
             'use strict';
+            var continuationToken = {};
+            var sas = "@Html.Raw(Model.Sas)";
+
             // load data
             var gallery = $("#blueimp-gallery");
             var linksContainer = $("#links");
@@ -57,12 +62,12 @@
                     .appendTo(linksContainer);
             }
 
-            gallery.on('slide', function(event, index, slide) {
+            gallery.on('slide', function (event, index, slide) {
                 // Gallery slide event handler
                 var element = $(linksContainer.children()[index]);
                 curTumblr = element;
                 var mediaType = element.attr("mediaType");
-                var invertedTicks = element.attr("rowKey").split("_")[1];
+                var invertedTicks = getInvertedTicks(element.attr("rowKey"));
 
                 btnFavorite.attr("tp", mediaType);
                 btnFavorite.attr("rk", invertedTicks);
@@ -80,27 +85,39 @@
                 btnComment.addClass("btn-white");
             });
 
-            btnFavorite.on("touchend", function(event) {
+            btnFavorite.on("touchend", function (event) {
                 var btnCur = $(event.currentTarget);
                 if (curTumblr.prop("isFavorite") === false) {
-                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
+                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
                         btnFavorite.removeClass("btn-white");
                         curTumblr.prop("isFavorite", true);
                     });
                 } else {
-                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
+                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
                         btnFavorite.addClass("btn-white");
                         curTumblr.prop("isFavorite", false);
                     });
                 }
             });
 
-            getFavorites("0", 10, function(data) {
-                $.each(data, function(index, tumblr) {
-                    fillFavorite(tumblr);
-                });
-            });
+            function loadFavs() {
+                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 10 })
+                    .done(function (data, textStatus, jqXHR) {
+                        $.each(data.value, function (index, tumblr) {
+                            fillFavorite(tumblr);
+                        });
 
+                        continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                        continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+                    });
+            }
+
+            loadFavs();
+            $("#btn_load").on("touchend", function (event) {
+                if (continuationToken.NextPartitionKey && continuationToken.NextRowKey) {
+                    loadFavs();
+                }
+            });
         });
     </script>
 }

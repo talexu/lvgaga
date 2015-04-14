@@ -57,6 +57,9 @@ namespace Lvgaga
             // Comment Page
 
             // Favorite Page
+            bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
+                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
+                "~/Scripts/utilities.js"));
             #endregion
         }
     }
