@@ -24,10 +24,11 @@ namespace LvService.Services
 
         private readonly ICommentFactory _commentFactory;
         private readonly IUriFactory _uriFactory;
+        private readonly ISasService _sasService;
 
         public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
             ITableEntityCommand entityCommand, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory,
-            IUriFactory uriFactory)
+            IUriFactory uriFactory, ISasService sasService)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
@@ -36,6 +37,7 @@ namespace LvService.Services
             _entitiesReaderCommand = entitiesCommand;
             _commentFactory = commentFactory;
             _uriFactory = uriFactory;
+            _sasService = sasService;
         }
 
         public async Task<CommentEntity> CreateCommentAsync(string partitionKey, PostedComment comment)
@@ -62,6 +64,11 @@ namespace LvService.Services
             p.TakeCount = takeCount;
 
             CommentModel model = _commentFactory.CreateCommentModels(tumblr, await _entitiesReaderCommand.ExecuteAsync<CommentEntity>(p));
+            model.Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfComment, rowKey);
+            if (!String.IsNullOrEmpty(userId))
+            {
+                model.FavoriteSas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, userId);
+            }
             if (String.IsNullOrEmpty(userId)) return model;
 
             dynamic pf = new ExpandoObject();

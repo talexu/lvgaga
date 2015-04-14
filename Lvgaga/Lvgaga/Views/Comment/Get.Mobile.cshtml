@@ -7,8 +7,7 @@
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
-        @{ var clsSelected = Model.IsFavorited ? "btn-selected" : String.Empty;}
-        <button id="btn_favorite" type="button" class="btn btn-default @clsSelected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+        <button id="btn_favorite" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
     </div>
     <div class="content">
@@ -19,16 +18,19 @@
             </span>
         </div><!-- /input-group -->
         <div id="div_comments">
-            @foreach (var comment in Model.Comments)
-            {
-                <div>
-                    <hr class="hr-comment" />
-                    <a>@comment.UserName</a>
-                    <p class="date-comment pull-right">@comment.CommentTime.ToString("d")</p>
-                    <p class="text-comment">@comment.Text</p>
-                </div>
-            }
+            @*@foreach (var comment in Model.Comments)
+                {
+                    <div>
+                        <hr class="hr-comment" />
+                        <a>@comment.UserName</a>
+                        <p class="date-comment pull-right">@comment.CommentTime.ToString("d")</p>
+                        <p class="text-comment">@comment.Text</p>
+                    </div>
+                }*@
         </div>
+    </div>
+    <div class="container-block">
+        <button id="btn_load" type="button" class="btn btn-default btn-block">加载更多</button>
     </div>
 </div>
 
@@ -36,7 +38,65 @@
     @Scripts.Render("~/bundles/business")
     <script>
         (function () {
+            'use strict';
+            var continuationToken = {};
+            var sas = "@Html.Raw(Model.Sas)";
+            var favSas = "@Html.Raw(Model.FavoriteSas)";
+
+            var txb = $("#txb_comment");
+            var cms = $("#div_comments");
             var btnFavorite = $("#btn_favorite");
+            var btnSend = $("#btn_send");
+            var btnLoad = $("#btn_load");
+
+            if (favSas !== "") {
+                queryTableWithContinuationToken(favSas, { filter: "RowKey eq '0_@Model.RowKey'" })
+                    .done(function (data, textStatus, jqXHR) {
+                        if (data.value.length > 0) {
+                            btnFavorite.addClass("btn-selected");
+                        }
+                    });
+            }
+
+            function generateComment(data, createTime) {
+                return $("<div></div>").
+                    append($("<hr></hr>").addClass("hr-comment")).
+                    append($("<a></a>").text(data.UserName)).
+                    append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : data.CommentTime)).
+                    append($("<p></p>").addClass("text-comment").text(data.Text));
+            }
+
+            function insertComment(data, createTime) {
+                cms.prepend(generateComment(data, createTime));
+            }
+
+            function fillComment(data, createTime) {
+                cms.append(generateComment(data, createTime));
+            }
+
+            function loadComments() {
+                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20 })
+                    .done(function (data, textStatus, jqXHR) {
+                        $.each(data.value, function (index, comment) {
+                            fillComment(comment);
+                        });
+
+                        continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                        continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+
+                        if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                            btnLoad.hide();
+                        }
+                    });
+            }
+
+            loadComments();
+            btnLoad.on("touchend", function (event) {
+                if (continuationToken.NextPartitionKey && continuationToken.NextRowKey) {
+                    loadComments();
+                }
+            });
+
             btnFavorite.on("touchend", function (event) {
                 if (!btnFavorite.hasClass("btn-selected")) {
                     favorite("@Model.PartitionKey", "@Model.RowKey", btnFavorite);
@@ -45,9 +105,6 @@
                 }
             });
 
-            var txb = $("#txb_comment");
-            var cms = $("#div_comments");
-            var btnSend = $("#btn_send");
             btnSend.on("touchend", function () {
                 var text = txb.val();
                 if (text.trim()) {
@@ -58,11 +115,7 @@
                     }).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
                         switch (jqXHR.status) {
                             case 201:
-                                cms.prepend($("<div></div>").
-                                    append($("<hr></hr>").addClass("hr-comment")).
-                                    append($("<a></a>").text(data.UserName)).
-                                    append($("<p></p>").addClass("date-comment pull-right").text("刚刚")).
-                                    append($("<p></p>").addClass("text-comment").text(data.Text)));
+                                insertComment(data, "刚刚");
                                 txb.val("");
                                 break;
                             case 200:

@@ -36,6 +36,7 @@
             'use strict';
             var continuationToken = {};
             var sas = "@Html.Raw(Model.Sas)";
+            var btnLoad = $("#btn_load");
 
             // load data
             var gallery = $("#blueimp-gallery");
@@ -101,7 +102,7 @@
             });
 
             function loadFavs() {
-                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 10 })
+                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20 })
                     .done(function (data, textStatus, jqXHR) {
                         $.each(data.value, function (index, tumblr) {
                             fillFavorite(tumblr);
@@ -109,11 +110,15 @@
 
                         continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+
+                        if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                            btnLoad.hide();
+                        }
                     });
             }
 
             loadFavs();
-            $("#btn_load").on("touchend", function (event) {
+            btnLoad.on("touchend", function (event) {
                 if (continuationToken.NextPartitionKey && continuationToken.NextRowKey) {
                     loadFavs();
                 }
