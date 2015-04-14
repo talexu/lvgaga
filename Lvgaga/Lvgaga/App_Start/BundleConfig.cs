@@ -22,7 +22,7 @@ namespace Lvgaga
 
             // 业务逻辑
             bundles.Add(new ScriptBundle("~/bundles/business").Include(
-                "~/Scripts/favorite.js"));
+                "~/Scripts/utilities.js"));
 
             // 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
             // 生产准备时，请使用 http://modernizr.com 上的生成工具来仅选择所需的测试。
@@ -40,6 +40,24 @@ namespace Lvgaga
 
             bundles.Add(new StyleBundle("~/Content/css/gallery").Include(
                 "~/bower_components/blueimp-gallery/css/blueimp-gallery.min.css"));
+
+            #region product
+            // Layout Page
+            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/bower_components/jquery-ajax-retry/dist/jquery.ajax-retry*",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/respond.js"));
+
+            // Home Page
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                "~/Scripts/jquery.lazyload*",
+                "~/Scripts/utilities.js"));
+
+            // Comment Page
+
+            // Favorite Page
+            #endregion
         }
     }
 }

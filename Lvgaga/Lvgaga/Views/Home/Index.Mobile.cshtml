@@ -27,8 +27,7 @@
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/jquerylazy")
-    @Scripts.Render("~/bundles/business")
+    @Scripts.Render("~/bundles/home")
     <script>
         (function() {
             var continuationToken = @Html.Raw(Model.ContinuationToken.ToJsonString());
