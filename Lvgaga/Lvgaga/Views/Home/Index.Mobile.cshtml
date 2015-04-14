@@ -15,7 +15,7 @@
                     <p class="date-tumblr">@tumblr.CreateTime</p>
                     <button class="btn btn-default btn-favorite" rk="@tumblr.RowKey" tp="@tumblr.MediaType"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
                     <button class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
-                    <a class="btn btn-default pull-right" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                    <a class="btn btn-default pull-right btn-comment" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
                 </div>
                 <hr class="hr-tumblr" />
             </div>
@@ -34,24 +34,14 @@
             var sas = "@Html.Raw(Model.Sas)";
             var template = $(".container-tumblr:first").clone();
 
-            $(function() {
-                var divTumblrs = $("#div_tumblrs");
-
-                $("img.lazy").lazyload({
+            function initImgs(imgs) {
+                imgs.lazyload({
                     effect: "fadeIn"
                 });
+            }
 
-                getFavoriteIndex("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", function(data) {
-                    $(".btn-favorite").each(function() {
-                        var btnCur = $(this);
-                        var rk = btnCur.attr("rk");
-                        if (data[rk]) {
-                            btnCur.addClass("btn-selected");
-                        }
-                    });
-                });
-
-                $(".btn-favorite").on("touchend", function(event) {
+            function initFavs(btns) {
+                btns.on("touchend", function(event) {
                     var btnCur = $(event.currentTarget);
                     if (!btnCur.hasClass("btn-selected")) {
                         favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
@@ -59,21 +49,55 @@
                         unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
                     }
                 });
+            }
+
+            function setFavs(mediaType, from, to, btns) {
+                getFavoriteIndex(mediaType, from, to, function(data) {
+                    btns.each(function() {
+                        var btnCur = $(this);
+                        var rk = btnCur.attr("rk");
+                        if (data[rk]) {
+                            btnCur.addClass("btn-selected");
+                        }
+                    });
+                });
+            }
+
+            $(function() {
+                var divTumblrs = $("#div_tumblrs");
+                var btnFavorites = $(".btn-favorite");
+                initImgs($("img.lazy"));
+                initFavs(btnFavorites);
+                setFavs("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
 
                 $("#btn_load").on("touchend", function(event) {
-                    queryTableWithPaging(sas, continuationToken, 20).done(function(data, textStatus, jqXHR) {
-                        var last = $(".container-tumblr:last");
-                        $.each(data.value, function(index, tumblr) {
-                            var cp = template.clone();
-                            cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
-                            cp.appendTo(divTumblrs);
-                        });
-                        last.nextAll().find("img.lazy").lazyload({
-                            effect: "fadeIn"
-                        });
+                    var last = $(".container-tumblr:last");
+                    queryTableWithContinuationToken(sas, continuationToken, 20).done(function(data, textStatus, jqXHR) {
+                            $.each(data.value, function(index, tumblr) {
+                                var rk = getInvertedTicks(tumblr.RowKey);
+                                var cp = template.clone();
+                                cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                                cp.find("p.text-tumblr").text(tumblr.Text);
+                                cp.find("p.date-tumblr").text(tumblr.CreateTime);
+                                cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
+                                cp.find("a.btn-comment").prop("href", combinePath(["/comments", tumblr.MediaType, rk]));
+                                cp.appendTo(divTumblrs);
+                            });
 
-                        continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                        continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+                            var all = last.nextAll();
+                            initImgs(all.find("img.lazy"));
+                            initFavs(all.find("button.btn-favorite"));
+
+                            continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                            continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+                        })
+                        .always(function(data, textStatus, jqXHR) {
+
+                        })
+                        .done(function(data, textStatus, jqXHR) {
+                            var from = getInvertedTicks(data.value[0].RowKey);
+                            var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
+                            setFavs("@ViewBag.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
                     });
                 });
             });

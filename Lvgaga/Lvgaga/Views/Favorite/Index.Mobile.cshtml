@@ -76,7 +76,7 @@
 
                 txtTumblr.text(element.attr("tumblrText"));
 
-                btnComment.prop("href", getUri(["/comments", mediaType, invertedTicks]));
+                btnComment.prop("href", combinePath(["/comments", mediaType, invertedTicks]));
                 btnComment.addClass("btn-white");
             });
 

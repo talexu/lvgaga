@@ -45,7 +45,7 @@ function getFavoriteIndex(mediaType, from, to, callback) {
 }
 
 function getFavorites(mediaType, top, callback) {
-    $.get("/api/v1/favorites/".concat(mediaType, "?", "$top=", top)).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
+    $.get("/api/v1/favorites/".concat(mediaType, "?", "top=", top)).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
         switch (jqXHR.status) {
             case 200:
                 if (callback) callback(data);
@@ -55,11 +55,15 @@ function getFavorites(mediaType, top, callback) {
     });
 }
 
-function getUri(parameters) {
+function combinePath(parameters) {
     return parameters.join("/");
 }
 
-function queryTableWithPaging(tableSasUrl, continuationToken, top) {
+function getInvertedTicks(rowKey) {
+    return rowKey.slice(2);
+}
+
+function queryTableWithContinuationToken(tableSasUrl, continuationToken, top) {
     return $.ajax({
         type: "GET",
         datatype: "json",
