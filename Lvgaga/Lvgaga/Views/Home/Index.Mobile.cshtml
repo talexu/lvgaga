@@ -1,5 +1,4 @@
-﻿@using System.Text.RegularExpressions
-@using LvService.Utilities
+﻿@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
@@ -34,6 +33,7 @@
         (function() {
             var continuationToken = @Html.Raw(Model.ContinuationToken.ToJsonString());
             var sas = "@Html.Raw(Model.Sas)";
+            var template = $(".container-tumblr:first").clone();
 
             $(function() {
                 var divTumblrs = $("#div_tumblrs");
@@ -65,23 +65,16 @@
                     queryTableWithPaging(sas, continuationToken, 20).done(function(data, textStatus, jqXHR) {
                         var last = $(".container-tumblr:last");
                         $.each(data.value, function(index, tumblr) {
-                            $("<div/>").addClass("container-tumblr")
-                                .append($("<img/>").addClass("img-tumblr lazy").attr("data-original", tumblr.MediaUri).attr("alt", ""))
-                                .append($("<div/>").addClass("content")
-                                    .append($("<p/>").addClass("text-tumblr").text(tumblr.Text))
-                                    .append($("<p/>").addClass("date-tumblr").text(tumblr.CreateTime))
-                                    .append($("<button/>").addClass("btn btn-default btn-favorite").attr("rk",tumblr.RowKey).attr("tp", tumblr.MediaType)
-                                        .append($("<span/>").addClass("glyphicon glyphicon-heart").attr("aria-hidden", "true")))
-                                    .append($("<button/>").addClass("btn btn-default")
-                                        .append($("<span/>").addClass("glyphicon glyphicon-share-alt").attr("aria-hidden", "true")))
-                                    .append($("<a/>").addClass("btn btn-default pull-right").prop("href", getUri(["/comments", tumblr.MediaType, tumblr.RowKey]))
-                                        .append($("<span/>").addClass("glyphicon glyphicon-th-list").attr("aria-hidden", "true"))))
-                                .append($("<hr/>").addClass("hr-tumblr"))
-                                .appendTo(divTumblrs);
+                            var cp = template.clone();
+                            cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                            cp.appendTo(divTumblrs);
                         });
                         last.nextAll().find("img.lazy").lazyload({
                             effect: "fadeIn"
                         });
+
+                        continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                        continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
                     });
                 });
             });

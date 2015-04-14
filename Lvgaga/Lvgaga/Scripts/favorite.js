@@ -63,13 +63,10 @@ function queryTableWithPaging(tableSasUrl, continuationToken, top) {
     return $.ajax({
         type: "GET",
         datatype: "json",
-        url: tableSasUrl.concat("&$top=", top),
+        url: tableSasUrl.concat("&NextPartitionKey=", continuationToken.NextPartitionKey, "&NextRowKey=", continuationToken.NextRowKey, "&$top=", top),
         beforeSend: function (xhr) {
             xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
             xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
-            xhr.setRequestHeader("x-ms-continuation-NextTableName", continuationToken.NextTableName);
-            xhr.setRequestHeader("x-ms-continuation-NextPartitionKey", continuationToken.NextPartitionKey);
-            xhr.setRequestHeader("x-ms-continuation-NextRowKey", continuationToken.NextRowKey);
         }
     }).retry({ times: 3 });
 }

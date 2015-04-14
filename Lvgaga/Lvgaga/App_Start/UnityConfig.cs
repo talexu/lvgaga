@@ -1,5 +1,4 @@
 using System;
-using System.Web.Configuration;
 using Lvgaga.Controllers;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;

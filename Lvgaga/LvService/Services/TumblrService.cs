@@ -7,7 +7,6 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.DbContexts;
 using LvService.Factories.ViewModel;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Services
 {
