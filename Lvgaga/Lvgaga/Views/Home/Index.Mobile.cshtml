@@ -14,7 +14,7 @@
                     <p class="text-tumblr">@tumblr.Text</p>
                     <p class="date-tumblr">@tumblr.CreateTime</p>
                     <button class="btn btn-default btn-favorite" rk="@tumblr.RowKey" tp="@tumblr.MediaType"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-                    <button class="btn btn-default"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
+                    <a class="btn btn-default btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
                     <a class="btn btn-default pull-right btn-comment" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
                 </div>
                 <hr class="hr-tumblr" />
@@ -62,6 +62,17 @@
                 });
             }
 
+            function initShare(containers) {
+                containers.each(function() {
+                    var container = $(this);
+                    var imgTumblr = container.find(".img-tumblr");
+                    var btnComment = container.find(".btn-comment");
+                    var pText = container.find(".text-tumblr");
+                    var btnShare = container.find(".btn-share");
+                    btnShare.prop("href", getShareUri({ Uri: btnComment.attr("href"), Title: pText.text(), Summary: pText.text(), Pic: imgTumblr.attr("data-original") }));
+                });
+            }
+
             function setFavs(mediaType, from, to, btns) {
                 getFavoriteIndex(mediaType, from, to, function(data) {
                     btns.each(function() {
@@ -87,6 +98,7 @@
                 initImgs($("img.lazy"));
                 initTime();
                 initFavs(btnFavorites);
+                initShare($(".container-tumblr"));
                 setFavs("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
                 setLoadButton(btnLoad);
 
@@ -112,6 +124,7 @@
                             var all = last.nextAll();
                             initImgs(all.find("img.lazy"));
                             initFavs(all.find("button.btn-favorite"));
+                            initShare(all);
 
                             continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
                             continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");

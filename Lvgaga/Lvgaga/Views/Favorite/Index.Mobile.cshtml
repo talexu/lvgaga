@@ -23,7 +23,7 @@
         <div class="container">
             <p id="p_text" class="text-fav"></p>
             <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-            <button type="button" class="btn btn-default btn-white btn-outline navbar-btn"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></button>
+            <a id="btn_share" class="btn btn-default btn-white btn-outline navbar-btn btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
             <a id="btn_comment" class="btn btn-default btn-outline navbar-btn pull-right"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
         </div>
     </nav>
@@ -42,6 +42,7 @@
             var gallery = $("#blueimp-gallery");
             var linksContainer = $("#links");
             var btnFavorite = $("#btn_favorite");
+            var btnShare = $("#btn_share");
             var btnComment = $("#btn_comment");
             var txtTumblr = $("#p_text");
             var curTumblr;
@@ -67,8 +68,11 @@
                 // Gallery slide event handler
                 var element = $(linksContainer.children()[index]);
                 curTumblr = element;
+                var mediaUri = element.prop("href");
                 var mediaType = element.attr("mediaType");
                 var invertedTicks = getInvertedTicks(element.attr("rowKey"));
+                var commentUri = combinePath(["/comments", mediaType, invertedTicks]);
+                var tumblrText = element.attr("tumblrText");
 
                 btnFavorite.attr("tp", mediaType);
                 btnFavorite.attr("rk", invertedTicks);
@@ -80,9 +84,11 @@
                     btnFavorite.removeClass("btn-selected");
                 }
 
-                txtTumblr.text(element.attr("tumblrText"));
+                btnShare.prop("href", getShareUri({ Uri: commentUri, Title: tumblrText, Summary: tumblrText, Pic: mediaUri }));
 
-                btnComment.prop("href", combinePath(["/comments", mediaType, invertedTicks]));
+                txtTumblr.text(tumblrText);
+
+                btnComment.prop("href", commentUri);
                 btnComment.addClass("btn-white");
             });
 

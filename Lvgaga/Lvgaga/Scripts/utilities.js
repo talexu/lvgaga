@@ -117,3 +117,8 @@ function queryAzureTableWithLoadingButton(tableSasUrl, params) {
 function getLocalTime(dataTime) {
     return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
 }
+
+function getShareUri(p) {
+    //return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&title=", encodeURIComponent(p.Title), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=35de718f-8cbf-4a01-8d69-486b3e6c3437", "&pic=", encodeURIComponent(p.Pic));
+    return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=35de718f-8cbf-4a01-8d69-486b3e6c3437", "&pic=", encodeURIComponent(p.Pic));
+}
