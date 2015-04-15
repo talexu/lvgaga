@@ -111,13 +111,21 @@ namespace Lvgaga
 
             container.RegisterType<ICommentFactory, CommentFactory>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<ICommentService, CommentService>(new ContainerControlledLifetimeManager(),
+            //container.RegisterType<ICommentService, CommentService>(new ContainerControlledLifetimeManager(),
+            //    new InjectionConstructor(
+            //        typeof(IAzureStorage),
+            //        new ResolvedParameter<ICommand>(createCommentCommand),
+            //        typeof(ITumblrService),
+            //        new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
+            //        new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
+            //        typeof(ICommentFactory),
+            //        typeof(IUriFactory),
+            //        typeof(ISasService)));
+            container.RegisterType<ICommentService, SasCommentService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
                     typeof(IAzureStorage),
                     new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
-                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
-                    new ResolvedParameter<ITableEntitiesCommand>(commentEntitiesReader),
                     typeof(ICommentFactory),
                     typeof(IUriFactory),
                     typeof(ISasService)));

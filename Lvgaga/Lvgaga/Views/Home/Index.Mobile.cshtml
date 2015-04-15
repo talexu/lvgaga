@@ -65,6 +65,12 @@
                 });
             }
 
+            function setLoadButton(btn) {
+                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                    btn.hide();
+                }
+            }
+
             $(function() {
                 var divTumblrs = $("#div_tumblrs");
                 var btnFavorites = $(".btn-favorite");
@@ -72,6 +78,7 @@
                 initImgs($("img.lazy"));
                 initFavs(btnFavorites);
                 setFavs("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
+                setLoadButton(btnLoad);
 
                 btnLoad.on("touchend", function(event) {
                     if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
@@ -79,7 +86,7 @@
                     }
 
                     var last = $(".container-tumblr:last");
-                    queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20 })
+                    queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
                         .done(function(data, textStatus, jqXHR) {
                             $.each(data.value, function(index, tumblr) {
                                 var rk = getInvertedTicks(tumblr.RowKey);
@@ -98,19 +105,12 @@
 
                             continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
                             continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-
-                            if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                                btnLoad.hide();
-                            }
-                        })
-                        .always(function(data, textStatus, jqXHR) {
-
                         })
                         .done(function(data, textStatus, jqXHR) {
                             var from = getInvertedTicks(data.value[0].RowKey);
                             var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
                             setFavs("@ViewBag.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
-                        });
+                    });
                 });
             });
         })();

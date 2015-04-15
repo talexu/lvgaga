@@ -5,7 +5,6 @@ using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Comment;
 using LvModel.View.Tumblr;
-using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
@@ -14,27 +13,22 @@ using LvService.Utilities;
 
 namespace LvService.Services
 {
-    public class CommentService : ICommentService
+    public class SasCommentService : ICommentService
     {
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createCommentCommand;
-        private readonly ITableEntityCommand _entityReaderCommand;
-        private readonly ITableEntitiesCommand _entitiesReaderCommand;
         private readonly ITumblrService _tumblrService;
 
         private readonly ICommentFactory _commentFactory;
         private readonly IUriFactory _uriFactory;
         private readonly ISasService _sasService;
 
-        public CommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
-            ITableEntityCommand entityCommand, ITableEntitiesCommand entitiesCommand, ICommentFactory commentFactory,
-            IUriFactory uriFactory, ISasService sasService)
+        public SasCommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
+            ICommentFactory commentFactory, IUriFactory uriFactory, ISasService sasService)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
-            _entityReaderCommand = entityCommand;
-            _entitiesReaderCommand = entitiesCommand;
             _commentFactory = commentFactory;
             _uriFactory = uriFactory;
             _sasService = sasService;
@@ -50,7 +44,7 @@ namespace LvService.Services
             return p.Entity;
         }
 
-        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount, string userId = null)
+        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount, string userId)
         {
             var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
@@ -63,19 +57,14 @@ namespace LvService.Services
             p.PartitionKey = rowKey;
             p.TakeCount = takeCount;
 
-            CommentModel model = _commentFactory.CreateCommentModels(tumblr, await _entitiesReaderCommand.ExecuteAsync<CommentEntity>(p));
-            model.ContinuationToken = p.ContinuationToken;
+            var model = _commentFactory.CreateCommentModel(tumblr);
+            if (model == null) return null;
+
             model.Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfComment, rowKey);
-            if (String.IsNullOrEmpty(userId)) return model;
-
-            dynamic pf = new ExpandoObject();
-            pf.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
-            pf.PartitionKey = userId;
-            pf.RowKey = _uriFactory.CreateFavoriteRowKey(partitionKey, rowKey);
-
-            var favorite = await _entityReaderCommand.ExecuteAsync<FavoriteEntity>(pf);
-            model.IsFavorited = favorite != null;
-
+            if (!String.IsNullOrEmpty(userId))
+            {
+                model.FavoriteSas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, userId);
+            }
             return model;
         }
     }

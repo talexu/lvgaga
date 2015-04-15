@@ -28,7 +28,7 @@ namespace LvService.Factories.ViewModel
             return (from entity in entities where entity != null select CreateCommentItem(entity)).ToList();
         }
 
-        public CommentModel CreateCommentModels(TumblrModel tumblr, IEnumerable<CommentEntity> entities)
+        public CommentModel CreateCommentModel(TumblrModel tumblr)
         {
             if (tumblr == null) return null;
 
@@ -41,8 +41,16 @@ namespace LvService.Factories.ViewModel
                 Text = tumblr.Text,
                 CreateTime = tumblr.CreateTime,
                 IsFavorited = false,
-                Comments = CreateCommentItems(entities)
             };
+        }
+
+        public CommentModel CreateCommentModels(TumblrModel tumblr, IEnumerable<CommentEntity> entities)
+        {
+            var commentModel = CreateCommentModel(tumblr);
+            if (commentModel == null) return null;
+
+            commentModel.Comments = CreateCommentItems(entities);
+            return commentModel;
         }
     }
 }

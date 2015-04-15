@@ -32,7 +32,7 @@
 @section scripts {
     @Scripts.Render("~/bundles/favorite")
     <script>
-        $(function () {
+        $(function() {
             'use strict';
             var continuationToken = {};
             var sas = "@Html.Raw(Model.Sas)";
@@ -63,7 +63,7 @@
                     .appendTo(linksContainer);
             }
 
-            gallery.on('slide', function (event, index, slide) {
+            gallery.on('slide', function(event, index, slide) {
                 // Gallery slide event handler
                 var element = $(linksContainer.children()[index]);
                 curTumblr = element;
@@ -86,15 +86,15 @@
                 btnComment.addClass("btn-white");
             });
 
-            btnFavorite.on("touchend", function (event) {
+            btnFavorite.on("touchend", function(event) {
                 var btnCur = $(event.currentTarget);
                 if (curTumblr.prop("isFavorite") === false) {
-                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
+                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
                         btnFavorite.removeClass("btn-white");
                         curTumblr.prop("isFavorite", true);
                     });
                 } else {
-                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
+                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function() {
                         btnFavorite.addClass("btn-white");
                         curTumblr.prop("isFavorite", false);
                     });
@@ -102,23 +102,19 @@
             });
 
             function loadFavs() {
-                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20 })
-                    .done(function (data, textStatus, jqXHR) {
-                        $.each(data.value, function (index, tumblr) {
+                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20, btn: btnLoad })
+                    .done(function(data, textStatus, jqXHR) {
+                        $.each(data.value, function(index, tumblr) {
                             fillFavorite(tumblr);
                         });
 
                         continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-
-                        if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                            btnLoad.hide();
-                        }
                     });
             }
 
             loadFavs();
-            btnLoad.on("touchend", function (event) {
+            btnLoad.on("touchend", function(event) {
                 if (continuationToken.NextPartitionKey && continuationToken.NextRowKey) {
                     loadFavs();
                 }

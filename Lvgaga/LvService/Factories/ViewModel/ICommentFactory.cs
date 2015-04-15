@@ -9,6 +9,7 @@ namespace LvService.Factories.ViewModel
     {
         CommentItem CreateCommentItem(CommentEntity entity);
         List<CommentItem> CreateCommentItems(IEnumerable<CommentEntity> entities);
+        CommentModel CreateCommentModel(TumblrModel tumblr);
         CommentModel CreateCommentModels(TumblrModel tumblr, IEnumerable<CommentEntity> entities);
     }
 }

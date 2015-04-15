@@ -64,6 +64,11 @@ function getInvertedTicks(rowKey) {
 }
 
 function queryTableWithContinuationToken(tableSasUrl, params) {
+    var btnLoad = params.btn;
+    if (btnLoad) {
+        btnLoad.attr("disabled", "disabled");
+    }
+
     var uri = tableSasUrl;
     if (params.continuationToken) {
         if (params.continuationToken.NextPartitionKey) {
@@ -80,12 +85,25 @@ function queryTableWithContinuationToken(tableSasUrl, params) {
         uri = uri.concat("&$filter=", encodeURIComponent(params.filter));
     }
     return $.ajax({
-        type: "GET",
-        datatype: "json",
-        url: uri,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
-            xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
-        }
-    }).retry({ times: 3 });
+            type: "GET",
+            datatype: "json",
+            url: uri,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
+                xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
+            }
+        })
+        .retry({ times: 3 })
+        .done(function(data, textStatus, jqXHR) {
+            var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+            var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+            if (!nextPartitionKey || !nextRowKey) {
+                btnLoad.hide();
+            }
+        })
+        .always(function(data, textStatus, jqXHR) {
+            if (btnLoad) {
+                btnLoad.removeAttr("disabled");
+            }
+        });
 }
