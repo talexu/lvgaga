@@ -80,37 +80,34 @@ function queryAzureTable(tableSasUrl, params) {
         uri = uri.concat("&$filter=", encodeURIComponent(params.filter));
     }
     return $.ajax({
-            type: "GET",
-            datatype: "json",
-            url: uri,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
-                xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
-            }
-        })
+        type: "GET",
+        datatype: "json",
+        url: uri,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
+            xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
+        }
+    })
         .retry({ times: 3 });
 }
 
 function queryAzureTableWithLoadingButton(tableSasUrl, params) {
     var btnLoad = params.btn;
-    if (btnLoad) {
-        btnLoad.attr("disabled", "disabled");
+    if (!btnLoad) {
+        return queryAzureTable(tableSasUrl, params);
     }
+    btnLoad.attr("disabled", "disabled");
 
     return queryAzureTable(tableSasUrl, params)
-        .done(function(data, textStatus, jqXHR) {
-            if (btnLoad) {
-                var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-                if (!nextPartitionKey || !nextRowKey) {
-                    btnLoad.hide();
-                }
+        .done(function (data, textStatus, jqXHR) {
+            var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+            var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+            if (!nextPartitionKey || !nextRowKey) {
+                btnLoad.hide();
             }
         })
-        .always(function(data, textStatus, jqXHR) {
-            if (btnLoad) {
-                btnLoad.removeAttr("disabled");
-            }
+        .always(function (data, textStatus, jqXHR) {
+            btnLoad.removeAttr("disabled");
         });
 }
 
