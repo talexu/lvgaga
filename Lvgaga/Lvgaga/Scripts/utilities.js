@@ -113,3 +113,7 @@ function queryAzureTableWithLoadingButton(tableSasUrl, params) {
             }
         });
 }
+
+function getLocalTime(dataTime) {
+    return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
+}

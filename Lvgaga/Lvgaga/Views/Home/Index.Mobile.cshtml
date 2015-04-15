@@ -93,7 +93,7 @@
                                 var cp = template.clone();
                                 cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
                                 cp.find("p.text-tumblr").text(tumblr.Text);
-                                cp.find("p.date-tumblr").text(tumblr.CreateTime);
+                                cp.find("p.date-tumblr").text(getLocalTime(tumblr.CreateTime));
                                 cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
                                 cp.find("a.btn-comment").prop("href", combinePath(["/comments", tumblr.MediaType, rk]));
                                 cp.appendTo(divTumblrs);

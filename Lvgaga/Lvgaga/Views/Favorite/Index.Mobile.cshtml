@@ -57,7 +57,7 @@
                     .attr("mediaType", tumblr.MediaType)
                     .attr("tumblrCategory", tumblr.TumblrCategory)
                     .attr("tumblrText", tumblr.Text)
-                    .attr("createTime", tumblr.CreateTime)
+                    .attr("createTime", getLocalTime(tumblr.CreateTime))
                     .prop("isFavorite", true)
                     .attr("data-gallery", "")
                     .appendTo(linksContainer);

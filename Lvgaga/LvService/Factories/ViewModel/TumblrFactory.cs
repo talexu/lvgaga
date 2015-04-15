@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LvModel.Azure.StorageTable;
@@ -40,7 +41,7 @@ namespace LvService.Factories.ViewModel
                 ThumbnailUri = tumblrEntity.ThumbnailUri,
                 TumblrCategory = tumblrEntity.TumblrCategory,
                 Text = tumblrEntity.Text,
-                CreateTime = tumblrEntity.CreateTime
+                CreateTime = TimeZoneInfo.ConvertTimeFromUtc(tumblrEntity.CreateTime, TimeZoneInfo.Local)
             };
         }
 

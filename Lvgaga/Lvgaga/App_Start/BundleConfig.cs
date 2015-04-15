@@ -47,7 +47,8 @@ namespace Lvgaga
                 "~/Scripts/jquery-{version}.js",
                 "~/bower_components/jquery-ajax-retry/dist/jquery.ajax-retry*",
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/respond.js"));
+                "~/Scripts/respond.js",
+                "~/Scripts/moment*"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
@@ -55,6 +56,8 @@ namespace Lvgaga
                 "~/Scripts/utilities.js"));
 
             // Comment Page
+            bundles.Add(new ScriptBundle("~/bundles/comment").Include(
+                "~/Scripts/utilities.js"));
 
             // Favorite Page
             bundles.Add(new ScriptBundle("~/bundles/favorite").Include(

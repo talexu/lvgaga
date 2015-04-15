@@ -35,7 +35,7 @@
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/business")
+    @Scripts.Render("~/bundles/comment")
     <script>
         (function() {
             'use strict';
@@ -62,7 +62,7 @@
                 return $("<div></div>").
                     append($("<hr></hr>").addClass("hr-comment")).
                     append($("<a></a>").text(data.UserName)).
-                    append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : data.CommentTime)).
+                    append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : getLocalTime(data.CommentTime))).
                     append($("<p></p>").addClass("text-comment").text(data.Text));
             }
 
