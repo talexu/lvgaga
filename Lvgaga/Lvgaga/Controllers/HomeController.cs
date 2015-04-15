@@ -21,25 +21,31 @@ namespace Lvgaga.Controllers
             _tumblrService = tumblrServic;
         }
 
-        [Route("{mediaType:int}")]
-        public async Task<ActionResult> Index(string mediaType)
+        [Route("media/{mediaType:int}")]
+        public async Task<ActionResult> Index(int mediaType)
         {
-            return await ActualIndex(mediaType);
+            return await ActualIndex(mediaType, (int)TumblrCategory.All);
+        }
+
+        [Route("media/{mediaType:int}/category/{category:int}")]
+        public async Task<ActionResult> Index(int mediaType, int category)
+        {
+            return await ActualIndex(mediaType, category);
         }
 
         // GET: Tumblr
         public async Task<ActionResult> Index()
         {
-            return await ActualIndex(LvConstants.PartitionKeyOfAll);
+            return await ActualIndex((int)MediaType.All, (int)TumblrCategory.All);
         }
 
-        private async Task<ActionResult> ActualIndex(string mediaType)
+        private async Task<ActionResult> ActualIndex(int mediaType, int category)
         {
-            ViewBag.MediaType = mediaType;
-
-            var homeModel = await _tumblrService.GetTumblrModelsAsync(mediaType, TumblrCategory.All, 20);
+            var homeModel = await _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, 20);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
+            homeModel.MediaType = mediaType;
+            homeModel.TumblrCategory = category;
             return View(homeModel);
         }
 

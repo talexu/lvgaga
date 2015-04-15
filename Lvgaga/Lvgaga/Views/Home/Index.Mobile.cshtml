@@ -87,7 +87,7 @@
                 initImgs($("img.lazy"));
                 initTime();
                 initFavs(btnFavorites);
-                setFavs("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
+                setFavs("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
                 setLoadButton(btnLoad);
 
                 btnLoad.on("touchend", function(event) {
@@ -96,7 +96,7 @@
                     }
 
                     var last = $(".container-tumblr:last");
-                    queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
+                    queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
                         .done(function(data, textStatus, jqXHR) {
                             $.each(data.value, function(index, tumblr) {
                                 var rk = getInvertedTicks(tumblr.RowKey);
@@ -119,7 +119,7 @@
                         .done(function(data, textStatus, jqXHR) {
                             var from = getInvertedTicks(data.value[0].RowKey);
                             var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                            setFavs("@ViewBag.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
+                            setFavs("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
                     });
                 });
             });

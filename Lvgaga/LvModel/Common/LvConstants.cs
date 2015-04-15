@@ -1,4 +1,6 @@
-﻿namespace LvModel.Common
+﻿using LvModel.View.Tumblr;
+
+namespace LvModel.Common
 {
     public class LvConstants
     {
@@ -18,6 +20,7 @@
         public const string TableNameOfFavorite = "favorites";
         public static readonly string PartitionKeyOfAll = MediaType.All.ToString("D");
         public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("D");
+        public static readonly string CategoryOfAll = TumblrCategory.All.ToString("D");
 
         #endregion
     }
