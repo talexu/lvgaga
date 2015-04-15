@@ -42,6 +42,15 @@
                 });
             }
 
+            function initTime() {
+                var ps = $(".date-tumblr");
+                ps.each(function() {
+                    var p = $(this);
+                    var utc = p.text();
+                    p.text(getLocalTime(utc));
+                });
+            }
+
             function initFavs(btns) {
                 btns.on("touchend", function(event) {
                     var btnCur = $(event.currentTarget);
@@ -76,6 +85,7 @@
                 var btnFavorites = $(".btn-favorite");
                 var btnLoad = $("#btn_load");
                 initImgs($("img.lazy"));
+                initTime();
                 initFavs(btnFavorites);
                 setFavs("@ViewBag.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
                 setLoadButton(btnLoad);

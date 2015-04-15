@@ -37,7 +37,7 @@
 @section scripts{
     @Scripts.Render("~/bundles/comment")
     <script>
-        (function() {
+        (function () {
             'use strict';
             var continuationToken = {};
             var sas = "@Html.Raw(Model.Sas)";
@@ -49,9 +49,13 @@
             var btnSend = $("#btn_send");
             var btnLoad = $("#btn_load");
 
+            var pTime = $(".date-tumblr");
+            var utc = pTime.text();
+            pTime.text(getLocalTime(utc));
+
             if (favSas !== "") {
                 queryAzureTable(favSas, { filter: "RowKey eq '0_@Model.RowKey'" })
-                    .done(function(data, textStatus, jqXHR) {
+                    .done(function (data, textStatus, jqXHR) {
                         if (data.value.length > 0) {
                             btnFavorite.addClass("btn-selected");
                         }
@@ -76,8 +80,8 @@
 
             function loadComments() {
                 queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
-                    .done(function(data, textStatus, jqXHR) {
-                        $.each(data.value, function(index, comment) {
+                    .done(function (data, textStatus, jqXHR) {
+                        $.each(data.value, function (index, comment) {
                             fillComment(comment);
                         });
 
@@ -87,13 +91,13 @@
             }
 
             loadComments();
-            btnLoad.on("touchend", function(event) {
+            btnLoad.on("touchend", function (event) {
                 if (continuationToken.NextPartitionKey && continuationToken.NextRowKey) {
                     loadComments();
                 }
             });
 
-            btnFavorite.on("touchend", function(event) {
+            btnFavorite.on("touchend", function (event) {
                 if (!btnFavorite.hasClass("btn-selected")) {
                     favorite("@Model.PartitionKey", "@Model.RowKey", btnFavorite);
                 } else {
@@ -101,29 +105,29 @@
                 }
             });
 
-            btnSend.on("touchend", function() {
+            btnSend.on("touchend", function () {
                 var text = txb.val();
                 if (text.trim()) {
                     btnSend.attr("disabled", "disabled");
                     $.post("@String.Format("/api/v1/comments/{0}/{1}", @Model.PartitionKey, @Model.RowKey)",
                     {
                         "Text": text
-                    }).retry({ times: 3 }).done(function(data, textStatus, jqXHR) {
+                    }).retry({ times: 3 }).done(function (data, textStatus, jqXHR) {
                         switch (jqXHR.status) {
-                        case 201:
-                            insertComment(data, "刚刚");
-                            txb.val("");
-                            break;
-                        case 200:
-                            var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
-                            if (res.status === 401) {
-                                $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                            }
-                            break;
-                        default:
+                            case 201:
+                                insertComment(data, "刚刚");
+                                txb.val("");
+                                break;
+                            case 200:
+                                var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
+                                if (res.status === 401) {
+                                    $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                                }
+                                break;
+                            default:
 
                         }
-                    }).always(function(data, textStatus, jqXHR) {
+                    }).always(function (data, textStatus, jqXHR) {
                         btnSend.removeAttr("disabled");
                     });
                 }

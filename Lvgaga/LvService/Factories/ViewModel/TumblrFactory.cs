@@ -41,7 +41,7 @@ namespace LvService.Factories.ViewModel
                 ThumbnailUri = tumblrEntity.ThumbnailUri,
                 TumblrCategory = tumblrEntity.TumblrCategory,
                 Text = tumblrEntity.Text,
-                CreateTime = TimeZoneInfo.ConvertTimeFromUtc(tumblrEntity.CreateTime, TimeZoneInfo.Local)
+                CreateTime = tumblrEntity.CreateTime
             };
         }
 
