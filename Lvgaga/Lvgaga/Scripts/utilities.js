@@ -63,12 +63,7 @@ function getInvertedTicks(rowKey) {
     return rowKey.slice(2);
 }
 
-function queryTableWithContinuationToken(tableSasUrl, params) {
-    var btnLoad = params.btn;
-    if (btnLoad) {
-        btnLoad.attr("disabled", "disabled");
-    }
-
+function queryAzureTable(tableSasUrl, params) {
     var uri = tableSasUrl;
     if (params.continuationToken) {
         if (params.continuationToken.NextPartitionKey) {
@@ -93,12 +88,23 @@ function queryTableWithContinuationToken(tableSasUrl, params) {
                 xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
             }
         })
-        .retry({ times: 3 })
+        .retry({ times: 3 });
+}
+
+function queryAzureTableWithLoadingButton(tableSasUrl, params) {
+    var btnLoad = params.btn;
+    if (btnLoad) {
+        btnLoad.attr("disabled", "disabled");
+    }
+
+    return queryAzureTable(tableSasUrl, params)
         .done(function(data, textStatus, jqXHR) {
-            var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-            var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-            if (!nextPartitionKey || !nextRowKey) {
-                btnLoad.hide();
+            if (btnLoad) {
+                var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+                if (!nextPartitionKey || !nextRowKey) {
+                    btnLoad.hide();
+                }
             }
         })
         .always(function(data, textStatus, jqXHR) {

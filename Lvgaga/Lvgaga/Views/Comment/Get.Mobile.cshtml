@@ -50,7 +50,7 @@
             var btnLoad = $("#btn_load");
 
             if (favSas !== "") {
-                queryTableWithContinuationToken(favSas, { filter: "RowKey eq '0_@Model.RowKey'" })
+                queryAzureTable(favSas, { filter: "RowKey eq '0_@Model.RowKey'" })
                     .done(function(data, textStatus, jqXHR) {
                         if (data.value.length > 0) {
                             btnFavorite.addClass("btn-selected");
@@ -75,7 +75,7 @@
             }
 
             function loadComments() {
-                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
+                queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
                     .done(function(data, textStatus, jqXHR) {
                         $.each(data.value, function(index, comment) {
                             fillComment(comment);

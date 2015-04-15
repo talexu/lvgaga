@@ -102,7 +102,7 @@
             });
 
             function loadFavs() {
-                queryTableWithContinuationToken(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20, btn: btnLoad })
+                queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20, btn: btnLoad })
                     .done(function(data, textStatus, jqXHR) {
                         $.each(data.value, function(index, tumblr) {
                             fillFavorite(tumblr);

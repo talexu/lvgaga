@@ -86,7 +86,7 @@
                     }
 
                     var last = $(".container-tumblr:last");
-                    queryTableWithContinuationToken(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
+                    queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
                         .done(function(data, textStatus, jqXHR) {
                             $.each(data.value, function(index, tumblr) {
                                 var rk = getInvertedTicks(tumblr.RowKey);
