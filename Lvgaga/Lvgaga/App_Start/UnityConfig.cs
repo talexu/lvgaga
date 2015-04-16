@@ -50,30 +50,43 @@ namespace Lvgaga
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
-            // Identify
+            #region Identity
+
             container.RegisterType<AccountController, AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
 
-            // Common
+            #endregion
+
+            #region Common
+
             const string emptyEntityReader = "get entity://";
-            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader, new InjectionConstructor());
+            container.RegisterType<ITableEntityCommand, ReadTableEntityCommand>(emptyEntityReader,
+                new InjectionConstructor());
             const string emptyEntityDeleter = "delete entity://";
             container.RegisterType<ICommand, DeleteTableEntityCommand>(emptyEntityDeleter, new InjectionConstructor());
             container.RegisterType<IUriFactory, UriFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ICacheKeyFactory, CacheKeyFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITableEntityFactory, TableEntityFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(IUriFactory)));
-            container.RegisterType<ISasService, SasService>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(typeof(IAzureStorage)));
+            container.RegisterType<SasService, SasService>(new InjectionConstructor(typeof(IAzureStorage)));
+            container.RegisterType<ISasService, CachedSasService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(SasService), typeof(ICache), typeof(ICacheKeyFactory)));
             container.RegisterType<ICache, LvMemoryCache>(new ContainerControlledLifetimeManager());
 
-            // Cloud
+            #endregion
+
+            #region Cloud
+
             container.RegisterInstance(CloudStorageAccount.Parse(
                 WebConfigurationManager.ConnectionStrings["AzureStorageConnection"].ConnectionString));
             //container.RegisterInstance(CloudStorageAccount.DevelopmentStorageAccount);
             container.RegisterType<IAzureStorage, AzureStoragePool>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(typeof (AzureStorageDb), typeof (ICache)));
+                new InjectionConstructor(typeof(AzureStorageDb), typeof(ICache), typeof(ICacheKeyFactory)));
 
-            // Tumblr
+            #endregion
+
+            #region Tumblr
+
             const string emptyTumblrsReader = "get tumblr://category";
             container.RegisterType<ITableEntitiesCommand, ReadTumblrEntitiesWithCategoryCommand>(emptyTumblrsReader,
                 new InjectionConstructor());
@@ -84,15 +97,19 @@ namespace Lvgaga
             container.RegisterType<ITumblrFactory, TumblrFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(IUriFactory)));
 
-            container.RegisterType<ITumblrService, TumblrService>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(IAzureStorage),
-                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
-                    new ResolvedParameter<ITableEntitiesCommand>(homeEntitiesReader),
-                    typeof(ITumblrFactory),
-                    typeof(ISasService)));
+            container.RegisterType<TumblrService, TumblrService>(new InjectionConstructor(
+                typeof(IAzureStorage),
+                new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
+                new ResolvedParameter<ITableEntitiesCommand>(homeEntitiesReader),
+                typeof(ITumblrFactory),
+                typeof(ISasService)));
+            container.RegisterType<ITumblrService, CachedTumblrService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(TumblrService), typeof(ICache), typeof(ICacheKeyFactory)));
 
-            // Comment
+            #endregion
+
+            #region Comment
+
             const string emptyCommentsReader = "get comment://tumblr";
             container.RegisterType<ITableEntitiesCommand, ReadCommentEntitiesCommand>(emptyCommentsReader,
                 new InjectionConstructor());
@@ -120,16 +137,20 @@ namespace Lvgaga
             //        typeof(ICommentFactory),
             //        typeof(IUriFactory),
             //        typeof(ISasService)));
-            container.RegisterType<ICommentService, SasCommentService>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(IAzureStorage),
-                    new ResolvedParameter<ICommand>(createCommentCommand),
-                    typeof(ITumblrService),
-                    typeof(ICommentFactory),
-                    typeof(IUriFactory),
-                    typeof(ISasService)));
+            container.RegisterType<SasCommentService, SasCommentService>(new InjectionConstructor(
+                typeof(IAzureStorage),
+                new ResolvedParameter<ICommand>(createCommentCommand),
+                typeof(ITumblrService),
+                typeof(ICommentFactory),
+                typeof(IUriFactory),
+                typeof(ISasService)));
+            container.RegisterType<ICommentService, CachedCommentService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(SasCommentService), typeof(ICache), typeof(ICacheKeyFactory)));
 
-            // Favorite
+            #endregion
+
+            #region Favorite
+
             container.RegisterType<CreateFavoriteCommand, CreateFavoriteCommand>(new InjectionConstructor(),
                 new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
@@ -138,20 +159,23 @@ namespace Lvgaga
             container.RegisterType<ICommand, CreateTableEntitiesCommand>(createFavoriteCommand,
                 new InjectionConstructor(typeof(CreateFavoriteCommand)));
 
-            container.RegisterType<ReadPointFavoriteEntitiesCommand, ReadPointFavoriteEntitiesCommand>(new InjectionConstructor(),
+            container.RegisterType<ReadPointFavoriteEntitiesCommand, ReadPointFavoriteEntitiesCommand>(
+                new InjectionConstructor(),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
             const string favoriteEntityReader = "get favorite://entities";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteEntityReader,
                 new InjectionConstructor(typeof(ReadPointFavoriteEntitiesCommand)));
 
-            container.RegisterType<ReadRangeFavoriteEntitiesCommand, ReadRangeFavoriteEntitiesCommand>(new InjectionConstructor(),
+            container.RegisterType<ReadRangeFavoriteEntitiesCommand, ReadRangeFavoriteEntitiesCommand>(
+                new InjectionConstructor(),
                 new InjectionProperty("UriFactory", typeof(IUriFactory)));
             const string favoriteRangeEntitiesReader = "get favorite://entities/range";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteRangeEntitiesReader,
                 new InjectionConstructor(typeof(ReadRangeFavoriteEntitiesCommand)));
 
             const string emptyFavoritesReader = "get favorite://mediatype";
-            container.RegisterType<ITableEntitiesCommand, ReadFavoriteEntitiesWithMediaTypeCommand>(emptyFavoritesReader,
+            container.RegisterType<ITableEntitiesCommand, ReadFavoriteEntitiesWithMediaTypeCommand>(
+                emptyFavoritesReader,
                 new InjectionConstructor());
             const string favoriteTopEntitiesReader = "get favorite://entities/top";
             container.RegisterType<ITableEntitiesCommand, ReadTableEntitiesCommand>(favoriteTopEntitiesReader,
@@ -160,20 +184,24 @@ namespace Lvgaga
             const string favoriteEntityDeleter = "delete favorite://entities";
             container.RegisterType<ITableEntitiesCommand, DeleteTableEntitiesCommand>(favoriteEntityDeleter,
                 new InjectionConstructor(),
-                new InjectionProperty("TableEntitiesCommand", new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityReader)));
+                new InjectionProperty("TableEntitiesCommand",
+                    new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityReader)));
 
             container.RegisterType<IFavoriteFactory, FavoriteFactory>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(typeof(ITumblrFactory)));
 
-            container.RegisterType<IFavoriteService, FavoriteService>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(IAzureStorage),
-                    new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
-                    new ResolvedParameter<ICommand>(createFavoriteCommand),
-                    new ResolvedParameter<ITableEntitiesCommand>(favoriteTopEntitiesReader),
-                    new ResolvedParameter<ITableEntitiesCommand>(favoriteRangeEntitiesReader),
-                    new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityDeleter),
-                    typeof(IUriFactory)));
+            container.RegisterType<FavoriteService, FavoriteService>(new InjectionConstructor(
+                typeof(IAzureStorage),
+                new ResolvedParameter<ITableEntityCommand>(emptyEntityReader),
+                new ResolvedParameter<ICommand>(createFavoriteCommand),
+                new ResolvedParameter<ITableEntitiesCommand>(favoriteTopEntitiesReader),
+                new ResolvedParameter<ITableEntitiesCommand>(favoriteRangeEntitiesReader),
+                new ResolvedParameter<ITableEntitiesCommand>(favoriteEntityDeleter),
+                typeof(IUriFactory)));
+            container.RegisterType<IFavoriteService, CachedFavoriteService>(new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(typeof(FavoriteService), typeof(ICache), typeof(ICacheKeyFactory)));
+
+            #endregion
         }
     }
 }

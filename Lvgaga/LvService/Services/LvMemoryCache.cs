@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 
 namespace LvService.Services
 {
@@ -17,6 +18,16 @@ namespace LvService.Services
             {
                 return default(T);
             }
+        }
+
+        public async Task<T> Get<T>(string key, Func<Task<T>> func)
+        {
+            var value = Get<T>(key);
+            if (value != null) return value;
+
+            value = await func();
+            Set(key, value);
+            return value;
         }
 
         public void Set(string key, object value)

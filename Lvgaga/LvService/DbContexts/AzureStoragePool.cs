@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using LvService.Factories.Uri;
 using LvService.Services;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -8,38 +8,30 @@ namespace LvService.DbContexts
 {
     public class AzureStoragePool : IAzureStorage
     {
-        private const string BlobPrefix = "storageblob://";
-        private const string TablePrefix = "storagetable://";
+        private const string RegionOfBlob = "storageblob://";
+        private const string RegionOfTable = "storagetable://";
 
         private readonly IAzureStorage _azureStorage;
         private readonly ICache _cache;
+        private readonly ICacheKeyFactory _cacheKeyFactory;
 
-        public AzureStoragePool(IAzureStorage azureStorage, ICache cache)
+        public AzureStoragePool(IAzureStorage azureStorage, ICache cache, ICacheKeyFactory cacheKeyFactory)
         {
             _azureStorage = azureStorage;
             _cache = cache;
+            _cacheKeyFactory = cacheKeyFactory;
         }
 
         public async Task<CloudTable> GetTableReferenceAsync(string tableName)
         {
-            var key = Path.Combine(TablePrefix, tableName);
-            var table = _cache.Get<CloudTable>(key);
-            if (table != null) return table;
-
-            table = await _azureStorage.GetTableReferenceAsync(tableName);
-            _cache.Set(key, table);
-            return table;
+            return await _cache.Get(_cacheKeyFactory.CreateKey(RegionOfTable, tableName),
+                async () => await _azureStorage.GetTableReferenceAsync(tableName));
         }
 
         public async Task<CloudBlobContainer> GetContainerReferenceAsync(string containerName)
         {
-            var key = Path.Combine(TablePrefix, containerName);
-            var container = _cache.Get<CloudBlobContainer>(key);
-            if (container != null) return container;
-
-            container = await _azureStorage.GetContainerReferenceAsync(containerName);
-            _cache.Set(key, container);
-            return container;
+            return await _cache.Get(_cacheKeyFactory.CreateKey(RegionOfBlob, containerName),
+                async () => await _azureStorage.GetContainerReferenceAsync(containerName));
         }
     }
 }
