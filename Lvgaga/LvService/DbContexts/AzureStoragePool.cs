@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
 using System.Threading.Tasks;
-using LvService.Utilities;
+using LvService.Services;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -8,35 +8,37 @@ namespace LvService.DbContexts
 {
     public class AzureStoragePool : IAzureStorage
     {
-        private readonly IAzureStorage _azureStorage;
-        private readonly IDictionary<string, CloudTable> _cloudTables;
-        private readonly IDictionary<string, CloudBlobContainer> _cloudBlobContainers;
+        private const string BlobPrefix = "storageblob://";
+        private const string TablePrefix = "storagetable://";
 
-        public AzureStoragePool(IAzureStorage azureStorage)
+        private readonly IAzureStorage _azureStorage;
+        private readonly ICache _cache;
+
+        public AzureStoragePool(IAzureStorage azureStorage, ICache cache)
         {
             _azureStorage = azureStorage;
-            _cloudTables = new Dictionary<string, CloudTable>();
-            _cloudBlobContainers = new Dictionary<string, CloudBlobContainer>();
+            _cache = cache;
         }
 
         public async Task<CloudTable> GetTableReferenceAsync(string tableName)
         {
-            CloudTable table;
-            if (_cloudTables.TryGetValue(tableName, out table)) return table;
+            var key = Path.Combine(TablePrefix, tableName);
+            var table = _cache.Get<CloudTable>(key);
+            if (table != null) return table;
 
             table = await _azureStorage.GetTableReferenceAsync(tableName);
-            _cloudTables.AddOrUpdateValue(tableName, table);
+            _cache.Set(key, table);
             return table;
         }
 
-
         public async Task<CloudBlobContainer> GetContainerReferenceAsync(string containerName)
         {
-            CloudBlobContainer container;
-            if (_cloudBlobContainers.TryGetValue(containerName, out container)) return container;
+            var key = Path.Combine(TablePrefix, containerName);
+            var container = _cache.Get<CloudBlobContainer>(key);
+            if (container != null) return container;
 
             container = await _azureStorage.GetContainerReferenceAsync(containerName);
-            _cloudBlobContainers.AddOrUpdateValue(containerName, container);
+            _cache.Set(key, container);
             return container;
         }
     }
