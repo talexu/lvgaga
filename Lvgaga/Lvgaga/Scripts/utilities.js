@@ -96,7 +96,8 @@ function queryAzureTableWithLoadingButton(tableSasUrl, params) {
     if (!btnLoad) {
         return queryAzureTable(tableSasUrl, params);
     }
-    btnLoad.attr("disabled", "disabled");
+    var l = Ladda.create(btnLoad.get(0));
+    l.start();
 
     return queryAzureTable(tableSasUrl, params)
         .done(function (data, textStatus, jqXHR) {
@@ -107,7 +108,7 @@ function queryAzureTableWithLoadingButton(tableSasUrl, params) {
             }
         })
         .always(function (data, textStatus, jqXHR) {
-            btnLoad.removeAttr("disabled");
+            l.stop();
         });
 }
 

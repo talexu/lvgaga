@@ -36,7 +36,8 @@ namespace Lvgaga
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",
-                "~/Content/lvgaga.css"));
+                "~/Content/lvgaga.css",
+                "~/Content/ladda-themeless.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/gallery").Include(
                 "~/bower_components/blueimp-gallery/css/blueimp-gallery.min.css"));
@@ -48,6 +49,8 @@ namespace Lvgaga
                 "~/bower_components/jquery-ajax-retry/dist/jquery.ajax-retry*",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",
+                "~/Scripts/spin*",
+                "~/Scripts/ladda*",
                 "~/Scripts/moment*"));
 
             // Home Page
