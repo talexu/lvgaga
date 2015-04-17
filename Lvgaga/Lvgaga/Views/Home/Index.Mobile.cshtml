@@ -102,14 +102,18 @@
                 setFavs("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
                 setLoadButton(btnLoad);
 
-                btnLoad.on("touchend", function(event) {
+                function loadTumblrs(retry) {
+                    retry = retry === undefined ? 2 : retry;
+                    if (retry < 0) return;
+
                     if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
                         return;
                     }
 
-                    var last = $(".container-tumblr:last");
                     queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
                         .done(function(data, textStatus, jqXHR) {
+                            var last = $(".container-tumblr:last");
+
                             $.each(data.value, function(index, tumblr) {
                                 var rk = getInvertedTicks(tumblr.RowKey);
                                 var cp = template.clone();
@@ -133,7 +137,18 @@
                             var from = getInvertedTicks(data.value[0].RowKey);
                             var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
                             setFavs("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
-                    });
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            getTokenWithLoadingButton(["tumblrs"], btnLoad)
+                                .done(function(data1, textStatus1, jqXHR1) {
+                                    sas = data1;
+                                    loadTumblrs(retry--);
+                                });
+                        });
+                }
+
+                btnLoad.on("touchend", function(event) {
+                    loadTumblrs();
                 });
             });
         })();
