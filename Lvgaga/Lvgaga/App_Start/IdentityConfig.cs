@@ -53,7 +53,7 @@ namespace Lvgaga
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
-                RequireUppercase = false,
+                RequireUppercase = false
             };
 
             // 配置用户锁定默认值

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using LvService.Common;
 using LvService.DbContexts;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -26,7 +27,7 @@ namespace LvService.Services
                 new SharedAccessTablePolicy
                 {
                     Permissions = SharedAccessTablePermissions.Query,
-                    SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(60),
+                    SharedAccessExpiryTime = LvConfiguration.GetExpireTime(LvConfiguration.TokenExpireOffset)
                 },
                 null, /* accessPolicyIdentifier */
                 null, /* startPartitionKey */
@@ -48,7 +49,7 @@ namespace LvService.Services
                 new SharedAccessTablePolicy
                 {
                     Permissions = SharedAccessTablePermissions.Query,
-                    SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(60),
+                    SharedAccessExpiryTime = LvConfiguration.GetExpireTime(LvConfiguration.CacheExpireOffset)
                 },
                 null, /* accessPolicyIdentifier */
                 partitionKey, /* startPartitionKey */

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
+using LvService.Common;
 
 namespace LvService.Services
 {
@@ -12,7 +13,7 @@ namespace LvService.Services
         {
             try
             {
-                return (T) _cache.Get(key);
+                return (T)_cache.Get(key);
             }
             catch (Exception)
             {
@@ -32,7 +33,7 @@ namespace LvService.Services
 
         public void Set(string key, object value)
         {
-            Set(key, value, DateTimeOffset.UtcNow.AddHours(1));
+            Set(key, value, LvConfiguration.GetExpireTime(LvConfiguration.CacheExpireOffset));
         }
 
         public void Set(string key, object value, DateTimeOffset absoluteExpiration)

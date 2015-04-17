@@ -32,7 +32,7 @@ namespace LvService.Factories.ViewModel
                 TumblrCategory = tumblrs.TumblrCategory,
                 Text = tumblrs.Text,
                 CreateTime = tumblrs.CreateTime,
-                IsFavorited = true,
+                IsFavorited = true
             };
         }
 

@@ -40,7 +40,7 @@ namespace LvService.Factories.ViewModel
                 MediaUri = tumblr.MediaUri,
                 Text = tumblr.Text,
                 CreateTime = tumblr.CreateTime,
-                IsFavorited = false,
+                IsFavorited = false
             };
         }
 

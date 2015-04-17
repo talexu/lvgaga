@@ -117,6 +117,7 @@
     <Compile Include="Commands\Tumblr\UploadMediaCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadThumbnailCommand.cs" />
     <Compile Include="Commands\Tumblr\UploadTumblrCommand.cs" />
+    <Compile Include="Common\LvConfiguration.cs" />
     <Compile Include="DbContexts\AzureStorageDb.cs" />
     <Compile Include="DbContexts\AzureStoragePool.cs" />
     <Compile Include="DbContexts\IAzureStorage.cs" />
