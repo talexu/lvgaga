@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
@@ -43,7 +44,8 @@ namespace LvService.Services
             return _tumblrFactory.CreateTumblrModel(await _entityCommand.ExecuteAsync<TumblrEntity>(p));
         }
 
-        public async Task<TumblrsModel> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
+        public async Task<TumblrsModel> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount,
+            string userId)
         {
             dynamic p = new ExpandoObject();
             p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
@@ -51,13 +53,20 @@ namespace LvService.Services
             p.Category = category;
             p.TakeCount = takeCount;
 
-            List<TumblrModel> tumblrs = _tumblrFactory.CreateTumblrModels(await _entitiesCommand.ExecuteAsync<TumblrEntity>(p));
-            return new TumblrsModel
+            List<TumblrModel> tumblrs =
+                _tumblrFactory.CreateTumblrModels(await _entitiesCommand.ExecuteAsync<TumblrEntity>(p));
+            var model = new TumblrsModel
             {
                 Tumblrs = tumblrs,
                 Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfTumblr),
                 ContinuationToken = p.ContinuationToken
             };
+            if (!String.IsNullOrEmpty(userId))
+            {
+                model.FavoriteSas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, userId);
+            }
+
+            return model;
         }
     }
 }

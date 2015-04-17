@@ -65,6 +65,7 @@ namespace LvService.Services
             {
                 model.FavoriteSas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, userId);
             }
+
             return model;
         }
     }
