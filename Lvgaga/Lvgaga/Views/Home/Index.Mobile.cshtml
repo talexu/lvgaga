@@ -106,10 +106,6 @@
                     retry = retry === undefined ? 2 : retry;
                     if (retry < 0) return;
 
-                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                        return;
-                    }
-
                     queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
                         .done(function(data, textStatus, jqXHR) {
                             var last = $(".container-tumblr:last");
@@ -148,6 +144,10 @@
                 }
 
                 btnLoad.on("touchend", function(event) {
+                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                        return;
+                    }
+
                     loadTumblrs();
                 });
             });

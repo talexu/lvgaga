@@ -83,10 +83,6 @@
                 retry = retry === undefined ? 2 : retry;
                 if (retry < 0) return;
 
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    return;
-                }
-
                 queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, top: 20, btn: btnLoad })
                     .done(function (data, textStatus, jqXHR) {
                         $.each(data.value, function (index, comment) {
@@ -146,6 +142,10 @@
             });
 
             btnLoad.on("touchend", function (event) {
+                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                    return;
+                }
+
                 loadComments();
             });
         })();

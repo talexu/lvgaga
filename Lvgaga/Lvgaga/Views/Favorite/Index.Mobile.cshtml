@@ -113,10 +113,6 @@
                 retry = retry === undefined ? 2 : retry;
                 if (retry < 0) return;
 
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    return;
-                }
-
                 queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20, btn: btnLoad })
                     .done(function (data, textStatus, jqXHR) {
                         $.each(data.value, function (index, tumblr) {
@@ -137,6 +133,10 @@
 
             loadFavs();
             btnLoad.on("touchend", function (event) {
+                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                    return;
+                }
+
                 loadFavs();
             });
         });
