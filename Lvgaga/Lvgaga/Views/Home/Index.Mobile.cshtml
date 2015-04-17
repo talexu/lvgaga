@@ -1,4 +1,5 @@
-﻿@using LvService.Utilities
+﻿@using LvModel.Common
+@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
@@ -79,7 +80,10 @@
                     });
                 }
 
-                function setFavs(mediaType, from, to, btns) {
+                function setFavs(mediaType, from, to, btns, retry) {
+                    retry = retry === undefined ? 2 : retry;
+                    if (retry < 0) return;
+
                     queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
                         .done(function(data, textStatus, jqXHR) {
                             var loadedFavs = {};
@@ -92,6 +96,13 @@
                                 if (loadedFavs[rk]) {
                                     btnCur.addClass("btn-selected");
                                 }
+                            });
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            getToken(["@LvConstants.TableNameOfFavorite"])
+                            .done(function(data1, textStatus1, jqXHR1) {
+                                favSas = data1;
+                                setFavs(mediaType, from, to, btns, retry--);
                             });
                         });
                 }
@@ -134,7 +145,7 @@
                             setFavs("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
-                            getTokenWithLoadingButton(["tumblrs"], btnLoad)
+                            getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
                                 .done(function(data1, textStatus1, jqXHR1) {
                                     sas = data1;
                                     loadTumblrs(retry--);

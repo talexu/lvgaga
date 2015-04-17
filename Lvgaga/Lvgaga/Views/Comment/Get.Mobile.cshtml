@@ -1,4 +1,5 @@
-﻿@model LvModel.View.Comment.CommentModel
+﻿@using LvModel.Common
+@model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
@@ -55,13 +56,27 @@
             var utc = pTime.text();
             pTime.text(getLocalTime(utc));
 
-            if (favSas !== "") {
+            function setFav(retry) {
+                retry = retry === undefined ? 2 : retry;
+                if (retry < 0) return;
+
                 queryAzureTable(favSas, { filter: "RowKey eq '0_@Model.RowKey'", select: "RowKey" })
                     .done(function (data, textStatus, jqXHR) {
                         if (data.value.length > 0) {
                             btnFavorite.addClass("btn-selected");
                         }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        getToken(["@LvConstants.TableNameOfFavorite"])
+                        .done(function (data1, textStatus1, jqXHR1) {
+                            favSas = data1;
+                            setFav(retry--);
+                        });
                     });
+            }
+
+            if (favSas !== "") {
+                setFav();
             }
 
             function generateComment(data, createTime) {
@@ -94,7 +109,7 @@
                         continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
-                        getTokenWithLoadingButton(["comments"], btnLoad)
+                        getTokenWithLoadingButton(["@LvConstants.TableNameOfComment"], btnLoad)
                             .done(function (data1, textStatus1, jqXHR1) {
                                 sas = data1;
                                 loadComments(retry--);
