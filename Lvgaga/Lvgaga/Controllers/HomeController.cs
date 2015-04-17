@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Services;
+using Microsoft.AspNet.Identity;
 
 namespace Lvgaga.Controllers
 {
@@ -41,7 +42,10 @@ namespace Lvgaga.Controllers
 
         private async Task<ActionResult> ActualIndex(int mediaType, int category)
         {
-            var homeModel = await _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, 20);
+            var homeModel =
+                await
+                    _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, 20,
+                        User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
             homeModel.MediaType = mediaType;

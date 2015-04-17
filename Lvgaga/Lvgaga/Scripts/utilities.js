@@ -102,6 +102,9 @@ function queryAzureTable(tableSasUrl, params) {
     if (params.filter) {
         uri = uri.concat("&$filter=", encodeURIComponent(params.filter));
     }
+    if (params.select) {
+        uri = uri.concat("&$select=", encodeURIComponent(params.select));
+    }
     return $.ajax({
         type: "GET",
         datatype: "json",

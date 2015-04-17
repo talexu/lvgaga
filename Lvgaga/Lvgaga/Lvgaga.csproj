@@ -314,6 +314,8 @@
     <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.min.js" />
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.js" />
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.min.js" />
+    <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
+    <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -343,6 +345,8 @@
     <Content Include="Content\lvgaga.css.map">
       <DependentUpon>lvgaga.css</DependentUpon>
     </Content>
+    <Content Include="bower_components\sprintf\dist\angular-sprintf.min.map" />
+    <Content Include="bower_components\sprintf\dist\sprintf.min.map" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Icon.png" />
     <Content Include="Scripts\bootstrap.js" />

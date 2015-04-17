@@ -37,8 +37,9 @@
 @section scripts{
     @Scripts.Render("~/bundles/comment")
     <script>
-        (function () {
-            'use strict';
+        $(function () {
+            "use strict";
+
             var continuationToken = {};
             var sas = "@Html.Raw(Model.Sas)";
             var favSas = "@Html.Raw(Model.FavoriteSas)";
@@ -55,7 +56,7 @@
             pTime.text(getLocalTime(utc));
 
             if (favSas !== "") {
-                queryAzureTable(favSas, { filter: "RowKey eq '0_@Model.RowKey'" })
+                queryAzureTable(favSas, { filter: "RowKey eq '0_@Model.RowKey'", select: "RowKey" })
                     .done(function (data, textStatus, jqXHR) {
                         if (data.value.length > 0) {
                             btnFavorite.addClass("btn-selected");
@@ -148,6 +149,6 @@
 
                 loadComments();
             });
-        })();
+        });
     </script>
 }

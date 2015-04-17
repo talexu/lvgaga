@@ -35,7 +35,8 @@
     @Scripts.Render("~/bundles/favorite")
     <script>
         $(function () {
-            'use strict';
+            "use strict";
+
             var continuationToken = {};
             var sas = "@Html.Raw(Model.Sas)";
             var btnLoad = $("#btn_load");
@@ -66,7 +67,7 @@
                     .appendTo(linksContainer);
             }
 
-            gallery.on('slide', function (event, index, slide) {
+            gallery.on("slide", function (event, index, slide) {
                 // Gallery slide event handler
                 var element = $(linksContainer.children()[index]);
                 curTumblr = element;
