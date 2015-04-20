@@ -106,6 +106,7 @@
                         getToken(["@LvConstants.TableNameOfFavorite"])
                             .done(function(data) {
                                 favSas = data;
+                                setFavsWithRefreshToken(mediaType, from, to, btns, retry - 1);
                             });
                         return;
                     }
@@ -115,6 +116,7 @@
                             getToken(["@LvConstants.TableNameOfFavorite"])
                             .done(function(data) {
                                 favSas = data;
+                                setFavsWithRefreshToken(mediaType, from, to, btns, retry - 1);
                             });
                         });
                 }
@@ -160,6 +162,7 @@
                             getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
                             .done(function(data1, textStatus1, jqXHR1) {
                                 sas = data1;
+                                loadTumblrs(retry - 1);
                             });
                         });
                 }
