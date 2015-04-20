@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,31 +31,17 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _partitionKey = p.PartitionKey;
-                _mediaUri = p.MediaUri;
-                _thumbnailUri = p.ThumbnailUri;
-                _tumblrText = p.TumblrText;
-                return new[] {_partitionKey, _mediaUri, _thumbnailUri}.AllNotNullOrEmpty() && _tumblrText != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _partitionKey = p.PartitionKey;
+            _mediaUri = p.MediaUri;
+            _thumbnailUri = p.ThumbnailUri;
+            _tumblrText = p.TumblrText;
+            return new[] { _partitionKey, _mediaUri, _thumbnailUri }.AllNotNullOrEmpty() && _tumblrText != null;
         }
 
         public override async Task ExecuteAsync(dynamic p)
         {
             await base.ExecuteAsync(p as ExpandoObject);
-            try
-            {
-                p.ThumbnailUri = p.BlobUri;
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            p.ThumbnailUri = p.BlobUri;
 
             if (!CanExecute(p)) return;
 

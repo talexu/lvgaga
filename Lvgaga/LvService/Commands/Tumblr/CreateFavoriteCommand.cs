@@ -33,22 +33,15 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _mediaType = p.MediaType;
-                _rowKey = p.RowKey;
-                _mediaUri = p.MediaUri;
-                _thumbnailUri = p.ThumbnailUri;
-                _text = p.Text;
-                _createTime = p.CreateTime;
+            _mediaType = p.MediaType;
+            _rowKey = p.RowKey;
+            _mediaUri = p.MediaUri;
+            _thumbnailUri = p.ThumbnailUri;
+            _text = p.Text;
+            _createTime = p.CreateTime;
 
-                return new[] { _mediaType, _rowKey, _mediaUri, _thumbnailUri, _text }.AllNotNullOrEmpty() &&
-                       _createTime != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return new[] { _mediaType, _rowKey, _mediaUri, _thumbnailUri, _text }.AllNotNullOrEmpty() &&
+                   _createTime != null;
         }
 
         public override async Task ExecuteAsync(dynamic p)

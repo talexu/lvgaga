@@ -1,5 +1,4 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -25,14 +24,7 @@ namespace LvService.Commands.Azure.Storage.Table
 
             if (!CanExecute(p)) return;
 
-            try
-            {
-                await Table.ExecuteAsync(TableOperation.Insert(Entity));
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            await Table.ExecuteAsync(TableOperation.Insert(Entity));
         }
     }
 }

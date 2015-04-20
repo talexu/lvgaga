@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using LvModel.Common;
@@ -20,19 +19,12 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _partitionKey = p.PartitionKey;
-                _from = p.From;
-                _to = p.To;
-                _mediaType = p.MediaType;
+            _partitionKey = p.PartitionKey;
+            _from = p.From;
+            _to = p.To;
+            _mediaType = p.MediaType;
 
-                return new[] { _partitionKey, _from, _to, _mediaType }.AllNotNullOrEmpty();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return new[] { _partitionKey, _from, _to, _mediaType }.AllNotNullOrEmpty();
         }
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)

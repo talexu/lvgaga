@@ -24,16 +24,9 @@ namespace LvService.Commands.Azure.Storage.Blob
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                Container = p.Container;
-                BlobName = p.BlobName;
-                return Container != null && !String.IsNullOrEmpty(BlobName);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Container = p.Container;
+            BlobName = p.BlobName;
+            return Container != null && !String.IsNullOrEmpty(BlobName);
         }
 
         public override async Task<Stream> ExecuteAsync(dynamic p)
@@ -45,15 +38,8 @@ namespace LvService.Commands.Azure.Storage.Blob
             var blockBlob = Container.GetBlockBlobReference(BlobName);
             using (var memoryStream = new MemoryStream())
             {
-                try
-                {
-                    await blockBlob.DownloadToStreamAsync(memoryStream);
-                    return memoryStream;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
+                await blockBlob.DownloadToStreamAsync(memoryStream);
+                return memoryStream;
             }
         }
     }

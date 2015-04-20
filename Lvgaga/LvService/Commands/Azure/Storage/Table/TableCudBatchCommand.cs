@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using LvService.Commands.Common;
@@ -26,15 +25,8 @@ namespace LvService.Commands.Azure.Storage.Table
         {
             if (!base.CanExecute(p as ExpandoObject)) return false;
 
-            try
-            {
-                Entities = p.Entities;
-                return Entities != null && Entities.Any();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Entities = p.Entities;
+            return Entities != null && Entities.Any();
         }
     }
 }

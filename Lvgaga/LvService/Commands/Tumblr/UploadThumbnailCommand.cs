@@ -23,31 +23,16 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                Container = p.ContainerOfThumbnail;
-                BlobName = p.BlobNameOfMedia;
-                Stream = p.StreamOfMedia;
-                return Container != null && !String.IsNullOrEmpty(BlobName) && Stream != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Container = p.ContainerOfThumbnail;
+            BlobName = p.BlobNameOfMedia;
+            Stream = p.StreamOfMedia;
+            return Container != null && !String.IsNullOrEmpty(BlobName) && Stream != null;
         }
 
         public override async Task ExecuteAsync(dynamic p)
         {
             await base.ExecuteAsync(p as ExpandoObject);
-            try
-            {
-                p.MediaUri = p.BlobUri;
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-
+            p.MediaUri = p.BlobUri;
 
             if (!CanExecute(p)) return;
 

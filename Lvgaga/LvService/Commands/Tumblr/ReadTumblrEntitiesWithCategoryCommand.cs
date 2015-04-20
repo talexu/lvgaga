@@ -27,16 +27,9 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _partitionKey = p.PartitionKey;
-                TumblrCategory cate = p.Category;
-                return int.TryParse(cate.ToString("D"), out _category) && !String.IsNullOrEmpty(_partitionKey);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _partitionKey = p.PartitionKey;
+            TumblrCategory cate = p.Category;
+            return int.TryParse(cate.ToString("D"), out _category) && !String.IsNullOrEmpty(_partitionKey);
         }
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)

@@ -24,16 +24,9 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _table = p.Table;
-                _filter = p.Filter;
-                return _table != null && !String.IsNullOrEmpty(_filter);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _table = p.Table;
+            _filter = p.Filter;
+            return _table != null && !String.IsNullOrEmpty(_filter);
         }
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)

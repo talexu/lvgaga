@@ -1,5 +1,4 @@
-﻿using System;
-using LvService.Commands.Common;
+﻿using LvService.Commands.Common;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
@@ -21,15 +20,8 @@ namespace LvService.Commands.Azure.Storage.Table
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                Table = p.Table;
-                return Table != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Table = p.Table;
+            return Table != null;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,14 +35,8 @@ namespace LvService.Commands.Azure.Storage.Table
                 {
                     batchOperation.Delete(entity);
                 }
-                try
-                {
-                    await Table.ExecuteBatchAsync(batchOperation);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
+
+                await Table.ExecuteBatchAsync(batchOperation);
             }
         }
 

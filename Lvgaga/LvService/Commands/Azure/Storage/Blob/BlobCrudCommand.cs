@@ -23,15 +23,8 @@ namespace LvService.Commands.Azure.Storage.Blob
         {
             if (!base.CanExecute(p as ExpandoObject)) return false;
 
-            try
-            {
-                BlobName = p.BlobName;
-                return !String.IsNullOrEmpty(BlobName);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            BlobName = p.BlobName;
+            return !String.IsNullOrEmpty(BlobName);
         }
     }
 }

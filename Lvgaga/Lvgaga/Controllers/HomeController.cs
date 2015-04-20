@@ -34,6 +34,7 @@ namespace Lvgaga.Controllers
         }
 
         // GET: Tumblr
+        [OutputCache(CacheProfile = "OutputCacheProfile")]
         public async Task<ActionResult> Index()
         {
             return await ActualIndex((int)MediaType.All, (int)TumblrCategory.All);

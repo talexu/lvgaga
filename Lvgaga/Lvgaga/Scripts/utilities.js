@@ -1,14 +1,14 @@
 ﻿function favorite(pk, rk, btn, callback) {
     btn.attr("disabled", "disabled");
     $.post("/api/v1/favorites/".concat(pk, "/", rk)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXHR) {
-            switch (jqXHR.status) {
+        .done(function (data, textStatus, jqXhr) {
+            switch (jqXhr.status) {
                 case 201:
                     btn.addClass("btn-selected");
                     if (callback) callback(data);
                     break;
                 case 200:
-                    var res = $.parseJSON(jqXHR.getResponseHeader("X-Responded-JSON"));
+                    var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
                     if (res.status === 401) {
                         $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
                     }
@@ -17,7 +17,7 @@
 
             }
         })
-        .always(function (data, textStatus, jqXHR) {
+        .always(function (data, textStatus, jqXhr) {
             btn.removeAttr("disabled");
         });
 }
@@ -28,19 +28,19 @@ function unFavorite(pk, rk, btn, callback) {
         url: "/api/v1/favorites/".concat(pk, "/", rk),
         type: "DELETE"
     }).retry({ times: 3 })
-        .done(function (data, textStatus, jqXHR) {
+        .done(function (data, textStatus, jqXhr) {
             btn.removeClass("btn-selected");
             if (callback) callback(data);
         })
-        .always(function (data, textStatus, jqXHR) {
+        .always(function (data, textStatus, jqXhr) {
             btn.removeAttr("disabled");
         });
 }
 
 function getFavoriteIndex(mediaType, from, to, callback) {
     return $.get("/api/v1/favorites/".concat(mediaType, "?", "from=", from, "&", "to=", to)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXHR) {
-            switch (jqXHR.status) {
+        .done(function (data, textStatus, jqXhr) {
+            switch (jqXhr.status) {
                 case 200:
                     if (callback) callback(data);
                     break;
@@ -51,8 +51,8 @@ function getFavoriteIndex(mediaType, from, to, callback) {
 
 function getFavorites(mediaType, top, callback) {
     $.get("/api/v1/favorites/".concat(mediaType, "?", "top=", top)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXHR) {
-            switch (jqXHR.status) {
+        .done(function (data, textStatus, jqXhr) {
+            switch (jqXhr.status) {
                 case 200:
                     if (callback) callback(data);
                     break;
@@ -73,7 +73,7 @@ function getTokenWithLoadingButton(paths, btn) {
     l.start();
 
     return getToken(paths)
-        .always(function (data, textStatus, jqXHR) {
+        .always(function (data, textStatus, jqXhr) {
             l.stop();
         });
 }
@@ -126,14 +126,14 @@ function queryAzureTableWithLoadingButton(tableSasUrl, params) {
     l.start();
 
     return queryAzureTable(tableSasUrl, params)
-        .done(function (data, textStatus, jqXHR) {
-            var nextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-            var nextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+        .done(function (data, textStatus, jqXhr) {
+            var nextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
+            var nextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
             if (!nextPartitionKey || !nextRowKey) {
                 btnLoad.hide();
             }
         })
-        .always(function (data, textStatus, jqXHR) {
+        .always(function (data, textStatus, jqXhr) {
             l.stop();
         });
 }

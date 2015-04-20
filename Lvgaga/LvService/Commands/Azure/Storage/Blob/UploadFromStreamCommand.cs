@@ -1,5 +1,4 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.IO;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
@@ -25,15 +24,8 @@ namespace LvService.Commands.Azure.Storage.Blob
         {
             if (!base.CanExecute(p as ExpandoObject)) return false;
 
-            try
-            {
-                Stream = p.Stream;
-                return Stream != null;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Stream = p.Stream;
+            return Stream != null;
         }
 
         public override async Task ExecuteAsync(dynamic p)

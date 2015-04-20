@@ -1,5 +1,4 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Threading.Tasks;
 using LvService.Commands.Common;
 using LvService.Utilities;
@@ -26,18 +25,11 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _partitionKey = p.PartitionKey;
-                _userId = p.UserId;
-                _userName = p.UserName;
-                _text = p.Text;
-                return new[] { _partitionKey, _userId, _userName, _text }.AllNotNullOrEmpty();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _partitionKey = p.PartitionKey;
+            _userId = p.UserId;
+            _userName = p.UserName;
+            _text = p.Text;
+            return new[] { _partitionKey, _userId, _userName, _text }.AllNotNullOrEmpty();
         }
 
         public override async Task ExecuteAsync(dynamic p)

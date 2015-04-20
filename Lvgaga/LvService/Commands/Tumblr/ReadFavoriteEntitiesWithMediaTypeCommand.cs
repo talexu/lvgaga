@@ -26,16 +26,9 @@ namespace LvService.Commands.Tumblr
 
         public new bool CanExecute(dynamic p)
         {
-            try
-            {
-                _partitionKey = p.PartitionKey;
-                string media = p.MediaType;
-                return int.TryParse(media, out _mediaType) && !String.IsNullOrEmpty(_partitionKey);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _partitionKey = p.PartitionKey;
+            string media = p.MediaType;
+            return int.TryParse(media, out _mediaType) && !String.IsNullOrEmpty(_partitionKey);
         }
 
         public override async Task<List<T>> ExecuteAsync<T>(dynamic p)
