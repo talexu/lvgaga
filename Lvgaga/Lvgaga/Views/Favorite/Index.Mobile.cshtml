@@ -127,7 +127,7 @@
                         getTokenWithLoadingButton(["@LvConstants.TableNameOfFavorite"], btnLoad)
                         .done(function (data1, textStatus1, jqXHR1) {
                             sas = data1;
-                            loadFavs(retry--);
+                            loadFavs(retry - 1);
                         });
                     });
             }

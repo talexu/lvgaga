@@ -10,6 +10,5 @@ namespace LvModel.View.Tumblr
         public List<TumblrModel> Tumblrs { get; set; }
         public TableContinuationToken ContinuationToken { get; set; }
         public string Sas { get; set; }
-        public string FavoriteSas { get; set; }
     }
 }

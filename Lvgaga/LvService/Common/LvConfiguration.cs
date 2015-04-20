@@ -5,11 +5,14 @@ namespace LvService.Common
 {
     public class LvConfiguration
     {
-        private const double DefaultTokenExpireOffset = 0.5;
+        private const double DefaultTokenExpireOffset = 0.25;
         public static readonly double TokenExpireOffset = DefaultTokenExpireOffset;
 
         private const double DefaultCacheExpireOffset = 30;
-        public static readonly double CacheExpireOffset = new[] { DefaultCacheExpireOffset, TokenExpireOffset }.Min();
+        public static readonly double CacheExpireOffset = new[] { TokenExpireOffset, TokenExpireOffset }.Min();
+
+        private const double DefaultAsyncCacheExpireOffset = 30;
+        public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset }.Min();
 
         public static DateTimeOffset GetExpireTime(double offset)
         {

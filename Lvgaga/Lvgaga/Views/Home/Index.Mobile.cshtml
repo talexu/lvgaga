@@ -37,7 +37,7 @@
             $(function() {
                 var continuationToken = @Html.Raw(Model.ContinuationToken.ToJsonString());
                 var sas = "@Html.Raw(Model.Sas)";
-                var favSas = "@Html.Raw(Model.FavoriteSas)";
+                var favSas = "";
 
                 var btnLoad = $("#btn_load");
                 var divTumblrs = $("#div_tumblrs");
@@ -80,11 +80,9 @@
                     });
                 }
 
-                function setFavs(mediaType, from, to, btns, retry) {
-                    retry = retry === undefined ? 2 : retry;
-                    if (retry < 0) return;
 
-                    queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
+                function setFavs(mediaType, from, to, btns) {
+                    return queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
                         .done(function(data, textStatus, jqXHR) {
                             var loadedFavs = {};
                             $.each(data.value, function(index, value) {
@@ -97,12 +95,26 @@
                                     btnCur.addClass("btn-selected");
                                 }
                             });
-                        })
-                        .fail(function(jqXHR, textStatus, errorThrown) {
+                        });
+                }
+
+                function setFavsWithRefreshToken(mediaType, from, to, btns, retry) {
+                    retry = retry === undefined ? 2 : retry;
+                    if (retry < 0) return;
+
+                    if (!favSas) {
+                        getToken(["@LvConstants.TableNameOfFavorite"])
+                            .done(function(data) {
+                                favSas = data;
+                            });
+                        return;
+                    }
+
+                    setFavs(mediaType, from, to, btns)
+                        .fail(function() {
                             getToken(["@LvConstants.TableNameOfFavorite"])
-                            .done(function(data1, textStatus1, jqXHR1) {
-                                favSas = data1;
-                                setFavs(mediaType, from, to, btns, retry--);
+                            .done(function(data) {
+                                favSas = data;
                             });
                         });
                 }
@@ -142,14 +154,13 @@
                         .done(function(data, textStatus, jqXHR) {
                             var from = getInvertedTicks(data.value[0].RowKey);
                             var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                            setFavs("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
+                            setFavsWithRefreshToken("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
-                                .done(function(data1, textStatus1, jqXHR1) {
-                                    sas = data1;
-                                    loadTumblrs(retry--);
-                                });
+                            .done(function(data1, textStatus1, jqXHR1) {
+                                sas = data1;
+                            });
                         });
                 }
 
@@ -157,7 +168,7 @@
                 initTime();
                 initFavs(btnFavorites);
                 initShare($(".container-tumblr"));
-                setFavs("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
+                setFavsWithRefreshToken("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
                 setLoadButton(btnLoad);
 
                 btnLoad.on("touchend", function(event) {

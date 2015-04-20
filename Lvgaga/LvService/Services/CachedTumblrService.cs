@@ -26,11 +26,10 @@ namespace LvService.Services
                 async () => await _tumblrService.GetTumblrModelAsync(partitionKey, rowKey));
         }
 
-        public async Task<TumblrsModel> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount,
-            string userId)
+        public async Task<TumblrsModel> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
         {
             return await _cache.Get(_cacheKeyFactory.CreateKey(RegionOfTumblrs, partitionKey, category.ToString("D")),
-                async () => await _tumblrService.GetTumblrModelsAsync(partitionKey, category, takeCount, userId));
+                async () => await _tumblrService.GetTumblrModelsAsync(partitionKey, category, takeCount));
         }
     }
 }

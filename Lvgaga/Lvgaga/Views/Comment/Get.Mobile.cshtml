@@ -70,7 +70,7 @@
                         getToken(["@LvConstants.TableNameOfFavorite"])
                         .done(function (data1, textStatus1, jqXHR1) {
                             favSas = data1;
-                            setFav(retry--);
+                            setFav(retry - 1);
                         });
                     });
             }
@@ -110,10 +110,10 @@
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         getTokenWithLoadingButton(["@LvConstants.TableNameOfComment"], btnLoad)
-                            .done(function (data1, textStatus1, jqXHR1) {
-                                sas = data1;
-                                loadComments(retry--);
-                            });
+                        .done(function (data1, textStatus1, jqXHR1) {
+                            sas = data1;
+                            loadComments(retry - 1);
+                        });
                     });
             }
 
