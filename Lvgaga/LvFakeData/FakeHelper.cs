@@ -13,6 +13,7 @@ using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
+using LvService.Services;
 using Microsoft.WindowsAzure.Storage;
 
 namespace LvFakeData
@@ -23,7 +24,7 @@ namespace LvFakeData
 
         public FakeHelper()
         {
-            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount));
+            _azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount), new LvMemoryCache(), new CacheKeyFactory());
             //_azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagadev;AccountKey=IKD1g3adEkdKbPllg8brzwYfR5ge8R8G7uFFJH/XzSySqHu0/2De7s5dsbVk29JBDhPo5P9w5YU3d5tyn9Vo0w==")));
         }
 
