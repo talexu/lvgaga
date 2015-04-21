@@ -5,6 +5,13 @@
     var continuationToken;
     var sas;
     var favSas;
+    var mediaType;
+    var tumblrCategory;
+    var from;
+    var to;
+    var tableNameOfTumblr;
+    var tableNameOfFavorite;
+    var newTumblrs;
 
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -15,27 +22,39 @@
         return $("#div_tumblrs");
     });
     // 获取初始页面的收藏按钮
-    var getInitialFavoriteButtons = lv.singleton(function () {
+    var getFavoriteButtons = lv.singleton(function () {
         return $(".btn-favorite");
+    });
+    // 获取所有图片元素
+    var getImages = lv.singleton(function () {
+        return $("img.lazy");
+    });
+    // 获取所有时间元素
+    var getTimes = lv.singleton(function () {
+        return $(".date-tumblr");
+    });
+    // 获取所有Tumblr的容器
+    var getTumblrContainers = lv.singleton(function () {
+        return $(".container-tumblr");
     });
 
     // 启动图片延迟加载
-    var initImgs = function (imgs) {
-        imgs.lazyload({
+    var initImgs = function () {
+        getImages().lazyload({
             effect: "fadeIn"
         });
     };
     // 按本地时区格式化时间
-    var initTime = function (times) {
-        times.each(function () {
+    var initTime = function () {
+        getTimes().each(function () {
             var p = $(this);
             var utc = p.text();
             p.text(lv.getLocalTime(utc));
         });
     }
     // 注册收藏按钮事件
-    var initFavs = function (btns) {
-        btns.on("touchend", function (event) {
+    var initFavs = function () {
+        getFavoriteButtons().on("touchend", function (event) {
             var btnCur = $(event.currentTarget);
             if (!btnCur.hasClass("btn-selected")) {
                 lv.ajaxLadda(function () {
@@ -54,8 +73,8 @@
         });
     }
     // 设置重定向分享到链接
-    var initShare = function (containers) {
-        containers.each(function () {
+    var initShare = function () {
+        getTumblrContainers().each(function () {
             var container = $(this);
             var imgTumblr = container.find(".img-tumblr");
             var btnComment = container.find(".btn-comment");
@@ -65,39 +84,99 @@
         });
     }
     // 读取并设置收藏按钮的状态
-    var setFavs = function (mediaType, from, to, btns) {
-        return queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
-            .done(function (data, textStatus, jqXHR) {
-                var loadedFavs = {};
-                $.each(data.value, function (index, value) {
-                    loadedFavs[getInvertedTicks(value.RowKey)] = true;
+    var setFavs = function () {
+        lv.retryExecute(function () {
+            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
+                .done(function (data) {
+                    var loadedFavs = {};
+                    $.each(data.value, function (index, value) {
+                        loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
+                    });
+                    getFavoriteButtons().each(function () {
+                        var btnCur = $(this);
+                        var rk = btnCur.attr("rk");
+                        if (loadedFavs[rk]) {
+                            btnCur.addClass("btn-selected");
+                        }
+                    });
                 });
-                btns.each(function () {
-                    var btnCur = $(this);
-                    var rk = btnCur.attr("rk");
-                    if (loadedFavs[rk]) {
-                        btnCur.addClass("btn-selected");
-                    }
+        }, function () {
+            return lv.getToken([tableNameOfFavorite])
+                .done(function (data) {
+                    favSas = data;
                 });
-            });
+        });
     }
+    // 加载更多
+    var loadTumblrs = function () {
+        var last = $(".container-tumblr:last");
+        lv.retryExecute(function () {
+            return lv.queryAzureTable(sas, {
+                continuationToken: continuationToken,
+                filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
+                top: 20
+            })
+            .done(function (data, textStatus, jqXHR) {
+                $.each(data.value, function (index, tumblr) {
+                    var rk = lv.getInvertedTicks(tumblr.RowKey);
+                    var cp = tumblrTemplate.clone();
+                    cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                    cp.find("p.text-tumblr").text(tumblr.Text);
+                    cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
+                    cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
+                    cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
+                    cp.appendTo(getTumblrsDiv());
+                });
 
-    that.loadTumblrs = function () {
+                var all = last.nextAll();
+                getFavoriteButtons = lv.singleton(function () {
+                    return all.find(".btn-favorite");
+                });
+                getImages = lv.singleton(function () {
+                    return all.find("img.lazy");
+                });
+                getTumblrContainers = lv.singleton(function () {
+                    return all;
+                });
+                initImgs();
+                initFavs();
+                initShare();
 
+                continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+            })
+            .done(function (data) {
+                from = lv.getInvertedTicks(data.value[0].RowKey);
+                to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
+                setFavs();
+            });
+        }, function () {
+            return lv.getToken([tableNameOfTumblr])
+                .done(function (data) {
+                    sas = data;
+                });
+        });
     };
 
     that.initialize = function (p) {
-        tumblrTemplate = p.tumblrTemplate || tumblrTemplate;
-        continuationToken = p.continuationToken || continuationToken;
-        sas = p.sas || sas;
+        tumblrTemplate = p.tumblrTemplate;
+        continuationToken = p.continuationToken;
+        sas = p.sas;
+        mediaType = p.mediaType;
+        tumblrCategory = p.tumblrCategory;
+        from = p.from;
+        to = p.to;
+        tableNameOfFavorite = p.tableNameOfFavorite;
+        tableNameOfTumblr = p.tableNameOfTumblr;
 
-        initImgs($("img.lazy"));
-        initTime($(".date-tumblr"));
-        initFavs(getInitialFavoriteButtons());
-        initShare($(".container-tumblr"));
-        //lv.retryExecute(function () {
-        //    var last = $(".container-tumblr:last");
-        //});
+        initImgs();
+        initTime();
+        initFavs();
+        initShare();
+        setFavs();
+        getLoadingButton().on("touchend", function () {
+            loadTumblrs();
+        });
     };
 
     return that;

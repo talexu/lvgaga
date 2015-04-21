@@ -39,7 +39,13 @@
                 {
                     tumblrTemplate: template,
                     continuationToken: @Html.Raw(Model.ContinuationToken.ToJsonString()),
-                    sas: "Html.Raw(Model.Sas)"
+                    sas: "@Html.Raw(Model.Sas)",
+                    mediaType: @Model.MediaType,
+                    tumblrCategory: @Model.TumblrCategory,
+                    from: "@Model.Tumblrs.First().RowKey",
+                    to: "@Model.Tumblrs.Last().RowKey",
+                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite",
+                    tableNameOfTumblr: "@LvConstants.TableNameOfTumblr"
                 });
             });
         })();

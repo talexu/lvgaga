@@ -11,10 +11,10 @@
     };
     that.retryExecute = function (func, handler, retry) {
         retry = retry === undefined ? defaultRetryTime - 1 : retry;
-        if (retry < 0) return;
+        if (retry < 0) return undefined;
 
-        func(this, arguments).fail(function () {
-            handler(this, arguments).done(function () {
+        return func.apply(this, arguments).fail(function () {
+            handler.apply(this, arguments).done(function () {
                 that.retryExecute(func, handler, retry - 1);
             });
         });
@@ -28,41 +28,41 @@
             .always(function () {
                 l.stop();
             });
-    }
+    };
     that.getInvertedTicks = function (rowKey) {
         return rowKey.slice(2);
-    }
+    };
     that.getLocalTime = function (dataTime) {
         return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
-    }
+    };
     that.getShareUri = function (p) {
         return sprintf("http://api.bshare.cn/share/sinaminiblog?url=%s&summary=%s&publisherUuid=%s&pic=%s", encodeURIComponent("http://" + window.location.host + p.Uri), encodeURIComponent(p.Summary), encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"), encodeURIComponent(p.Pic));
-    }
+    };
 
     // 获取Token
     that.getToken = function (paths) {
         return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({ times: defaultRetryTime });
-    }
+    };
 
     // 查询AzureTable
-    that.queryAzureTable = function (tableSasUrl, params) {
+    that.queryAzureTable = function (tableSasUrl, p) {
         var uri = tableSasUrl;
-        if (params.continuationToken) {
-            if (params.continuationToken.NextPartitionKey) {
-                uri += "&NextPartitionKey=" + params.continuationToken.NextPartitionKey;
+        if (p.continuationToken) {
+            if (p.continuationToken.NextPartitionKey) {
+                uri += "&NextPartitionKey=" + p.continuationToken.NextPartitionKey;
             }
-            if (params.continuationToken.NextRowKey) {
-                uri += "&NextRowKey=" + params.continuationToken.NextRowKey;
+            if (p.continuationToken.NextRowKey) {
+                uri += "&NextRowKey=" + p.continuationToken.NextRowKey;
             }
         }
-        if (params.top) {
-            uri += "&$top=" + params.top;
+        if (p.top) {
+            uri += "&$top=" + p.top;
         }
-        if (params.filter) {
-            uri += "&$filter=" + encodeURIComponent(params.filter);
+        if (p.filter) {
+            uri += "&$filter=" + encodeURIComponent(p.filter);
         }
-        if (params.select) {
-            uri += "&$select=" + encodeURIComponent(params.select);
+        if (p.select) {
+            uri += "&$select=" + encodeURIComponent(p.select);
         }
         return $.ajax({
             type: "GET",
@@ -73,7 +73,7 @@
                 xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
             }
         }).retry({ times: defaultRetryTime });
-    }
+    };
 
     // 添加收藏
     that.addFavorite = function (p, callback) {
@@ -103,7 +103,7 @@
             .done(function (data) {
                 callback && callback(data);
             });
-    }
+    };
 
 
 
