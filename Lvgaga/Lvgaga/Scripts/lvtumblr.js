@@ -1,4 +1,4 @@
-﻿var lvtumblr = (function () {
+﻿(function () {
     var that = {};
     var loadingButton = lv.singleton(function () {
         return $("#btn_load");
