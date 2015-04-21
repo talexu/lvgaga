@@ -14,7 +14,7 @@
                 <div class="content">
                     <p class="text-tumblr">@tumblr.Text</p>
                     <p class="date-tumblr">@tumblr.CreateTime</p>
-                    <button class="btn btn-default btn-favorite" type="button" rk="@tumblr.RowKey" tp="@tumblr.MediaType"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                    <button class="btn btn-default btn-favorite ladda-button" type="button" data-style="expand-left" data-spinner-color="#333" rk="@tumblr.RowKey" tp="@tumblr.MediaType"><span class="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
                     <a class="btn btn-default btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
                     <a class="btn btn-default pull-right btn-comment" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
                 </div>
@@ -30,189 +30,16 @@
 @section scripts{
     @Scripts.Render("~/bundles/home")
     <script>
-        (function() {
+        (function () {
             "use strict";
             var template = $(".container-tumblr:first").clone();
 
-            $(function() {
-                var continuationToken = @Html.Raw(Model.ContinuationToken.ToJsonString());
-                var sas = "@Html.Raw(Model.Sas)";
-                var favSas = "";
-
-                var btnLoad = $("#btn_load");
-                var divTumblrs = $("#div_tumblrs");
-                var btnFavorites = $(".btn-favorite");
-
-                function initImgs(imgs) {
-                    imgs.lazyload({
-                        effect: "fadeIn"
-                    });
-                }
-
-                function initTime() {
-                    var ps = $(".date-tumblr");
-                    ps.each(function() {
-                        var p = $(this);
-                        var utc = p.text();
-                        p.text(getLocalTime(utc));
-                    });
-                }
-
-                function initFavs(btns) {
-                    btns.on("touchend", function(event) {
-                        var btnCur = $(event.currentTarget);
-                        if (!btnCur.hasClass("btn-selected")) {
-                            favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
-                        } else {
-                            unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
-                        }
-                    });
-                }
-
-                function initShare(containers) {
-                    containers.each(function() {
-                        var container = $(this);
-                        var imgTumblr = container.find(".img-tumblr");
-                        var btnComment = container.find(".btn-comment");
-                        var pText = container.find(".text-tumblr");
-                        var btnShare = container.find(".btn-share");
-                        btnShare.prop("href", getShareUri({ Uri: btnComment.attr("href"), Title: pText.text(), Summary: pText.text(), Pic: imgTumblr.attr("data-original") }));
-                    });
-                }
-
-
-                function setFavs(mediaType, from, to, btns) {
-                    return queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
-                        .done(function(data, textStatus, jqXHR) {
-                            var loadedFavs = {};
-                            $.each(data.value, function(index, value) {
-                                loadedFavs[getInvertedTicks(value.RowKey)] = true;
-                            });
-                            btns.each(function() {
-                                var btnCur = $(this);
-                                var rk = btnCur.attr("rk");
-                                if (loadedFavs[rk]) {
-                                    btnCur.addClass("btn-selected");
-                                }
-                            });
-                        });
-                }
-
-                function setFavsWithRefreshToken(mediaType, from, to, btns, retry) {
-                    retry = retry === undefined ? 2 : retry;
-                    if (retry < 0) return;
-
-                    if (!favSas) {
-                        getToken(["@LvConstants.TableNameOfFavorite"])
-                            .done(function(data) {
-                                favSas = data;
-                                setFavsWithRefreshToken(mediaType, from, to, btns, retry - 1);
-                            });
-                        return;
-                    }
-
-                    setFavs(mediaType, from, to, btns)
-                        .fail(function() {
-                            getToken(["@LvConstants.TableNameOfFavorite"])
-                            .done(function(data) {
-                                favSas = data;
-                                setFavsWithRefreshToken(mediaType, from, to, btns, retry - 1);
-                            });
-                        });
-                }
-
-                function setLoadButton(btn) {
-                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                        btn.hide();
-                    }
-                }
-
-                function loadTumblrs(retry) {
-                    retry = retry === undefined ? 2 : retry;
-                    if (retry < 0) return;
-
-                    var last = $(".container-tumblr:last");
-                    queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
-                        .done(function(data, textStatus, jqXHR) {
-                            $.each(data.value, function(index, tumblr) {
-                                var rk = getInvertedTicks(tumblr.RowKey);
-                                var cp = template.clone();
-                                cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
-                                cp.find("p.text-tumblr").text(tumblr.Text);
-                                cp.find("p.date-tumblr").text(getLocalTime(tumblr.CreateTime));
-                                cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
-                                cp.find("a.btn-comment").prop("href", combinePath(["/comments", tumblr.MediaType, rk]));
-                                cp.appendTo(divTumblrs);
-                            });
-
-                            var all = last.nextAll();
-                            initImgs(all.find("img.lazy"));
-                            initFavs(all.find("button.btn-favorite"));
-                            initShare(all);
-
-                            continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                            continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-                        })
-                        .done(function(data, textStatus, jqXHR) {
-                            var from = getInvertedTicks(data.value[0].RowKey);
-                            var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                            setFavsWithRefreshToken("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
-                        })
-                        .fail(function(jqXHR, textStatus, errorThrown) {
-                            getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
-                            .done(function(data1, textStatus1, jqXHR1) {
-                                sas = data1;
-                                loadTumblrs(retry - 1);
-                            });
-                        });
-                }
-
-                initImgs($("img.lazy"));
-                initTime();
-                initFavs(btnFavorites);
-                initShare($(".container-tumblr"));
-                setFavsWithRefreshToken("@Model.MediaType", "@Model.Tumblrs.First().RowKey", "@Model.Tumblrs.Last().RowKey", btnFavorites);
-                setLoadButton(btnLoad);
-
-                btnLoad.on("touchend", function(event) {
-                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                        return;
-                    }
-
-                    lv.retryExecute(function() {
-                        var last = $(".container-tumblr:last");
-                        return queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
-                            .done(function(data, textStatus, jqXHR) {
-                                $.each(data.value, function(index, tumblr) {
-                                    var rk = getInvertedTicks(tumblr.RowKey);
-                                    var cp = template.clone();
-                                    cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
-                                    cp.find("p.text-tumblr").text(tumblr.Text);
-                                    cp.find("p.date-tumblr").text(getLocalTime(tumblr.CreateTime));
-                                    cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
-                                    cp.find("a.btn-comment").prop("href", combinePath(["/comments", tumblr.MediaType, rk]));
-                                    cp.appendTo(divTumblrs);
-                                });
-
-                                var all = last.nextAll();
-                                initImgs(all.find("img.lazy"));
-                                initFavs(all.find("button.btn-favorite"));
-                                initShare(all);
-
-                                continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                                continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-                            })
-                            .done(function(data, textStatus, jqXHR) {
-                                var from = getInvertedTicks(data.value[0].RowKey);
-                                var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                                setFavsWithRefreshToken("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
-                            });
-                    }, function() {
-                        return getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
-                            .done(function(data1, textStatus1, jqXHR1) {
-                                sas = data1;
-                            });
-                    });
+            $(function () {
+                lv.tumblr.initialize(
+                {
+                    tumblrTemplate: template,
+                    continuationToken: @Html.Raw(Model.ContinuationToken.ToJsonString()),
+                    sas: "Html.Raw(Model.Sas)"
                 });
             });
         })();

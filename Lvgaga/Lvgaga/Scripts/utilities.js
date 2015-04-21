@@ -1,163 +1,16 @@
-﻿function favorite(pk, rk, btn, callback) {
-    btn.attr("disabled", "disabled");
-    $.post("/api/v1/favorites/".concat(pk, "/", rk)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXhr) {
-            switch (jqXhr.status) {
-                case 201:
-                    btn.addClass("btn-selected");
-                    if (callback) callback(data);
-                    break;
-                case 200:
-                    var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
-                    if (res.status === 401) {
-                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                    }
-                    break;
-                default:
-
-            }
-        })
-        .always(function (data, textStatus, jqXhr) {
-            btn.removeAttr("disabled");
-        });
-}
-
-function unFavorite(pk, rk, btn, callback) {
-    btn.attr("disabled", "disabled");
-    $.ajax({
-        url: "/api/v1/favorites/".concat(pk, "/", rk),
-        type: "DELETE"
-    }).retry({ times: 3 })
-        .done(function (data, textStatus, jqXhr) {
-            btn.removeClass("btn-selected");
-            if (callback) callback(data);
-        })
-        .always(function (data, textStatus, jqXhr) {
-            btn.removeAttr("disabled");
-        });
-}
-
-function getFavoriteIndex(mediaType, from, to, callback) {
-    return $.get("/api/v1/favorites/".concat(mediaType, "?", "from=", from, "&", "to=", to)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXhr) {
-            switch (jqXhr.status) {
-                case 200:
-                    if (callback) callback(data);
-                    break;
-                default:
-            }
-        });
-}
-
-function getFavorites(mediaType, top, callback) {
-    $.get("/api/v1/favorites/".concat(mediaType, "?", "top=", top)).retry({ times: 3 })
-        .done(function (data, textStatus, jqXhr) {
-            switch (jqXhr.status) {
-                case 200:
-                    if (callback) callback(data);
-                    break;
-                default:
-            }
-        });
-}
-
-function getToken(paths) {
-    return $.get("/api/v1/tokens/".concat(paths.join("/"))).retry({ times: 3 });
-}
-
-function getTokenWithLoadingButton(paths, btn) {
-    if (!btn) {
-        return getToken(paths);
-    }
-    var l = Ladda.create(btn.get(0));
-    l.start();
-
-    return getToken(paths)
-        .always(function (data, textStatus, jqXhr) {
-            l.stop();
-        });
-}
-
-function combinePath(parameters) {
-    return parameters.join("/");
-}
-
-function getInvertedTicks(rowKey) {
-    return rowKey.slice(2);
-}
-
-function queryAzureTable(tableSasUrl, params) {
-    var uri = tableSasUrl;
-    if (params.continuationToken) {
-        if (params.continuationToken.NextPartitionKey) {
-            uri = uri.concat("&NextPartitionKey=", params.continuationToken.NextPartitionKey);
-        }
-        if (params.continuationToken.NextRowKey) {
-            uri = uri.concat("&NextRowKey=", params.continuationToken.NextRowKey);
-        }
-    }
-    if (params.top) {
-        uri = uri.concat("&$top=", params.top);
-    }
-    if (params.filter) {
-        uri = uri.concat("&$filter=", encodeURIComponent(params.filter));
-    }
-    if (params.select) {
-        uri = uri.concat("&$select=", encodeURIComponent(params.select));
-    }
-    return $.ajax({
-        type: "GET",
-        datatype: "json",
-        url: uri,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
-            xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
-        }
-    })
-        .retry({ times: 3 });
-}
-
-function queryAzureTableWithLoadingButton(tableSasUrl, params) {
-    var btnLoad = params.btn;
-    if (!btnLoad) {
-        return queryAzureTable(tableSasUrl, params);
-    }
-    var l = Ladda.create(btnLoad.get(0));
-    l.start();
-
-    return queryAzureTable(tableSasUrl, params)
-        .done(function (data, textStatus, jqXhr) {
-            var nextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
-            var nextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-            if (!nextPartitionKey || !nextRowKey) {
-                btnLoad.hide();
-            }
-        })
-        .always(function (data, textStatus, jqXhr) {
-            l.stop();
-        });
-}
-
-function getLocalTime(dataTime) {
-    return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
-}
-
-function getShareUri(p) {
-    //return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&title=", encodeURIComponent(p.Title), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=35de718f-8cbf-4a01-8d69-486b3e6c3437", "&pic=", encodeURIComponent(p.Pic));
-    return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=", encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"), "&pic=", encodeURIComponent(p.Pic));
-}
-
-var lv = (function () {
+﻿var lv = (function () {
     var that = {};
+    var defaultRetryTime = 3;
 
+    // 基础方法
     that.singleton = function (func) {
         var instance;
         return (function () {
             return instance || (instance = func.apply(this, arguments));
         });
-    }
+    };
     that.retryExecute = function (func, handler, retry) {
-        retry = retry === undefined ? 2 : retry;
+        retry = retry === undefined ? defaultRetryTime - 1 : retry;
         if (retry < 0) return;
 
         func(this, arguments).fail(function () {
@@ -165,7 +18,94 @@ var lv = (function () {
                 that.retryExecute(func, handler, retry - 1);
             });
         });
+    };
+    that.ajaxLadda = function (func, button) {
+        if (!button) return func(this, arguments);
+
+        var l = Ladda.create(button.get(0));
+        l.start();
+        return func(this, arguments)
+            .always(function () {
+                l.stop();
+            });
     }
+    that.getInvertedTicks = function (rowKey) {
+        return rowKey.slice(2);
+    }
+    that.getLocalTime = function (dataTime) {
+        return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
+    }
+    that.getShareUri = function (p) {
+        return sprintf("http://api.bshare.cn/share/sinaminiblog?url=%s&summary=%s&publisherUuid=%s&pic=%s", encodeURIComponent("http://" + window.location.host + p.Uri), encodeURIComponent(p.Summary), encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"), encodeURIComponent(p.Pic));
+    }
+
+    // 获取Token
+    that.getToken = function (paths) {
+        return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({ times: defaultRetryTime });
+    }
+
+    // 查询AzureTable
+    that.queryAzureTable = function (tableSasUrl, params) {
+        var uri = tableSasUrl;
+        if (params.continuationToken) {
+            if (params.continuationToken.NextPartitionKey) {
+                uri += "&NextPartitionKey=" + params.continuationToken.NextPartitionKey;
+            }
+            if (params.continuationToken.NextRowKey) {
+                uri += "&NextRowKey=" + params.continuationToken.NextRowKey;
+            }
+        }
+        if (params.top) {
+            uri += "&$top=" + params.top;
+        }
+        if (params.filter) {
+            uri += "&$filter=" + encodeURIComponent(params.filter);
+        }
+        if (params.select) {
+            uri += "&$select=" + encodeURIComponent(params.select);
+        }
+        return $.ajax({
+            type: "GET",
+            datatype: "json",
+            url: uri,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
+                xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
+            }
+        }).retry({ times: defaultRetryTime });
+    }
+
+    // 添加收藏
+    that.addFavorite = function (p, callback) {
+        return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime })
+            .done(function (data, textStatus, jqXhr) {
+                switch (jqXhr.status) {
+                    case 201:
+                        callback && callback(data);
+                        break;
+                    case 200:
+                        var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
+                        if (res.status === 401) {
+                            $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                        }
+                        break;
+                    default:
+
+                }
+            });
+    };
+    // 移除收藏
+    that.removeFavorite = function (p, callback) {
+        return $.ajax({
+            url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
+            type: "DELETE"
+        }).retry({ times: defaultRetryTime })
+            .done(function (data) {
+                callback && callback(data);
+            });
+    }
+
+
 
     return that;
 })();

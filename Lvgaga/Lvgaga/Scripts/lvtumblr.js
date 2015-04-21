@@ -30,7 +30,7 @@
         times.each(function () {
             var p = $(this);
             var utc = p.text();
-            p.text(getLocalTime(utc));
+            p.text(lv.getLocalTime(utc));
         });
     }
     // 注册收藏按钮事件
@@ -38,9 +38,18 @@
         btns.on("touchend", function (event) {
             var btnCur = $(event.currentTarget);
             if (!btnCur.hasClass("btn-selected")) {
-                favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
+                lv.ajaxLadda(function () {
+                    return lv.addFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }, function () {
+                        btnCur.addClass("btn-selected");
+                    });
+                }, btnCur);
+
             } else {
-                unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur);
+                lv.ajaxLadda(function () {
+                    return lv.removeFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }, function () {
+                        btnCur.removeClass("btn-selected");
+                    });
+                }, btnCur);
             }
         });
     }
@@ -77,10 +86,18 @@
 
     };
 
-    that.initialize = function(p) {
+    that.initialize = function (p) {
         tumblrTemplate = p.tumblrTemplate || tumblrTemplate;
         continuationToken = p.continuationToken || continuationToken;
         sas = p.sas || sas;
+
+        initImgs($("img.lazy"));
+        initTime($(".date-tumblr"));
+        initFavs(getInitialFavoriteButtons());
+        //initShare($(".container-tumblr"));
+        //lv.retryExecute(function () {
+        //    var last = $(".container-tumblr:last");
+        //});
     };
 
     return that;
