@@ -24,7 +24,7 @@
 
         var l = Ladda.create(button.get(0));
         l.start();
-        return func(this, arguments)
+        return func.apply(this, arguments)
             .always(function () {
                 l.stop();
             });

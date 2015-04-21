@@ -11,7 +11,6 @@
     var to;
     var tableNameOfTumblr;
     var tableNameOfFavorite;
-    var newTumblrs;
 
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -108,54 +107,56 @@
         });
     }
     // 加载更多
-    var loadTumblrs = function () {
+    var loadTumblrs = function() {
         var last = $(".container-tumblr:last");
-        lv.retryExecute(function () {
-            return lv.queryAzureTable(sas, {
-                continuationToken: continuationToken,
-                filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-                top: 20
-            })
-            .done(function (data, textStatus, jqXHR) {
-                $.each(data.value, function (index, tumblr) {
-                    var rk = lv.getInvertedTicks(tumblr.RowKey);
-                    var cp = tumblrTemplate.clone();
-                    cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
-                    cp.find("p.text-tumblr").text(tumblr.Text);
-                    cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
-                    cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
-                    cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
-                    cp.appendTo(getTumblrsDiv());
-                });
+        lv.ajaxLadda(function() {
+            return lv.retryExecute(function() {
+                return lv.queryAzureTable(sas, {
+                        continuationToken: continuationToken,
+                        filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
+                        top: 20
+                    })
+                    .done(function(data, textStatus, jqXhr) {
+                        $.each(data.value, function(index, tumblr) {
+                            var rk = lv.getInvertedTicks(tumblr.RowKey);
+                            var cp = tumblrTemplate.clone();
+                            cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                            cp.find("p.text-tumblr").text(tumblr.Text);
+                            cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
+                            cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
+                            cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
+                            cp.appendTo(getTumblrsDiv());
+                        });
 
-                var all = last.nextAll();
-                getFavoriteButtons = lv.singleton(function () {
-                    return all.find(".btn-favorite");
-                });
-                getImages = lv.singleton(function () {
-                    return all.find("img.lazy");
-                });
-                getTumblrContainers = lv.singleton(function () {
-                    return all;
-                });
-                initImgs();
-                initFavs();
-                initShare();
+                        var all = last.nextAll();
+                        getFavoriteButtons = lv.singleton(function() {
+                            return all.find(".btn-favorite");
+                        });
+                        getImages = lv.singleton(function() {
+                            return all.find("img.lazy");
+                        });
+                        getTumblrContainers = lv.singleton(function() {
+                            return all;
+                        });
+                        initImgs();
+                        initFavs();
+                        initShare();
 
-                continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-            })
-            .done(function (data) {
-                from = lv.getInvertedTicks(data.value[0].RowKey);
-                to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                setFavs();
+                        continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                        continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
+                    })
+                    .done(function(data) {
+                        from = lv.getInvertedTicks(data.value[0].RowKey);
+                        to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
+                        setFavs();
+                    });
+            }, function() {
+                return lv.getToken([tableNameOfTumblr])
+                    .done(function(data) {
+                        sas = data;
+                    });
             });
-        }, function () {
-            return lv.getToken([tableNameOfTumblr])
-                .done(function (data) {
-                    sas = data;
-                });
-        });
+        }, getLoadingButton());
     };
 
     that.initialize = function (p) {
