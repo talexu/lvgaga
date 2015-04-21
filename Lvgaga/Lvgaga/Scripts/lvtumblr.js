@@ -61,7 +61,7 @@
             var btnComment = container.find(".btn-comment");
             var pText = container.find(".text-tumblr");
             var btnShare = container.find(".btn-share");
-            btnShare.prop("href", getShareUri({ Uri: btnComment.attr("href"), Title: pText.text(), Summary: pText.text(), Pic: imgTumblr.attr("data-original") }));
+            btnShare.prop("href", lv.getShareUri({ Uri: btnComment.attr("href"), Title: pText.text(), Summary: pText.text(), Pic: imgTumblr.attr("data-original") }));
         });
     }
     // 读取并设置收藏按钮的状态
@@ -94,7 +94,7 @@
         initImgs($("img.lazy"));
         initTime($(".date-tumblr"));
         initFavs(getInitialFavoriteButtons());
-        //initShare($(".container-tumblr"));
+        initShare($(".container-tumblr"));
         //lv.retryExecute(function () {
         //    var last = $(".container-tumblr:last");
         //});
