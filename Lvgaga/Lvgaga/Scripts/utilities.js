@@ -154,7 +154,7 @@ var lv = (function () {
         var instance;
         return (function () {
             return instance || (instance = func.apply(this, arguments));
-        })();
+        });
     }
     that.retryExecute = function (func, handler, retry) {
         retry = retry === undefined ? 2 : retry;
