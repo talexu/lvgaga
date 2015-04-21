@@ -52,21 +52,20 @@ namespace Lvgaga
                 "~/Scripts/spin*",
                 "~/Scripts/ladda*",
                 "~/Scripts/moment*",
-                "~/bower_components/sprintf/dist/sprintf.min.js"));
+                "~/bower_components/sprintf/dist/sprintf.min.js",
+                "~/Scripts/utilities.js"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
                 "~/Scripts/jquery.lazyload*",
-                "~/Scripts/utilities.js"));
+                "~/Scripts/lvtumblr.js"));
 
             // Comment Page
-            bundles.Add(new ScriptBundle("~/bundles/comment").Include(
-                "~/Scripts/utilities.js"));
+            bundles.Add(new ScriptBundle("~/bundles/comment").Include());
 
             // Favorite Page
             bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
-                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
-                "~/Scripts/utilities.js"));
+                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"));
             #endregion
         }
     }

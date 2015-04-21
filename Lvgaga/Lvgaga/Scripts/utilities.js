@@ -146,3 +146,26 @@ function getShareUri(p) {
     //return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&title=", encodeURIComponent(p.Title), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=35de718f-8cbf-4a01-8d69-486b3e6c3437", "&pic=", encodeURIComponent(p.Pic));
     return "http://api.bshare.cn/share/sinaminiblog".concat("?url=", encodeURIComponent("http://".concat(window.location.host.concat(p.Uri))), "&summary=", encodeURIComponent(p.Summary), "&publisherUuid=", encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"), "&pic=", encodeURIComponent(p.Pic));
 }
+
+var lv = (function () {
+    var that = {};
+
+    that.singleton = function (func) {
+        var instance;
+        return (function () {
+            return instance || (instance = func.apply(this, arguments));
+        })();
+    }
+    that.retryExecute = function (func, handler, retry) {
+        retry = retry === undefined ? 2 : retry;
+        if (retry < 0) return;
+
+        func(this, arguments).fail(function () {
+            handler(this, arguments).done(function () {
+                that.retryExecute(func, handler, retry - 1);
+            });
+        });
+    }
+
+    return that;
+})();

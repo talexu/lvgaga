@@ -179,7 +179,40 @@
                         return;
                     }
 
-                    loadTumblrs();
+                    lv.retryExecute(function() {
+                        var last = $(".container-tumblr:last");
+                        return queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "PartitionKey ge '@Model.MediaType' and PartitionKey lt '@(Model.MediaType + 1)' and RowKey ge '@Model.TumblrCategory' and RowKey lt '@(Model.TumblrCategory + 1)'", top: 20, btn: btnLoad })
+                            .done(function(data, textStatus, jqXHR) {
+                                $.each(data.value, function(index, tumblr) {
+                                    var rk = getInvertedTicks(tumblr.RowKey);
+                                    var cp = template.clone();
+                                    cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                                    cp.find("p.text-tumblr").text(tumblr.Text);
+                                    cp.find("p.date-tumblr").text(getLocalTime(tumblr.CreateTime));
+                                    cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
+                                    cp.find("a.btn-comment").prop("href", combinePath(["/comments", tumblr.MediaType, rk]));
+                                    cp.appendTo(divTumblrs);
+                                });
+
+                                var all = last.nextAll();
+                                initImgs(all.find("img.lazy"));
+                                initFavs(all.find("button.btn-favorite"));
+                                initShare(all);
+
+                                continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                                continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
+                            })
+                            .done(function(data, textStatus, jqXHR) {
+                                var from = getInvertedTicks(data.value[0].RowKey);
+                                var to = getInvertedTicks(data.value[data.value.length - 1].RowKey);
+                                setFavsWithRefreshToken("@Model.MediaType", from, to, last.nextAll().find("button.btn-favorite"));
+                            });
+                    }, function() {
+                        return getTokenWithLoadingButton(["@LvConstants.TableNameOfTumblr"], btnLoad)
+                            .done(function(data1, textStatus1, jqXHR1) {
+                                sas = data1;
+                            });
+                    });
                 });
             });
         })();
