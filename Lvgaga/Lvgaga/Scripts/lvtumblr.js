@@ -55,6 +55,23 @@
             btnShare.prop("href", getShareUri({ Uri: btnComment.attr("href"), Title: pText.text(), Summary: pText.text(), Pic: imgTumblr.attr("data-original") }));
         });
     }
+    // 读取并设置收藏按钮的状态
+    var setFavs = function (mediaType, from, to, btns) {
+        return queryAzureTableWithLoadingButton(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
+            .done(function (data, textStatus, jqXHR) {
+                var loadedFavs = {};
+                $.each(data.value, function (index, value) {
+                    loadedFavs[getInvertedTicks(value.RowKey)] = true;
+                });
+                btns.each(function () {
+                    var btnCur = $(this);
+                    var rk = btnCur.attr("rk");
+                    if (loadedFavs[rk]) {
+                        btnCur.addClass("btn-selected");
+                    }
+                });
+            });
+    }
 
     that.loadTumblrs = function () {
 
