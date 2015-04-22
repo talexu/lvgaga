@@ -45,10 +45,13 @@
                 lv.comment.initialize(
                 {
                     sas: "@Html.Raw(Model.Sas)",
-                    tableNameOfComment: "@LvConstants.TableNameOfComment"
+                    mediaType: @Model.PartitionKey,
+                    rowKey: "@Model.RowKey",
+                    tableNameOfComment: "@LvConstants.TableNameOfComment",
+                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite"
                 });
             });
         })();
-        
+
     </script>
 }

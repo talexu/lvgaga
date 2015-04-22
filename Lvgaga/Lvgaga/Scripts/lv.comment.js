@@ -6,13 +6,15 @@
     var sas;
     var favSas;
     var mediaType;
-    var tumblrCategory;
-    var from;
-    var to;
+    var rowKey;
     var tableNameOfTumblr;
     var tableNameOfComment;
     var tableNameOfFavorite;
 
+    // 获取收藏按钮的实例
+    var getFavoriteButton = lv.singleton(function () {
+        return $("#btn_favorite");
+    });
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
         return $("#btn_load");
@@ -30,34 +32,55 @@
 		append($("<p></p>").addClass("text-comment").text(data.Text));
     }
 
+    // 读取并设置收藏按钮的状态
+    var setFavs = function () {
+        lv.retryExecute(function () {
+            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey eq '%s_%s'", mediaType, rowKey), select: "RowKey" })
+                .done(function (data) {
+                    if (data.value.length > 0) {
+                        getFavoriteButton().addClass("btn-selected");
+                    }
+                });
+        }, function () {
+            return lv.getToken([tableNameOfFavorite])
+                .done(function (data) {
+                    favSas = data;
+                });
+        });
+    }
+
     var loadComments = function () {
-        lv.ajaxLadda(function() {
-            return lv.retryExecute(function() {
+        lv.ajaxLadda(function () {
+            return lv.retryExecute(function () {
                 return lv.queryAzureTable(sas, {
-                        continuationToken: continuationToken,
-                        top: 20
-                    })
-                    .done(function(data, textStatus, jqXhr) {
-                        $.each(data.value, function(index, comment) {
+                    continuationToken: continuationToken,
+                    top: 20
+                })
+                    .done(function (data, textStatus, jqXhr) {
+                        $.each(data.value, function (index, comment) {
                             getCommentsContainer().append(generateComment(comment));
                         });
 
                         continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
                     });
-            }, function() {
+            }, function () {
                 return lv.getToken([tableNameOfComment])
-                    .done(function(data) {
+                    .done(function (data) {
                         sas = data;
                     });
             });
         }, getLoadingButton());
-        
     }
 
     that.initialize = function (p) {
         sas = p.sas;
+        mediaType = p.mediaType;
+        rowKey = p.rowKey;
         tableNameOfComment = p.tableNameOfComment;
+        tableNameOfFavorite = p.tableNameOfFavorite;
+
+        setFavs();
 
         getLoadingButton().on("touchend", function () {
             loadComments();
