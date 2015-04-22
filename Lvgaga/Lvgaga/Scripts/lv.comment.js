@@ -1,7 +1,6 @@
 ﻿lv.comment = (function () {
     var that = {};
 
-    var tumblrTemplate;
     var continuationToken = {};
     var sas;
     var favSas;
@@ -9,7 +8,6 @@
     var rowKey;
     var text;
     var mediaUri;
-    var tableNameOfTumblr;
     var tableNameOfComment;
     var tableNameOfFavorite;
 
