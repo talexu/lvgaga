@@ -17,8 +17,12 @@
     var getFavoriteButton = lv.singleton(function () {
         return $("#btn_favorite");
     });
+    // 获取分享按钮的实例
     var getShareButton = lv.singleton(function () {
         return $("#btn_share");
+    });
+    var getCommentButton = lv.singleton(function () {
+        return $("#btn_send");
     });
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -28,14 +32,22 @@
     var getCommentsContainer = lv.singleton(function () {
         return $("#div_comments");
     });
+    // 获取评论文本框
+    var getCommentTextBox = lv.singleton(function () {
+        return $("#txb_comment");
+    });
+    // 获取评论内容
+    var getCommentText = function () {
+        return getCommentTextBox().val().trim();
+    };
 
     var generateComment = function (data, createTime) {
         return $("<div></div>").
-		append($("<hr></hr>").addClass("hr-comment")).
-		append($("<a></a>").text(data.UserName)).
-		append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : lv.getLocalTime(data.CommentTime))).
-		append($("<p></p>").addClass("text-comment").text(data.Text));
-    }
+            append($("<hr></hr>").addClass("hr-comment")).
+            append($("<a></a>").text(data.UserName)).
+            append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : lv.getLocalTime(data.CommentTime))).
+            append($("<p></p>").addClass("text-comment").text(data.Text));
+    };
 
     // 读取并设置收藏按钮的状态
     var setFavs = function () {
@@ -52,7 +64,7 @@
                     favSas = data;
                 });
         });
-    }
+    };
 
     // 收藏和取消收藏
     var initFav = function () {
@@ -73,8 +85,9 @@
                 }, btnCur);
             }
         });
-    }
+    };
 
+    // 读取评论
     var loadComments = function () {
         lv.ajaxLadda(function () {
             return lv.retryExecute(function () {
@@ -97,7 +110,35 @@
                     });
             });
         }, getLoadingButton());
-    }
+    };
+
+    // 发送评论
+    var sendComment = function () {
+        var commentText = getCommentText();
+        if (!commentText) return;
+
+        lv.ajaxLadda(function () {
+            return $.post(sprintf("/api/v1/comments/%s/%s", mediaType, rowKey),
+                {
+                    "Text": commentText
+                }).retry({ times: 3 }).done(function (data, textStatus, jqXhr) {
+                    switch (jqXhr.status) {
+                        case 201:
+                            getCommentsContainer().prepend(generateComment(data, "刚刚"));
+                            getCommentTextBox().val("");
+                            break;
+                        case 200:
+                            var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
+                            if (res.status === 401) {
+                                $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                            }
+                            break;
+                        default:
+
+                    }
+                });
+        }, getCommentButton());
+    };
 
     that.initialize = function (p) {
         sas = p.sas;
@@ -112,6 +153,9 @@
         initFav();
         getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
 
+        getCommentButton().on("touchend", function () {
+            sendComment();
+        });
         getLoadingButton().on("touchend", function () {
             loadComments();
         });
