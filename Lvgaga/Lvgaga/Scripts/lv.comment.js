@@ -49,6 +49,26 @@
         });
     }
 
+    var initFav = function () {
+        getFavoriteButton().on("touchend", function (event) {
+            var btnCur = $(event.currentTarget);
+            if (!btnCur.hasClass("btn-selected")) {
+                lv.ajaxLadda(function () {
+                    return lv.addFavorite({ pk: mediaType, rk: rowKey }, function () {
+                        btnCur.addClass("btn-selected");
+                    });
+                }, btnCur);
+
+            } else {
+                lv.ajaxLadda(function () {
+                    return lv.removeFavorite({ pk: mediaType, rk: rowKey }, function () {
+                        btnCur.removeClass("btn-selected");
+                    });
+                }, btnCur);
+            }
+        });
+    }
+
     var loadComments = function () {
         lv.ajaxLadda(function () {
             return lv.retryExecute(function () {
@@ -81,6 +101,7 @@
         tableNameOfFavorite = p.tableNameOfFavorite;
 
         setFavs();
+        initFav();
 
         getLoadingButton().on("touchend", function () {
             loadComments();
