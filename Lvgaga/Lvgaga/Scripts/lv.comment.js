@@ -7,6 +7,8 @@
     var favSas;
     var mediaType;
     var rowKey;
+    var text;
+    var mediaUri;
     var tableNameOfTumblr;
     var tableNameOfComment;
     var tableNameOfFavorite;
@@ -14,6 +16,9 @@
     // 获取收藏按钮的实例
     var getFavoriteButton = lv.singleton(function () {
         return $("#btn_favorite");
+    });
+    var getShareButton = lv.singleton(function () {
+        return $("#btn_share");
     });
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -49,6 +54,7 @@
         });
     }
 
+    // 收藏和取消收藏
     var initFav = function () {
         getFavoriteButton().on("touchend", function (event) {
             var btnCur = $(event.currentTarget);
@@ -97,11 +103,14 @@
         sas = p.sas;
         mediaType = p.mediaType;
         rowKey = p.rowKey;
+        text = p.text;
+        mediaUri = p.mediaUri;
         tableNameOfComment = p.tableNameOfComment;
         tableNameOfFavorite = p.tableNameOfFavorite;
 
         setFavs();
         initFav();
+        getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
 
         getLoadingButton().on("touchend", function () {
             loadComments();
