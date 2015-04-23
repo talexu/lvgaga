@@ -1,5 +1,5 @@
 ﻿lv.comment = (function () {
-    var that = {};
+    var exports = {};
 
     var continuationToken = {};
     var sas;
@@ -138,7 +138,7 @@
         }, getCommentButton());
     };
 
-    that.initialize = function (p) {
+    exports.initialize = function (p) {
         sas = p.sas;
         mediaType = p.mediaType;
         rowKey = p.rowKey;
@@ -159,5 +159,5 @@
         });
     };
 
-    return that;
+    return exports;
 })();

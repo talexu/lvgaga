@@ -1,5 +1,5 @@
 ﻿lv.tumblr = (function () {
-    var that = {};
+    var exports = {};
 
     var tumblrTemplate;
     var continuationToken;
@@ -158,7 +158,7 @@
         }, getLoadingButton());
     };
 
-    that.initialize = function (p) {
+    exports.initialize = function (p) {
         tumblrTemplate = p.tumblrTemplate;
         continuationToken = p.continuationToken;
         sas = p.sas;
@@ -179,5 +179,5 @@
         });
     };
 
-    return that;
+    return exports;
 })();
