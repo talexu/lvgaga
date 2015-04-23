@@ -10,6 +10,7 @@
     var mediaUri;
     var tableNameOfComment;
     var tableNameOfFavorite;
+    var takeCount = lv.defaultTakeCount;
 
     // 获取收藏按钮的实例
     var getFavoriteButton = lv.singleton(function () {
@@ -85,11 +86,11 @@
 
     // 读取评论
     var loadComments = function () {
-        lv.ajaxLadda(function () {
-            return lv.retryExecute(function () {
+        lv.retryExecute(function () {
+            return lv.ajaxLadda(function () {
                 return lv.queryAzureTable(sas, {
                     continuationToken: continuationToken,
-                    top: 20
+                    top: takeCount
                 }).done(function (data, textStatus, jqXhr) {
                     $.each(data.value, function (index, comment) {
                         getCommentsContainer().append(generateComment(comment));
@@ -97,17 +98,17 @@
 
                     continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                     continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
+                }).done(function () {
+                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                        getLoadingButton().hide();
+                    }
                 });
-            }, function () {
-                return lv.getToken([tableNameOfComment]).done(function (data) {
-                    sas = data;
-                });
-            }).done(function () {
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    getLoadingButton().hide();
-                }
+            }, getLoadingButton());
+        }, function () {
+            return lv.getToken([tableNameOfComment]).done(function (data) {
+                sas = data;
             });
-        }, getLoadingButton());
+        });
     };
 
     // 发送评论
@@ -147,6 +148,7 @@
         tableNameOfComment = p.tableNameOfComment;
         tableNameOfFavorite = p.tableNameOfFavorite;
 
+        loadComments();
         setFavs();
         initFav();
         getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));

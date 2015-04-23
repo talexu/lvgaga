@@ -11,6 +11,7 @@
     var to;
     var tableNameOfTumblr;
     var tableNameOfFavorite;
+    var takeCount = lv.defaultTakeCount;
 
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -107,12 +108,12 @@
     // 加载更多
     var loadTumblrs = function () {
         var last = $(".container-tumblr:last");
-        lv.ajaxLadda(function () {
-            return lv.retryExecute(function () {
+        return lv.retryExecute(function () {
+            return lv.ajaxLadda(function () {
                 return lv.queryAzureTable(sas, {
                     continuationToken: continuationToken,
                     filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-                    top: 20
+                    top: takeCount
                 }).done(function (data, textStatus, jqXhr) {
                     $.each(data.value, function (index, tumblr) {
                         var rk = lv.getInvertedTicks(tumblr.RowKey);
@@ -145,17 +146,17 @@
                     from = lv.getInvertedTicks(data.value[0].RowKey);
                     to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
                     setFavs();
+                }).done(function () {
+                    if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                        getLoadingButton().hide();
+                    }
                 });
-            }, function () {
-                return lv.getToken([tableNameOfTumblr]).done(function (data) {
-                    sas = data;
-                });
-            }).done(function () {
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    getLoadingButton().hide();
-                }
+            }, getLoadingButton());
+        }, function () {
+            return lv.getToken([tableNameOfTumblr]).done(function (data) {
+                sas = data;
             });
-        }, getLoadingButton());
+        });
     };
 
     exports.initialize = function (p) {
