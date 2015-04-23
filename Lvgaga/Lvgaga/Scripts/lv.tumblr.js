@@ -85,76 +85,75 @@
     // 读取并设置收藏按钮的状态
     var setFavs = function () {
         lv.retryExecute(function () {
-            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" })
-                .done(function (data) {
-                    var loadedFavs = {};
-                    $.each(data.value, function (index, value) {
-                        loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
-                    });
-                    getFavoriteButtons().each(function () {
-                        var btnCur = $(this);
-                        var rk = btnCur.attr("rk");
-                        if (loadedFavs[rk]) {
-                            btnCur.addClass("btn-selected");
-                        }
-                    });
+            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to), select: "RowKey" }).done(function (data) {
+                var loadedFavs = {};
+                $.each(data.value, function (index, value) {
+                    loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
                 });
+                getFavoriteButtons().each(function () {
+                    var btnCur = $(this);
+                    var rk = btnCur.attr("rk");
+                    if (loadedFavs[rk]) {
+                        btnCur.addClass("btn-selected");
+                    }
+                });
+            });
         }, function () {
-            return lv.getToken([tableNameOfFavorite])
-                .done(function (data) {
-                    favSas = data;
-                });
+            return lv.getToken([tableNameOfFavorite]).done(function (data) {
+                favSas = data;
+            });
         });
     }
     // 加载更多
-    var loadTumblrs = function() {
+    var loadTumblrs = function () {
         var last = $(".container-tumblr:last");
-        lv.ajaxLadda(function() {
-            return lv.retryExecute(function() {
+        lv.ajaxLadda(function () {
+            return lv.retryExecute(function () {
                 return lv.queryAzureTable(sas, {
-                        continuationToken: continuationToken,
-                        filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-                        top: 20
-                    })
-                    .done(function(data, textStatus, jqXhr) {
-                        $.each(data.value, function(index, tumblr) {
-                            var rk = lv.getInvertedTicks(tumblr.RowKey);
-                            var cp = tumblrTemplate.clone();
-                            cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
-                            cp.find("p.text-tumblr").text(tumblr.Text);
-                            cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
-                            cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
-                            cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
-                            cp.appendTo(getTumblrsDiv());
-                        });
-
-                        var all = last.nextAll();
-                        getFavoriteButtons = lv.singleton(function() {
-                            return all.find(".btn-favorite");
-                        });
-                        getImages = lv.singleton(function() {
-                            return all.find("img.lazy");
-                        });
-                        getTumblrContainers = lv.singleton(function() {
-                            return all;
-                        });
-                        initImgs();
-                        initFavs();
-                        initShare();
-
-                        continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                        continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-                    })
-                    .done(function(data) {
-                        from = lv.getInvertedTicks(data.value[0].RowKey);
-                        to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
-                        setFavs();
+                    continuationToken: continuationToken,
+                    filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
+                    top: 20
+                }).done(function (data, textStatus, jqXhr) {
+                    $.each(data.value, function (index, tumblr) {
+                        var rk = lv.getInvertedTicks(tumblr.RowKey);
+                        var cp = tumblrTemplate.clone();
+                        cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                        cp.find("p.text-tumblr").text(tumblr.Text);
+                        cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
+                        cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
+                        cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
+                        cp.appendTo(getTumblrsDiv());
                     });
-            }, function() {
-                return lv.getToken([tableNameOfTumblr])
-                    .done(function(data) {
-                        sas = data;
+
+                    var all = last.nextAll();
+                    getFavoriteButtons = lv.singleton(function () {
+                        return all.find(".btn-favorite");
                     });
+                    getImages = lv.singleton(function () {
+                        return all.find("img.lazy");
+                    });
+                    getTumblrContainers = lv.singleton(function () {
+                        return all;
+                    });
+                    initImgs();
+                    initFavs();
+                    initShare();
+
+                    continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                    continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
+                }).done(function (data) {
+                    from = lv.getInvertedTicks(data.value[0].RowKey);
+                    to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
+                    setFavs();
+                });
+            }, function () {
+                return lv.getToken([tableNameOfTumblr]).done(function (data) {
+                    sas = data;
+                });
+            }).done(function () {
+                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                    getLoadingButton().hide();
+                }
             });
         }, getLoadingButton());
     };

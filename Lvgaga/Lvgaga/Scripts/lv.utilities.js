@@ -24,10 +24,9 @@
 
         var l = Ladda.create(button.get(0));
         l.start();
-        return func.apply(this, arguments)
-            .always(function () {
-                l.stop();
-            });
+        return func.apply(this, arguments).always(function () {
+            l.stop();
+        });
     };
     that.getInvertedTicks = function (rowKey) {
         return rowKey.slice(2);
@@ -77,35 +76,31 @@
 
     // 添加收藏
     that.addFavorite = function (p, callback) {
-        return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime })
-            .done(function (data, textStatus, jqXhr) {
-                switch (jqXhr.status) {
-                    case 201:
-                        callback && callback(data);
-                        break;
-                    case 200:
-                        var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
-                        if (res.status === 401) {
-                            $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                        }
-                        break;
-                    default:
+        return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime }).done(function (data, textStatus, jqXhr) {
+            switch (jqXhr.status) {
+                case 201:
+                    callback && callback(data);
+                    break;
+                case 200:
+                    var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
+                    if (res.status === 401) {
+                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                    }
+                    break;
+                default:
 
-                }
-            });
+            }
+        });
     };
     // 移除收藏
     that.removeFavorite = function (p, callback) {
         return $.ajax({
             url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
             type: "DELETE"
-        }).retry({ times: defaultRetryTime })
-            .done(function (data) {
-                callback && callback(data);
-            });
+        }).retry({ times: defaultRetryTime }).done(function (data) {
+            callback && callback(data);
+        });
     };
-
-
 
     return that;
 })();

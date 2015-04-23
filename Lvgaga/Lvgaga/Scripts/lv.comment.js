@@ -50,17 +50,15 @@
     // 读取并设置收藏按钮的状态
     var setFavs = function () {
         lv.retryExecute(function () {
-            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey eq '%s_%s'", mediaType, rowKey), select: "RowKey" })
-                .done(function (data) {
-                    if (data.value.length > 0) {
-                        getFavoriteButton().addClass("btn-selected");
-                    }
-                });
+            return lv.queryAzureTable(favSas, { filter: sprintf("RowKey eq '%s_%s'", mediaType, rowKey), select: "RowKey" }).done(function (data) {
+                if (data.value.length > 0) {
+                    getFavoriteButton().addClass("btn-selected");
+                }
+            });
         }, function () {
-            return lv.getToken([tableNameOfFavorite])
-                .done(function (data) {
-                    favSas = data;
-                });
+            return lv.getToken([tableNameOfFavorite]).done(function (data) {
+                favSas = data;
+            });
         });
     };
 
@@ -92,20 +90,22 @@
                 return lv.queryAzureTable(sas, {
                     continuationToken: continuationToken,
                     top: 20
-                })
-                    .done(function (data, textStatus, jqXhr) {
-                        $.each(data.value, function (index, comment) {
-                            getCommentsContainer().append(generateComment(comment));
-                        });
+                }).done(function (data, textStatus, jqXhr) {
+                    $.each(data.value, function (index, comment) {
+                        getCommentsContainer().append(generateComment(comment));
+                    });
 
-                        continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                        continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-                    });
+                    continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                    continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
+                });
             }, function () {
-                return lv.getToken([tableNameOfComment])
-                    .done(function (data) {
-                        sas = data;
-                    });
+                return lv.getToken([tableNameOfComment]).done(function (data) {
+                    sas = data;
+                });
+            }).done(function () {
+                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                    getLoadingButton().hide();
+                }
             });
         }, getLoadingButton());
     };
