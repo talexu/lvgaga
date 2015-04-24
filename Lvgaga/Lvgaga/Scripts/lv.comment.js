@@ -10,7 +10,7 @@
     var mediaUri;
     var tableNameOfComment;
     var tableNameOfFavorite;
-    var takeCount = lv.defaultTakeCount;
+    var takeCount = lv.defaultTakingCount;
 
     // 获取收藏按钮的实例
     var getFavoriteButton = lv.singleton(function () {
@@ -105,9 +105,11 @@
                 });
             }, getLoadingButton());
         }, function () {
-            return lv.getToken([tableNameOfComment]).done(function (data) {
-                sas = data;
-            });
+            return lv.ajaxLadda(function () {
+                return lv.getToken([tableNameOfComment]).done(function (data) {
+                    sas = data;
+                });
+            }, getLoadingButton());
         });
     };
 

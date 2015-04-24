@@ -44,7 +44,7 @@ namespace LvService.Services
             return p.Entity;
         }
 
-        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount, string userId)
+        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount)
         {
             var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
@@ -61,10 +61,6 @@ namespace LvService.Services
             if (model == null) return null;
 
             model.Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfComment, rowKey);
-            if (!String.IsNullOrEmpty(userId))
-            {
-                model.FavoriteSas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, userId);
-            }
 
             return model;
         }

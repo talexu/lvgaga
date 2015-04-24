@@ -2,7 +2,7 @@
     var exports = {};
     var defaultRetryTime = 3;
 
-    exports.defaultTakeCount = 30;
+    exports.defaultTakingCount = 20;
     // 基础方法
     exports.singleton = function (func) {
         var instance;

@@ -25,14 +25,13 @@ namespace LvService.Services
             return await _commentService.CreateCommentAsync(partitionKey, comment);
         }
 
-        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount,
-            string userId)
+        public async Task<CommentModel> GetCommentModelsAsync(string partitionKey, string rowKey, int takeCount)
         {
             return
                 await
                     _cache.Get(
-                        _cacheKeyFactory.CreateKey(RegionOfComment, partitionKey, rowKey, takeCount.ToString(), userId),
-                        async () => await _commentService.GetCommentModelsAsync(partitionKey, rowKey, takeCount, userId));
+                        _cacheKeyFactory.CreateKey(RegionOfComment, partitionKey, rowKey, takeCount.ToString()),
+                        async () => await _commentService.GetCommentModelsAsync(partitionKey, rowKey, takeCount));
         }
     }
 }

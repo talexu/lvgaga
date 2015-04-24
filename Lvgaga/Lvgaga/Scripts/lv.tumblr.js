@@ -11,7 +11,7 @@
     var to;
     var tableNameOfTumblr;
     var tableNameOfFavorite;
-    var takeCount = lv.defaultTakeCount;
+    var takeCount = lv.defaultTakingCount;
 
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -153,9 +153,11 @@
                 });
             }, getLoadingButton());
         }, function () {
-            return lv.getToken([tableNameOfTumblr]).done(function (data) {
-                sas = data;
-            });
+            return lv.ajaxLadda(function () {
+                return lv.getToken([tableNameOfTumblr]).done(function (data) {
+                    sas = data;
+                });
+            }, getLoadingButton());
         });
     };
 

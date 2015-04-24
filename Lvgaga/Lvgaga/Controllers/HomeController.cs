@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using LvModel.Common;
 using LvModel.View.Tumblr;
+using LvService.Common;
 using LvService.Services;
 
 namespace Lvgaga.Controllers
@@ -44,7 +45,7 @@ namespace Lvgaga.Controllers
         {
             var homeModel =
                 await
-                    _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, 20);
+                    _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, LvConfiguration.DefaultTakingCount);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
             homeModel.MediaType = mediaType;

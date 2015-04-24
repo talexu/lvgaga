@@ -14,6 +14,8 @@ namespace LvService.Common
         private const double DefaultAsyncCacheExpireOffset = 30;
         public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset }.Min();
 
+        public const int DefaultTakingCount = 20;
+
         public static DateTimeOffset GetExpireTime(double offset)
         {
             return DateTimeOffset.UtcNow.AddMinutes(offset);
