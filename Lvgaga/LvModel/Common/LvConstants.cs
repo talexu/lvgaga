@@ -18,8 +18,8 @@ namespace LvModel.Common
         public const string TableNameOfTumblr = "tumblrs";
         public const string TableNameOfComment = "comments";
         public const string TableNameOfFavorite = "favorites";
-        public static readonly string PartitionKeyOfAll = MediaType.All.ToString("D");
-        public static readonly string PartitionKeyOfImage = MediaType.Image.ToString("D");
+        public static readonly string MediaTypeOfAll = MediaType.All.ToString("D");
+        public static readonly string MediaTypeOfImage = MediaType.Image.ToString("D");
         public static readonly string CategoryOfAll = TumblrCategory.All.ToString("D");
 
         #endregion

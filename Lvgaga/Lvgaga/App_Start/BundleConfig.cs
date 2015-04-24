@@ -54,7 +54,7 @@ namespace Lvgaga
                 "~/Scripts/moment*",
                 "~/bower_components/sprintf/dist/sprintf.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
-                "~/Scripts/lv.utilities.js"));
+                "~/Scripts/lv.utility.js"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
@@ -67,7 +67,8 @@ namespace Lvgaga
 
             // Favorite Page
             bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
-                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js"));
+                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
+                "~/Scripts/lv.favorite.js"));
             #endregion
         }
     }

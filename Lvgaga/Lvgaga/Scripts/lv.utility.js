@@ -67,6 +67,11 @@
         return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({ times: defaultRetryTime });
     };
 
+    // 获取comment链接
+    exports.getCommentUri = function (mediaType, rowKey) {
+        return ["/comments", mediaType, rowKey].join("/");
+    };
+
     // 查询AzureTable
     exports.queryAzureTable = function (tableSasUrl, p) {
         var uri = tableSasUrl;

@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using LvService.Common;
 using LvService.Services;
-using Microsoft.AspNet.Identity;
 
 namespace Lvgaga.Controllers
 {

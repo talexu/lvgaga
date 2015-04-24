@@ -23,7 +23,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-bottom fav-nav">
         <div class="container">
             <p id="p_text" class="text-fav"></p>
-            <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+            <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected ladda-button" data-style="expand-left" data-spinner-color="#333"><span class="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
             <a id="btn_share" class="btn btn-default btn-white btn-outline navbar-btn btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
             <a id="btn_comment" class="btn btn-default btn-outline navbar-btn pull-right"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
         </div>
@@ -33,112 +33,17 @@
 @section scripts {
     @Scripts.Render("~/bundles/favorite")
     <script>
-        $(function () {
+        (function() {
             "use strict";
 
-            var continuationToken = {};
-            var sas = "@Html.Raw(Model.Sas)";
-            var btnLoad = $("#btn_load");
-
-            // load data
-            var gallery = $("#blueimp-gallery");
-            var linksContainer = $("#links");
-            var btnFavorite = $("#btn_favorite");
-            var btnShare = $("#btn_share");
-            var btnComment = $("#btn_comment");
-            var txtTumblr = $("#p_text");
-            var curTumblr;
-            var containerWidth = linksContainer.width();
-            var cellWidth = containerWidth / Math.ceil(containerWidth / 100);
-
-            function fillFavorite(tumblr) {
-                $("<a/>")
-                    .append($("<img>").prop("src", tumblr.ThumbnailUri).width(cellWidth))
-                    .prop("href", tumblr.MediaUri)
-                    .prop("title", "")
-                    .attr("rowKey", tumblr.RowKey)
-                    .attr("mediaType", tumblr.MediaType)
-                    .attr("tumblrCategory", tumblr.TumblrCategory)
-                    .attr("tumblrText", tumblr.Text)
-                    .attr("createTime", getLocalTime(tumblr.CreateTime))
-                    .prop("isFavorite", true)
-                    .attr("data-gallery", "")
-                    .appendTo(linksContainer);
-            }
-
-            gallery.on("slide", function (event, index, slide) {
-                // Gallery slide event handler
-                var element = $(linksContainer.children()[index]);
-                curTumblr = element;
-                var mediaUri = element.prop("href");
-                var mediaType = element.attr("mediaType");
-                var invertedTicks = getInvertedTicks(element.attr("rowKey"));
-                var commentUri = combinePath(["/comments", mediaType, invertedTicks]);
-                var tumblrText = element.attr("tumblrText");
-
-                btnFavorite.attr("tp", mediaType);
-                btnFavorite.attr("rk", invertedTicks);
-                if (element.prop("isFavorite") === true) {
-                    btnFavorite.addClass("btn-selected");
-                    btnFavorite.removeClass("btn-white");
-                } else {
-                    btnFavorite.addClass("btn-white");
-                    btnFavorite.removeClass("btn-selected");
-                }
-
-                btnShare.prop("href", getShareUri({ Uri: commentUri, Title: tumblrText, Summary: tumblrText, Pic: mediaUri }));
-
-                txtTumblr.text(tumblrText);
-
-                btnComment.prop("href", commentUri);
-                btnComment.addClass("btn-white");
+            $(function() {
+                lv.favorite.initialize(
+                {
+                    sas: "@Html.Raw(Model.Sas)",
+                    favMediaType: @Model.MediaType,
+                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite"
+                });
             });
-
-            btnFavorite.on("touchend", function (event) {
-                var btnCur = $(event.currentTarget);
-                if (curTumblr.prop("isFavorite") === false) {
-                    favorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
-                        btnFavorite.removeClass("btn-white");
-                        curTumblr.prop("isFavorite", true);
-                    });
-                } else {
-                    unFavorite(btnCur.attr("tp"), btnCur.attr("rk"), btnCur, function () {
-                        btnFavorite.addClass("btn-white");
-                        curTumblr.prop("isFavorite", false);
-                    });
-                }
-            });
-
-            function loadFavs(retry) {
-                retry = retry === undefined ? 2 : retry;
-                if (retry < 0) return;
-
-                queryAzureTableWithLoadingButton(sas, { continuationToken: continuationToken, filter: "RowKey ge '0' and RowKey lt '1'", top: 20, btn: btnLoad })
-                    .done(function (data, textStatus, jqXHR) {
-                        $.each(data.value, function (index, tumblr) {
-                            fillFavorite(tumblr);
-                        });
-
-                        continuationToken.NextPartitionKey = jqXHR.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                        continuationToken.NextRowKey = jqXHR.getResponseHeader("x-ms-continuation-NextRowKey");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        getTokenWithLoadingButton(["@LvConstants.TableNameOfFavorite"], btnLoad)
-                        .done(function (data1, textStatus1, jqXHR1) {
-                            sas = data1;
-                            loadFavs(retry - 1);
-                        });
-                    });
-            }
-
-            loadFavs();
-            btnLoad.on("touchend", function (event) {
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    return;
-                }
-
-                loadFavs();
-            });
-        });
+        })();
     </script>
 }

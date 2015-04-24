@@ -72,7 +72,7 @@ namespace LvFakeData
                     pTumblr.BlobNameOfMedia = Path.GetFileName(testImage);
 
                     // Create Tumblr
-                    pTumblr.PartitionKey = LvConstants.PartitionKeyOfImage;
+                    pTumblr.PartitionKey = LvConstants.MediaTypeOfImage;
                     pTumblr.TumblrText = new TumblrText
                     {
                         Text = "你也曾当过笨蛋，也曾试着当瞎子当聋子的去信任一个人，你也知道世界上最可悲的就是自我欺骗，但是人笨过傻过瞎过就够了，你更要懂得爱自己，而不是一直重蹈覆辙，还自以为多痴情。",

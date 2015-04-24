@@ -36,7 +36,7 @@ namespace LvService.Commands.Tumblr
 
             var rk1 = TableQuery.GenerateFilterCondition(LvConstants.RowKey, QueryComparisons.Equal, UriFactory.CreateFavoriteRowKey(_mediaType, _rowKey));
             var rk0 = TableQuery.GenerateFilterCondition(LvConstants.RowKey, QueryComparisons.Equal,
-                UriFactory.CreateFavoriteRowKey(LvConstants.PartitionKeyOfAll, _rowKey));
+                UriFactory.CreateFavoriteRowKey(LvConstants.MediaTypeOfAll, _rowKey));
             var rk = TableQuery.CombineFilters(rk1, TableOperators.Or, rk0);
 
             p.Filter = TableQuery.CombineFilters(pk, TableOperators.And, rk);

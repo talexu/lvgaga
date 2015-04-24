@@ -122,7 +122,7 @@
                         cp.find("p.text-tumblr").text(tumblr.Text);
                         cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
                         cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);
-                        cp.find("a.btn-comment").prop("href", ["/comments", tumblr.MediaType, rk].join("/"));
+                        cp.find("a.btn-comment").prop("href", lv.getCommentUri(tumblr.MediaType, rk));
                         cp.appendTo(getTumblrsDiv());
                     });
 

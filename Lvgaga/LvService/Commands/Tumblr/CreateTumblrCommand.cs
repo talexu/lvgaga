@@ -58,12 +58,12 @@ namespace LvService.Commands.Tumblr
                 copyEntity.RowKey = UriFactory.ReplaceTumblrCategoryOfRowKey(tumblrEntity.RowKey, TumblrCategory.All);
                 entities.Add(copyEntity);
             }
-            if (!tumblrEntity.PartitionKey.Equals(LvConstants.PartitionKeyOfAll))
+            if (!tumblrEntity.PartitionKey.Equals(LvConstants.MediaTypeOfAll))
             {
                 var copyEntities = entities.CloneByJson<TumblrEntity>();
                 foreach (var copyEntity in copyEntities)
                 {
-                    copyEntity.PartitionKey = LvConstants.PartitionKeyOfAll;
+                    copyEntity.PartitionKey = LvConstants.MediaTypeOfAll;
                     entities.Add(copyEntity);
                 }
             }

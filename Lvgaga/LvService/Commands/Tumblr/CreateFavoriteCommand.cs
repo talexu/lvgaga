@@ -57,7 +57,7 @@ namespace LvService.Commands.Tumblr
 
             // Copies
             var entities = new List<FavoriteEntity> { favoriteEntity };
-            if (!_mediaType.Equals(LvConstants.PartitionKeyOfAll))
+            if (!_mediaType.Equals(LvConstants.MediaTypeOfAll))
             {
                 var copyEntity = favoriteEntity.CloneByJson();
                 copyEntity.RowKey = UriFactory.ReplaceMediaTypeOfRowKey(favoriteEntity.RowKey, MediaType.All);
