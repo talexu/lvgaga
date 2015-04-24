@@ -143,6 +143,7 @@
                     continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                     continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
                 }).done(function (data) {
+                    if (typeof data.value[0] === "undefined") return;
                     from = lv.getInvertedTicks(data.value[0].RowKey);
                     to = lv.getInvertedTicks(data.value[data.value.length - 1].RowKey);
                     setFavs();
