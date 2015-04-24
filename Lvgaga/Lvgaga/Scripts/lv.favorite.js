@@ -1,6 +1,7 @@
 ﻿lv.favorite = (function () {
     var exports = {};
 
+    // 计算Cell宽度, 小于等于100且水平充满屏幕
     var expectedCellWidth = 100;
     var getLinksContainer = lv.singleton(function () {
         return $("#links");
@@ -31,6 +32,7 @@
     var getTumblrTextBox = lv.singleton(function () {
         return $("#p_text");
     });
+    // 当前显示的Tumblr
     var curTumblr;
 
     // 填充数据
@@ -49,6 +51,7 @@
             .appendTo(getLinksContainer());
     };
 
+    // 初始化Gallery控件, 添加滑动时的事件处理
     var initGallery = function () {
         getGallery().on("slide", function (event, index, slide) {
             // Gallery slide event handler
@@ -79,6 +82,7 @@
         });
     };
 
+    // 初始化收藏按钮的事件
     var initFav = function () {
         getFavoriteButton().on("touchend", function (event) {
             var btnCur = $(event.currentTarget);
@@ -100,6 +104,7 @@
         });
     };
 
+    // 读取收藏的Tumblr
     var loadFavs = function () {
         lv.retryExecute(function () {
             return lv.ajaxLadda(function () {
