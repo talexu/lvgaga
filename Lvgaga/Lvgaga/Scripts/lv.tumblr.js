@@ -58,14 +58,14 @@
             var btnCur = $(event.currentTarget);
             if (!btnCur.hasClass("btn-selected")) {
                 lv.ajaxLadda(function () {
-                    return lv.addFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }, function () {
+                    return lv.addFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }).done(function () {
                         btnCur.addClass("btn-selected");
                     });
                 }, btnCur);
 
             } else {
                 lv.ajaxLadda(function () {
-                    return lv.removeFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }, function () {
+                    return lv.removeFavorite({ pk: btnCur.attr("tp"), rk: btnCur.attr("rk") }).done(function () {
                         btnCur.removeClass("btn-selected");
                     });
                 }, btnCur);

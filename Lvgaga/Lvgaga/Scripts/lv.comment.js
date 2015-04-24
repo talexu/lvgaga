@@ -69,14 +69,14 @@
             var btnCur = $(event.currentTarget);
             if (!btnCur.hasClass("btn-selected")) {
                 lv.ajaxLadda(function () {
-                    return lv.addFavorite({ pk: mediaType, rk: rowKey }, function () {
+                    return lv.addFavorite({ pk: mediaType, rk: rowKey }).done(function () {
                         btnCur.addClass("btn-selected");
                     });
                 }, btnCur);
 
             } else {
                 lv.ajaxLadda(function () {
-                    return lv.removeFavorite({ pk: mediaType, rk: rowKey }, function () {
+                    return lv.removeFavorite({ pk: mediaType, rk: rowKey }).done(function () {
                         btnCur.removeClass("btn-selected");
                     });
                 }, btnCur);
@@ -119,25 +119,15 @@
         if (!commentText) return;
 
         lv.ajaxLadda(function () {
-            return $.post(sprintf("/api/v1/comments/%s/%s", mediaType, rowKey),
+            return lv.authorizedExecute(function () {
+                return $.post(sprintf("/api/v1/comments/%s/%s", mediaType, rowKey),
                 {
                     "Text": commentText
-                }).retry({ times: 3 }).done(function (data, textStatus, jqXhr) {
-                    switch (jqXhr.status) {
-                        case 201:
-                            getCommentsContainer().prepend(generateComment(data, "刚刚"));
-                            getCommentTextBox().val("");
-                            break;
-                        case 200:
-                            var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
-                            if (res.status === 401) {
-                                $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                            }
-                            break;
-                        default:
-
-                    }
-                });
+                }).retry({ times: lv.defaultTakingCount });
+            }).done(function (data) {
+                getCommentsContainer().prepend(generateComment(data, "刚刚"));
+                getCommentTextBox().val("");
+            });
         }, getCommentButton());
     };
 

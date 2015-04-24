@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="小清新语录和照片集合" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -11,16 +11,16 @@
     @RenderSection("styles", false)
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript">
-        var appInsights=window.appInsights||function(config){
-            function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.appendChild(o),t.cookie=r.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)s("track"+i.pop());return config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
         }({
-            instrumentationKey:"40bc1a42-5f07-45b4-9de1-bb57118cb606"
+            instrumentationKey: "40bc1a42-5f07-45b4-9de1-bb57118cb606"
         });
-        
-        window.appInsights=appInsights;
+
+        window.appInsights = appInsights;
         appInsights.trackPageView();
     </script>
-    
+
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -53,6 +53,7 @@
     </div>
 
     @Scripts.Render("~/bundles/layout")
+    @Scripts.Render("~/bundles/utilities")
     @RenderSection("scripts", required: false)
 </body>
 </html>

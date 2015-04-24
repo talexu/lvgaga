@@ -52,7 +52,8 @@ namespace Lvgaga
                 "~/Scripts/spin*",
                 "~/Scripts/ladda*",
                 "~/Scripts/moment*",
-                "~/bower_components/sprintf/dist/sprintf.min.js",
+                "~/bower_components/sprintf/dist/sprintf.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
                 "~/Scripts/lv.utilities.js"));
 
             // Home Page

@@ -20,6 +20,29 @@
             });
         });
     };
+    exports.authorizedExecute = function (func) {
+        var d = $.Deferred();
+        func.apply(this, arguments).done(function (data, textStatus, jqXhr) {
+            switch (jqXhr.status) {
+                case 201:
+                    d.resolve(data, textStatus, jqXhr);
+                    break;
+                case 200:
+                    var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
+                    if (res && res.status === 401) {
+                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
+                        d.reject(data, textStatus, jqXhr);
+                    } else {
+                        d.resolve(data, textStatus, jqXhr);
+                    }
+                    break;
+                default:
+                    d.reject(data, textStatus, jqXhr);
+            }
+        }).fail(d.reject);
+
+        return d;
+    };
     exports.ajaxLadda = function (func, button) {
         if (!button) return func(this, arguments);
 
@@ -76,30 +99,18 @@
     };
 
     // 添加收藏
-    exports.addFavorite = function (p, callback) {
-        return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime }).done(function (data, textStatus, jqXhr) {
-            switch (jqXhr.status) {
-                case 201:
-                    callback && callback(data);
-                    break;
-                case 200:
-                    var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
-                    if (res.status === 401) {
-                        $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
-                    }
-                    break;
-                default:
-
-            }
+    exports.addFavorite = function (p) {
+        return exports.authorizedExecute(function () {
+            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime });
         });
     };
     // 移除收藏
-    exports.removeFavorite = function (p, callback) {
-        return $.ajax({
-            url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
-            type: "DELETE"
-        }).retry({ times: defaultRetryTime }).done(function (data) {
-            callback && callback(data);
+    exports.removeFavorite = function (p) {
+        return exports.authorizedExecute(function () {
+            return $.ajax({
+                url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
+                type: "DELETE"
+            }).retry({ times: defaultRetryTime });
         });
     };
 
