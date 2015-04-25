@@ -8,23 +8,23 @@ namespace LvService.Commands2.Lvgaga.Tumblr
 {
     public class GenerateThumbnailCommand : ICommand
     {
-        protected Stream StreamOfOriginal;
+        private Stream _stream;
 
         public bool CanExecute(dynamic p)
         {
-            StreamOfOriginal = p.StreamOfOriginal;
-            return StreamOfOriginal != null;
+            _stream = p.Stream;
+            return _stream != null;
         }
 
         public Task ExecuteAsync(dynamic p)
         {
-            var image = new KalikoImage(StreamOfOriginal);
+            var image = new KalikoImage(_stream);
             var thumb = image.Scale(new CropScaling(128, 128));
             var ms = new MemoryStream();
             thumb.SaveJpg(ms, 99);
             ms.Position = 0;
 
-            p.StreamOfThumbnail = ms;
+            p.Stream = ms;
 
             return Task.FromResult(true);
         }

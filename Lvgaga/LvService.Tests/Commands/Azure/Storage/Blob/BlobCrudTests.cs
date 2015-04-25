@@ -3,25 +3,37 @@ using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using LvService.Commands.Common;
+using LvService.Commands2.Azure.Storage.Blob;
+using LvService.DbContexts;
 using LvService.Tests.Utilities;
 using LvService.Utilities;
+using Microsoft.WindowsAzure.Storage;
 using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Blob
 {
-    public class BlobCrdCommandTests : AzureStorageTestsBase
+    public class BlobCrudTests : IClassFixture<AzureStorageFixture>
     {
+        private const string ContainerPrefix = "c";
         private readonly string _tempContainerName;
 
-        public BlobCrdCommandTests(AzureStorageFixture fixture)
-            : base(fixture)
+        protected readonly AzureStorageFixture Fixture;
+
+        public BlobCrudTests(AzureStorageFixture fixture)
         {
-            _tempContainerName = fixture.GetRandomName(AzureStorageFixture.ContainerPrefix);
+            Fixture = fixture;
+            _tempContainerName = TestDataGenerator.GetRandomName(ContainerPrefix);
         }
 
         [Fact]
-        public async Task UploadFromStreamAsyncTest()
+        public async Task Crud()
         {
+            ICommand uploadCommand = new UploadBlobFromStreamCommand();
+            ICommand downloadCommand = new DownloadBlobToStreamCommand();
+            ICommand deleteBlobCommand = new DeleteBlobCommand();
+            ICommand deleteContainerCommand = new DeleteContainerCommand();
+
             var fileName = Guid.NewGuid() + ".txt";
             var content = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
@@ -31,14 +43,15 @@ namespace LvService.Tests.Commands.Azure.Storage.Blob
                 await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             p.Stream = content.ToMemoryStream();
             p.BlobName = fileName;
-            await Fixture.UploadFromStreamCommand.ExecuteAsync(p);
+            await uploadCommand.ExecuteAsync(p);
 
             // download
             dynamic pd = new ExpandoObject();
             pd.Container =
                 await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pd.BlobName = fileName;
-            MemoryStream ms = await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
+            await downloadCommand.ExecuteAsync(pd);
+            MemoryStream ms = pd.Stream;
             var download = ms.ToStringFromMemoryStream();
             Assert.Equal(content, download);
 
@@ -47,11 +60,9 @@ namespace LvService.Tests.Commands.Azure.Storage.Blob
             pdd.Container =
                 await Fixture.AzureStorage.GetContainerReferenceAsync(_tempContainerName);
             pdd.BlobName = fileName;
-            await Fixture.DeleteBlobCommand.ExecuteAsync(pdd);
-            var download2 = await Fixture.DownloadToStreamCommand.ExecuteAsync(pd);
-            Assert.Null(download2);
+            await deleteBlobCommand.ExecuteAsync(pdd);
 
-            Fixture.DeleteContainerCommand.ExecuteAsync(p);
+            await deleteContainerCommand.ExecuteAsync(p);
         }
     }
 }

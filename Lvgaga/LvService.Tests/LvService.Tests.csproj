@@ -90,21 +90,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Commands\Azure\Storage\Blob\BlobCrdCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntitiesCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\CrdTableEntitiesCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\CrdTableEntityCommandTests.cs" />
-    <Compile Include="Commands\Azure\Storage\Table\UpdateTableEntityCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\CreateCommentCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\CreateFavoriteCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\CreateTumblrCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\ReadFavoriteCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\ReadPointFavoriteEntitiesCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\ReadRangeFavoriteEntitiesCommandTests.cs" />
-    <Compile Include="Commands\Tumblr\ReadTumblrCommandTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Blob\BlobCrudTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableEntitiesCrudTests.cs" />
+    <Compile Include="Commands\Azure\Storage\Table\TableEntityCrudTests.cs" />
+    <Compile Include="Commands\Lvgaga\Favorite\CreateFavoriteCommandTests.cs" />
+    <Compile Include="Commands\Lvgaga\Tumblr\CreateTumblrCommandTests.cs" />
     <Compile Include="Utilities\AzureStorageFixture.cs" />
-    <Compile Include="Factories\TableEntityFactoryTests.cs" />
-    <Compile Include="Factories\UriFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AzureStorageTestsBase.cs" />
     <Compile Include="Utilities\DateTimeHelperTests.cs" />
@@ -137,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbContexts\" />
+    <Folder Include="Factories\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Choose>

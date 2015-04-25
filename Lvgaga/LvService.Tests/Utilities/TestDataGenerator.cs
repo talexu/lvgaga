@@ -81,5 +81,12 @@ namespace LvService.Tests.Utilities
             return entities;
         }
         #endregion
+
+        #region Utilities
+        public static string GetRandomName(string prefix)
+        {
+            return String.Format("{0}{1}", prefix, Guid.NewGuid().ToString().Replace("-", ""));
+        }
+        #endregion
     }
 }

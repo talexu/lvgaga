@@ -99,8 +99,11 @@
     <Compile Include="Commands2\Azure\Storage\Table\UpdateTableEntitiesCommand.cs" />
     <Compile Include="Commands2\Azure\Storage\Table\UpdateTableEntityCommand.cs" />
     <Compile Include="Commands2\Lvgaga\Comment\CreateCommentCommand.cs" />
+    <Compile Include="Commands2\Lvgaga\Comment\CreateCommentEntitiesFilterCommand.cs" />
     <Compile Include="Commands2\Lvgaga\Common\AbstractCreateLvEntityCommand.cs" />
+    <Compile Include="Commands2\Lvgaga\Favlrite\CreateFavoriteCommand.cs" />
     <Compile Include="Commands2\Lvgaga\Tumblr\CreateTumblrCommand.cs" />
+    <Compile Include="Commands2\Lvgaga\Tumblr\CreateTumblrEntitiesFilterCommand.cs" />
     <Compile Include="Commands2\Lvgaga\Tumblr\GenerateThumbnailCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\ContainerCommand.cs" />
     <Compile Include="Commands\Azure\Storage\Blob\BlobCrudCommand.cs" />

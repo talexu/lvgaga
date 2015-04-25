@@ -5,25 +5,29 @@ using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
-using LvService.Tests.Utilities;
+using LvService.Commands.Common;
+using LvService.Commands2.Lvgaga.Tumblr;
+using LvService.Factories.Azure.Storage;
+using LvService.Factories.Uri;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;
 
-namespace LvService.Tests.Commands.Tumblr
+namespace LvService.Tests.Commands.Lvgaga.Tumblr
 {
-    public class CreateTumblrCommandTests : AzureStorageTestsBase
+    public class CreateTumblrCommandTests : IClassFixture<TumblrFixture>
     {
-        public CreateTumblrCommandTests(AzureStorageFixture fixture)
-            : base(fixture)
-        {
+        private readonly TumblrFixture _fixture;
 
+        public CreateTumblrCommandTests(TumblrFixture fixture)
+        {
+            _fixture = fixture;
         }
 
         [Fact]
-        public async Task CreateTumblr_Return4_Tumblr()
+        public async Task Create4()
         {
-            var partitionKey = LvConstants.PartitionKeyOfImage;
+            var partitionKey = LvConstants.MediaTypeOfImage;
             const string mediaUri = "media uri";
             const TumblrCategory category = TumblrCategory.C1;
             const string thumbnailUri = "TestThumbnailUri";
@@ -39,7 +43,7 @@ namespace LvService.Tests.Commands.Tumblr
             p1.ThumbnailUri = thumbnailUri;
             p1.TumblrText = tumblrText;
 
-            await Fixture.CreateTumblrCommand.ExecuteAsync(p1);
+            await _fixture.Command.ExecuteAsync(p1);
             TumblrEntity entity = p1.Entity;
             Assert.NotNull(entity);
             Assert.Equal(partitionKey, entity.PartitionKey);
@@ -69,18 +73,18 @@ namespace LvService.Tests.Commands.Tumblr
                     .AllEqual());
             Assert.True(new[]
             {
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey),
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity2.RowKey),
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity3.RowKey)
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey),
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity2.RowKey),
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity3.RowKey)
             }.AllEqual());
 
             // Dynamic
             // PartitionKey
             Assert.Equal(partitionKey, entity0.PartitionKey);
             Assert.Equal(partitionKey, entity1.PartitionKey);
-            Assert.Equal(LvConstants.PartitionKeyOfAll, entity2.PartitionKey);
-            Assert.Equal(LvConstants.PartitionKeyOfAll, entity3.PartitionKey);
+            Assert.Equal(LvConstants.MediaTypeOfAll, entity2.PartitionKey);
+            Assert.Equal(LvConstants.MediaTypeOfAll, entity3.PartitionKey);
             // RowKey
             Assert.Equal(category.ToString("D"), entity0.RowKey.Substring(0, 1));
             Assert.Equal(TumblrCategory.All.ToString("D"), entity1.RowKey.Substring(0, 1));
@@ -89,9 +93,9 @@ namespace LvService.Tests.Commands.Tumblr
         }
 
         [Fact]
-        public async Task CreateTumblr_Return2_1_Tumblr()
+        public async Task Create2_1()
         {
-            var partitionKey = LvConstants.PartitionKeyOfImage;
+            var partitionKey = LvConstants.MediaTypeOfImage;
             const string mediaUri = "media uri";
             const TumblrCategory category = TumblrCategory.All;
             const string thumbnailUri = "TestThumbnailUri";
@@ -107,7 +111,7 @@ namespace LvService.Tests.Commands.Tumblr
             p1.ThumbnailUri = thumbnailUri;
             p1.TumblrText = tumblrText;
 
-            await Fixture.CreateTumblrCommand.ExecuteAsync(p1);
+            await _fixture.Command.ExecuteAsync(p1);
             TumblrEntity entity = p1.Entity;
             Assert.NotNull(entity);
             Assert.Equal(partitionKey, entity.PartitionKey);
@@ -130,23 +134,23 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.True(new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
             Assert.True(new[]
             {
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey)
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey)
             }.AllEqual());
 
             // Dynamic
             // PartitionKey
             Assert.Equal(partitionKey, entity0.PartitionKey);
-            Assert.Equal(LvConstants.PartitionKeyOfAll, entity1.PartitionKey);
+            Assert.Equal(LvConstants.MediaTypeOfAll, entity1.PartitionKey);
             // RowKey
             Assert.Equal(category.ToString("D"), entity0.RowKey.Substring(0, 1));
             Assert.Equal(category.ToString("D"), entity1.RowKey.Substring(0, 1));
         }
 
         [Fact]
-        public async Task CreateTumblr_Return2_2_Tumblr()
+        public async Task Create2_2()
         {
-            var partitionKey = LvConstants.PartitionKeyOfAll;
+            var partitionKey = LvConstants.MediaTypeOfAll;
             const string mediaUri = "media uri";
             const TumblrCategory category = TumblrCategory.C1;
             const string thumbnailUri = "TestThumbnailUri";
@@ -162,7 +166,7 @@ namespace LvService.Tests.Commands.Tumblr
             p1.ThumbnailUri = thumbnailUri;
             p1.TumblrText = tumblrText;
 
-            await Fixture.CreateTumblrCommand.ExecuteAsync(p1);
+            await _fixture.Command.ExecuteAsync(p1);
             TumblrEntity entity = p1.Entity;
             Assert.NotNull(entity);
             Assert.Equal(partitionKey, entity.PartitionKey);
@@ -185,8 +189,8 @@ namespace LvService.Tests.Commands.Tumblr
             Assert.True(new[] { entity0.TumblrCategory, entity1.TumblrCategory }.AllEqual());
             Assert.True(new[]
             {
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
-                Fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey)
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity0.RowKey),
+                _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(entity1.RowKey)
             }.AllEqual());
 
             // Dynamic
@@ -196,6 +200,22 @@ namespace LvService.Tests.Commands.Tumblr
             // RowKey
             Assert.Equal(category.ToString("D"), entity0.RowKey.Substring(0, 1));
             Assert.Equal(TumblrCategory.All.ToString("D"), entity1.RowKey.Substring(0, 1));
+        }
+    }
+
+    public class TumblrFixture
+    {
+        public ICommand Command;
+        public IUriFactory UriFactory;
+
+        public TumblrFixture()
+        {
+            UriFactory = new UriFactory();
+            Command = new CreateTumblrCommand
+            {
+                UriFactory = UriFactory,
+                TableEntityFactory = new TableEntityFactory(UriFactory)
+            };
         }
     }
 }
