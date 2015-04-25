@@ -12,18 +12,18 @@ namespace LvService.Commands2.Lvgaga.Tumblr
 {
     public class CreateTumblrCommand : AbstractCreateLvEntityCommand
     {
-        protected string PartitionKey;
-        protected string MediaUri;
-        protected string ThumbnailUri;
-        protected TumblrText TumblrText;
+        private string _partitionKey;
+        private string _mediaUri;
+        private string _thumbnailUri;
+        private TumblrText _tumblrText;
 
         public override bool CanExecute(dynamic p)
         {
-            PartitionKey = p.PartitionKey;
-            MediaUri = p.MediaUri;
-            ThumbnailUri = p.ThumbnailUri;
-            TumblrText = p.TumblrText;
-            return new[] { PartitionKey, MediaUri, ThumbnailUri }.AllNotNullOrEmpty() && TumblrText != null;
+            _partitionKey = p.PartitionKey;
+            _mediaUri = p.MediaUri;
+            _thumbnailUri = p.ThumbnailUri;
+            _tumblrText = p.TumblrText;
+            return new[] { _partitionKey, _mediaUri, _thumbnailUri }.AllNotNullOrEmpty() && _tumblrText != null;
         }
 
         public override Task ExecuteAsync(dynamic p)
@@ -37,7 +37,7 @@ namespace LvService.Commands2.Lvgaga.Tumblr
 
             // Copies
             var entities = new List<TumblrEntity> { tumblrEntity };
-            if (!TumblrText.Category.Equals(TumblrCategory.All))
+            if (!_tumblrText.Category.Equals(TumblrCategory.All))
             {
                 var copyEntity = tumblrEntity.CloneByJson();
                 copyEntity.RowKey = UriFactory.ReplaceTumblrCategoryOfRowKey(tumblrEntity.RowKey, TumblrCategory.All);
