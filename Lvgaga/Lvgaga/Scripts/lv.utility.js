@@ -106,7 +106,7 @@
     // 添加收藏
     exports.addFavorite = function (p) {
         return exports.authorizedExecute(function () {
-            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk));
+            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime });
         });
     };
     // 移除收藏
