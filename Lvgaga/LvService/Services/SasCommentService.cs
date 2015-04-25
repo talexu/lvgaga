@@ -17,13 +17,17 @@ namespace LvService.Services
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createCommentCommand;
         private readonly ITumblrService _tumblrService;
-
         private readonly ICommentFactory _commentFactory;
         private readonly IUriFactory _uriFactory;
         private readonly ISasService _sasService;
 
-        public SasCommentService(IAzureStorage azureStorage, ICommand createCommentCommand, ITumblrService tumblrService,
-            ICommentFactory commentFactory, IUriFactory uriFactory, ISasService sasService)
+        public SasCommentService(
+            IAzureStorage azureStorage,
+            ICommand createCommentCommand,
+            ITumblrService tumblrService,
+            ICommentFactory commentFactory,
+            IUriFactory uriFactory,
+            ISasService sasService)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;

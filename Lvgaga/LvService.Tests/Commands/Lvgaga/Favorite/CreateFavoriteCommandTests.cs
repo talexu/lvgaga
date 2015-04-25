@@ -6,13 +6,13 @@ using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
-using LvService.Commands2.Lvgaga.Favlrite;
+using LvService.Commands.Lvgaga.Favlrite;
+using LvService.Commands.Lvgaga.Tumblr;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;
-using LvService.Commands2.Lvgaga.Tumblr;
 
 namespace LvService.Tests.Commands.Lvgaga.Favorite
 {

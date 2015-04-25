@@ -6,7 +6,7 @@ using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Common;
-using LvService.Commands2.Lvgaga.Tumblr;
+using LvService.Commands.Lvgaga.Tumblr;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
 using LvService.Utilities;

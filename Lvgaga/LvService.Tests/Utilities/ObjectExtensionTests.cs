@@ -10,7 +10,7 @@ namespace LvService.Tests.Utilities
         [Fact]
         public void CopyByJson_Return_True_WhenCopy()
         {
-            var t = new TumblrText()
+            var t = new TumblrText
             {
                 Text = "Hello World!",
                 Category = TumblrCategory.C1

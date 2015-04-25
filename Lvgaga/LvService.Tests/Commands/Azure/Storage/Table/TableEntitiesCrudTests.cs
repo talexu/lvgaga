@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using LvService.Tests.Utilities;
 using System.Threading.Tasks;
 using LvModel.Common;
+using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
-using LvService.Commands2.Azure.Storage.Table;
+using LvService.Tests.Utilities;
 using LvService.Utilities;
 using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;

@@ -3,12 +3,10 @@ using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using LvService.Commands.Azure.Storage.Blob;
 using LvService.Commands.Common;
-using LvService.Commands2.Azure.Storage.Blob;
-using LvService.DbContexts;
 using LvService.Tests.Utilities;
 using LvService.Utilities;
-using Microsoft.WindowsAzure.Storage;
 using Xunit;
 
 namespace LvService.Tests.Commands.Azure.Storage.Blob

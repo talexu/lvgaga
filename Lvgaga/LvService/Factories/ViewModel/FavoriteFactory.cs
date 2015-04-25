@@ -20,7 +20,7 @@ namespace LvService.Factories.ViewModel
 
             favoriteEntity.PartitionKey = favoriteEntity.MediaType;
             var tumblrs = _tumblrFactory.CreateTumblrModel(favoriteEntity);
-            return new FavoriteModel()
+            return new FavoriteModel
             {
                 PartitionKey = tumblrs.PartitionKey,
                 RowKey = tumblrs.RowKey,

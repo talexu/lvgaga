@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Dynamic;
 using System.Threading.Tasks;
+using LvModel.Common;
+using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
-using LvService.Commands2.Azure.Storage.Table;
-using LvService.DbContexts;
 using LvService.Tests.Utilities;
 using LvService.Utilities;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Xunit;
 
@@ -90,6 +89,22 @@ namespace LvService.Tests.Commands.Azure.Storage.Table
 
             dynamic dt = await GetInitialExpandoObjectAsync();
             await deleteTableCommand.ExecuteAsync(dt);
+        }
+
+        [Fact]
+        public async Task Delete()
+        {
+            dynamic d = new ExpandoObject();
+            d.Table = await Fixture.AzureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
+            d.Entity = new TableEntity
+            {
+                PartitionKey = "1e655378-f6c8-4188-8c9e-7fa2b9b4ac44",
+                RowKey = "0_2519737187735025551",
+                ETag = "*"
+            };
+
+            ICommand delete = new DeleteTableEntityCommand();
+            await delete.ExecuteAsync(d);
         }
 
         private async Task<ExpandoObject> GetInitialExpandoObjectAsync()

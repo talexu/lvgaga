@@ -5,39 +5,26 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class ReadTableEntityCommand : TableEntityCommandChain
+    public class ReadTableEntityCommand<T> : AbstractTableCommand where T : ITableEntity, new()
     {
-        public CloudTable Table { get; private set; }
-        public string PartitionKey { get; private set; }
-        public string RowKey { get; private set; }
-
-        public ReadTableEntityCommand()
-        {
-
-        }
-
-        public ReadTableEntityCommand(ITableEntityCommand command)
-            : base(command)
-        {
-
-        }
+        protected string PartitionKey;
+        protected string RowKey;
 
         public new bool CanExecute(dynamic p)
         {
-            Table = p.Table;
+            if (!base.CanExecute(p as ExpandoObject)) return false;
+
             PartitionKey = p.PartitionKey;
             RowKey = p.RowKey;
-            return Table != null && new[] { PartitionKey, RowKey }.AllNotNullOrEmpty();
+            return new[] { PartitionKey, RowKey }.AllNotNullOrEmpty();
         }
 
-        public override async Task<T> ExecuteAsync<T>(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
-            await base.ExecuteAsync<T>(p as ExpandoObject);
-
-            if (!CanExecute(p)) return default(T);
+            if (!CanExecute(p)) return;
 
             var retrieveOperation = TableOperation.Retrieve<T>(PartitionKey, RowKey);
-            return (T)(await Table.ExecuteAsync(retrieveOperation)).Result;
+            p.Entity = (await Table.ExecuteAsync(retrieveOperation)).Result;
         }
     }
 }

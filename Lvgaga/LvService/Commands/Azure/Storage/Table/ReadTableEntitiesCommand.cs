@@ -1,39 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class ReadTableEntitiesCommand : TableEntitiesCommandChain
+    public class ReadTableEntitiesCommand<T> : AbstractTableCommand where T : ITableEntity, new()
     {
-        private CloudTable _table;
-        private string _filter;
-
-        public ReadTableEntitiesCommand()
-        {
-
-        }
-
-        public ReadTableEntitiesCommand(ITableEntitiesCommand command)
-            : base(command)
-        {
-
-        }
+        protected string Filter;
 
         public new bool CanExecute(dynamic p)
         {
-            _table = p.Table;
-            _filter = p.Filter;
-            return _table != null && !String.IsNullOrEmpty(_filter);
+            if (!base.CanExecute(p as ExpandoObject)) return false;
+
+            Filter = p.Filter;
+            return !String.IsNullOrEmpty(Filter);
         }
 
-        public override async Task<List<T>> ExecuteAsync<T>(dynamic p)
+        public override async Task ExecuteAsync(dynamic p)
         {
-            await base.ExecuteAsync<T>(p as ExpandoObject);
-
-            if (!CanExecute(p)) return null;
+            if (!CanExecute(p)) return;
 
             var query = new TableQuery<T>();
             try
@@ -45,12 +31,11 @@ namespace LvService.Commands.Azure.Storage.Table
             {
                 // ignored
             }
-            query = query.Where(_filter);
+            query = query.Where(Filter);
 
-            var res = await _table.ExecuteQuerySegmentedAsync(query, null);
+            var res = await Table.ExecuteQuerySegmentedAsync(query, null);
             p.ContinuationToken = res.ContinuationToken;
-
-            return res.Results;
+            p.Entities = res.Results;
         }
     }
 }

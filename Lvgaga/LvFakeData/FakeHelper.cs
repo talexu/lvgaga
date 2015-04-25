@@ -9,7 +9,6 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Blob;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
-using LvService.Commands.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;

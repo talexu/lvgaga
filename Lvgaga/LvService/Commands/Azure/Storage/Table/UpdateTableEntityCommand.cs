@@ -1,29 +1,12 @@
-﻿using System.Dynamic;
-using System.Threading.Tasks;
-using LvService.Commands.Common;
+﻿using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace LvService.Commands.Azure.Storage.Table
 {
-    public class UpdateTableEntityCommand : TableCudCommand
+    public class UpdateTableEntityCommand : AbstractTableEntityCommand
     {
-        public UpdateTableEntityCommand()
+        public override async Task OperateAsync()
         {
-
-        }
-
-        public UpdateTableEntityCommand(ICommand command)
-            : base(command)
-        {
-
-        }
-
-        public override async Task ExecuteAsync(dynamic p)
-        {
-            await base.ExecuteAsync(p as ExpandoObject);
-
-            if (!CanExecute(p)) return;
-
             await Table.ExecuteAsync(TableOperation.Replace(Entity));
         }
     }
