@@ -18,6 +18,8 @@ namespace LvService.Commands.Lvgaga.Tumblr
 
         public Task ExecuteAsync(dynamic p)
         {
+            if (!CanExecute(p)) return Task.FromResult(false);
+
             var image = new KalikoImage(_stream);
             var thumb = image.Scale(new CropScaling(128, 128));
             var ms = new MemoryStream();

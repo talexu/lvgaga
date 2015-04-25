@@ -3,12 +3,11 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Blob;
 using LvService.Commands.Azure.Storage.Table;
-using LvService.Commands.Common;
+using LvService.Commands.Lvgaga.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
@@ -32,30 +31,16 @@ namespace LvFakeData
             var uriFactory = new UriFactory();
             var tableEntityFactory = new TableEntityFactory(uriFactory);
 
-            ICommand createTumblrCommand = new CreateTableEntitiesCommand(
-                new CreateTumblrCommand(
-                    new UploadFromStreamCommand(
-                        new UploadThumbnailCommand(
-                            new UploadFromStreamCommand(
-                                new UploadMediaCommand()))))
-                {
-                    TableEntityFactory = tableEntityFactory,
-                    UriFactory = uriFactory
-                });
-
-            ICommand createCommentCommand = new CreateTableEntityCommand(
-                new CreateCommentCommand
-                {
-                    TableEntityFactory = tableEntityFactory,
-                    UriFactory = uriFactory
-                });
-
-            ICommand createFavoriteCommand = new CreateTableEntitiesCommand(
-                new CreateFavoriteCommand
-                {
-                    TableEntityFactory = tableEntityFactory,
-                    UriFactory = uriFactory
-                });
+            var uploadBlobCommand = new UploadBlobFromStreamCommand();
+            var generateThumbnailCommand = new GenerateThumbnailCommand();
+            var createTumblrCommand = new CreateTumblrCommand
+            {
+                UriFactory = uriFactory,
+                TableEntityFactory = tableEntityFactory
+            };
+            var createTableEntitiesCommand = new CreateTableEntitiesCommand();
+            var command = new WriteTumblrCommand(_azureStorage, uploadBlobCommand, generateThumbnailCommand,
+                createTumblrCommand, createTableEntitiesCommand);
 
             foreach (var testImage in GetTestImages())
             {
@@ -65,10 +50,9 @@ namespace LvFakeData
                     dynamic pTumblr = new ExpandoObject();
 
                     // Blob
-                    pTumblr.ContainerOfMedia = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
-                    pTumblr.ContainerOfThumbnail = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfThumbnail);
-                    pTumblr.StreamOfMedia = stream;
-                    pTumblr.BlobNameOfMedia = Path.GetFileName(testImage);
+                    pTumblr.Container = await _azureStorage.GetContainerReferenceAsync(LvConstants.ContainerNameOfImage);
+                    pTumblr.Stream = stream;
+                    pTumblr.BlobName = Path.GetFileName(testImage);
 
                     // Create Tumblr
                     pTumblr.PartitionKey = LvConstants.MediaTypeOfImage;
@@ -82,33 +66,8 @@ namespace LvFakeData
                     pTumblr.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfTumblr);
 
                     // Execute
-                    await createTumblrCommand.ExecuteAsync(pTumblr);
-                    TumblrEntity tumblrEntity = pTumblr.Entity;
+                    await command.ExecuteAsync(pTumblr);
                     // Create Tumblr End
-
-                    /*
-                    // Create Comment
-                    dynamic pComment = new ExpandoObject();
-                    pComment.PartitionKey = tumblrEntity.RowKey.Substring(2);
-                    pComment.UserId = "UserID@" + Guid.NewGuid();
-                    pComment.UserName = "张磊";
-                    pComment.Text = "我非常同意上边这段话，特别是被北海道甩了的那一天，她对我说的每一句话都深深地刻在我心里，然而我却只对她说了一句“Hi”。";
-                    pComment.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
-
-                    for (var i = 0; i < 12; i++)
-                    {
-                        // Execute
-                        await createCommentCommand.ExecuteAsync(pComment);
-                    }
-                    // Create Comment End
-
-                    // Create Favorite
-                    dynamic pFavorite = tumblrEntity.ToExpandoObject();
-                    pFavorite.UserId = "bjutales";
-                    pFavorite.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfFavorite);
-                    await createFavoriteCommand.ExecuteAsync(pFavorite);
-                    // Create Favorite End
-                     * */
                 }
             }
         }
