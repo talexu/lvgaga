@@ -6,6 +6,7 @@ using Lvgaga.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Microsoft.Practices.Unity;
 
 namespace Lvgaga.Controllers
 {
@@ -15,6 +16,7 @@ namespace Lvgaga.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        [InjectionConstructor]
         public AccountController()
         {
         }

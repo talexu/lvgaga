@@ -1,6 +1,5 @@
 using System;
 using System.Web.Configuration;
-using Lvgaga.Controllers;
 using LvModel.Azure.StorageTable;
 using LvService.Commands.Azure.Storage.Table;
 using LvService.Commands.Common;
@@ -52,13 +51,6 @@ namespace Lvgaga
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-
-            #region Identity
-
-            container.RegisterType<AccountController, AccountController>(new InjectionConstructor());
-            container.RegisterType<ManageController, ManageController>(new InjectionConstructor());
-
-            #endregion
 
             #region Common
 
@@ -126,10 +118,6 @@ namespace Lvgaga
 
             #region Comment
 
-            container.RegisterType<CreateCommentCommand, CreateCommentCommand>(
-                new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
-                new InjectionProperty("UriFactory", typeof(IUriFactory)));
             const string createCommentCommand = "post comment://entity";
             container.RegisterType<ICommand, CompositeCommand>(
                 createCommentCommand,
@@ -154,11 +142,6 @@ namespace Lvgaga
 
             #region Favorite
 
-            container.RegisterType<CreateFavoriteCommand, CreateFavoriteCommand>(
-                new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
-                new InjectionProperty("UriFactory", typeof(IUriFactory)));
-
             const string createFavoriteCommand = "post favorite://entities";
             container.RegisterType<ICommand, CompositeCommand>(
                 createFavoriteCommand,
@@ -166,11 +149,6 @@ namespace Lvgaga
                     new ResolvedArrayParameter<ICommand>(
                         typeof(CreateFavoriteCommand),
                         typeof(CreateTableEntitiesCommand))));
-
-            container.RegisterType<DeleteFavoriteCommand, DeleteFavoriteCommand>(
-                new InjectionConstructor(),
-                new InjectionProperty("TableEntityFactory", typeof(ITableEntityFactory)),
-                new InjectionProperty("UriFactory", typeof(IUriFactory)));
 
             const string deleteFavoriteCommand = "delete favorite://entities";
             container.RegisterType<ICommand, CompositeCommand>(

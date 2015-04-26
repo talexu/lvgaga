@@ -6,6 +6,7 @@ using Lvgaga.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Microsoft.Practices.Unity;
 
 namespace Lvgaga.Controllers
 {
@@ -15,6 +16,7 @@ namespace Lvgaga.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        [InjectionConstructor]
         public ManageController()
         {
         }
@@ -31,9 +33,9 @@ namespace Lvgaga.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -330,7 +332,7 @@ namespace Lvgaga.Controllers
             base.Dispose(disposing);
         }
 
-#region 帮助程序
+        #region 帮助程序
         // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
 
@@ -381,6 +383,6 @@ namespace Lvgaga.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
