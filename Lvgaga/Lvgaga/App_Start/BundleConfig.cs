@@ -63,6 +63,7 @@ namespace Lvgaga
 
             // Comment Page
             bundles.Add(new ScriptBundle("~/bundles/comment").Include(
+                "~/bower_components/sisyphus/sisyphus*",
                 "~/Scripts/lv.comment.js"));
 
             // Favorite Page

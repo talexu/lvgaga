@@ -31,6 +31,10 @@
     var getCommentsContainer = lv.singleton(function () {
         return $("#div_comments");
     });
+    // 获取评论表单
+    var getCommentFormSisyphus = lv.singleton(function () {
+        return $(sprintf("#form_comment_%s_%s", mediaType, rowKey)).sisyphus();;
+    });
     // 获取评论文本框
     var getCommentTextBox = lv.singleton(function () {
         return $("#txb_comment");
@@ -127,6 +131,7 @@
             }).done(function (data) {
                 getCommentsContainer().prepend(generateComment(data, "刚刚"));
                 getCommentTextBox().val("");
+                getCommentFormSisyphus().manuallyReleaseData();
             });
         }, getCommentButton());
     };
@@ -144,6 +149,7 @@
         setFavs();
         initFav();
         getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
+        getCommentFormSisyphus();
 
         getCommentButton().on("touchend", function () {
             sendComment();

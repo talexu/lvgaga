@@ -12,12 +12,14 @@
         <a id="btn_share" class="btn btn-default btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
     </div>
     <div class="content">
-        <div class="input-group box-comment">
-            <input id="txb_comment" type="text" class="form-control txb-comment" placeholder="评论">
-            <span class="input-group-btn">
-                <button id="btn_send" class="btn btn-default ladda-button" type="button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label" aria-hidden="true">评论</span></button>
-            </span>
-        </div><!-- /input-group -->
+        <form id="form_comment_@Html.Raw(@Model.PartitionKey)_@Html.Raw(@Model.RowKey)" name="form_comment">
+            <div class="input-group box-comment">
+                <input id="txb_comment" name="comment_text" type="text" class="form-control txb-comment" placeholder="评论">
+                <span class="input-group-btn">
+                    <button id="btn_send" class="btn btn-default ladda-button" type="button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label" aria-hidden="true">评论</span></button>
+                </span>
+            </div><!-- /input-group -->
+        </form>
         <div id="div_comments">
             @*@foreach (var comment in Model.Comments)
                 {

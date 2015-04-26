@@ -314,6 +314,8 @@
     <Content Include="bower_components\blueimp-gallery\js\jquery.blueimp-gallery.min.js" />
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.js" />
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.min.js" />
+    <Content Include="bower_components\sisyphus\sisyphus.js" />
+    <Content Include="bower_components\sisyphus\sisyphus.min.js" />
     <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
     <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
