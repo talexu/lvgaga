@@ -74,7 +74,7 @@
 
     // 查询AzureTable
     exports.queryAzureTable = function (tableSasUrl, p) {
-        if (!tableSasUrl) return $.Deferred().reject();
+        if (!tableSasUrl || typeof tableSasUrl !== "string") return $.Deferred().reject();
 
         var uri = tableSasUrl;
         if (p.continuationToken) {
