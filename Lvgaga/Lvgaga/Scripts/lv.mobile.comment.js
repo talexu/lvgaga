@@ -12,6 +12,10 @@
     var tableNameOfFavorite;
     var takingCount = lv.defaultTakingCount;
 
+    // 获取时间控件的实例
+    var getTime = lv.singleton(function () {
+        return $(".date-tumblr");
+    });
     // 获取收藏按钮的实例
     var getFavoriteButton = lv.singleton(function () {
         return $("#btn_favorite");
@@ -20,6 +24,7 @@
     var getShareButton = lv.singleton(function () {
         return $("#btn_share");
     });
+    // 获取评论按钮的实例
     var getCommentButton = lv.singleton(function () {
         return $("#btn_send");
     });
@@ -51,6 +56,11 @@
             append($("<p></p>").addClass("date-comment pull-right").text(createTime ? createTime : lv.getLocalTime(data.CommentTime))).
             append($("<p></p>").addClass("text-comment").text(data.Text));
     };
+
+    // 设置时间地区格式
+    var initTime = function () {
+        getTime().text(lv.getLocalTime(getTime().text()));
+    }
 
     // 读取并设置收藏按钮的状态
     var setFavs = function () {
@@ -147,6 +157,7 @@
 
         loadComments();
         setFavs();
+        initTime();
         initFav();
         getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
         getCommentFormSisyphus();
