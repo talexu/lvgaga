@@ -36,7 +36,7 @@ namespace Lvgaga
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",
-                "~/Content/lvgaga.css",
+                "~/Content/lvgaga.mobile.css",
                 "~/Content/ladda-themeless.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/gallery").Include(
@@ -57,19 +57,19 @@ namespace Lvgaga
                 "~/Scripts/lv.utility.js"));
 
             // Home Page
-            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+            bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
-                "~/Scripts/lv.tumblr.js"));
+                "~/Scripts/lv.mobile.tumblr.js"));
 
             // Comment Page
-            bundles.Add(new ScriptBundle("~/bundles/comment").Include(
+            bundles.Add(new ScriptBundle("~/bundles/comment/mobile").Include(
                 "~/bower_components/sisyphus/sisyphus*",
-                "~/Scripts/lv.comment.js"));
+                "~/Scripts/lv.mobile.comment.js"));
 
             // Favorite Page
-            bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
+            bundles.Add(new ScriptBundle("~/bundles/favorite/mobile").Include(
                 "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
-                "~/Scripts/lv.favorite.js"));
+                "~/Scripts/lv.mobile.favorite.js"));
             #endregion
         }
     }
