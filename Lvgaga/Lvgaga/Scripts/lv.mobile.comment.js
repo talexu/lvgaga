@@ -63,7 +63,7 @@
     }
 
     // 读取并设置收藏按钮的状态
-    var setFavs = function () {
+    var setFav = function () {
         lv.retryExecute(function () {
             return lv.queryAzureTable(favSas, { filter: sprintf("RowKey eq '%s_%s'", mediaType, rowKey), select: "RowKey" }).done(function (data) {
                 if (data.value.length > 0) {
@@ -156,7 +156,7 @@
         tableNameOfFavorite = p.tableNameOfFavorite;
 
         loadComments();
-        setFavs();
+        setFav();
         initTime();
         initFav();
         getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
