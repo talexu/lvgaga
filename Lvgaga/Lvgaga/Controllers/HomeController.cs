@@ -45,7 +45,10 @@ namespace Lvgaga.Controllers
         {
             var homeModel =
                 await
-                    _tumblrService.GetTumblrModelsAsync(mediaType.ToString(), TumblrCategory.All, LvConfiguration.DefaultTakingCount);
+                    _tumblrService.GetTumblrModelsAsync(
+                        mediaType.ToString(),
+                        (TumblrCategory)category,
+                        LvConfiguration.DefaultTakingCount);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
             homeModel.MediaType = mediaType;
