@@ -11,7 +11,7 @@
     var to;
     var tableNameOfTumblr;
     var tableNameOfFavorite;
-    var takeCount = lv.defaultTakingCount;
+    var takingCount = lv.defaultTakingCount;
 
     // 获取加载按钮的实例
     var getLoadingButton = lv.singleton(function () {
@@ -113,7 +113,7 @@
                 return lv.queryAzureTable(sas, {
                     continuationToken: continuationToken,
                     filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-                    top: takeCount
+                    top: takingCount
                 }).done(function (data, textStatus, jqXhr) {
                     $.each(data.value, function (index, tumblr) {
                         var rk = lv.getInvertedTicks(tumblr.RowKey);

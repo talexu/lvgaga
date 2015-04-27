@@ -7,7 +7,10 @@
         return $("#links");
     });
     var containerWidth = getLinksContainer().width();
-    var cellWidth = containerWidth / Math.ceil(containerWidth / expectedCellWidth);
+    var rowCapacity = Math.ceil(containerWidth / expectedCellWidth);
+    var cellWidth = containerWidth / rowCapacity;
+    var takingRow = 5;
+    var takeCount = rowCapacity * takingRow || lv.defaultTakingCount;
 
     var continuationToken = {};
     var sas;
@@ -108,7 +111,7 @@
     var loadFavs = function () {
         lv.retryExecute(function () {
             return lv.ajaxLadda(function () {
-                return lv.queryAzureTable(sas, { continuationToken: continuationToken, filter: sprintf("RowKey ge '%s' and RowKey lt '%s'", favMediaType, favMediaType + 1), top: lv.defaultTakingCount }).done(function (data, textStatus, jqXhr) {
+                return lv.queryAzureTable(sas, { continuationToken: continuationToken, filter: sprintf("RowKey ge '%s' and RowKey lt '%s'", favMediaType, favMediaType + 1), top: takeCount }).done(function (data, textStatus, jqXhr) {
                     $.each(data.value, function (index, tumblr) {
                         fillFavorite(tumblr);
                     });

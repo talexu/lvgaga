@@ -10,7 +10,7 @@
     var mediaUri;
     var tableNameOfComment;
     var tableNameOfFavorite;
-    var takeCount = lv.defaultTakingCount;
+    var takingCount = lv.defaultTakingCount;
 
     // 获取收藏按钮的实例
     var getFavoriteButton = lv.singleton(function () {
@@ -94,7 +94,7 @@
             return lv.ajaxLadda(function () {
                 return lv.queryAzureTable(sas, {
                     continuationToken: continuationToken,
-                    top: takeCount
+                    top: takingCount
                 }).done(function (data, textStatus, jqXhr) {
                     $.each(data.value, function (index, comment) {
                         getCommentsContainer().append(generateComment(comment));
