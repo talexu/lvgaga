@@ -22,13 +22,13 @@ namespace Lvgaga.Controllers
             _tumblrService = tumblrServic;
         }
 
-        [Route("media/{mediaType:int}")]
+        [Route("medias/{mediaType:int}")]
         public async Task<ActionResult> Index(int mediaType)
         {
             return await ActualIndex(mediaType, (int)TumblrCategory.All);
         }
 
-        [Route("media/{mediaType:int}/category/{category:int}")]
+        [Route("medias/{mediaType:int}/categories/{category:int}")]
         public async Task<ActionResult> Index(int mediaType, int category)
         {
             return await ActualIndex(mediaType, category);
