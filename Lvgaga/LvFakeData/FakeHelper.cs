@@ -7,6 +7,7 @@ using LvModel.Common;
 using LvModel.View.Tumblr;
 using LvService.Commands.Azure.Storage.Blob;
 using LvService.Commands.Azure.Storage.Table;
+using LvService.Commands.Lvgaga.Common;
 using LvService.Commands.Lvgaga.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
@@ -22,11 +23,14 @@ namespace LvFakeData
 
         public FakeHelper()
         {
-            //_azureStorage = new AzureStoragePool(new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount), new LvMemoryCache(), new CacheKeyFactory());
             _azureStorage = new AzureStoragePool(
-                new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagastg;AccountKey=QauIB618nLhQzbwblVG2fyXROpB0TPapFVkzcFXSWN5ZauV3/pZ2Z2y5fAnAxBGHWp7Fhvt1xP5mc1MQilbb6w==")),
+                new AzureStorageDb(CloudStorageAccount.DevelopmentStorageAccount),
                 new LvMemoryCache(),
                 new CacheKeyFactory());
+            //_azureStorage = new AzureStoragePool(
+            //    new AzureStorageDb(CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=lvgagastg;AccountKey=QauIB618nLhQzbwblVG2fyXROpB0TPapFVkzcFXSWN5ZauV3/pZ2Z2y5fAnAxBGHWp7Fhvt1xP5mc1MQilbb6w==")),
+            //    new LvMemoryCache(),
+            //    new CacheKeyFactory());
         }
 
         public async Task UploadTestTumblrs()
@@ -35,15 +39,20 @@ namespace LvFakeData
             var tableEntityFactory = new TableEntityFactory(uriFactory);
 
             var uploadBlobCommand = new UploadBlobFromStreamCommand();
-            var generateThumbnailCommand = new GenerateThumbnailCommand();
+            var generateSCommand = new ResizeCommand(ResizeCommand.ScalingType.CropScaling, 128);
+            var generateMCommand = new ResizeCommand(ResizeCommand.ScalingType.CropScaling, 300);
+            var generateLCommand = new ResizeCommand(ResizeCommand.ScalingType.FitScaling, 1280);
             var createTumblrCommand = new CreateTumblrCommand
             {
                 UriFactory = uriFactory,
                 TableEntityFactory = tableEntityFactory
             };
             var createTableEntitiesCommand = new CreateTableEntitiesCommand();
-            var command = new WriteTumblrCommand(_azureStorage, uploadBlobCommand, generateThumbnailCommand,
-                createTumblrCommand, createTableEntitiesCommand);
+            var command = new WriteTumblrCommand(
+                _azureStorage, uploadBlobCommand,
+                generateLCommand, generateMCommand, generateSCommand,
+                createTumblrCommand,
+                createTableEntitiesCommand);
 
             foreach (var testImage in GetTestImages())
             {

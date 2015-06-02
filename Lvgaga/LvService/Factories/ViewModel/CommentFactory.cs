@@ -38,6 +38,9 @@ namespace LvService.Factories.ViewModel
                 RowKey = tumblr.RowKey,
                 Uri = tumblr.Uri,
                 MediaUri = tumblr.MediaUri,
+                MediaLargeUri = tumblr.MediaLargeUri,
+                MediaMediumUri = tumblr.MediaMediumUri,
+                MediaSmallUri = tumblr.MediaSmallUri,
                 Text = tumblr.Text,
                 CreateTime = tumblr.CreateTime,
                 IsFavorited = false

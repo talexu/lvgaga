@@ -10,7 +10,9 @@ namespace LvModel.View.Tumblr
         public string Uri { get; set; }
         public string MediaType { get; set; }
         public string MediaUri { get; set; }
-        public string ThumbnailUri { get; set; }
+        public string MediaLargeUri { get; set; }
+        public string MediaMediumUri { get; set; }
+        public string MediaSmallUri { get; set; }
         public string TumblrCategory { get; set; }
         public string Text { get; set; }
         public DateTime CreateTime { get; set; }

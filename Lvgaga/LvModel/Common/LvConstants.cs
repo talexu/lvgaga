@@ -7,7 +7,9 @@ namespace LvModel.Common
         #region Blob
 
         public const string ContainerNameOfImage = "images";
-        public const string ContainerNameOfThumbnail = "thumbnails";
+        public const string ContainerNameOfLargeImage = "large";
+        public const string ContainerNameOfMediumImage = "medium";
+        public const string ContainerNameOfSmallImage = "small";
 
         #endregion
 

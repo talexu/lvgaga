@@ -41,8 +41,8 @@
     // 填充数据
     var fillFavorite = function (tumblr) {
         $("<a/>")
-            .append($("<img>").prop("src", tumblr.ThumbnailUri).width(cellWidth))
-            .prop("href", tumblr.MediaUri)
+            .append($("<img>").prop("src", tumblr.MediaSmallUri).width(cellWidth))
+            .prop("href", tumblr.MediaLargeUri)
             .prop("title", "")
             .attr("rowKey", tumblr.RowKey)
             .attr("mediaType", tumblr.MediaType)
@@ -60,7 +60,7 @@
             // Gallery slide event handler
             var element = $(getLinksContainer().children()[index]);
             curTumblr = element;
-            var mediaUri = element.prop("href");
+            var mediaLargeUri = element.prop("href");
             var mediaType = element.attr("mediaType");
             var invertedTicks = lv.getInvertedTicks(element.attr("rowKey"));
             var commentUri = lv.getCommentUri(mediaType, invertedTicks);
@@ -76,7 +76,7 @@
                 getFavoriteButton().removeClass("btn-selected");
             }
 
-            getShareButton().prop("href", lv.getShareUri({ Uri: commentUri, Title: tumblrText, Summary: tumblrText, Pic: mediaUri }));
+            getShareButton().prop("href", lv.getShareUri({ Uri: commentUri, Title: tumblrText, Summary: tumblrText, Pic: mediaLargeUri }));
 
             getTumblrTextBox().text(tumblrText);
 

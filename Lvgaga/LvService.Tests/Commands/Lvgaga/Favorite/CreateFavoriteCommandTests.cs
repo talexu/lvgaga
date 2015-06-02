@@ -57,7 +57,7 @@ namespace LvService.Tests.Commands.Lvgaga.Favorite
                 _fixture.UriFactory.CreateFavoriteRowKey(partitionKey,
                     _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey)));
             Assert.Equal(favorite.MediaUri, tumblr.MediaUri);
-            Assert.Equal(favorite.ThumbnailUri, tumblr.ThumbnailUri);
+            Assert.Equal(favorite.MediaSmallUri, tumblr.MediaSmallUri);
             Assert.Equal(favorite.Text, tumblr.Text);
             Assert.Equal(favorite.CreateTime, tumblr.CreateTime);
             Assert.Equal(favorite.MediaType, tumblr.MediaType);
@@ -100,7 +100,7 @@ namespace LvService.Tests.Commands.Lvgaga.Favorite
                 _fixture.UriFactory.CreateFavoriteRowKey(partitionKey,
                     _fixture.UriFactory.GetInvertedTicksFromTumblrRowKey(tumblr.RowKey)));
             Assert.Equal(favorite.MediaUri, tumblr.MediaUri);
-            Assert.Equal(favorite.ThumbnailUri, tumblr.ThumbnailUri);
+            Assert.Equal(favorite.MediaSmallUri, tumblr.MediaSmallUri);
             Assert.Equal(favorite.Text, tumblr.Text);
             Assert.Equal(favorite.CreateTime, tumblr.CreateTime);
             Assert.Equal(favorite.MediaType, tumblr.MediaType);
@@ -112,7 +112,7 @@ namespace LvService.Tests.Commands.Lvgaga.Favorite
             var entity0 = entities[0];
             var entity1 = entities[1];
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
-            Assert.True(new[] { entity0.ThumbnailUri, entity1.ThumbnailUri }.AllEqual());
+            Assert.True(new[] { entity0.MediaSmallUri, entity1.MediaSmallUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
             Assert.True(new[] { entity0.CreateTime, entity1.CreateTime }.AllEqual());
             Assert.True(new[] { entity0.MediaType, entity1.MediaType }.AllEqual());

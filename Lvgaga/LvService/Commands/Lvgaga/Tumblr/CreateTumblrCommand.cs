@@ -14,16 +14,22 @@ namespace LvService.Commands.Lvgaga.Tumblr
     {
         private string _partitionKey;
         private string _mediaUri;
-        private string _thumbnailUri;
+        private string _mediaLargeUri;
+        private string _mediaMediumUri;
+        private string _mediaSmallUri;
         private TumblrText _tumblrText;
 
         public override bool CanExecute(dynamic p)
         {
             _partitionKey = p.PartitionKey;
             _mediaUri = p.MediaUri;
-            _thumbnailUri = p.ThumbnailUri;
+            _mediaLargeUri = p.MediaLargeUri;
+            _mediaMediumUri = p.MediaMediumUri;
+            _mediaSmallUri = p.MediaSmallUri;
             _tumblrText = p.TumblrText;
-            return new[] { _partitionKey, _mediaUri, _thumbnailUri }.AllNotNullOrEmpty() && _tumblrText != null;
+            return
+                new[] { _partitionKey, _mediaUri, _mediaLargeUri, _mediaMediumUri, _mediaSmallUri }.AllNotNullOrEmpty() &&
+                _tumblrText != null;
         }
 
         public override Task ExecuteAsync(dynamic p)

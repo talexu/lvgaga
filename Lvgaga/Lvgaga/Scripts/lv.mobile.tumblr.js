@@ -118,7 +118,7 @@
                     $.each(data.value, function (index, tumblr) {
                         var rk = lv.getInvertedTicks(tumblr.RowKey);
                         var cp = tumblrTemplate.clone();
-                        cp.find("img.img-tumblr").attr("data-original", tumblr.MediaUri);
+                        cp.find("img.img-tumblr").attr("data-original", tumblr.MediaLargeUri);
                         cp.find("p.text-tumblr").text(tumblr.Text);
                         cp.find("p.date-tumblr").text(lv.getLocalTime(tumblr.CreateTime));
                         cp.find("button.btn-favorite").attr("rk", rk).attr("tp", tumblr.MediaType);

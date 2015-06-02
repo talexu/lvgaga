@@ -10,7 +10,7 @@
         @foreach (var tumblr in Model.Tumblrs)
         {
             <div class="container-tumblr">
-                <img class="img-tumblr lazy" data-original="@tumblr.MediaUri" alt="" />
+                <img class="img-tumblr lazy" data-original="@tumblr.MediaLargeUri" alt="" />
                 <div class="content">
                     <p class="text-tumblr">@tumblr.Text</p>
                     <p class="date-tumblr">@tumblr.CreateTime</p>

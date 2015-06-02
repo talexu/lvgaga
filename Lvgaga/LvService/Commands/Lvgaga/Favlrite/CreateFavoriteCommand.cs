@@ -15,7 +15,9 @@ namespace LvService.Commands.Lvgaga.Favlrite
         private string _mediaType;
         private string _rowKey;
         private string _mediaUri;
-        private string _thumbnailUri;
+        private string _mediaLargeUri;
+        private string _mediaMediumUri;
+        private string _mediaSmallUri;
         private string _text;
         private DateTime _createTime;
 
@@ -24,11 +26,13 @@ namespace LvService.Commands.Lvgaga.Favlrite
             _mediaType = p.MediaType;
             _rowKey = p.RowKey;
             _mediaUri = p.MediaUri;
-            _thumbnailUri = p.ThumbnailUri;
+            _mediaLargeUri = p.MediaLargeUri;
+            _mediaMediumUri = p.MediaMediumUri;
+            _mediaSmallUri = p.MediaSmallUri;
             _text = p.Text;
             _createTime = p.CreateTime;
 
-            return new[] { _mediaType, _rowKey, _mediaUri, _thumbnailUri, _text }.AllNotNullOrEmpty() &&
+            return new[] { _mediaType, _rowKey, _mediaUri, _mediaLargeUri, _mediaMediumUri, _mediaSmallUri, _text }.AllNotNullOrEmpty() &&
                    _createTime != null;
         }
 

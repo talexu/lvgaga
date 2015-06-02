@@ -62,7 +62,7 @@ namespace LvService.Tests.Commands.Lvgaga.Tumblr
             var entity3 = entities[3];
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri, entity2.MediaUri, entity3.MediaUri }.AllEqual());
             Assert.True(
-                new[] { entity0.ThumbnailUri, entity1.ThumbnailUri, entity2.ThumbnailUri, entity3.ThumbnailUri }.AllEqual());
+                new[] { entity0.MediaSmallUri, entity1.MediaSmallUri, entity2.MediaSmallUri, entity3.MediaSmallUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri, entity2.MediaUri, entity3.MediaUri }.AllEqual());
             Assert.True(
                 new[] { entity0.CreateTime, entity1.CreateTime, entity2.CreateTime, entity3.CreateTime }.AllEqual());
@@ -127,7 +127,7 @@ namespace LvService.Tests.Commands.Lvgaga.Tumblr
             var entity0 = entities[0];
             var entity1 = entities[1];
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
-            Assert.True(new[] { entity0.ThumbnailUri, entity1.ThumbnailUri }.AllEqual());
+            Assert.True(new[] { entity0.MediaSmallUri, entity1.MediaSmallUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
             Assert.True(new[] { entity0.CreateTime, entity1.CreateTime }.AllEqual());
             Assert.True(new[] { entity0.MediaType, entity1.MediaType }.AllEqual());
@@ -182,7 +182,7 @@ namespace LvService.Tests.Commands.Lvgaga.Tumblr
             var entity0 = entities[0];
             var entity1 = entities[1];
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
-            Assert.True(new[] { entity0.ThumbnailUri, entity1.ThumbnailUri }.AllEqual());
+            Assert.True(new[] { entity0.MediaSmallUri, entity1.MediaSmallUri }.AllEqual());
             Assert.True(new[] { entity0.MediaUri, entity1.MediaUri }.AllEqual());
             Assert.True(new[] { entity0.CreateTime, entity1.CreateTime }.AllEqual());
             Assert.True(new[] { entity0.MediaType, entity1.MediaType }.AllEqual());

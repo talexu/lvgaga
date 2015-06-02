@@ -7,7 +7,7 @@
     var mediaType;
     var rowKey;
     var text;
-    var mediaUri;
+    var mediaLargeUri;
     var tableNameOfComment;
     var tableNameOfFavorite;
     var takingCount = lv.defaultTakingCount;
@@ -151,7 +151,7 @@
         mediaType = p.mediaType;
         rowKey = p.rowKey;
         text = p.text;
-        mediaUri = p.mediaUri;
+        mediaLargeUri = p.MediaLargeUri;
         tableNameOfComment = p.tableNameOfComment;
         tableNameOfFavorite = p.tableNameOfFavorite;
 
@@ -159,7 +159,7 @@
         setFav();
         initTime();
         initFav();
-        getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaUri }));
+        getShareButton().prop("href", lv.getShareUri({ Uri: window.location.pathname, Title: text, Summary: text, Pic: mediaLargeUri }));
         getCommentFormSisyphus();
 
         getCommentButton().on("touchend", function () {

@@ -115,7 +115,7 @@
     <Compile Include="Commands\Lvgaga\Favlrite\DeleteFavoriteCommand.cs" />
     <Compile Include="Commands\Lvgaga\Tumblr\CreateTumblrCommand.cs" />
     <Compile Include="Commands\Lvgaga\Tumblr\CreateTumblrEntitiesFilterCommand.cs" />
-    <Compile Include="Commands\Lvgaga\Tumblr\GenerateThumbnailCommand.cs" />
+    <Compile Include="Commands\Lvgaga\Common\ResizeCommand.cs" />
     <Compile Include="Commands\Common\ICommand.cs" />
     <Compile Include="Commands\Lvgaga\Tumblr\WriteTumblrCommand.cs" />
     <Compile Include="Common\LvConfiguration.cs" />

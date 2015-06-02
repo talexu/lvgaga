@@ -26,7 +26,9 @@ namespace LvService.Factories.Azure.Storage
         {
             string partitionKey = p.PartitionKey;
             string mediaUri = p.MediaUri;
-            string thumbnailUri = p.ThumbnailUri;
+            string mediaLargeUri = p.MediaLargeUri;
+            string mediaMediumUri = p.MediaMediumUri;
+            string mediaSmallUri = p.MediaSmallUri;
             TumblrText tumblrText = p.TumblrText;
 
             var now = GetUtcNow();
@@ -36,7 +38,9 @@ namespace LvService.Factories.Azure.Storage
             {
                 MediaType = partitionKey,
                 MediaUri = mediaUri,
-                ThumbnailUri = thumbnailUri,
+                MediaLargeUri = mediaLargeUri,
+                MediaMediumUri = mediaMediumUri,
+                MediaSmallUri = mediaSmallUri,
                 Text = tumblrText.Text,
                 TumblrCategory = tumblrText.Category.ToString("D"),
                 CreateTime = now
@@ -66,7 +70,9 @@ namespace LvService.Factories.Azure.Storage
             string userId = p.UserId;
             string rowKey = p.RowKey;
             string mediaUri = p.MediaUri;
-            string thumbnailUri = p.ThumbnailUri;
+            string mediaLargeUri = p.MediaLargeUri;
+            string mediaMediumUri = p.MediaMediumUri;
+            string mediaSmallUri = p.MediaSmallUri;
             string text = p.Text;
             DateTime createTime = p.CreateTime;
             string mediaType = p.MediaType;
@@ -75,7 +81,9 @@ namespace LvService.Factories.Azure.Storage
             return new FavoriteEntity(userId, _uriFactory.CreateFavoriteRowKey(mediaType, rowKey))
             {
                 MediaUri = mediaUri,
-                ThumbnailUri = thumbnailUri,
+                MediaLargeUri = mediaLargeUri,
+                MediaMediumUri = mediaMediumUri,
+                MediaSmallUri = mediaSmallUri,
                 Text = text,
                 CreateTime = createTime,
                 MediaType = mediaType,

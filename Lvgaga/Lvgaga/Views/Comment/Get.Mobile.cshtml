@@ -4,7 +4,7 @@
     ViewBag.Title = "评论";
 }
 <div>
-    <img class="img-tumblr" src="@Model.MediaUri" alt="" />
+    <img class="img-tumblr" src="@Model.MediaLargeUri" alt="" />
     <div class="content">
         <p class="text-tumblr">@Model.Text</p>
         <p class="date-tumblr">@Model.CreateTime</p>
@@ -50,7 +50,7 @@
                     mediaType: @Model.PartitionKey,
                     rowKey: "@Model.RowKey",
                     text: "@Model.Text",
-                    mediaUri: "@Model.MediaUri",
+                    mediaLargeUri: "@Model.MediaLargeUri",
                     tableNameOfComment: "@LvConstants.TableNameOfComment",
                     tableNameOfFavorite: "@LvConstants.TableNameOfFavorite"
                 });

@@ -37,7 +37,9 @@ namespace LvService.Factories.ViewModel
                 Uri = _uriFactory.CreateUri(Path.Combine(CommentControllerName, path)),
                 MediaType = tumblrEntity.MediaType,
                 MediaUri = tumblrEntity.MediaUri,
-                ThumbnailUri = tumblrEntity.ThumbnailUri,
+                MediaLargeUri = tumblrEntity.MediaLargeUri,
+                MediaMediumUri = tumblrEntity.MediaMediumUri,
+                MediaSmallUri = tumblrEntity.MediaSmallUri,
                 TumblrCategory = tumblrEntity.TumblrCategory,
                 Text = tumblrEntity.Text,
                 CreateTime = tumblrEntity.CreateTime
