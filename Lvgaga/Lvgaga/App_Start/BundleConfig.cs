@@ -44,7 +44,7 @@ namespace Lvgaga
 
             #region product
             // Layout Page
-            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+            bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/bower_components/jquery-ajax-retry/dist/jquery.ajax-retry*",
                 "~/Scripts/bootstrap.js",
@@ -52,13 +52,13 @@ namespace Lvgaga
                 "~/Scripts/spin*",
                 "~/Scripts/ladda*",
                 "~/Scripts/moment*",
-                "~/bower_components/sprintf/dist/sprintf.min.js"));
-            bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
-                "~/Scripts/lv.utility.js"));
+                "~/bower_components/sprintf/dist/sprintf.min.js",
+                "~/Scripts/lv.utilities.js"));
+            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+                "~/Scripts/lv.controls.jsx"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
-                "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.tumblr.jsx"));
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",

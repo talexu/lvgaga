@@ -407,7 +407,7 @@
     <Content Include="Scripts\promise-6.1.0.min.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
-    <Content Include="Scripts\lv.utility.js" />
+    <Content Include="Scripts\lv.utilities.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
@@ -468,6 +468,7 @@
     <Content Include="Views\Favorite\Index.cshtml" />
     <Content Include="Views\Favorite\Index.Mobile.cshtml" />
     <Content Include="Scripts\lv.tumblr.jsx" />
+    <Content Include="Scripts\lv.controls.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
