@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using LvService.Utilities
+@model LvModel.View.Tumblr.TumblrsModel
+@{
+    ViewBag.Title = "首页";
 }
 
 <div id="div_tumblrs">
@@ -8,6 +10,12 @@
 
 @section scripts
 {
+    <script>
+        (function() {
+            "use strict";
+            lv.tumblrModels = @Html.Raw(Model.Tumblrs.ToJsonString());
+        })();
+    </script>
     <!--React-->
     <script src="@Url.Content("~/Scripts/lv.tumblr.jsx")"></script>
     <!--React end-->

@@ -65,30 +65,55 @@ var CommentList = React.createClass({
     }
 });
 
-var TumblrBox = React.createClass({
+var TumblrContainer = React.createClass({
+    getInitialState: function() {
+        return {comments: [
+            {
+                UserName: "bjutales@hotmail.com",
+                CommentTime: "2015-06-02 16:33:41",
+                Text: "一些评论1"
+            },
+            {
+                UserName: "bjutales@hotmail.com",
+                CommentTime: "2015-06-02 16:33:41",
+                Text: "一些评论2"
+            }
+        ]};
+    },
     render: function () {
         return (
             <div>
                 <Tumblr dataContext={this.props.dataContext}/>
                 <Functions />
                 <CommentForm />
-                <CommentList dataContext={this.props.dataContext.comments}/>
+                <CommentList dataContext={this.state.comments}/>
             </div>
         );
     }
 });
 
-var TumblrBoxList = React.createClass({
+var TumblrContainerList = React.createClass({
     render: function () {
-        var tumblrBoxNodes = this.props.dataContext.map(function (tumblr) {
+        var TumblrContainerNodes = this.props.dataContext.map(function (tumblr) {
             return (
-                <TumblrBox dataContext={tumblr}/>
+                <TumblrContainer dataContext={tumblr}/>
             );
         });
         return (
             <div>
-                {tumblrBoxNodes}
+                {TumblrContainerNodes}
             </div>
+        );
+    }
+});
+
+var TumblrContainerBox = React.createClass({
+    getInitialState: function() {
+        return {dataContext: this.props.initialState};
+    },
+    render: function (){
+        return (
+            <TumblrContainerList dataContext={this.state.dataContext}/>
         );
     }
 });
