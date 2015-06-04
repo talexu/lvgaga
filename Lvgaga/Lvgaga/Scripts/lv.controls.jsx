@@ -19,7 +19,9 @@ var Functions = React.createClass({
     render: function () {
         return (
             <div>
-                Hello, world! I am a Functions.
+                <button className="btn btn-default btn-favorite ladda-button" type="button" data-style="zoom-out" data-spinner-color="#333"><span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                <a className="btn btn-default btn-share" href="#" target="_blank"><span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
+                <button className="btn btn-default pull-right btn-comment" type="button"><span className="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
             </div>
         );
     }
