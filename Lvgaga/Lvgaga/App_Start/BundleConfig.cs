@@ -33,11 +33,14 @@ namespace Lvgaga
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css/foundation").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",
-                "~/Content/lvgaga.mobile.css",
                 "~/Content/ladda-themeless.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/lofter.css"));
+            bundles.Add(new StyleBundle("~/Content/css/mobile").Include(
+                "~/Content/lvgaga.mobile.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/gallery").Include(
                 "~/bower_components/blueimp-gallery/css/blueimp-gallery.min.css"));

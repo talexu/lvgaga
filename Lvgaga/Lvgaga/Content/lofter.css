@@ -1,0 +1,453 @@
+﻿@charset "utf-8";
+
+* {
+	padding: 0;
+	margin: 0
+}
+
+fieldset,img,html,body,iframe,input {
+	border: 0
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+
+li {
+	list-style: none
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: normal
+}
+
+em,strong {
+	font-weight: bold;
+	font-style: normal
+}
+
+body,textarea,select,input {
+	font-family: "Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1";
+	font-size: 12px;
+	color: #000;
+	line-height: 36px
+}
+
+body {
+	word-wrap: break-word
+}
+
+a {
+	color: #c9c9c9;
+	text-decoration: none;
+	outline: 0;
+	star: expression(this.onFocus=this.blur())
+}
+
+a:hover,.w-tit a:hover,.text a:hover {
+	color: #666
+}
+
+.w-tit {
+	background: url(http://img.ph.126.net/zGUeyASlhDHUZodEE-JzMw==/6597080761772278914.png) left center no-repeat
+}
+
+.w-tit .icon {
+	background: url(http://img.ph.126.net/u68f0GeL-QNCK5HDv04zvw==/6597080761772278913.png) center no-repeat
+}
+
+.sch input,.back,.prev,.next {
+	background: url(http://img.ph.126.net/sr2ghgcQkORrrwBwZyogww==/5629501733236389980.png) no-repeat
+}
+
+.cover i {
+	background: url(http://img.ph.126.net/UT3NgALM7JAbbM_pax7slA==/6597080761772278911.png) no-repeat
+}
+
+a {
+	transition: .2s;
+	-webkit-transition: .2s;
+	-moz-transition: .2s;
+	-o-transition: .2s;
+	-ms-transition: .2s
+}
+
+.cont:after,.text:after,.page:after {
+	content: ".";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+	clear: both
+}
+
+.cont,.page {
+	zoom: 1
+}
+
+.g-doc {
+	width: 642px;
+	margin: 0 auto;
+	padding: 70px 0 0
+}
+
+.g-hd {
+	padding: 58px 70px 0;
+	text-align: center;
+	color: #c9c9c9
+}
+
+.g-ft {
+	padding: 20px 0;
+	color: #c9c9c9
+}
+
+.box {
+	background: #fff;
+	margin: 0 0 30px;
+	border: 1px solid #e9e9e9
+}
+
+.w-tit {
+	position: relative;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	padding: 0 45px
+}
+
+.w-tit a {
+	font-size: 24px;
+	color: #707070
+}
+
+.w-tit,.w-tit img {
+	max-width: 410px;
+	_width: 410px
+}
+
+.w-tit .icon {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 25px;
+	height: 12px;
+	margin: -6px 0 0;
+	_margin: -20px 0 0
+}
+
+.w-tit-1 {
+	background: 0
+}
+
+.w-tit-1 .icon {
+	display: none
+}
+
+.m-about {
+	margin: 14px 0 0;
+	line-height: 25px
+}
+
+.m-menu {
+	margin: 18px 0 0;
+	padding: 12px 0;
+	border-top: 1px solid #e5e5e5
+}
+
+.nav a {
+	display: inline-block;
+	padding: 0 6px
+}
+
+.sch {
+	display: none;
+	margin: 10px auto 18px
+}
+
+.sch input {
+	width: 170px;
+	height: 27px;
+	padding: 0 30px 0 15px;
+	border: 1px solid #e1e8e6;
+	background-position: 190px 2px;
+	line-height: 27px;
+	color: #c9c9c9
+}
+
+.g-mn .box {
+	padding: 15px 70px 70px
+}
+
+.m-post embed,.m-post object {
+	max-width: 100%;
+	_width: 100%
+}
+
+.m-post img {
+	display: block;
+	max-width: 95%;
+	_width: 95%;
+	padding: 8px;
+	border: 1px solid #e5e5e5
+}
+
+.info {
+	height: 34px;
+	margin: 0 0 30px;
+	border-bottom: 1px solid #e5e5e5;
+	overflow: hidden
+}
+
+.date {
+	float: left
+}
+
+.tags {
+	margin: 0 0 0 90px;
+	text-align: right
+}
+
+.tags a {
+	display: inline-block;
+	margin: 0 0 0 8px
+}
+
+.text {
+	font-size: 14px;
+	line-height: 30px
+}
+
+.text h2 {
+	font-size: 18px
+}
+
+.text h2 a,.text .textpic {
+	border: 0
+}
+
+.text h2,.text ul,.text ol,.text p,.text blockquote {
+	margin: 0 0 18px
+}
+
+.text ul,.text ol {
+	padding: 0 0 0 2.5em
+}
+
+.text ul li {
+	list-style: outside disc
+}
+
+.text ol li {
+	list-style: outside decimal
+}
+
+.text blockquote {
+	zoom: 1;
+	padding: 0 0 0 15px;
+	border-left: 1px solid #e9e9e9;
+	color: #666
+}
+
+.text a {
+	border-bottom: 1px solid #d4d4d4;
+	color: #000
+}
+
+.text-1 img {
+	float: right;
+	width: 254px;
+	padding: 3px;
+	margin: 0 0 0 25px
+}
+
+.info2 {
+	border-bottom: 1px solid #e5e5e5;
+	text-align: center;
+	color: #c9c9c9
+}
+
+.info2 a,.info2 span {
+	display: inline-block
+}
+
+.info2 span {
+	padding: 0 2px 0 5px
+}
+
+.cover {
+	position: relative;
+	float: left;
+	width: 205px;
+	height: 193px;
+	padding: 0 20px 20px 0
+}
+
+.cover img {
+	width: 205px;
+	height: 193px;
+	padding: 0;
+	border: 0
+}
+
+.cover i {
+	_display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 193px
+}
+
+.img {
+	margin: 0 0 15px
+}
+
+.desc {
+	margin: 5px 0 0
+}
+
+.subcont {
+	margin: 25px 0 0
+}
+
+.page a,.page span {
+	float: left
+}
+
+.prev,.next {
+	width: 136px;
+	height: 32px;
+	margin: 0 2px 0 0;
+	background-color: #c3cacb;
+	background-position: center -100px
+}
+
+.next {
+	background-position: center -69px
+}
+
+.page a.prev:hover,.page a.next:hover {
+	background-color: #b6bbb9
+}
+
+.btnr {
+	float: right
+}
+
+.num {
+	height: 30px;
+	padding: 0 14px;
+	border: 1px solid #c7ccca;
+	line-height: 30px;
+	color: #9ea2a2
+}
+
+.back {
+	width: 30px;
+	height: 30px;
+	margin: 0 0 0 8px;
+	border: 1px solid #c7ccca;
+	background-position: 9px -36px;
+	text-indent: -999px;
+	overflow: hidden
+}
+
+.cc_1,.cc_2,.cc_3,.cc_4,.cc_5,.cc_6 {
+	background: url(http://img.ph.126.net/d3XTcSFaGg_ATz-1v1kMgg==/5629516026887547341.png) -999px -999px no-repeat;
+	_background: url(http://img.ph.126.net/MLmlAcoD-7XNNqxMIqisfg==/5629516026887547342.png) -999px -999px no-repeat;
+	text-indent: -9999px
+}
+
+.cc_1 {
+	width: 48px;
+	background-position: 0 11px
+}
+
+.cc_2 {
+	width: 48px;
+	background-position: -55px -12px
+}
+
+.cc_3 {
+	width: 32px;
+	background-position: 0 -37px
+}
+
+.cc_4 {
+	width: 32px;
+	background-position: -70px -60px
+}
+
+.cc_5 {
+	width: 32px;
+	background-position: 0 -84px
+}
+
+.cc_6 {
+	width: 14px;
+	background-position: -87px -107px
+}
+
+.nctitle {
+	padding-bottom: 10px;
+	font-size: 14px
+}
+
+.notes {
+	margin: 0;
+	padding: 0;
+	line-height: 20px;
+	font-size: 12px;
+	zoom: 1
+}
+
+.notes:after {
+	clear: both;
+	content: '.';
+	display: block;
+	height: 0;
+	visibility: hidden;
+	overflow: hidden
+}
+
+.notes .note {
+	list-style: none;
+	margin: 0;
+	float: left;
+	width: 100%;
+	padding: 10px 0;
+	border-bottom: 1px solid #ccc
+}
+
+.notes .avatar {
+	float: left;
+	width: 16px;
+	height: 16px;
+	border: 0
+}
+
+.notes .clear {
+	clear: both;
+	height: 0;
+	overflow: hidden
+}
+
+.notes .action {
+	float: right;
+	width: 470px
+}
+
+.notes blockquote {
+	padding: 0 0 0 15px;
+	margin-left: 30px;
+	overflow: hidden;
+	word-wrap: break-word;
+	border-left: 1px solid #ccc
+}
+
+.hot {
+	margin-top: 40px
+}body {
+}

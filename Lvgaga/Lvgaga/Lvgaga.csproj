@@ -366,6 +366,7 @@
     <Content Include="Content\ladda-themeless.min.css" />
     <Content Include="Content\ladda.css" />
     <Content Include="Content\ladda.min.css" />
+    <Content Include="Content\lofter.css" />
     <Content Include="Content\lvgaga.mobile.css">
       <DependentUpon>lvgaga.mobile.less</DependentUpon>
     </Content>
