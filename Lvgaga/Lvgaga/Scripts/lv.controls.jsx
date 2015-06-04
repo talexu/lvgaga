@@ -2,7 +2,7 @@
   render: function() {
     return (
       <div>
-        Hello, world! I am a Tumblr.
+        <p>Hello</p>
       </div>
     );
   }
