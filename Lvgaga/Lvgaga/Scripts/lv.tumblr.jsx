@@ -1,5 +1,6 @@
 ﻿(function () {
     var sas = lv.dataContext.Sas;
+    var favSas;
     var continuationToken = lv.dataContext.ContinuationToken;
     var mediaType = lv.dataContext.MediaType;
     var tumblrCategory = lv.dataContext.TumblrCategory;
@@ -11,8 +12,39 @@
         getInitialState: function () {
             return {dataContext: this.props.initialState};
         },
+        setFavorites: function (tumblrs) {
+            var that = this;
+            lv.retryExecute(function () {
+                var from = tumblrs[0].RowKey;
+                var to = tumblrs[tumblrs.length - 1].RowKey;
+                return lv.queryAzureTable(favSas, {
+                    filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
+                    select: "RowKey"
+                }).done(function (data) {
+                    var loadedFavs = {};
+                    $.each(data.value, function (index, value) {
+                        loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
+                    });
+
+                    $.each(tumblrs, function(index, value){
+                        if(loadedFavs[value.RowKey]){
+                            value.IsFavorited = true;
+                        }
+                    });
+                    that.setState(that.state);
+                });
+            }, function () {
+                return lv.getToken([tableNameOfFavorite]).done(function (data) {
+                    favSas = data;
+                });
+            });
+        },
+        componentDidMount: function () {
+            this.setFavorites(this.state.dataContext);
+        },
         loadMoreTumblrs: function (e) {
             var that = this;
+            var button = e.target;
             return lv.retryExecute(function () {
                 return lv.ajaxLadda(function () {
                     return lv.queryAzureTable(sas, {
@@ -21,8 +53,8 @@
                         top: takingCount
                     }).done(function (data) {
                         $.each(data.value, function (index, tumblr) {
-                            var rk = lv.getInvertedTicks(tumblr.RowKey);
-                            var id = sprintf("%s/%s", tumblr.MediaType, rk);
+                            tumblr.RowKey = lv.getInvertedTicks(tumblr.RowKey);
+                            var id = sprintf("%s/%s", tumblr.MediaType, tumblr.RowKey);
                             var base64id = window.btoa(id);
                             tumblr.Id = id;
                             tumblr.Base64Id = base64id;
@@ -30,17 +62,23 @@
 
                         that.state.dataContext = that.state.dataContext.concat(data.value);
                         that.setState(that.state);
+
+                        that.setFavorites(that.state.dataContext);
                     }).done(function (data, textStatus, jqXhr) {
                         continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
+
+                        if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
+                            button.style.display = "none";
+                        }
                     });
-                }, e.target);
+                }, button);
             }, function () {
                 return lv.ajaxLadda(function () {
                     return lv.getToken([tableNameOfTumblr]).done(function (data) {
                         sas = data;
                     });
-                }, e.target);
+                }, button);
             });
         },
         render: function () {

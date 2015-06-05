@@ -15,8 +15,6 @@
         (function() {
             "use strict";
             lv.dataContext = @Html.Raw(Model.ToJsonString());
-            lv.dataContext.from = "@Model.Tumblrs.First().RowKey";
-            lv.dataContext.to = "@Model.Tumblrs.Last().RowKey";
             lv.dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
             lv.dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
         })();

@@ -6,4 +6,13 @@
 .mar-left {
   margin-left: 7px;
 }
+.btn-selected {
+  color: crimson;
+}
+.btn-selected:hover {
+  color: crimson;
+}
+.btn-selected:focus {
+  color: crimson;
+}
 /*# sourceMappingURL=lvgaga.css.map */

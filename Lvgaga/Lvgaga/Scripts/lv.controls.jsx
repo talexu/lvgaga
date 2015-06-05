@@ -26,9 +26,11 @@
 var Functions = React.createClass({
     render: function () {
         var ctx = this.props.dataContext;
+        var classNameOfFavorite = "btn btn-default btn-sm";
+        classNameOfFavorite += ctx.IsFavorited ? " btn-selected" : "";
         return (
             <div>
-                <button type="button" className="btn btn-default btn-sm">
+                <button type="button" className={classNameOfFavorite}>
                     <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
                 </button>
                 <button type="button" className="btn btn-default btn-sm mar-left">
