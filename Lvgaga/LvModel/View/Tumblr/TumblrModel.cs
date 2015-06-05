@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace LvModel.View.Tumblr
 {
@@ -7,6 +8,11 @@ namespace LvModel.View.Tumblr
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public string Id { get; set; }
+
+        public string Base64Id
+        {
+            get { return Convert.ToBase64String(Encoding.UTF8.GetBytes(Id)); }
+        }
         public string Uri { get; set; }
         public string MediaType { get; set; }
         public string MediaUri { get; set; }

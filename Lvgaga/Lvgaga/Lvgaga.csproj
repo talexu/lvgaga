@@ -367,6 +367,12 @@
     <Content Include="Content\ladda.css" />
     <Content Include="Content\ladda.min.css" />
     <Content Include="Content\lofter.css" />
+    <Content Include="Content\lvgaga.css">
+      <DependentUpon>lvgaga.less</DependentUpon>
+    </Content>
+    <Content Include="Content\lvgaga.min.css">
+      <DependentUpon>lvgaga.css</DependentUpon>
+    </Content>
     <Content Include="Content\lvgaga.mobile.css">
       <DependentUpon>lvgaga.mobile.less</DependentUpon>
     </Content>
@@ -389,6 +395,10 @@
     <Content Include="bower_components\sprintf\dist\sprintf.min.map" />
     <Content Include="Content\lvgaga.mobile.css.map">
       <DependentUpon>lvgaga.mobile.css</DependentUpon>
+    </Content>
+    <Content Include="Content\lvgaga.less" />
+    <Content Include="Content\lvgaga.css.map">
+      <DependentUpon>lvgaga.css</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Icon.png" />

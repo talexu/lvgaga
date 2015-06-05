@@ -4,7 +4,7 @@
     ViewBag.Title = "首页";
 }
 
-<div id="div_tumblrs">
+<div id="div_tumblrs" class="g-doc">
 
 </div>
 
@@ -14,6 +14,7 @@
         (function() {
             "use strict";
             lv.tumblrModels = @Html.Raw(Model.Tumblrs.ToJsonString());
+            lv.dataContext = @Html.Raw(Model.ToJsonString());
         })();
     </script>
     <!--React-->

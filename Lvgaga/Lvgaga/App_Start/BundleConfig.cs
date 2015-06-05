@@ -38,7 +38,8 @@ namespace Lvgaga
                 "~/Content/site.css",
                 "~/Content/ladda-themeless.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/lofter.css"));
+                "~/Content/lofter.css",
+                "~/Content/lvgaga.css"));
             bundles.Add(new StyleBundle("~/Content/css/mobile").Include(
                 "~/Content/lvgaga.mobile.css"));
 
