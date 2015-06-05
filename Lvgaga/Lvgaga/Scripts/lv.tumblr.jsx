@@ -12,7 +12,7 @@
         getInitialState: function () {
             return {dataContext: this.props.initialState};
         },
-        setFavorites: function (tumblrs) {
+        loadFavorites: function (tumblrs) {
             var that = this;
             lv.retryExecute(function () {
                 var from = tumblrs[0].RowKey;
@@ -39,8 +39,11 @@
                 });
             });
         },
+        addFavorite: function(e, mediaType, rowKey){
+
+        },
         componentDidMount: function () {
-            this.setFavorites(this.state.dataContext);
+            this.loadFavorites(this.state.dataContext);
         },
         loadMoreTumblrs: function (e) {
             var that = this;
@@ -63,7 +66,7 @@
                         that.state.dataContext = that.state.dataContext.concat(data.value);
                         that.setState(that.state);
 
-                        that.setFavorites(that.state.dataContext);
+                        that.loadFavorites(that.state.dataContext);
                     }).done(function (data, textStatus, jqXhr) {
                         continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
