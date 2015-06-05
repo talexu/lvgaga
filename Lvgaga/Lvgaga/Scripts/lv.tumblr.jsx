@@ -19,12 +19,20 @@
                         continuationToken: continuationToken,
                         filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
                         top: takingCount
+                    }).done(function (data) {
+                        $.each(data.value, function (index, tumblr) {
+                            var rk = lv.getInvertedTicks(tumblr.RowKey);
+                            var id = sprintf("%s/%s", tumblr.MediaType, rk);
+                            var base64id = window.btoa(id);
+                            tumblr.Id = id;
+                            tumblr.Base64Id = base64id;
+                        });
+
+                        that.state.dataContext = that.state.dataContext.concat(data.value);
+                        that.setState(that.state);
                     }).done(function (data, textStatus, jqXhr) {
                         continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                         continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-                    }).done(function (data, textStatus, jqXhr) {
-                        that.state.dataContext = that.state.dataContext.concat(data.value);
-                        that.setState(that.state);
                     });
                 }, e.target);
             }, function () {
