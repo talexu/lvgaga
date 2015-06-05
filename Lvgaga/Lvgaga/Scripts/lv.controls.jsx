@@ -86,13 +86,9 @@ var CommentList = React.createClass({
 var LoadingMore = React.createClass({
     render: function () {
         return (
-            /*<div className="box">
-             <div className="info2">
-             <button type="button" className="btn btn-link">加载更多</button>
-             </div>
-             </div>*/
-            <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle"
-                    onClick={this.props.eventHandler}>加载更多</button>
+            <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
+                    data-style="zoom-out" data-spinner-color="#333"
+                    onClick={this.props.eventHandler}><span class="ladda-label">加载更多</span></button>
         );
     }
 });
@@ -143,27 +139,6 @@ var TumblrContainerList = React.createClass({
         return (
             <div>
                 {TumblrContainerNodes}
-            </div>
-        );
-    }
-});
-
-var TumblrContainerBox = React.createClass({
-    getInitialState: function () {
-        return {dataContext: this.props.initialState};
-    },
-    loadMoreTumblrs: function (e) {
-        var that = this;
-        this.props.eventHandlers.loadMoreTumblrs(function (data) {
-            that.state.dataContext = that.state.dataContext.concat(data.value);
-            that.setState(that.state);
-        });
-    },
-    render: function () {
-        return (
-            <div className="g-mn">
-                <TumblrContainerList dataContext={this.state.dataContext}/>
-                <LoadingMore eventHandler={this.loadMoreTumblrs}/>
             </div>
         );
     }

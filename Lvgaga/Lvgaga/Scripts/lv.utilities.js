@@ -46,7 +46,12 @@
     exports.ajaxLadda = function (func, button) {
         if (!button) return func(this, arguments);
 
-        var l = Ladda.create(button.get(0));
+        var l;
+        if (button instanceof jQuery) {
+            l = Ladda.create(button.get(0));
+        } else {
+            l = Ladda.create(button);
+        }
         l.start();
         return func.apply(this, arguments).always(function () {
             l.stop();
@@ -64,7 +69,7 @@
 
     // 获取Token
     exports.getToken = function (paths) {
-        return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({ times: defaultRetryTime });
+        return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({times: defaultRetryTime});
     };
 
     // 获取comment链接
@@ -102,13 +107,13 @@
                 xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
                 xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
             }
-        }).retry({ times: defaultRetryTime });
+        }).retry({times: defaultRetryTime});
     };
 
     // 添加收藏
     exports.addFavorite = function (p) {
         return exports.authorizedExecute(function () {
-            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({ times: defaultRetryTime });
+            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({times: defaultRetryTime});
         });
     };
     // 移除收藏
@@ -117,7 +122,7 @@
             return $.ajax({
                 url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
                 type: "DELETE"
-            }).retry({ times: defaultRetryTime });
+            }).retry({times: defaultRetryTime});
         });
     };
 

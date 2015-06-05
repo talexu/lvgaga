@@ -1,4 +1,5 @@
-﻿@using LvService.Utilities
+﻿@using LvModel.Common
+@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
@@ -13,8 +14,11 @@
     <script>
         (function() {
             "use strict";
-            lv.tumblrModels = @Html.Raw(Model.Tumblrs.ToJsonString());
             lv.dataContext = @Html.Raw(Model.ToJsonString());
+            lv.dataContext.from = "@Model.Tumblrs.First().RowKey";
+            lv.dataContext.to = "@Model.Tumblrs.Last().RowKey";
+            lv.dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+            lv.dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
         })();
     </script>
     <!--React-->
