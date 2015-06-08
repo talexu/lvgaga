@@ -408,6 +408,7 @@
     <Content Include="Scripts\ladda.js" />
     <Content Include="Scripts\ladda.min.js" />
     <Content Include="Scripts\lv.factory.js" />
+    <Content Include="Scripts\lv.favorite.js" />
     <Content Include="Scripts\lv.mobile.comment.js" />
     <Content Include="Scripts\lv.mobile.favorite.js" />
     <Content Include="Scripts\lv.mobile.tumblr.js" />

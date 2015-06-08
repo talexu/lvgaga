@@ -5,6 +5,7 @@
         var base64Id = window.btoa(id);
         dataEntity.Id = id;
         dataEntity.Base64Id = base64Id;
+        dataEntity.CreateTime = lv.getLocalTime(dataEntity.CreateTime);
 
         return dataEntity;
     };

@@ -129,6 +129,7 @@
         queryAzureTable: queryAzureTable,
         token: {},
         tumblr: {},
+        favorite: {},
         factory: {}
     };
 })();
