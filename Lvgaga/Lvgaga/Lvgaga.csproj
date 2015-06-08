@@ -407,9 +407,12 @@
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\ladda.js" />
     <Content Include="Scripts\ladda.min.js" />
+    <Content Include="Scripts\lv.factory.js" />
     <Content Include="Scripts\lv.mobile.comment.js" />
     <Content Include="Scripts\lv.mobile.favorite.js" />
     <Content Include="Scripts\lv.mobile.tumblr.js" />
+    <Content Include="Scripts\lv.token.js" />
+    <Content Include="Scripts\lv.tumblr.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />

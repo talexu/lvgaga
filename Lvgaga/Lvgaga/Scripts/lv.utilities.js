@@ -1,26 +1,27 @@
 ﻿var lv = (function () {
-    var exports = {};
     var defaultRetryTime = 3;
+    var defaultTakingCount = 20;
 
-    exports.defaultTakingCount = 20;
-    // 基础方法
-    exports.singleton = function (func) {
+    var singleton = function (func) {
         var instance;
         return (function () {
             return instance || (instance = func.apply(this, arguments));
         });
     };
-    exports.retryExecute = function (func, handler, retry) {
+
+    var retryExecute = function (func, handler, retry) {
         retry = retry === undefined ? defaultRetryTime - 1 : retry;
-        if (retry < 0) return undefined;
+        if (retry < 0)
+            return undefined;
 
         return func.apply(this, arguments).fail(function () {
-            handler.apply(this, arguments).done(function () {
-                exports.retryExecute(func, handler, retry - 1);
+            handler.apply(this, arguments).always(function () {
+                retryExecute(func, handler, retry - 1);
             });
         });
     };
-    exports.authorizedExecute = function (func) {
+
+    var authorizedExecute = function (func) {
         var d = $.Deferred();
         func.apply(this, arguments).done(function (data, textStatus, jqXhr) {
             switch (jqXhr.status) {
@@ -43,8 +44,10 @@
 
         return d;
     };
-    exports.ajaxLadda = function (func, button) {
-        if (!button) return func(this, arguments);
+
+    var ajaxLadda = function (func, button) {
+        if (!button)
+            return func(this, arguments);
 
         var l;
         if (button instanceof jQuery) {
@@ -57,40 +60,30 @@
             l.stop();
         });
     };
-    exports.retryExecuteLadda = function(func, handler, button, retry) {
-        return exports.retryExecute(function() {
-            return exports.ajaxLadda(function() {
+
+    var retryExecuteLadda = function (func, handler, button, retry) {
+        return retryExecute(function () {
+            return ajaxLadda(function () {
                 return func.apply(this, arguments);
             }, button);
-        }, function() {
-            return exports.ajaxLadda(function() {
+        }, function () {
+            return ajaxLadda(function () {
                 return handler.apply(this, arguments);
             }, button);
         }, retry);
-    }
-    exports.getInvertedTicks = function (rowKey) {
+    };
+
+    var getInvertedTicks = function (rowKey) {
         return rowKey.slice(2);
     };
-    exports.getLocalTime = function (dataTime) {
+
+    var getLocalTime = function (dataTime) {
         return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
     };
-    exports.getShareUri = function (p) {
-        return sprintf("http://api.bshare.cn/share/sinaminiblog?url=%s&summary=%s&publisherUuid=%s&pic=%s", encodeURIComponent("http://" + window.location.host + p.Uri), encodeURIComponent(p.Summary), encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"), encodeURIComponent(p.Pic));
-    };
 
-    // 获取Token
-    exports.getToken = function (paths) {
-        return $.get(sprintf("/api/v1/tokens/%s", paths.join("/"))).retry({times: defaultRetryTime});
-    };
-
-    // 获取comment链接
-    exports.getCommentUri = function (mediaType, rowKey) {
-        return ["/comments", mediaType, rowKey].join("/");
-    };
-
-    // 查询AzureTable
-    exports.queryAzureTable = function (tableSasUrl, p) {
-        if (!tableSasUrl || typeof tableSasUrl !== "string") return $.Deferred().reject();
+    var queryAzureTable = function (tableSasUrl, p) {
+        if (!tableSasUrl || typeof tableSasUrl !== "string")
+            return $.Deferred().reject();
 
         var uri = tableSasUrl;
         if (p.continuationToken) {
@@ -118,24 +111,24 @@
                 xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
                 xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
             }
-        }).retry({times: defaultRetryTime});
-    };
-
-    // 添加收藏
-    exports.addFavorite = function (p) {
-        return exports.authorizedExecute(function () {
-            return $.post(sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk)).retry({times: defaultRetryTime});
-        });
-    };
-    // 移除收藏
-    exports.removeFavorite = function (p) {
-        return exports.authorizedExecute(function () {
-            return $.ajax({
-                url: sprintf("/api/v1/favorites/%s/%s", p.pk, p.rk),
-                type: "DELETE"
-            }).retry({times: defaultRetryTime});
+        }).retry({
+            times: defaultRetryTime
         });
     };
 
-    return exports;
+    return {
+        defaultRetryTime: defaultRetryTime,
+        defaultTakingCount: defaultTakingCount,
+        singleton: singleton,
+        retryExecute: retryExecute,
+        authorizedExecute: authorizedExecute,
+        ajaxLadda: ajaxLadda,
+        retryExecuteLadda: retryExecuteLadda,
+        getInvertedTicks: getInvertedTicks,
+        getLocalTime: getLocalTime,
+        queryAzureTable: queryAzureTable,
+        token: {},
+        tumblr: {},
+        factory: {}
+    };
 })();

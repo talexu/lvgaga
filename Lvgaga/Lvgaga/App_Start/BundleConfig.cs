@@ -57,13 +57,13 @@ namespace Lvgaga
                 "~/Scripts/ladda*",
                 "~/Scripts/moment*",
                 "~/bower_components/sprintf/dist/sprintf.min.js",
-                "~/Scripts/lv.utilities.js"));
-            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
-                "~/Scripts/lv.controls.jsx"));
+                "~/Scripts/lv.utilities.js",
+                "~/Scripts/lv.token.js",
+                "~/Scripts/lv.factory.js"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
-                "~/Scripts/lv.tumblr.jsx"));
+                "~/Scripts/lv.tumblr.js"));
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.mobile.tumblr.js"));
