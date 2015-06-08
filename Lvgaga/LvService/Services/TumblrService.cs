@@ -56,11 +56,10 @@ namespace LvService.Services
             p.TakeCount = takeCount;
 
             await _readEntitiesCommand.ExecuteAsync(p);
-            List<TumblrModel> tumblrs = _tumblrFactory.CreateTumblrModels(p.Entities);
 
             return new TumblrsModel
             {
-                Tumblrs = tumblrs,
+                Tumblrs = p.Entities,
                 Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfTumblr),
                 ContinuationToken = p.ContinuationToken
             };

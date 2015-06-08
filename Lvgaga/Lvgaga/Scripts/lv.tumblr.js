@@ -9,8 +9,7 @@
     var tableNameOfTumblr = lv.dataContext.tableNameOfTumblr;
     var tableNameOfFavorite = lv.dataContext.tableNameOfFavorite;
 
-    var initTumblrs = function (parameters) {
-        var entities = parameters.entities;
+    var initTumblrs = function (entities) {
         lv.factory.createTumblrs(entities);
         that.state.dataContext = that.state.dataContext.concat(entities);
         that.setState(that.state);
@@ -54,9 +53,7 @@
                 filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
                 top: takingCount
             }).done(function (data) {
-                var entities = initTumblrs({
-                    entities: data.value
-                });
+                var entities = initTumblrs(data.value);
                 loadFavorites(entities);
             }).done(function (data, textStatus, jqXhr) {
                 continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
@@ -76,6 +73,7 @@
     lv.tumblr.initialize = function (parameters) {
         that = parameters.that;
     };
+    lv.tumblr.initTumblrs = initTumblrs;
     lv.tumblr.loadFavorites = loadFavorites;
     lv.tumblr.loadTumblrs = loadTumblrs;
 })();

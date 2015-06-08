@@ -1,7 +1,7 @@
 ﻿(function () {
     var TumblrContainerBox = React.createClass({
         getInitialState: function () {
-            return {dataContext: this.props.initialState};
+            return {dataContext: lv.factory.createTumblrs(this.props.initialState)};
         },
         componentDidMount: function () {
             lv.tumblr.loadFavorites(this.state.dataContext);
