@@ -57,6 +57,17 @@
             l.stop();
         });
     };
+    exports.retryExecuteLadda = function(func, handler, button, retry) {
+        return exports.retryExecute(function() {
+            return exports.ajaxLadda(function() {
+                return func.apply(this, arguments);
+            }, button);
+        }, function() {
+            return exports.ajaxLadda(function() {
+                return handler.apply(this, arguments);
+            }, button);
+        }, retry);
+    }
     exports.getInvertedTicks = function (rowKey) {
         return rowKey.slice(2);
     };
