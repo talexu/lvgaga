@@ -2,12 +2,14 @@
     var that;
     var sas = lv.dataContext.Sas;
     var favSas;
+    var comSas;
     var continuationToken = lv.dataContext.ContinuationToken;
     var mediaType = lv.dataContext.MediaType;
     var tumblrCategory = lv.dataContext.TumblrCategory;
     var takingCount = lv.defaultTakingCount;
     var tableNameOfTumblr = lv.dataContext.tableNameOfTumblr;
     var tableNameOfFavorite = lv.dataContext.tableNameOfFavorite;
+    var tableNameOfComment = lv.dataContext.tableNameOfComment;
 
     var initTumblrs = function (entities) {
         lv.factory.createTumblrs(entities);
@@ -18,7 +20,7 @@
     };
 
     var loadFavorites = function (tumblrs) {
-        lv.retryExecute(function () {
+        return lv.retryExecute(function () {
             var from = tumblrs[0].RowKey;
             var to = tumblrs[tumblrs.length - 1].RowKey;
             return lv.queryAzureTable(favSas, {
@@ -91,6 +93,21 @@
         }
     };
 
+    var loadComments = function(tumblr, callback) {
+        lv.retryExecute(function () {
+            return lv.queryAzureTable(comSas, {
+                filter: sprintf("PartitionKey eq '%s'", tumblr.RowKey),
+                top: takingCount
+            }).done(function (data, textStatus, jqXhr) {
+                callback(data.value);
+            });
+        }, function () {
+            return lv.token.getToken([tableNameOfComment]).done(function (data) {
+                comSas = data;
+            });
+        });
+    };
+
     lv.tumblr.initialize = function (parameters) {
         that = parameters.that;
     };
@@ -98,4 +115,5 @@
     lv.tumblr.loadFavorites = loadFavorites;
     lv.tumblr.loadTumblrs = loadTumblrs;
     lv.tumblr.setFavorite = setFavorite;
+    lv.tumblr.loadComments = loadComments;
 })();

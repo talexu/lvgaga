@@ -24,7 +24,8 @@
 
     var eventHandlers = {
         loadTumblrs: lv.tumblr.loadTumblrs,
-        setFavorite: lv.tumblr.setFavorite
+        setFavorite: lv.tumblr.setFavorite,
+        loadComments: lv.tumblr.loadComments
     };
 
     React.render(

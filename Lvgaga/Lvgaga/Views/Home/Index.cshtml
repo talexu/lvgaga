@@ -17,6 +17,7 @@
             lv.dataContext = @Html.Raw(Model.ToJsonString());
             lv.dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
             lv.dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
+            lv.dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
         })();
     </script>
     @Scripts.Render("~/bundles/home")

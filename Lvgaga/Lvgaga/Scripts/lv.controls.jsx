@@ -31,19 +31,21 @@ var Functions = React.createClass({
         var classNameOfFavorite = "btn btn-default btn-sm ladda-button";
         classNameOfFavorite += dataContext.IsFavorited ? " btn-selected" : "";
 
-        var setFavorite = function(e){
+        var setFavorite = function (e) {
             eventHandlers.setFavorite(dataContext, e);
         };
         return (
             <div>
-                <button type="button" className={classNameOfFavorite} data-style="zoom-out" data-spinner-color="#333" onClick={setFavorite}>
+                <button type="button" className={classNameOfFavorite} data-style="zoom-out" data-spinner-color="#333"
+                        onClick={setFavorite}>
                     <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
                 </button>
                 <button type="button" className="btn btn-default btn-sm mar-left">
                     <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                 </button>
                 <button type="button" className="btn btn-default btn-sm pull-right" data-toggle="collapse"
-                        data-target={"#"+dataContext.Base64Id} aria-expanded="false" aria-controls={dataContext.Base64Id}>
+                        data-target={"#"+dataContext.Base64Id} aria-expanded="false"
+                        aria-controls={dataContext.Base64Id}>
                     <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                 </button>
             </div>
@@ -109,22 +111,25 @@ var LoadingMore = React.createClass({
 var TumblrContainer = React.createClass({
     getInitialState: function () {
         return {
-            comments: [
-                {
-                    UserName: "bjutales@hotmail.com",
-                    CommentTime: "2015-06-02 16:33:41",
-                    Text: "一些评论1"
-                },
-                {
-                    UserName: "bjutales@hotmail.com",
-                    CommentTime: "2015-06-02 16:33:41",
-                    Text: "一些评论2"
-                }
-            ]
+            comments: []
         };
+    },
+    componentDidMount: function () {
+        var {dataContext, eventHandlers, ...other} = this.props;
+        var that = this;
+
+        $('#' + dataContext.Base64Id).on('show.bs.collapse', function () {
+            if (that.state.comments.length <= 0) {
+                eventHandlers.loadComments(dataContext, function (loadedComments) {
+                    that.state.comments = loadedComments;
+                    that.setState(that.state);
+                });
+            }
+        });
     },
     render: function () {
         var {dataContext, ...other} = this.props;
+        var comments = this.state.comments;
 
         return (
             <div className="box">
@@ -134,7 +139,7 @@ var TumblrContainer = React.createClass({
 
                     <div className="collapse" id={dataContext.Base64Id}>
                         <CommentForm {...other}/>
-                        <CommentList dataContext={this.state.comments}/>
+                        <CommentList dataContext={comments}/>
                     </div>
 
                 </div>
