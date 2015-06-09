@@ -10,7 +10,6 @@
                     </div>
                 </div>
 
-
                 <div>
                     <div className="text text-1">
                         <p>{dataContext.Text}</p>
@@ -54,10 +53,38 @@ var Functions = React.createClass({
 });
 
 var CommentForm = React.createClass({
+    getInitialState: function () {
+        return {
+            commentText: ""
+        };
+    },
+    handleChange: function (e) {
+        this.setState({commentText: e.target.value});
+    },
+    clear: function () {
+        this.setState(this.getInitialState());
+    },
+    postComment: function (e) {
+        var postCommentEventHandler = this.props.postCommentEventHandler;
+        postCommentEventHandler(this.state.commentText, e, this.clear);
+    },
     render: function () {
         return (
             <div>
-                Hello, world! I am a CommentForm.
+                <form role="form">
+                    <div className="form-group mar-bottom">
+                        <label for="comment">评论：</label>
+                        <textarea className="form-control max-width-none" rows="3"
+                                  value={this.state.commentText} onChange={this.handleChange}></textarea>
+
+                        <div className="pull-right">
+                            <button type="button" className="btn btn-default btn-sm" data-style="zoom-out"
+                                    data-spinner-color="#333" onClick={this.postComment}>
+                                <span class="ladda-label">发表评论</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         );
     }
@@ -69,10 +96,11 @@ var Comment = React.createClass({
 
         return (
             <div>
-                <p>{dataContext.UserName}</p>
+                <div className="info mar-zero">
+                    <a href="#">{dataContext.UserName}</a>
 
-                <p>{dataContext.CommentTime}</p>
-
+                    <p className="date pull-right">{dataContext.CommentTime}</p>
+                </div>
                 <p>{dataContext.Text}</p>
             </div>
         );
@@ -122,14 +150,30 @@ var TumblrContainer = React.createClass({
             if (that.state.comments.length <= 0) {
                 eventHandlers.loadComments(dataContext, function (loadedComments) {
                     that.state.comments = loadedComments;
-                    that.setState(that.state);
+
+                    lv.refreshState(that);
                 });
             }
         });
     },
     render: function () {
         var {dataContext, ...other} = this.props;
+        var that = this;
         var comments = this.state.comments;
+
+        var postComment = function (commentText, e, finishing) {
+            lv.comment.postComment({
+                tumblr: dataContext,
+                commentText: commentText,
+                button: e.target,
+                callback: function (postedComment) {
+                    that.state.comments.unshift(lv.factory.createComment(postedComment));
+
+                    lv.refreshState(that);
+                    finishing();
+                }
+            });
+        };
 
         return (
             <div className="box">
@@ -138,7 +182,7 @@ var TumblrContainer = React.createClass({
                     <Functions {...other} dataContext={dataContext}/>
 
                     <div className="collapse" id={dataContext.Base64Id}>
-                        <CommentForm {...other}/>
+                        <CommentForm {...other} dataContext={dataContext} postCommentEventHandler={postComment}/>
                         <CommentList dataContext={comments}/>
                     </div>
 

@@ -14,8 +14,8 @@
     var initTumblrs = function (entities) {
         lv.factory.createTumblrs(entities);
         that.state.dataContext = that.state.dataContext.concat(entities);
-        that.setState(that.state);
 
+        lv.refreshState(that);
         return entities;
     };
 
@@ -37,7 +37,8 @@
                         value.IsFavorited = true;
                     }
                 });
-                that.setState(that.state);
+
+                lv.refreshState(that);
             });
         }, function () {
             return lv.token.getToken([tableNameOfFavorite]).done(function (data) {
@@ -80,26 +81,28 @@
             return lv.ajaxLadda(function () {
                 return lv.favorite.deleteFavorite(tumblr).done(function () {
                     tumblr.IsFavorited = false;
-                    that.setState(that.state);
+
+                    lv.refreshState(that);
                 });
             }, button);
         } else {
             return lv.ajaxLadda(function () {
                 return lv.favorite.postFavorite(tumblr).done(function () {
                     tumblr.IsFavorited = true;
-                    that.setState(that.state);
+
+                    lv.refreshState(that);
                 });
             }, button);
         }
     };
 
-    var loadComments = function(tumblr, callback) {
+    var loadComments = function (tumblr, callback) {
         lv.retryExecute(function () {
             return lv.queryAzureTable(comSas, {
                 filter: sprintf("PartitionKey eq '%s'", tumblr.RowKey),
                 top: takingCount
             }).done(function (data, textStatus, jqXhr) {
-                callback(data.value);
+                callback(lv.factory.createComments(data.value));
             });
         }, function () {
             return lv.token.getToken([tableNameOfComment]).done(function (data) {

@@ -64,7 +64,8 @@ namespace Lvgaga
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
                 "~/Scripts/lv.tumblr.js",
-                "~/Scripts/lv.favorite.js"));
+                "~/Scripts/lv.favorite.js",
+                "~/Scripts/lv.comment.js"));
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.mobile.tumblr.js"));

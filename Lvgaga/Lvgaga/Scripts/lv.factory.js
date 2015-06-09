@@ -17,5 +17,20 @@
         return dataEntities;
     };
 
+    var createComment = function(dataEntity) {
+        dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
+
+        return dataEntity;
+    };
+    var createComments = function(dataEntities) {
+        $.each(dataEntities, function (index, dataEntity) {
+            createComment(dataEntity);
+        });
+
+        return dataEntities;
+    }
+
     lv.factory.createTumblrs = createTumblrs;
+    lv.factory.createComment = createComment;
+    lv.factory.createComments = createComments;
 })();

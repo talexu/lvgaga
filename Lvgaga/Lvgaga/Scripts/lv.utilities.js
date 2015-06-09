@@ -116,6 +116,10 @@
         });
     };
 
+    var refreshState = function (that) {
+        that.setState(that.state);
+    };
+
     return {
         defaultRetryTime: defaultRetryTime,
         defaultTakingCount: defaultTakingCount,
@@ -127,6 +131,7 @@
         getInvertedTicks: getInvertedTicks,
         getLocalTime: getLocalTime,
         queryAzureTable: queryAzureTable,
+        refreshState: refreshState,
         token: {},
         tumblr: {},
         comment: {},
