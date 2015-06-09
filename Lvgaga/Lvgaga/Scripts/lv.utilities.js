@@ -136,6 +136,7 @@
         tumblr: {},
         comment: {},
         favorite: {},
-        factory: {}
+        factory: {},
+        social: {}
     };
 })();

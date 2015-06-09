@@ -191,6 +191,10 @@ var TumblrContainer = React.createClass({
                     <div className="collapse" id={dataContext.Base64Id}>
                         <CommentForm {...other} dataContext={dataContext} postCommentEventHandler={this.postComment}/>
                         <CommentList dataContext={comments}/>
+
+                        <div className="info2">
+                            <a href="#">全文链接</a>
+                        </div>
                     </div>
 
                 </div>
