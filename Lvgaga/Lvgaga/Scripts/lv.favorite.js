@@ -1,18 +1,18 @@
 ﻿(function () {
     var retryTime = lv.defaultRetryTime;
 
-    var postFavorite = function (parameters) {
+    var postFavorite = function (tumblr) {
         return lv.authorizedExecute(function () {
-            return $.post(sprintf("/api/v1/favorites/%s/%s", parameters.RowKey, parameters.PartitionKey)).retry({ times: retryTime });
+            return $.post(sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey)).retry({times: retryTime});
         });
     };
 
-    var deleteFavorite = function (parameters) {
-        return lv.authorizedExecute(function() {
+    var deleteFavorite = function (tumblr) {
+        return lv.authorizedExecute(function () {
             return $.ajax({
-                url: sprintf("/api/v1/favorites/%s/%s", parameters.RowKey, parameters.PartitionKey),
+                url: sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey),
                 type: "DELETE"
-            }).retry({ times: retryTime });
+            }).retry({times: retryTime});
         });
     };
 

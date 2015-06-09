@@ -70,10 +70,32 @@
         }, button);
     };
 
+    var setFavorite = function (tumblr, e) {
+        var button = e.target;
+        var isFavorited = tumblr.IsFavorited;
+
+        if (isFavorited) {
+            return lv.ajaxLadda(function () {
+                return lv.favorite.deleteFavorite(tumblr).done(function () {
+                    tumblr.IsFavorited = false;
+                    that.setState(that.state);
+                });
+            }, button);
+        } else {
+            return lv.ajaxLadda(function () {
+                return lv.favorite.postFavorite(tumblr).done(function () {
+                    tumblr.IsFavorited = true;
+                    that.setState(that.state);
+                });
+            }, button);
+        }
+    };
+
     lv.tumblr.initialize = function (parameters) {
         that = parameters.that;
     };
     lv.tumblr.initTumblrs = initTumblrs;
     lv.tumblr.loadFavorites = loadFavorites;
     lv.tumblr.loadTumblrs = loadTumblrs;
+    lv.tumblr.setFavorite = setFavorite;
 })();
