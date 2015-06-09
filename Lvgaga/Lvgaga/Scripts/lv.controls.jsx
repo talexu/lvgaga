@@ -24,19 +24,21 @@
 });
 
 var Functions = React.createClass({
-    render: function () {
+    setFavorite: function (e) {
         var {dataContext, eventHandlers, ...other} = this.props;
+
+        eventHandlers.setFavorite(dataContext, e);
+    },
+    render: function () {
+        var {dataContext, ...other} = this.props;
 
         var classNameOfFavorite = "btn btn-default btn-sm ladda-button";
         classNameOfFavorite += dataContext.IsFavorited ? " btn-selected" : "";
 
-        var setFavorite = function (e) {
-            eventHandlers.setFavorite(dataContext, e);
-        };
         return (
             <div>
                 <button type="button" className={classNameOfFavorite} data-style="zoom-out" data-spinner-color="#333"
-                        onClick={setFavorite}>
+                        onClick={this.setFavorite}>
                     <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
                 </button>
                 <button type="button" className="btn btn-default btn-sm mar-left">
@@ -66,7 +68,11 @@ var CommentForm = React.createClass({
     },
     postComment: function (e) {
         var postCommentEventHandler = this.props.postCommentEventHandler;
-        postCommentEventHandler(this.state.commentText, e, this.clear);
+        postCommentEventHandler({
+            commentText: this.state.commentText,
+            e: e,
+            finishing: this.clear
+        });
     },
     render: function () {
         return (
@@ -78,7 +84,7 @@ var CommentForm = React.createClass({
                                   value={this.state.commentText} onChange={this.handleChange}></textarea>
 
                         <div className="pull-right">
-                            <button type="button" className="btn btn-default btn-sm" data-style="zoom-out"
+                            <button type="button" className="btn btn-default btn-sm ladda-button" data-style="zoom-out"
                                     data-spinner-color="#333" onClick={this.postComment}>
                                 <span class="ladda-label">发表评论</span>
                             </button>
@@ -156,24 +162,25 @@ var TumblrContainer = React.createClass({
             }
         });
     },
+    postComment: function (parameters) {
+        var dataContext = this.props.dataContext;
+        var that = this;
+
+        lv.comment.postComment({
+            tumblr: dataContext,
+            commentText: parameters.commentText,
+            button: parameters.e.target,
+            callback: function (postedComment) {
+                that.state.comments.unshift(lv.factory.createComment(postedComment));
+
+                lv.refreshState(that);
+                parameters.finishing();
+            }
+        });
+    },
     render: function () {
         var {dataContext, ...other} = this.props;
-        var that = this;
         var comments = this.state.comments;
-
-        var postComment = function (commentText, e, finishing) {
-            lv.comment.postComment({
-                tumblr: dataContext,
-                commentText: commentText,
-                button: e.target,
-                callback: function (postedComment) {
-                    that.state.comments.unshift(lv.factory.createComment(postedComment));
-
-                    lv.refreshState(that);
-                    finishing();
-                }
-            });
-        };
 
         return (
             <div className="box">
@@ -182,7 +189,7 @@ var TumblrContainer = React.createClass({
                     <Functions {...other} dataContext={dataContext}/>
 
                     <div className="collapse" id={dataContext.Base64Id}>
-                        <CommentForm {...other} dataContext={dataContext} postCommentEventHandler={postComment}/>
+                        <CommentForm {...other} dataContext={dataContext} postCommentEventHandler={this.postComment}/>
                         <CommentList dataContext={comments}/>
                     </div>
 
