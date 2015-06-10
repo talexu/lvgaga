@@ -1,6 +1,7 @@
-using React;
+using Lvgaga;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Lvgaga.ReactConfig), "Configure")]
+[assembly: PreApplicationStartMethod(typeof(ReactConfig), "Configure")]
 
 namespace Lvgaga
 {

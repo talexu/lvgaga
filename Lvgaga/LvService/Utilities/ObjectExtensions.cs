@@ -28,6 +28,12 @@ namespace LvService.Utilities
             return JsonConvert.DeserializeObject<T>(json);
         }
 
+        public static TC CloneByJson<TP, TC>(this TP obj) where TC : TP
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<TC>(json);
+        }
+
         public static List<T> CloneByJson<T>(this IEnumerable<T> objs)
         {
             return objs == null ? null : objs.Select(obj => obj.CloneByJson()).ToList();

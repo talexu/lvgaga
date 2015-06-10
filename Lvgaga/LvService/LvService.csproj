@@ -129,10 +129,6 @@
     <Compile Include="Factories\Uri\ICacheKeyFactory.cs" />
     <Compile Include="Factories\Uri\IUriFactory.cs" />
     <Compile Include="Factories\Uri\UriFactory.cs" />
-    <Compile Include="Factories\ViewModel\CommentFactory.cs" />
-    <Compile Include="Factories\ViewModel\ICommentFactory.cs" />
-    <Compile Include="Factories\ViewModel\ITumblrFactory.cs" />
-    <Compile Include="Factories\ViewModel\TumblrFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CachedCommentService.cs" />
     <Compile Include="Services\CachedSasService.cs" />

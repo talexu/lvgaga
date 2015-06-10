@@ -45,7 +45,7 @@ namespace Lvgaga.Controllers
         {
             var homeModel =
                 await
-                    _tumblrService.GetTumblrModelsAsync(
+                    _tumblrService.GetTumblrsModelAsync(
                         mediaType.ToString(),
                         (TumblrCategory)category,
                         LvConfiguration.DefaultTakingCount);

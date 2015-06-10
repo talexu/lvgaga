@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LvModel.Azure.StorageTable;
 using LvModel.View.Tumblr;
 using LvService.Factories.Uri;
 
@@ -20,16 +21,16 @@ namespace LvService.Services
             _cacheKeyFactory = cacheKeyFactory;
         }
 
-        public async Task<TumblrModel> GetTumblrModelAsync(string partitionKey, string rowKey)
+        public async Task<TumblrEntity> GetTumblrEntityAsync(string partitionKey, string rowKey)
         {
             return await _cache.Get(_cacheKeyFactory.CreateKey(RegionOfTumblr, partitionKey, rowKey),
-                async () => await _tumblrService.GetTumblrModelAsync(partitionKey, rowKey));
+                async () => await _tumblrService.GetTumblrEntityAsync(partitionKey, rowKey));
         }
 
-        public async Task<TumblrsModel> GetTumblrModelsAsync(string partitionKey, TumblrCategory category, int takeCount)
+        public async Task<TumblrsModel> GetTumblrsModelAsync(string partitionKey, TumblrCategory category, int takeCount)
         {
             return await _cache.Get(_cacheKeyFactory.CreateKey(RegionOfTumblrs, partitionKey, category.ToString("D")),
-                async () => await _tumblrService.GetTumblrModelsAsync(partitionKey, category, takeCount));
+                async () => await _tumblrService.GetTumblrsModelAsync(partitionKey, category, takeCount));
         }
     }
 }

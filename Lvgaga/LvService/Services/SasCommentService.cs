@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using LvModel.Azure.StorageTable;
 using LvModel.Common;
 using LvModel.View.Comment;
@@ -7,7 +6,6 @@ using LvModel.View.Tumblr;
 using LvService.Commands.Common;
 using LvService.DbContexts;
 using LvService.Factories.Uri;
-using LvService.Factories.ViewModel;
 using LvService.Utilities;
 
 namespace LvService.Services
@@ -17,7 +15,6 @@ namespace LvService.Services
         private readonly IAzureStorage _azureStorage;
         private readonly ICommand _createCommentCommand;
         private readonly ITumblrService _tumblrService;
-        private readonly ICommentFactory _commentFactory;
         private readonly IUriFactory _uriFactory;
         private readonly ISasService _sasService;
 
@@ -25,14 +22,12 @@ namespace LvService.Services
             IAzureStorage azureStorage,
             ICommand createCommentCommand,
             ITumblrService tumblrService,
-            ICommentFactory commentFactory,
             IUriFactory uriFactory,
             ISasService sasService)
         {
             _azureStorage = azureStorage;
             _createCommentCommand = createCommentCommand;
             _tumblrService = tumblrService;
-            _commentFactory = commentFactory;
             _uriFactory = uriFactory;
             _sasService = sasService;
         }
@@ -52,17 +47,10 @@ namespace LvService.Services
             var rowKeyAll = _uriFactory.CreateTumblrRowKey(TumblrCategory.All, rowKey);
             var tumblr =
                 await
-                    _tumblrService.GetTumblrModelAsync(partitionKey, rowKeyAll);
+                    _tumblrService.GetTumblrEntityAsync(partitionKey, rowKeyAll);
             if (tumblr == null) return null;
 
-            dynamic p = new ExpandoObject();
-            p.Table = await _azureStorage.GetTableReferenceAsync(LvConstants.TableNameOfComment);
-            p.PartitionKey = rowKey;
-            p.TakeCount = takeCount;
-
-            var model = _commentFactory.CreateCommentModel(tumblr);
-            if (model == null) return null;
-
+            var model = tumblr.CloneByJson<TumblrEntity, CommentModel>();
             model.Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfComment, rowKey);
 
             return model;

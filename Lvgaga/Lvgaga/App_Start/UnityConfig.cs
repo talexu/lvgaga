@@ -9,7 +9,6 @@ using LvService.Commands.Lvgaga.Tumblr;
 using LvService.DbContexts;
 using LvService.Factories.Azure.Storage;
 using LvService.Factories.Uri;
-using LvService.Factories.ViewModel;
 using LvService.Services;
 using Microsoft.Practices.Unity;
 using Microsoft.WindowsAzure.Storage;
@@ -89,10 +88,6 @@ namespace Lvgaga
 
             #region Tumblr
 
-            container.RegisterType<ITumblrFactory, TumblrFactory>(new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    typeof(IUriFactory)));
-
             const string getTumblrsCommand = "get tumblrs://entities";
             container.RegisterType<ICommand, CompositeCommand>(
                 getTumblrsCommand,
@@ -106,7 +101,6 @@ namespace Lvgaga
                     typeof(IAzureStorage),
                     typeof(ReadTableEntityCommand<TumblrEntity>),
                     new ResolvedParameter<ICommand>(getTumblrsCommand),
-                    typeof(ITumblrFactory),
                     typeof(ISasService)));
             container.RegisterType<ITumblrService, CachedTumblrService>(new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(
@@ -126,13 +120,11 @@ namespace Lvgaga
                         typeof(CreateCommentCommand),
                         typeof(CreateTableEntityCommand))));
 
-            container.RegisterType<ICommentFactory, CommentFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<SasCommentService, SasCommentService>(
                 new InjectionConstructor(
                     typeof(IAzureStorage),
                     new ResolvedParameter<ICommand>(createCommentCommand),
                     typeof(ITumblrService),
-                    typeof(ICommentFactory),
                     typeof(IUriFactory),
                     typeof(ISasService)));
             container.RegisterType<ICommentService, CachedCommentService>(new ContainerControlledLifetimeManager(),
