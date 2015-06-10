@@ -415,7 +415,6 @@
     <Content Include="Scripts\lv.mobile.tumblr.js" />
     <Content Include="Scripts\lv.social.js" />
     <Content Include="Scripts\lv.token.js" />
-    <Content Include="Scripts\lv.tumblr.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -486,6 +485,7 @@
     <Content Include="Views\Favorite\Index.Mobile.cshtml" />
     <Content Include="Scripts\lv.tumblr.jsx" />
     <Content Include="Scripts\lv.controls.jsx" />
+    <Content Include="Scripts\lv.comment.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

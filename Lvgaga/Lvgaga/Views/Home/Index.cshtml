@@ -11,17 +11,20 @@
 
 @section scripts
 {
-    <script>
-        (function() {
-            "use strict";
-            lv.dataContext = @Html.Raw(Model.ToJsonString());
-            lv.dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
-            lv.dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
-            lv.dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
-        })();
-    </script>
     @Scripts.Render("~/bundles/home")
     <!--React-->
     <script src="@Url.Content("~/Scripts/lv.tumblr.jsx")"></script>
     <!--React end-->
+
+    <script>
+        (function() {
+            "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+            dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
+            dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
+
+            lv.tumblr.initialize(dataContext);
+        })();
+    </script>
 }

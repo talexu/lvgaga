@@ -6,6 +6,8 @@
         dataEntity.Id = id;
         dataEntity.Base64Id = base64Id;
         dataEntity.CreateTime = lv.getLocalTime(dataEntity.CreateTime);
+        dataEntity.Uri = lv.comment.getCommentUri(dataEntity);
+        dataEntity.comments = dataEntity.comments || [];
 
         return dataEntity;
     };
@@ -17,12 +19,12 @@
         return dataEntities;
     };
 
-    var createComment = function(dataEntity) {
+    var createComment = function (dataEntity) {
         dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
 
         return dataEntity;
     };
-    var createComments = function(dataEntities) {
+    var createComments = function (dataEntities) {
         $.each(dataEntities, function (index, dataEntity) {
             createComment(dataEntity);
         });
@@ -30,6 +32,7 @@
         return dataEntities;
     }
 
+    lv.factory.createTumblr = createTumblr;
     lv.factory.createTumblrs = createTumblrs;
     lv.factory.createComment = createComment;
     lv.factory.createComments = createComments;
