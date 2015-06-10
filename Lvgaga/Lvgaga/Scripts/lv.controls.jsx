@@ -1,6 +1,6 @@
 ﻿var Tumblr = React.createClass({
     render: function () {
-        var {dataContext, ...other} = this.props;
+        var {dataContext} = this.props;
 
         return (
             <div className="cont">
@@ -25,7 +25,7 @@
 
 var Comment = React.createClass({
     render: function () {
-        var {dataContext, ...other} = this.props;
+        var {dataContext} = this.props;
 
         return (
             <div>
@@ -42,7 +42,7 @@ var Comment = React.createClass({
 
 var CommentList = React.createClass({
     render: function () {
-        var {dataContext, ...other} = this.props;
+        var {dataContext} = this.props;
 
         var commentNodes = dataContext.map(function (comment) {
             return (

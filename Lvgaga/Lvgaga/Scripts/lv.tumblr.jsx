@@ -1,12 +1,13 @@
 ﻿(function () {
     var that;
-    var sas;
+    var tumSas;
     var favSas;
     var comSas;
     var continuationToken;
     var mediaType;
     var tumblrCategory;
     var takingCount;
+    var commentTakingCount;
     var tableNameOfTumblr;
     var tableNameOfFavorite;
     var tableNameOfComment;
@@ -51,24 +52,21 @@
         var button = e.target;
 
         return lv.retryExecuteLadda(function () {
-            return lv.queryAzureTable(sas, {
+            return lv.queryAzureTable(tumSas, {
                 continuationToken: continuationToken,
                 filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
                 top: takingCount
+            }).done(function (data, textStatus, jqXhr) {
+                continuationToken = continuationToken || {};
+                continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
+                continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
             }).done(function (data) {
                 var entities = initTumblrs(data.value);
                 loadFavorites(entities);
-            }).done(function (data, textStatus, jqXhr) {
-                continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-
-                if (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey) {
-                    button.style.display = "none";
-                }
             });
         }, function () {
             return lv.token.getToken([tableNameOfTumblr]).done(function (data) {
-                sas = data;
+                tumSas = data;
             });
         }, button);
     };
@@ -171,9 +169,16 @@
 
     var LoadingMore = React.createClass({
         render: function () {
+            var btnStyle = {
+                display: "inline"
+            };
+            if (continuationToken && (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey)) {
+                btnStyle.display = "none";
+            }
+
             return (
                 <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
-                        data-style="zoom-out" data-spinner-color="#333"
+                        data-style="zoom-out" data-spinner-color="#333" style={btnStyle}
                         onClick={loadTumblrs}><span class="ladda-label">加载更多</span></button>
             );
         }
@@ -188,7 +193,7 @@
                     return lv.retryExecute(function () {
                         return lv.queryAzureTable(comSas, {
                             filter: sprintf("PartitionKey eq '%s'", dataContext.RowKey),
-                            top: takingCount
+                            top: commentTakingCount
                         }).done(function (data) {
                             dataContext.comments = lv.factory.createComments(data.value);
 
@@ -216,7 +221,7 @@
                             <CommentList dataContext={dataContext.comments}/>
 
                             <div className="info2">
-                                <a href={dataContext.Uri}>全文链接</a>
+                                <a href={dataContext.Uri} target="_blank">全文链接</a>
                             </div>
                         </div>
 
@@ -245,7 +250,7 @@
 
     var TumblrContainerBox = React.createClass({
         getInitialState: function () {
-            return {dataContext: lv.factory.createTumblrs(this.props.firstRaw)};
+            return {dataContext: lv.factory.createTumblrs(this.props.firstEntities)};
         },
         componentDidMount: function () {
             loadFavorites(this.state.dataContext);
@@ -263,18 +268,19 @@
     });
 
     var initialize = function (parameters) {
-        sas = parameters.Sas;
+        tumSas = parameters.Sas;
         continuationToken = parameters.ContinuationToken;
         mediaType = parameters.MediaType;
         tumblrCategory = parameters.TumblrCategory;
         takingCount = lv.defaultTakingCount;
+        commentTakingCount = 5;
         tableNameOfTumblr = parameters.tableNameOfTumblr;
         tableNameOfFavorite = parameters.tableNameOfFavorite;
         tableNameOfComment = parameters.tableNameOfComment;
 
         React.render(
-            <TumblrContainerBox firstRaw={parameters.Tumblrs}/>,
-            document.getElementById('div_tumblrs')
+            <TumblrContainerBox firstEntities={parameters.Tumblrs}/>,
+            document.getElementById('div_content')
         );
     };
 

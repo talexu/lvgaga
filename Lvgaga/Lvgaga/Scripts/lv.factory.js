@@ -1,4 +1,8 @@
 ﻿(function () {
+    var getCommentUri = function (tumblr) {
+        return ["/comments", tumblr.MediaType, tumblr.RowKey].join("/");
+    };
+
     var createTumblr = function (dataEntity) {
         dataEntity.RowKey = lv.getInvertedTicks(dataEntity.RowKey);
         var id = sprintf("%s/%s", dataEntity.MediaType, dataEntity.RowKey);
@@ -6,7 +10,7 @@
         dataEntity.Id = id;
         dataEntity.Base64Id = base64Id;
         dataEntity.CreateTime = lv.getLocalTime(dataEntity.CreateTime);
-        dataEntity.Uri = lv.comment.getCommentUri(dataEntity);
+        dataEntity.Uri = getCommentUri(dataEntity);
         dataEntity.comments = dataEntity.comments || [];
 
         return dataEntity;

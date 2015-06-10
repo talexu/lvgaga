@@ -1,1 +1,29 @@
-﻿
+﻿@using LvModel.Common
+@using LvService.Utilities
+@model LvModel.View.Comment.CommentModel
+@{
+    ViewBag.Title = "评论";
+}
+
+<div id="div_content" class="g-doc">
+
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/comment")
+    <!--React-->
+    <script src="@Url.Content("~/Scripts/lv.comment.jsx")"></script>
+    <!--React end-->
+
+    <script>
+        (function() {
+            "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+            dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
+
+            lv.comment.initialize(dataContext);
+        })();
+    </script>
+}
