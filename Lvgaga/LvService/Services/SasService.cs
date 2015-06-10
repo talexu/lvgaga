@@ -49,7 +49,7 @@ namespace LvService.Services
                 new SharedAccessTablePolicy
                 {
                     Permissions = SharedAccessTablePermissions.Query,
-                    SharedAccessExpiryTime = LvConfiguration.GetExpireTime(LvConfiguration.CacheExpireOffset)
+                    SharedAccessExpiryTime = LvConfiguration.GetExpireTime(LvConfiguration.TokenExpireOffset)
                 },
                 null, /* accessPolicyIdentifier */
                 partitionKey, /* startPartitionKey */

@@ -9,10 +9,10 @@ namespace LvService.Common
         public static readonly double TokenExpireOffset = DefaultTokenExpireOffset;
 
         private const double DefaultCacheExpireOffset = 30;
-        public static readonly double CacheExpireOffset = new[] { TokenExpireOffset, TokenExpireOffset }.Min();
+        public static readonly double CacheExpireOffset = new[] { TokenExpireOffset, DefaultCacheExpireOffset }.Min();
 
         private const double DefaultAsyncCacheExpireOffset = 30;
-        public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset }.Min();
+        public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset, DefaultAsyncCacheExpireOffset }.Min();
 
         public const int DefaultTakingCount = 20;
 

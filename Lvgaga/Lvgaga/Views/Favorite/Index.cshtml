@@ -1,1 +1,32 @@
-﻿
+﻿@using LvModel.Common
+@using LvService.Utilities
+@model LvModel.View.Favorite.FavoritesModel
+@{
+    ViewBag.Title = "收藏";
+}
+@section styles
+{
+    @Styles.Render("~/Content/css/gallery")
+}
+
+<div id="div_content">
+
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/favorite")
+    <!--React-->
+    <script src="@Url.Content("~/Scripts/lv.favorite.jsx")"></script>
+    <!--React end-->
+
+    <script>
+        (function() {
+            "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+
+            lv.favorite.initialize(dataContext);
+        })();
+    </script>
+}

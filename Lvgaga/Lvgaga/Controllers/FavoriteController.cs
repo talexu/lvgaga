@@ -30,7 +30,7 @@ namespace Lvgaga.Controllers
             return View(new FavoritesModel
             {
                 Sas = await _sasService.GetSasForTable(LvConstants.TableNameOfFavorite, User.Identity.GetUserId()),
-                MediaType = LvConstants.MediaTypeOfAll
+                MediaType = int.Parse(LvConstants.MediaTypeOfAll)
             });
         }
     }

@@ -76,6 +76,9 @@ namespace Lvgaga
                 "~/Scripts/lv.mobile.comment.js"));
 
             // Favorite Page
+            bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
+                "~/bower_components/blueimp-gallery/js/blueimp-gallery.js",
+                "~/Scripts/lv.favorite.js"));
             bundles.Add(new ScriptBundle("~/bundles/favorite/mobile").Include(
                 "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
                 "~/Scripts/lv.mobile.favorite.js"));

@@ -27,7 +27,11 @@
     };
 
     var loadComments = function (e) {
-        var button = e && e.target;
+        var button;
+        if (e) {
+            button = e.target;
+        }
+
         var dataContext = that.state.dataContext;
 
         return lv.retryExecuteLadda(function () {
