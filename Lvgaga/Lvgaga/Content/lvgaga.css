@@ -12,6 +12,9 @@
 .mar-bottom {
   margin-bottom: 40px;
 }
+.mar-top {
+  margin-top: 10px;
+}
 .max-width-none {
   max-width: none;
 }

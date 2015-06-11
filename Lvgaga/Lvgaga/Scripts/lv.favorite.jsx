@@ -26,7 +26,7 @@
                     continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
                     continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
                 }).done(function (data) {
-                    that.state.tumblrs = lv.factory.createTumblrs(data.value);
+                    that.state.tumblrs = that.state.tumblrs.concat(lv.factory.createTumblrs(data.value));
 
                     lv.refreshState(that);
                 });
@@ -77,7 +77,7 @@
                     // Callback function executed on slide change.
                     var text = this.list[index].getAttribute('data-link'),
                         node = this.container.find('.link');
-                    node[0].href=text;
+                    node[0].href = text;
                 };
                 blueimp.Gallery(links, options);
             };
@@ -92,6 +92,14 @@
                     <Thumbnail dataContext={tumblr}/>
                 );
             });
+
+            var btnStyle = {
+                display: "inline"
+            };
+            if (continuationToken && (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey)) {
+                btnStyle.display = "none";
+            }
+
             return (
                 <div>
                     <div id="links" ref="links">
@@ -108,6 +116,11 @@
                         <a className="close">×</a>
                         <a className="play-pause"></a>
                         <ol className="indicator"></ol>
+                    </div>
+                    <div className="mar-top">
+                        <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
+                                data-style="zoom-out" data-spinner-color="#333" style={btnStyle}
+                                onClick={loadFavorites}><span class="ladda-label">加载更多</span></button>
                     </div>
                 </div>
             );
