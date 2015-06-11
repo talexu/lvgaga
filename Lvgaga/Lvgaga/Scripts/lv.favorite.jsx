@@ -105,7 +105,7 @@
                     <div id="links" ref="links">
                         {Thumbnails}
                     </div>
-                    <div id="blueimp-gallery" className="blueimp-gallery">
+                    <div id="blueimp-gallery" className="blueimp-gallery blueimp-gallery-controls">
                         <div className="slides"></div>
                         <a className="title link">
                             <h3 className="title"></h3>

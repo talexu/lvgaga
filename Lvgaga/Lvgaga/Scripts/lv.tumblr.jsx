@@ -102,19 +102,20 @@
 
             return (
                 <div>
-                    <button type="button" className={classNameOfFavorite} data-style="zoom-out"
-                            data-spinner-color="#333"
-                            onClick={this.setFavorite}>
-                        <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" className="btn btn-default btn-sm mar-left">
-                        <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-                    </button>
-                    <button type="button" className="btn btn-default btn-sm pull-right" data-toggle="collapse"
-                            data-target={"#"+dataContext.Base64Id} aria-expanded="false"
-                            aria-controls={dataContext.Base64Id}>
-                        <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                    </button>
+                    <div>
+                        <button type="button" className={classNameOfFavorite} data-style="zoom-out"
+                                data-spinner-color="#333"
+                                onClick={this.setFavorite}>
+                            <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
+                        </button>
+
+                        <button type="button display-block mar-right" className="btn btn-default btn-sm pull-right"
+                                data-toggle="collapse"
+                                data-target={"#"+dataContext.Base64Id} aria-expanded="false"
+                                aria-controls={dataContext.Base64Id}>
+                            <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </div>
             );
         }
