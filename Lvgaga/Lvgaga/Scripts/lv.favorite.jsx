@@ -45,7 +45,7 @@
             var {dataContext} = this.props;
 
             return (
-                <a href={dataContext.MediaLargeUri} title={dataContext.Text} data-gallery>
+                <a href={dataContext.MediaLargeUri} title={dataContext.Text} data-gallery data-link={dataContext.Uri}>
                     <img src={dataContext.MediaMediumUri} alt={dataContext.Text} width={cellWidth}/>
                 </a>
             );
@@ -72,6 +72,13 @@
                     link = target.src ? target.parentNode : target,
                     options = {index: link, event: event},
                     links = this.getElementsByTagName('a');
+
+                options.onslide = function (index, slide) {
+                    // Callback function executed on slide change.
+                    var text = this.list[index].getAttribute('data-link'),
+                        node = this.container.find('.link');
+                    node[0].href=text;
+                };
                 blueimp.Gallery(links, options);
             };
 
@@ -92,7 +99,10 @@
                     </div>
                     <div id="blueimp-gallery" className="blueimp-gallery">
                         <div className="slides"></div>
-                        <h3 className="title"></h3>
+                        <a className="title link">
+                            <h3 className="title"></h3>
+                        </a>
+
                         <a className="prev">‹</a>
                         <a className="next">›</a>
                         <a className="close">×</a>
