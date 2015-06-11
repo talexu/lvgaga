@@ -93,6 +93,10 @@
                             onClick={this.setFavorite}>
                         <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
                     </button>
+
+                    <a className="btn btn-default btn-sm mar-left" href={dataContext.sharingUri} target="_blank">
+                        <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                    </a>
                 </div>
             );
         }

@@ -102,20 +102,22 @@
 
             return (
                 <div>
-                    <div>
-                        <button type="button" className={classNameOfFavorite} data-style="zoom-out"
-                                data-spinner-color="#333"
-                                onClick={this.setFavorite}>
-                            <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
-                        </button>
+                    <button type="button" className={classNameOfFavorite} data-style="zoom-out"
+                            data-spinner-color="#333"
+                            onClick={this.setFavorite}>
+                        <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    </button>
 
-                        <button type="button display-block mar-right" className="btn btn-default btn-sm pull-right"
-                                data-toggle="collapse"
-                                data-target={"#"+dataContext.Base64Id} aria-expanded="false"
-                                aria-controls={dataContext.Base64Id}>
-                            <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                        </button>
-                    </div>
+                    <a className="btn btn-default btn-sm mar-left" href={dataContext.sharingUri} target="_blank">
+                        <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                    </a>
+
+                    <button type="button display-block mar-right" className="btn btn-default btn-sm pull-right"
+                            data-toggle="collapse"
+                            data-target={"#"+dataContext.Base64Id} aria-expanded="false"
+                            aria-controls={dataContext.Base64Id}>
+                        <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    </button>
                 </div>
             );
         }
@@ -151,8 +153,8 @@
                     <form role="form">
                         <div className="form-group mar-bottom">
                             <label for="comment">评论：</label>
-                        <textarea className="form-control max-width-none" rows="3"
-                                  value={this.state.text} onChange={this.handleChange}></textarea>
+                            <textarea className="form-control max-width-none" rows="3" value={this.state.text}
+                                      onChange={this.handleChange}></textarea>
 
                             <div className="pull-right">
                                 <button type="button" className="btn btn-default btn-sm ladda-button"

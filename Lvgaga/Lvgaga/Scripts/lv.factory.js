@@ -12,6 +12,7 @@
         dataEntity.CreateTime = lv.getLocalTime(dataEntity.CreateTime);
         dataEntity.Uri = getCommentUri(dataEntity);
         dataEntity.comments = dataEntity.comments || [];
+        dataEntity.sharingUri = lv.social.getShareUri(dataEntity);
 
         return dataEntity;
     };

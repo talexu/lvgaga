@@ -1,14 +1,4 @@
 ﻿var Tumblr = React.createClass({
-    componentDidMount: function () {
-        var {dataContext} = this.props;
-
-        bShare.addEntry({
-            title: "-",
-            url: "http://" + window.location.host + dataContext.Uri,
-            summary: dataContext.Text,
-            pic: dataContext.MediaLargeUri
-        });
-    },
     render: function () {
         var {dataContext} = this.props;
 
@@ -24,9 +14,6 @@
                     <div className="text text-1">
                         <p>{dataContext.Text}</p>
                     </div>
-                    <a className="bshareDiv" href="http://www.bshare.cn/share">
-                        <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-                    </a>
                     <div className="info2">
                         <p className="date">{dataContext.CreateTime}</p>
                     </div>
