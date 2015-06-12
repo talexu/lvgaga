@@ -1,52 +1,29 @@
 ﻿@using LvModel.Common
+@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
 }
 
-<div>
-    <div id="div_tumblrs">
-        @foreach (var tumblr in Model.Tumblrs)
-        {
-            <div class="container-tumblr">
-                <img class="img-tumblr lazy" data-original="@tumblr.MediaLargeUri" alt="" />
-                <div class="content">
-                    <p class="text-tumblr">@tumblr.Text</p>
-                    <p class="date-tumblr">@tumblr.CreateTime</p>
-                    <button class="btn btn-default btn-favorite ladda-button" type="button" data-style="zoom-out" data-spinner-color="#333" rk="@tumblr.RowKey" tp="@tumblr.MediaType"><span class="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-                    <a class="btn btn-default btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
-                    <a class="btn btn-default pull-right btn-comment" href="@tumblr.Uri"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
-                </div>
-                <hr class="hr-tumblr" />
-            </div>
-        }
-    </div>
-    <div class="container-block">
-        <button id="btn_load" type="button" class="btn btn-default btn-block ladda-button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label">加载更多</span></button>
-    </div>
+<div id="div_content">
+
 </div>
 
-@section scripts{
+@section scripts
+{
     @Scripts.Render("~/bundles/home/mobile")
-    <script>
-        (function () {
-            "use strict";
-            var template = $(".container-tumblr:first").clone();
+    <!--React-->
+    <script src="@Url.Content("~/Scripts/lv.tumblr.mobile.jsx")"></script>
+    <!--React end-->
 
-            $(function () {
-                lv.tumblr.initialize(
-                {
-                    tumblrTemplate: template,
-                    continuationToken: @Html.Raw(Model.ContinuationToken.ToJsonString()),
-                    sas: "@Html.Raw(Model.Sas)",
-                    mediaType: @Model.MediaType,
-                    tumblrCategory: @Model.TumblrCategory,
-                    from: "@Model.Tumblrs.First().RowKey",
-                    to: "@Model.Tumblrs.Last().RowKey",
-                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite",
-                    tableNameOfTumblr: "@LvConstants.TableNameOfTumblr"
-                });
-            });
+    <script>
+        (function() {
+            "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+            dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
+
+            lv.tumblr.initialize(dataContext);
         })();
     </script>
 }

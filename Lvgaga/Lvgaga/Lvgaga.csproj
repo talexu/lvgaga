@@ -489,6 +489,8 @@
     <Content Include="Scripts\lv.controls.jsx" />
     <Content Include="Scripts\lv.comment.jsx" />
     <Content Include="Scripts\lv.favorite.jsx" />
+    <Content Include="Scripts\lv.tumblr.mobile.jsx" />
+    <Content Include="Scripts\lv.controls.mobile.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
