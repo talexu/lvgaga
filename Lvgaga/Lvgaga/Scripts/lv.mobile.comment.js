@@ -137,7 +137,7 @@
                 return $.post(sprintf("/api/v1/comments/%s/%s", mediaType, rowKey),
                 {
                     "Text": commentText
-                }).retry({ times: lv.defaultTakingCount });
+                }).retry({ times: lv.defaultRetryTime });
             }).done(function (data) {
                 getCommentsContainer().prepend(generateComment(data, "刚刚"));
                 getCommentTextBox().val("");

@@ -63,6 +63,7 @@ namespace Lvgaga
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                "~/Scripts/lv.comment.js",
                 "~/Scripts/lv.favorite.js",
                 "~/Scripts/lv.social.js"));
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
@@ -71,6 +72,7 @@ namespace Lvgaga
 
             // Comment Page
             bundles.Add(new ScriptBundle("~/bundles/comment").Include(
+                "~/Scripts/lv.comment.js",
                 "~/Scripts/lv.favorite.js",
                 "~/Scripts/lv.social.js"));
             bundles.Add(new ScriptBundle("~/bundles/comment/mobile").Include(
