@@ -13,31 +13,17 @@
     var tableNameOfComment;
 
     var loadFavorites = function (tumblrs) {
-        return lv.retryExecute(function () {
-            var from = tumblrs[0].RowKey;
-            var to = tumblrs[tumblrs.length - 1].RowKey;
-
-            return lv.queryAzureTable(favSas, {
-                filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
-                select: "RowKey"
-            }).done(function (data) {
-                var loadedFavs = {};
-                $.each(data.value, function (index, value) {
-                    loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
-                });
-
-                $.each(tumblrs, function (index, value) {
-                    if (loadedFavs[value.RowKey]) {
-                        value.IsFavorited = true;
-                    }
-                });
-
+        return lv.tumblr.loadFavorites({
+            favSas: favSas,
+            tableNameOfFavorite: tableNameOfFavorite,
+            tumblrs: tumblrs,
+            mediaType: mediaType,
+            onReceiveNewToken: function (token) {
+                favSas = token;
+            },
+            done: function () {
                 lv.refreshState(that);
-            });
-        }, function () {
-            return lv.token.getToken([tableNameOfFavorite]).done(function (data) {
-                favSas = data;
-            });
+            }
         });
     };
 
@@ -49,50 +35,40 @@
     };
 
     var loadTumblrs = function (e) {
-        var button = e.target;
-
-        return lv.retryExecuteLadda(function () {
-            return lv.queryAzureTable(tumSas, {
-                continuationToken: continuationToken,
-                filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-                top: takingCount
-            }).done(function (data, textStatus, jqXhr) {
+        return lv.tumblr.loadTumblrs({
+            button: e.target,
+            tumSas: tumSas,
+            mediaType: mediaType,
+            tumblrCategory: tumblrCategory,
+            takingCount: takingCount,
+            continuationToken: continuationToken,
+            tableNameOfTumblr: tableNameOfTumblr,
+            onReceiveNewToken: function (token) {
+                tumSas = token;
+            },
+            onReceiveNewContinuationToken: function (partitionKey, rowKey) {
                 continuationToken = continuationToken || {};
-                continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
-                continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-            }).done(function (data) {
-                var entities = initTumblrs(data.value);
-                loadFavorites(entities);
-            });
-        }, function () {
-            return lv.token.getToken([tableNameOfTumblr]).done(function (data) {
-                tumSas = data;
-            });
-        }, button);
+                continuationToken.NextPartitionKey = partitionKey;
+                continuationToken.NextRowKey = rowKey;
+            },
+            done: function (entities) {
+                var tumblrs = initTumblrs(entities);
+                loadFavorites(tumblrs);
+            }
+        });
     };
 
     var Functions = React.createClass({
         setFavorite: function (e) {
-            var button = e.target;
             var {dataContext} = this.props;
 
-            if (dataContext.IsFavorited) {
-                return lv.ajaxLadda(function () {
-                    return lv.favorite.deleteFavorite(dataContext).done(function () {
-                        dataContext.IsFavorited = false;
-
-                        lv.refreshState(that);
-                    });
-                }, button);
-            } else {
-                return lv.ajaxLadda(function () {
-                    return lv.favorite.postFavorite(dataContext).done(function () {
-                        dataContext.IsFavorited = true;
-
-                        lv.refreshState(that);
-                    });
-                }, button);
-            }
+            return lv.favorite.setFavorite({
+                button: e.target,
+                tumblr: dataContext,
+                done: function () {
+                    lv.refreshState(that);
+                }
+            });
         },
         render: function () {
             var {dataContext} = this.props;

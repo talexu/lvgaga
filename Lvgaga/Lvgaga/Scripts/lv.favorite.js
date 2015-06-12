@@ -16,6 +16,29 @@
         });
     };
 
+    var setFavorite = function (parameters) {
+        var button = parameters.button;
+        var tumblr = parameters.tumblr;
+        var done = parameters.done;
+
+        if (tumblr.IsFavorited) {
+            return lv.ajaxLadda(function () {
+                return deleteFavorite(tumblr).done(function () {
+                    tumblr.IsFavorited = false;
+                    done(tumblr);
+                });
+            }, button);
+        } else {
+            return lv.ajaxLadda(function () {
+                return postFavorite(tumblr).done(function () {
+                    tumblr.IsFavorited = true;
+                    done(tumblr);
+                });
+            }, button);
+        }
+    };
+
     lv.favorite.postFavorite = postFavorite;
     lv.favorite.deleteFavorite = deleteFavorite;
+    lv.favorite.setFavorite = setFavorite;
 })();
