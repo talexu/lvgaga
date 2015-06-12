@@ -91,8 +91,9 @@ namespace Lvgaga
                 "~/Scripts/lv.favorite.js",
                 "~/Scripts/lv.social.js"));
             bundles.Add(new ScriptBundle("~/bundles/favorite/mobile").Include(
-                "~/bower_components/blueimp-gallery/js/jquery.blueimp-gallery.min.js",
-                "~/Scripts/lv.mobile.favorite.js"));
+                "~/bower_components/blueimp-gallery/js/blueimp-gallery.js",
+                "~/Scripts/lv.favorite.js",
+                "~/Scripts/lv.social.js"));
             #endregion
         }
     }

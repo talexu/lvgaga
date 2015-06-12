@@ -41,7 +41,7 @@
             var {dataContext} = this.props;
 
             return (
-                <a href={dataContext.MediaLargeUri} title={dataContext.Text} data-gallery data-link={dataContext.Uri}>
+                <a href={dataContext.MediaLargeUri} title={dataContext.Text} data-gallery>
                     <img src={dataContext.MediaMediumUri} alt={dataContext.Text} width={cellWidth}/>
                 </a>
             );
@@ -56,6 +56,7 @@
             };
         },
         componentDidMount: function () {
+            var self = this;
             var links = React.findDOMNode(this.refs.links);
             var containerWidth = links.scrollWidth;
             var rowCapacity = Math.ceil(containerWidth / expectedCellWidth);
@@ -71,14 +72,25 @@
 
                 options.onslide = function (index, slide) {
                     // Callback function executed on slide change.
-                    var text = this.list[index].getAttribute('data-link'),
-                        node = this.container.find('.link');
-                    node[0].href = text;
+                    self.state.selectedTumblr = self.state.tumblrs[index];
+                    lv.refreshState(self);
                 };
                 blueimp.Gallery(links, options);
             };
 
             loadFavorites();
+        },
+        setFavorite: function (e) {
+            var self = this;
+            var tumblr = this.state.selectedTumblr;
+
+            return lv.favorite.setFavorite({
+                button: e.target,
+                tumblr: tumblr,
+                done: function () {
+                    lv.refreshState(self);
+                }
+            });
         },
         render: function () {
             that = this;
@@ -96,6 +108,15 @@
                 btnStyle.display = "none";
             }
 
+            var selectedTumblr = this.state.selectedTumblr;
+            var Text = selectedTumblr && selectedTumblr.Text;
+            var Uri = selectedTumblr && selectedTumblr.Uri;
+            var SharingUri = selectedTumblr && selectedTumblr.sharingUri;
+            var IsFavorited = selectedTumblr && selectedTumblr.IsFavorited;
+
+            var classNameOfFavorite = "btn btn-default btn-outline navbar-btn ladda-button";
+            classNameOfFavorite += IsFavorited ? " btn-selected" : "";
+
             return (
                 <div>
                     <div id="links" ref="links">
@@ -103,15 +124,25 @@
                     </div>
                     <div id="blueimp-gallery" className="blueimp-gallery blueimp-gallery-controls">
                         <div className="slides"></div>
-                        <a className="title link">
-                            <h3 className="title"></h3>
-                        </a>
-
                         <a className="prev">‹</a>
                         <a className="next">›</a>
                         <a className="close">×</a>
-                        <a className="play-pause"></a>
-                        <ol className="indicator"></ol>
+                        <nav className="navbar navbar-inverse navbar-fixed-bottom fav-nav">
+                            <div className="container">
+                                <p className="text-fav">{Text}</p>
+                                <button type="button"
+                                        className={classNameOfFavorite}
+                                        data-style="zoom-out" data-spinner-color="#333" onClick={this.setFavorite}>
+                                    <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
+                                </button>
+                                <a className="btn btn-default btn-white btn-outline navbar-btn btn-share"
+                                   href={SharingUri}
+                                   target="_blank"><span className="glyphicon glyphicon-share-alt"
+                                                         aria-hidden="true"></span></a>
+                                <a className="btn btn-default btn-outline navbar-btn pull-right" href={Uri}><span
+                                    className="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            </div>
+                        </nav>
                     </div>
                     <div className="mar-top">
                         <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
@@ -128,7 +159,7 @@
         mediaType = parameters.MediaType;
         takingCount = lv.defaultTakingCount;
         tableNameOfFavorite = parameters.tableNameOfFavorite;
-        expectedCellWidth = 300;
+        expectedCellWidth = 100;
         loadingRow = 5;
 
         React.render(

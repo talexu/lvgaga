@@ -100,9 +100,43 @@
         });
     };
 
+    var loadFavoritesWithContinuationToken = function (parameters) {
+        var button = parameters.button;
+        var sasFav = parameters.sasFav;
+        var tableNameOfFavorite = parameters.tableNameOfFavorite;
+        var continuationToken = parameters.continuationToken;
+        var mediaType = parameters.mediaType;
+        var takingCount = parameters.takingCount;
+        var onReceiveNewToken = parameters.onReceiveNewToken;
+        var onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
+        var done = parameters.done;
+
+        return lv.retryExecute(function () {
+            return lv.ajaxLadda(function () {
+                return lv.queryAzureTable(sasFav, {
+                    continuationToken: continuationToken,
+                    filter: sprintf("RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1),
+                    top: takingCount
+                }).done(function (data, textStatus, jqXhr) {
+                    onReceiveNewContinuationToken(jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey"), jqXhr.getResponseHeader("x-ms-continuation-NextRowKey"));
+                }).done(function (data) {
+                    done(lv.factory.createFavoriteTumblrs(data.value));
+                });
+            }, button);
+        }, function () {
+            return lv.ajaxLadda(function () {
+                return lv.token.getToken([tableNameOfFavorite]).done(function (data) {
+                    sasFav = data;
+                    onReceiveNewToken(data);
+                });
+            }, button);
+        });
+    };
+
     lv.favorite.postFavorite = postFavorite;
     lv.favorite.deleteFavorite = deleteFavorite;
     lv.favorite.setFavorite = setFavorite;
     lv.favorite.loadFavorite = loadFavorite;
     lv.favorite.loadFavorites = loadFavorites;
+    lv.favorite.loadFavoritesWithContinuationToken = loadFavoritesWithContinuationToken;
 })();

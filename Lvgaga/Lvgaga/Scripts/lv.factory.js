@@ -23,6 +23,14 @@
 
         return dataEntities;
     };
+    var createFavoriteTumblrs = function (dataEntities) {
+        $.each(dataEntities, function (index, dataEntity) {
+            createTumblr(dataEntity);
+            dataEntity.IsFavorited = true;
+        });
+
+        return dataEntities;
+    };
 
     var createComment = function (dataEntity) {
         dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
@@ -39,6 +47,7 @@
 
     lv.factory.createTumblr = createTumblr;
     lv.factory.createTumblrs = createTumblrs;
+    lv.factory.createFavoriteTumblrs = createFavoriteTumblrs;
     lv.factory.createComment = createComment;
     lv.factory.createComments = createComments;
 })();

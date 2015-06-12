@@ -493,6 +493,7 @@
     <Content Include="Scripts\lv.tumblr.mobile.jsx" />
     <Content Include="Scripts\lv.controls.mobile.jsx" />
     <Content Include="Scripts\lv.comment.mobile.jsx" />
+    <Content Include="Scripts\lv.favorite.mobile.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

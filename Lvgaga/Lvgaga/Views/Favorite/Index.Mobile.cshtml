@@ -1,4 +1,5 @@
 ﻿@using LvModel.Common
+@using LvService.Utilities
 @model LvModel.View.Favorite.FavoritesModel
 @{
     ViewBag.Title = "收藏";
@@ -8,42 +9,24 @@
     @Styles.Render("~/Content/css/gallery")
 }
 
-<div id="links"></div>
-<div class="container-block">
-    <button id="btn_load" type="button" class="btn btn-default btn-block ladda-button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label">加载更多</span></button>
-</div>
-<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="close">×</a>
-    <a class="play-pause"></a>
-    <nav class="navbar navbar-inverse navbar-fixed-bottom fav-nav">
-        <div class="container">
-            <p id="p_text" class="text-fav"></p>
-            <button id="btn_favorite" type="button" class="btn btn-default btn-outline navbar-btn btn-selected ladda-button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-            <a id="btn_share" class="btn btn-default btn-white btn-outline navbar-btn btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
-            <a id="btn_comment" class="btn btn-default btn-outline navbar-btn pull-right"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
-        </div>
-    </nav>
+<div id="div_content">
+
 </div>
 
-@section scripts {
+@section scripts
+{
     @Scripts.Render("~/bundles/favorite/mobile")
+    <!--React-->
+    <script src="@Url.Content("~/Scripts/lv.favorite.mobile.jsx")"></script>
+    <!--React end-->
+
     <script>
         (function() {
             "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
 
-            $(function() {
-                lv.favorite.initialize(
-                {
-                    sas: "@Html.Raw(Model.Sas)",
-                    favMediaType: @Model.MediaType,
-                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite"
-                });
-            });
+            lv.favorite.initialize(dataContext);
         })();
     </script>
 }
