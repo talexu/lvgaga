@@ -38,7 +38,71 @@
         }
     };
 
+    var loadFavorite = function (parameters) {
+        var favSas = parameters.favSas;
+        var tableNameOfFavorite = parameters.tableNameOfFavorite;
+        var tumblr = parameters.tumblr;
+        var onReceiveNewToken = parameters.onReceiveNewToken;
+        var done = parameters.done;
+
+        return lv.retryExecute(function () {
+            return lv.queryAzureTable(favSas, {
+                filter: sprintf("RowKey eq '%s_%s'", tumblr.MediaType, tumblr.RowKey),
+                select: "RowKey"
+            }).done(function (data) {
+                if (data.value.length > 0) {
+                    tumblr.IsFavorited = true;
+                    done(tumblr);
+                }
+            });
+        }, function () {
+            return lv.token.getToken([tableNameOfFavorite]).done(function (data) {
+                favSas = data;
+                onReceiveNewToken(data);
+            });
+        });
+    };
+
+    var loadFavorites = function (parameters) {
+        var favSas = parameters.favSas;
+        var tableNameOfFavorite = parameters.tableNameOfFavorite;
+        var tumblrs = parameters.tumblrs;
+        var mediaType = parameters.mediaType;
+        var onReceiveNewToken = parameters.onReceiveNewToken;
+        var done = parameters.done;
+
+        return lv.retryExecute(function () {
+            var from = tumblrs[0].RowKey;
+            var to = tumblrs[tumblrs.length - 1].RowKey;
+
+            return lv.queryAzureTable(favSas, {
+                filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
+                select: "RowKey"
+            }).done(function (data) {
+                var loadedFavs = {};
+                $.each(data.value, function (index, value) {
+                    loadedFavs[lv.getInvertedTicks(value.RowKey)] = true;
+                });
+
+                $.each(tumblrs, function (index, value) {
+                    if (loadedFavs[value.RowKey]) {
+                        value.IsFavorited = true;
+                    }
+                });
+
+                done(tumblrs);
+            });
+        }, function () {
+            return lv.token.getToken([tableNameOfFavorite]).done(function (data) {
+                favSas = data;
+                onReceiveNewToken(data);
+            });
+        });
+    };
+
     lv.favorite.postFavorite = postFavorite;
     lv.favorite.deleteFavorite = deleteFavorite;
     lv.favorite.setFavorite = setFavorite;
+    lv.favorite.loadFavorite = loadFavorite;
+    lv.favorite.loadFavorites = loadFavorites;
 })();

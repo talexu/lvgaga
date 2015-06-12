@@ -80,8 +80,10 @@ namespace Lvgaga
                 "~/Scripts/lv.favorite.js",
                 "~/Scripts/lv.social.js"));
             bundles.Add(new ScriptBundle("~/bundles/comment/mobile").Include(
-                "~/bower_components/sisyphus/sisyphus*",
-                "~/Scripts/lv.mobile.comment.js"));
+                "~/Scripts/jquery.lazyload*",
+                "~/Scripts/lv.comment.js",
+                "~/Scripts/lv.favorite.js",
+                "~/Scripts/lv.social.js"));
 
             // Favorite Page
             bundles.Add(new ScriptBundle("~/bundles/favorite").Include(

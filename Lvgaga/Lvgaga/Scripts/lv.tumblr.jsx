@@ -13,7 +13,7 @@
     var tableNameOfComment;
 
     var loadFavorites = function (tumblrs) {
-        return lv.tumblr.loadFavorites({
+        return lv.favorite.loadFavorites({
             favSas: favSas,
             tableNameOfFavorite: tableNameOfFavorite,
             tumblrs: tumblrs,

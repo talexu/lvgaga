@@ -63,20 +63,16 @@
         render: function () {
             var {dataContext} = this.props;
 
-            var classNameOfFavorite = "btn btn-default btn-sm ladda-button";
+            var classNameOfFavorite = "btn btn-default btn-favorite ladda-button";
             classNameOfFavorite += dataContext.IsFavorited ? " btn-selected" : "";
 
             return (
                 <div>
-                    <button type="button" className={classNameOfFavorite} data-style="zoom-out"
-                            data-spinner-color="#333"
-                            onClick={this.setFavorite}>
-                        <span className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    </button>
-
-                    <a className="btn btn-default btn-sm mar-left" href={dataContext.sharingUri} target="_blank">
-                        <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-                    </a>
+                    <button className={classNameOfFavorite} type="button" data-style="zoom-out"
+                            data-spinner-color="#333" onClick={this.setFavorite}><span
+                        className="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                    <a className="btn btn-default btn-share" href={dataContext.sharingUri} target="_blank"><span
+                        className="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
                 </div>
             );
         }
@@ -111,19 +107,17 @@
         render: function () {
             return (
                 <div>
-                    <form role="form">
-                        <div className="form-group mar-bottom">
-                            <label for="comment">评论：</label>
-                        <textarea className="form-control max-width-none" rows="3"
-                                  value={this.state.text} onChange={this.handleChange}></textarea>
-
-                            <div className="pull-right">
-                                <button type="button" className="btn btn-default btn-sm ladda-button"
-                                        data-style="zoom-out"
+                    <form>
+                        <div className="input-group box-comment">
+                            <input type="text" className="form-control txb-comment" value={this.state.text}
+                                   onChange={this.handleChange}
+                                   placeholder="评论"/>
+                            <span className="input-group-btn">
+                                <button className="btn btn-default ladda-button" type="button" data-style="slide-down"
                                         data-spinner-color="#333" onClick={this.postComment}>
-                                    <span class="ladda-label">发表评论</span>
+                                    <span className="ladda-label" aria-hidden="true">评论</span>
                                 </button>
-                            </div>
+                            </span>
                         </div>
                     </form>
                 </div>
@@ -141,9 +135,11 @@
             }
 
             return (
-                <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
-                        data-style="zoom-out" data-spinner-color="#333" style={btnStyle}
-                        onClick={loadComments}><span class="ladda-label">加载更多</span></button>
+                <div className="container-block">
+                    <button type="button" className="btn btn-default btn-block ladda-button" data-style="zoom-out"
+                            data-spinner-color="#333" style={btnStyle} onClick={loadComments}><span
+                        className="ladda-label">加载更多</span></button>
+                </div>
             );
         }
     });
@@ -156,12 +152,15 @@
             var {dataContext} = this.props;
 
             return (
-                <div className="box">
-                    <div className="m-post photo">
+                <div>
+                    <div>
                         <Tumblr dataContext={dataContext}/>
-                        <Functions dataContext={dataContext}/>
 
-                        <div>
+                        <div className="content">
+                            <Functions dataContext={dataContext}/>
+                        </div>
+
+                        <div className="content">
                             <CommentForm dataContext={dataContext}/>
                             <CommentList dataContext={dataContext.comments}/>
                         </div>
@@ -183,7 +182,7 @@
             that = this;
 
             return (
-                <div className="g-mn">
+                <div>
                     <TumblrContainer dataContext={this.state.dataContext}/>
                     <LoadingMore/>
                 </div>

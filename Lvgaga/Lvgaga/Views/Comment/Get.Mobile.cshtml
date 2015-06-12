@@ -1,61 +1,29 @@
 ﻿@using LvModel.Common
+@using LvService.Utilities
 @model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
-<div>
-    <img class="img-tumblr" src="@Model.MediaLargeUri" alt="" />
-    <div class="content">
-        <p class="text-tumblr">@Model.Text</p>
-        <p class="date-tumblr">@Model.CreateTime</p>
-        <button id="btn_favorite" type="button" class="btn btn-default ladda-button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-        <a id="btn_share" class="btn btn-default btn-share" href="#" target="_blank"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></a>
-    </div>
-    <div class="content">
-        <form id="form_comment_@Html.Raw(@Model.PartitionKey)_@Html.Raw(@Model.RowKey)" name="form_comment">
-            <div class="input-group box-comment">
-                <input id="txb_comment" name="comment_text" type="text" class="form-control txb-comment" placeholder="评论">
-                <span class="input-group-btn">
-                    <button id="btn_send" class="btn btn-default ladda-button" type="button" data-style="slide-down" data-spinner-color="#333"><span class="ladda-label" aria-hidden="true">评论</span></button>
-                </span>
-            </div><!-- /input-group -->
-        </form>
-        <div id="div_comments">
-            @*@foreach (var comment in Model.Comments)
-                {
-                    <div>
-                        <hr class="hr-comment" />
-                        <a>@comment.UserName</a>
-                        <p class="date-comment pull-right">@comment.CommentTime.ToString("d")</p>
-                        <p class="text-comment">@comment.Text</p>
-                    </div>
-                }*@
-        </div>
-    </div>
-    <div class="container-block">
-        <button id="btn_load" type="button" class="btn btn-default btn-block ladda-button" data-style="zoom-out" data-spinner-color="#333"><span class="ladda-label">加载更多</span></button>
-    </div>
+
+<div id="div_content">
+
 </div>
 
-@section scripts{
+@section scripts
+{
     @Scripts.Render("~/bundles/comment/mobile")
+    <!--React-->
+    <script src="@Url.Content("~/Scripts/lv.comment.mobile.jsx")"></script>
+    <!--React end-->
+
     <script>
-        (function () {
+        (function() {
             "use strict";
+            var dataContext = @Html.Raw(Model.ToJsonString());
+            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+            dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
 
-            $(function () {
-                lv.comment.initialize(
-                {
-                    sas: "@Html.Raw(Model.Sas)",
-                    mediaType: @Model.PartitionKey,
-                    rowKey: "@Model.RowKey",
-                    text: "@Model.Text",
-                    mediaLargeUri: "@Model.MediaLargeUri",
-                    tableNameOfComment: "@LvConstants.TableNameOfComment",
-                    tableNameOfFavorite: "@LvConstants.TableNameOfFavorite"
-                });
-            });
+            lv.comment.initialize(dataContext);
         })();
-
     </script>
 }
