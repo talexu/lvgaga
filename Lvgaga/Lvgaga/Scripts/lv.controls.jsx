@@ -32,7 +32,7 @@ var Comment = React.createClass({
                 <div className="info mar-zero">
                     <a href="#">{dataContext.UserName}</a>
 
-                    <p className="date pull-right">{dataContext.CommentTime}</p>
+                    <p className="date-comment pull-right">{dataContext.CommentTime}</p>
                 </div>
                 <p>{dataContext.Text}</p>
             </div>
