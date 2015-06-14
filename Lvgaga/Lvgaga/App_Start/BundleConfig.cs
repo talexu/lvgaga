@@ -34,7 +34,7 @@ namespace Lvgaga
                 "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css/foundation").Include(
-                "~/Content/bootstrap.css",
+                "~/Content/bootstrap.min.css",
                 "~/Content/site.css",
                 "~/Content/ladda-themeless.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
