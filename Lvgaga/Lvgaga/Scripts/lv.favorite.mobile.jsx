@@ -115,7 +115,7 @@
             var IsFavorited = selectedTumblr && selectedTumblr.IsFavorited;
 
             var classNameOfFavorite = "btn btn-default btn-outline navbar-btn ladda-button";
-            classNameOfFavorite += IsFavorited ? " btn-selected" : "";
+            classNameOfFavorite += IsFavorited ? " btn-selected" : " btn-white";
 
             return (
                 <div>
