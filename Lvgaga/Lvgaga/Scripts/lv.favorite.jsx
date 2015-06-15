@@ -101,22 +101,21 @@
                     <div id="links" ref="links">
                         {Thumbnails}
                     </div>
+                    <div className="mar-top">
+                        <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
+                                data-style="zoom-out" data-spinner-color="#333" style={btnStyle}
+                                onClick={loadFavorites}><span className="ladda-label">加载更多</span></button>
+                    </div>
                     <div id="blueimp-gallery" className="blueimp-gallery blueimp-gallery-controls">
                         <div className="slides"></div>
                         <a className="title link">
                             <h3 className="title"></h3>
                         </a>
-
                         <a className="prev">‹</a>
                         <a className="next">›</a>
                         <a className="close">×</a>
                         <a className="play-pause"></a>
                         <ol className="indicator"></ol>
-                    </div>
-                    <div className="mar-top">
-                        <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"
-                                data-style="zoom-out" data-spinner-color="#333" style={btnStyle}
-                                onClick={loadFavorites}><span className="ladda-label">加载更多</span></button>
                     </div>
                 </div>
             );
