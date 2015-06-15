@@ -114,7 +114,7 @@
             var SharingUri = selectedTumblr && selectedTumblr.sharingUri;
             var IsFavorited = selectedTumblr && selectedTumblr.IsFavorited;
 
-            var classNameOfFavorite = "btn btn-default btn-white btn-outline navbar-btn ladda-button";
+            var classNameOfFavorite = "btn btn-default btn-outline navbar-btn ladda-button";
             classNameOfFavorite += IsFavorited ? " btn-selected" : "";
 
             return (
@@ -144,7 +144,7 @@
                                    href={SharingUri}
                                    target="_blank"><span className="glyphicon glyphicon-share-alt"
                                                          aria-hidden="true"></span></a>
-                                <a className="btn btn-default btn-outline navbar-btn pull-right" href={Uri}><span
+                                <a className="btn btn-default btn-white btn-outline navbar-btn pull-right" href={Uri}><span
                                     className="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
                             </div>
                         </nav>
