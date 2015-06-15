@@ -114,7 +114,7 @@
             var SharingUri = selectedTumblr && selectedTumblr.sharingUri;
             var IsFavorited = selectedTumblr && selectedTumblr.IsFavorited;
 
-            var classNameOfFavorite = "btn btn-default btn-outline navbar-btn ladda-button";
+            var classNameOfFavorite = "btn btn-default btn-white btn-outline navbar-btn ladda-button";
             classNameOfFavorite += IsFavorited ? " btn-selected" : "";
 
             return (
