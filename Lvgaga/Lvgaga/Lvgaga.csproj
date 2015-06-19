@@ -348,6 +348,7 @@
     <Content Include="bower_components\sisyphus\sisyphus.min.js" />
     <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
     <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
+    <Content Include="webpack.config.js" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -406,6 +407,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\common\lv.controls.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -494,9 +496,15 @@
     <Content Include="Scripts\lv.controls.mobile.jsx" />
     <Content Include="Scripts\lv.comment.mobile.jsx" />
     <Content Include="Scripts\lv.favorite.mobile.jsx" />
+    <Content Include="Scripts\tumblr\desktop.jsx" />
+    <None Include="Scripts\tumblr\HelloWorldComponent.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\business\" />
+    <Folder Include="Scripts\comment\" />
+    <Folder Include="Scripts\dist\" />
+    <Folder Include="Scripts\favorite\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,4 +1,5 @@
 using Lvgaga;
+using React;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(ReactConfig), "Configure")]
@@ -24,6 +25,8 @@ namespace Lvgaga
 			//ReactSiteConfiguration.Configuration
 			//	.AddScript("~/Scripts/First.jsx")
 			//	.AddScript("~/Scripts/Second.jsx");
+            ReactSiteConfiguration.Configuration = new ReactSiteConfiguration()
+                .AddScript("~/Scripts/dist/tumblr.entry.js");
 		}
 	}
 }

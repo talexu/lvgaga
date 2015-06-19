@@ -6,25 +6,27 @@
 }
 
 <div id="div_content" class="g-doc">
-
+    @Html.React("Components.HelloWorldComponent", new
+    {
+        name = "Daniel"
+    })
 </div>
 
 @section scripts
 {
     @Scripts.Render("~/bundles/home")
     <!--React-->
-    <script src="@Url.Content("~/Scripts/lv.tumblr.jsx")"></script>
+    @Html.ReactInitJavaScript()
     <!--React end-->
+    @*<script>
+            (function() {
+                "use strict";
+                var dataContext = @Html.Raw(Model.ToJsonString());
+                dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
+                dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
+                dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
 
-    <script>
-        (function() {
-            "use strict";
-            var dataContext = @Html.Raw(Model.ToJsonString());
-            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
-            dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
-            dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
-
-            lv.tumblr.initialize(dataContext);
-        })();
-    </script>
+                lv.tumblr.initialize(dataContext);
+            })();
+        </script>*@
 }
