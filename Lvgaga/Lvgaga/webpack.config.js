@@ -8,11 +8,7 @@
     },
     module: {
         loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel'
-            }
+            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" }
         ]
     }
 };

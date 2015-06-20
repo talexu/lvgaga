@@ -15,7 +15,6 @@
     "webpack": "^1.9.11"
   },
   "dependencies": {
-    "expose-loader": "^0.7.0",
-    "react": "^0.13.3"
+    "expose-loader": "^0.7.0"
   }
 }

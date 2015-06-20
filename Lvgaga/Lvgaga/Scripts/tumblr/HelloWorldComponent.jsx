@@ -1,4 +1,4 @@
-﻿class HelloWorldComponent extends React.Component {
+﻿export default class HelloWorldComponent extends React.Component {
     constructor() {
         super();
         this.state = {};
@@ -7,7 +7,3 @@
         return (<div>Hello World</div>);
     }
 }
-
-module.exports = {
-  HelloWorldComponent: HelloWorldComponent
-};
