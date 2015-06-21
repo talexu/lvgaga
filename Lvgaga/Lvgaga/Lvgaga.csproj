@@ -348,6 +348,7 @@
     <Content Include="bower_components\sisyphus\sisyphus.min.js" />
     <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
     <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
+    <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
     <Content Include="webpack.config.js" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -408,6 +409,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\common\lv.controls.jsx" />
+    <Content Include="Scripts\common\lv.control.tumblr.jsx" />
+    <Content Include="Scripts\common\lv.control.comment.jsx" />
+    <Content Include="Scripts\common\lv.control.commentlist.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -497,7 +501,10 @@
     <Content Include="Scripts\lv.comment.mobile.jsx" />
     <Content Include="Scripts\lv.favorite.mobile.jsx" />
     <Content Include="Scripts\tumblr\desktop.jsx" />
+    <Content Include="Scripts\tumblr\ChildHelloWorld.jsx" />
     <None Include="Scripts\tumblr\HelloWorldComponent.jsx" />
+    <Content Include="Scripts\tumblr\lv.tumblr.control.desktop.jsx" />
+    <Content Include="Scripts\tumblr\lv.tumblr.index.desktop.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,9 +6,12 @@
 }
 
 <div id="div_content" class="g-doc">
-    @Html.React("Components", new
+    @Html.React("Lv.TumblrContainerBox", new
     {
-        name = "Daniel"
+        dataContext = Model,
+        tableNameOfFavorite = LvConstants.TableNameOfFavorite,
+        tableNameOfTumblr = LvConstants.TableNameOfTumblr,
+        tableNameOfComment = LvConstants.TableNameOfComment
     })
 </div>
 
