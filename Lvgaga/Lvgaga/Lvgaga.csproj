@@ -408,7 +408,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Scripts\common\lv.controls.jsx" />
     <Content Include="Scripts\common\lv.control.tumblr.jsx" />
     <Content Include="Scripts\common\lv.control.comment.jsx" />
     <Content Include="Scripts\common\lv.control.commentlist.jsx" />
@@ -500,9 +499,6 @@
     <Content Include="Scripts\lv.controls.mobile.jsx" />
     <Content Include="Scripts\lv.comment.mobile.jsx" />
     <Content Include="Scripts\lv.favorite.mobile.jsx" />
-    <Content Include="Scripts\tumblr\desktop.jsx" />
-    <Content Include="Scripts\tumblr\ChildHelloWorld.jsx" />
-    <None Include="Scripts\tumblr\HelloWorldComponent.jsx" />
     <Content Include="Scripts\tumblr\lv.tumblr.control.desktop.jsx" />
     <Content Include="Scripts\tumblr\lv.tumblr.index.desktop.jsx" />
   </ItemGroup>
