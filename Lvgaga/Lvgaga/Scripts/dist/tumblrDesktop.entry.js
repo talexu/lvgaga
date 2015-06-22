@@ -93,6 +93,10 @@
 
 	var _commonLvControlDesktopLoadingJsx2 = _interopRequireDefault(_commonLvControlDesktopLoadingJsx);
 
+	var _commonLvControlDesktopCommentformJsx = __webpack_require__(102);
+
+	var _commonLvControlDesktopCommentformJsx2 = _interopRequireDefault(_commonLvControlDesktopCommentformJsx);
+
 	var Functions = (function (_React$Component) {
 	    function Functions() {
 	        _classCallCheck(this, Functions);
@@ -158,14 +162,21 @@
 	    function TumblrContainer() {
 	        _classCallCheck(this, TumblrContainer);
 
-	        if (_React$Component2 != null) {
-	            _React$Component2.apply(this, arguments);
-	        }
+	        _get(Object.getPrototypeOf(TumblrContainer.prototype), 'constructor', this).call(this);
+	        this.postSuccess = this.postSuccess.bind(this);
 	    }
 
 	    _inherits(TumblrContainer, _React$Component2);
 
 	    _createClass(TumblrContainer, [{
+	        key: 'postSuccess',
+	        value: function postSuccess(comment) {
+	            var dataContext = this.props.dataContext;
+
+	            dataContext.comments.unshift(Core.createComment(comment));
+	            Core.refreshState(Core.reactRoot);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var dataContext = this.props.dataContext;
@@ -177,7 +188,21 @@
 	                    'div',
 	                    { className: 'm-post photo' },
 	                    React.createElement(_commonLvControlDesktopTumblrJsx2['default'], { dataContext: dataContext }),
-	                    React.createElement(Functions, { dataContext: dataContext })
+	                    React.createElement(Functions, { dataContext: dataContext }),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'collapse', id: dataContext.Base64Id },
+	                        React.createElement(_commonLvControlDesktopCommentformJsx2['default'], { dataContext: dataContext, postSuccess: this.postSuccess }),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'info2' },
+	                            React.createElement(
+	                                'a',
+	                                { href: dataContext.Uri, target: '_blank' },
+	                                '全文链接'
+	                            )
+	                        )
+	                    )
 	                )
 	            );
 	        }
@@ -14261,6 +14286,151 @@
 
 	exports["default"] = Loading;
 	module.exports = exports["default"];
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _businessLvFoundationCommentJs = __webpack_require__(103);
+
+	var comment = _interopRequireWildcard(_businessLvFoundationCommentJs);
+
+	var CommentForm = (function (_React$Component) {
+	    function CommentForm() {
+	        _classCallCheck(this, CommentForm);
+
+	        _get(Object.getPrototypeOf(CommentForm.prototype), "constructor", this).call(this);
+	        this.state = { text: "" };
+
+	        this.handleChange = this.handleChange.bind(this);
+	        this.postComment = this.postComment.bind(this);
+	    }
+
+	    _inherits(CommentForm, _React$Component);
+
+	    _createClass(CommentForm, [{
+	        key: "handleChange",
+	        value: function handleChange(e) {
+	            this.setState({ text: e.target.value });
+	        }
+	    }, {
+	        key: "postComment",
+	        value: function postComment(e) {
+	            var _this = this;
+
+	            var _props = this.props;
+	            var dataContext = _props.dataContext;
+	            var postSuccess = _props.postSuccess;
+
+	            return comment.postComment({
+	                tumblrK: dataContext,
+	                commentTextK: this.state.text,
+	                buttonK: e.target
+	            }).done(function () {
+	                _this.setState({ text: "" });
+	            }).done(function (data) {
+	                postSuccess(data.value);
+	            });
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return React.createElement(
+	                "div",
+	                null,
+	                React.createElement(
+	                    "form",
+	                    { role: "form" },
+	                    React.createElement(
+	                        "div",
+	                        { className: "form-group mar-bottom" },
+	                        React.createElement(
+	                            "label",
+	                            { "for": "comment" },
+	                            "评论："
+	                        ),
+	                        React.createElement("textarea", { className: "form-control max-width-none", rows: "3", value: this.state.text,
+	                            onChange: this.handleChange }),
+	                        React.createElement(
+	                            "div",
+	                            { className: "pull-right" },
+	                            React.createElement(
+	                                "button",
+	                                { type: "button", className: "btn btn-default btn-sm ladda-button",
+	                                    "data-style": "zoom-out",
+	                                    "data-spinner-color": "#333", onClick: this.postComment },
+	                                React.createElement(
+	                                    "span",
+	                                    { className: "ladda-label" },
+	                                    "发表评论"
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return CommentForm;
+	})(React.Component);
+
+	exports["default"] = CommentForm;
+	module.exports = exports["default"];
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+	var _sprintfJs = __webpack_require__(5);
+
+	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+
+	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+
+	var defaultRetryTime = 3;
+
+	var postComment = function postComment(_ref) {
+	    var tumblr = _ref.tumblrK;
+	    var commentText = _ref.commentTextK;
+	    var button = _ref.buttonK;
+
+	    if (!commentText) return null;
+
+	    return util.ajaxLadda(function () {
+	        return util.authorizedExecute(function () {
+	            return $.post((0, _sprintfJs.sprintf)('/api/v1/comments/%s/%s', tumblr.MediaType, tumblr.RowKey), {
+	                'Text': commentText
+	            }).retry({ times: defaultRetryTime });
+	        });
+	    }, button);
+	};
+
+	exports.postComment = postComment;
 
 /***/ }
 /******/ ]);

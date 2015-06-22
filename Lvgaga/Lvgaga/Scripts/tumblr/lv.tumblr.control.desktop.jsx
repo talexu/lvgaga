@@ -1,6 +1,7 @@
 ﻿import * as Core from './lv.tumblr.core.js';
 import Tumblr from '../common/lv.control.desktop.tumblr.jsx';
 import Loading from '../common/lv.control.desktop.loading.jsx';
+import CommentForm from '../common/lv.control.desktop.commentform.jsx';
 
 class Functions extends React.Component {
     constructor() {
@@ -49,7 +50,19 @@ class Functions extends React.Component {
     }
 }
 
+
 class TumblrContainer extends React.Component {
+    constructor() {
+        super();
+        this.postSuccess = this.postSuccess.bind(this);
+    }
+
+    postSuccess(comment) {
+        var {dataContext} = this.props;
+        dataContext.comments.unshift(Core.createComment(comment));
+        Core.refreshState(Core.reactRoot);
+    }
+
     render() {
         let {dataContext} = this.props;
 
@@ -58,6 +71,15 @@ class TumblrContainer extends React.Component {
                 <div className="m-post photo">
                     <Tumblr dataContext={dataContext}/>
                     <Functions dataContext={dataContext}/>
+
+                    <div className="collapse" id={dataContext.Base64Id}>
+                        <CommentForm dataContext={dataContext} postSuccess={this.postSuccess}/>
+
+
+                        <div className="info2">
+                            <a href={dataContext.Uri} target="_blank">全文链接</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
