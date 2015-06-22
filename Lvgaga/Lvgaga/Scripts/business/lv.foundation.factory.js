@@ -45,7 +45,7 @@ let createTumblrs = (dataEntities, isFavorited = false) => {
 };
 
 let createComment = (dataEntity) => {
-    dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
+    dataEntity.CommentTime = getLocalTime(dataEntity.CommentTime);
 
     return dataEntity;
 };

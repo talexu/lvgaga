@@ -23,7 +23,7 @@ export default class CommentForm extends React.Component {
         }).done(() => {
             this.setState({text: ""});
         }).done((data)=> {
-            postSuccess(data.value);
+            postSuccess(data);
         });
     }
 
@@ -32,7 +32,7 @@ export default class CommentForm extends React.Component {
             <div>
                 <form role="form">
                     <div className="form-group mar-bottom">
-                        <label for="comment">评论：</label>
+                        <label>评论：</label>
                             <textarea className="form-control max-width-none" rows="3" value={this.state.text}
                                       onChange={this.handleChange}></textarea>
 

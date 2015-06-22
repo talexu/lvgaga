@@ -2,6 +2,7 @@
 import Tumblr from '../common/lv.control.desktop.tumblr.jsx';
 import Loading from '../common/lv.control.desktop.loading.jsx';
 import CommentForm from '../common/lv.control.desktop.commentform.jsx';
+import CommentList from '../common/lv.control.desktop.commentlist.jsx';
 
 class Functions extends React.Component {
     constructor() {
@@ -55,6 +56,17 @@ class TumblrContainer extends React.Component {
     constructor() {
         super();
         this.postSuccess = this.postSuccess.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+        var {dataContext} = this.props;
+
+        $('#' + dataContext.Base64Id).on('show.bs.collapse', () => {
+            if (dataContext.comments.length <= 0) {
+                Core.loadComments(dataContext);
+            }
+        });
     }
 
     postSuccess(comment) {
@@ -74,7 +86,7 @@ class TumblrContainer extends React.Component {
 
                     <div className="collapse" id={dataContext.Base64Id}>
                         <CommentForm dataContext={dataContext} postSuccess={this.postSuccess}/>
-
+                        <CommentList dataContext={dataContext.comments}/>
 
                         <div className="info2">
                             <a href={dataContext.Uri} target="_blank">全文链接</a>
@@ -126,10 +138,12 @@ class TumblrContainerBox extends React.Component {
     }
 
     render() {
+
+
         return (
             <div className="g-mn">
                 <TumblrContainerList dataContext={this.state.dataContext}/>
-                <Loading onClickHandler={Core.loadTumblrs}/>
+                <Loading onClickHandler={Core.loadTumblrs} style={Core.getLoadingButtonStyle()}/>
             </div>
         );
     }

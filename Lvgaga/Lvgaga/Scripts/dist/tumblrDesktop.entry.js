@@ -97,6 +97,10 @@
 
 	var _commonLvControlDesktopCommentformJsx2 = _interopRequireDefault(_commonLvControlDesktopCommentformJsx);
 
+	var _commonLvControlDesktopCommentlistJsx = __webpack_require__(104);
+
+	var _commonLvControlDesktopCommentlistJsx2 = _interopRequireDefault(_commonLvControlDesktopCommentlistJsx);
+
 	var Functions = (function (_React$Component) {
 	    function Functions() {
 	        _classCallCheck(this, Functions);
@@ -164,11 +168,23 @@
 
 	        _get(Object.getPrototypeOf(TumblrContainer.prototype), 'constructor', this).call(this);
 	        this.postSuccess = this.postSuccess.bind(this);
+	        this.componentDidMount = this.componentDidMount.bind(this);
 	    }
 
 	    _inherits(TumblrContainer, _React$Component2);
 
 	    _createClass(TumblrContainer, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var dataContext = this.props.dataContext;
+
+	            $('#' + dataContext.Base64Id).on('show.bs.collapse', function () {
+	                if (dataContext.comments.length <= 0) {
+	                    Core.loadComments(dataContext);
+	                }
+	            });
+	        }
+	    }, {
 	        key: 'postSuccess',
 	        value: function postSuccess(comment) {
 	            var dataContext = this.props.dataContext;
@@ -193,6 +209,7 @@
 	                        'div',
 	                        { className: 'collapse', id: dataContext.Base64Id },
 	                        React.createElement(_commonLvControlDesktopCommentformJsx2['default'], { dataContext: dataContext, postSuccess: this.postSuccess }),
+	                        React.createElement(_commonLvControlDesktopCommentlistJsx2['default'], { dataContext: dataContext.comments }),
 	                        React.createElement(
 	                            'div',
 	                            { className: 'info2' },
@@ -271,11 +288,12 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
+
 	            return React.createElement(
 	                'div',
 	                { className: 'g-mn' },
 	                React.createElement(TumblrContainerList, { dataContext: this.state.dataContext }),
-	                React.createElement(_commonLvControlDesktopLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs })
+	                React.createElement(_commonLvControlDesktopLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
 	            );
 	        }
 	    }]);
@@ -434,6 +452,34 @@
 	    }, button);
 	};
 
+	var loadComments = function loadComments(tumblr) {
+	    return util.retryExecute(function () {
+	        return util.queryAzureTable(comSas, {
+	            filter: (0, _sprintfJs.sprintf)('PartitionKey eq \'%s\'', tumblr.RowKey),
+	            top: commentTakingCount
+	        }).done(function (data) {
+	            tumblr.comments = factory.createComments(data.value);
+
+	            util.refreshState(reactRoot);
+	        });
+	    }, function () {
+	        return token.getToken([tableNameOfComment]).done(function (data) {
+	            comSas = data;
+	        });
+	    });
+	};
+
+	var getLoadingButtonStyle = function getLoadingButtonStyle() {
+	    var btnStyle = {
+	        display: 'inline'
+	    };
+	    if (continuationToken && (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey)) {
+	        btnStyle.display = 'none';
+	    }
+
+	    return btnStyle;
+	};
+
 	var initialize = function initialize(_ref) {
 	    var reactRootV = _ref.reactRootK;
 	    var tumSasV = _ref.tumSasK;
@@ -464,6 +510,8 @@
 	exports.initialize = initialize;
 	exports.loadTumblrs = loadTumblrs;
 	exports.loadFavorites = loadFavorites;
+	exports.loadComments = loadComments;
+	exports.getLoadingButtonStyle = getLoadingButtonStyle;
 
 /***/ },
 /* 4 */
@@ -546,7 +594,7 @@
 	};
 
 	var createComment = function createComment(dataEntity) {
-	    dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
+	    dataEntity.CommentTime = getLocalTime(dataEntity.CommentTime);
 
 	    return dataEntity;
 	};
@@ -14265,12 +14313,14 @@
 	    _createClass(Loading, [{
 	        key: "render",
 	        value: function render() {
-	            var onClickHandler = this.props.onClickHandler;
+	            var _props = this.props;
+	            var onClickHandler = _props.onClickHandler;
+	            var style = _props.style;
 
 	            return React.createElement(
 	                "button",
 	                { type: "button", className: "btn btn-default btn-lg btn-block btn-rectangle ladda-button",
-	                    "data-style": "zoom-out", "data-spinner-color": "#333",
+	                    "data-style": "zoom-out", "data-spinner-color": "#333", style: style,
 	                    onClick: onClickHandler },
 	                React.createElement(
 	                    "span",
@@ -14345,7 +14395,7 @@
 	            }).done(function () {
 	                _this.setState({ text: "" });
 	            }).done(function (data) {
-	                postSuccess(data.value);
+	                postSuccess(data);
 	            });
 	        }
 	    }, {
@@ -14362,7 +14412,7 @@
 	                        { className: "form-group mar-bottom" },
 	                        React.createElement(
 	                            "label",
-	                            { "for": "comment" },
+	                            null,
 	                            "评论："
 	                        ),
 	                        React.createElement("textarea", { className: "form-control max-width-none", rows: "3", value: this.state.text,
@@ -14431,6 +14481,125 @@
 	};
 
 	exports.postComment = postComment;
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var _lvControlDesktopCommentJsx = __webpack_require__(105);
+
+	var _lvControlDesktopCommentJsx2 = _interopRequireDefault(_lvControlDesktopCommentJsx);
+
+	var CommentList = (function (_React$Component) {
+	    function CommentList() {
+	        _classCallCheck(this, CommentList);
+
+	        if (_React$Component != null) {
+	            _React$Component.apply(this, arguments);
+	        }
+	    }
+
+	    _inherits(CommentList, _React$Component);
+
+	    _createClass(CommentList, [{
+	        key: 'render',
+	        value: function render() {
+	            var dataContext = this.props.dataContext;
+
+	            var commentNodes = dataContext.map(function (comment) {
+	                return React.createElement(_lvControlDesktopCommentJsx2['default'], { dataContext: comment });
+	            });
+	            return React.createElement(
+	                'div',
+	                null,
+	                commentNodes
+	            );
+	        }
+	    }]);
+
+	    return CommentList;
+	})(React.Component);
+
+	exports['default'] = CommentList;
+	module.exports = exports['default'];
+
+/***/ },
+/* 105 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	var Comment = (function (_React$Component) {
+	    function Comment() {
+	        _classCallCheck(this, Comment);
+
+	        if (_React$Component != null) {
+	            _React$Component.apply(this, arguments);
+	        }
+	    }
+
+	    _inherits(Comment, _React$Component);
+
+	    _createClass(Comment, [{
+	        key: "render",
+	        value: function render() {
+	            var dataContext = this.props.dataContext;
+
+	            return React.createElement(
+	                "div",
+	                null,
+	                React.createElement(
+	                    "div",
+	                    { className: "info mar-zero" },
+	                    React.createElement(
+	                        "a",
+	                        { href: "#" },
+	                        dataContext.UserName
+	                    ),
+	                    React.createElement(
+	                        "p",
+	                        { className: "date-comment pull-right" },
+	                        dataContext.CommentTime
+	                    )
+	                ),
+	                React.createElement(
+	                    "p",
+	                    null,
+	                    dataContext.Text
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Comment;
+	})(React.Component);
+
+	exports["default"] = Comment;
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);

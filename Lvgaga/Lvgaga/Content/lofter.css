@@ -187,7 +187,7 @@ a {
 
 .m-post img {
     display: block;
-    max-width: 95%;
+    max-width: 100%;
     _width: 95%;
     padding: 8px;
     border: 1px solid #e5e5e5;

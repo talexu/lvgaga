@@ -78,6 +78,34 @@ let loadTumblrs = (e) => {
     }, button);
 };
 
+let loadComments = (tumblr) => {
+    return util.retryExecute(() => {
+        return util.queryAzureTable(comSas, {
+            filter: sprintf("PartitionKey eq '%s'", tumblr.RowKey),
+            top: commentTakingCount
+        }).done((data) => {
+            tumblr.comments = factory.createComments(data.value);
+
+            util.refreshState(reactRoot);
+        });
+    }, () => {
+        return token.getToken([tableNameOfComment]).done((data) => {
+            comSas = data;
+        });
+    });
+};
+
+let getLoadingButtonStyle = ()=> {
+    var btnStyle = {
+        display: "inline"
+    };
+    if (continuationToken && (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey)) {
+        btnStyle.display = "none";
+    }
+
+    return btnStyle;
+};
+
 let initialize = ({
     reactRootK:reactRootV,
     tumSasK:tumSasV,
@@ -103,5 +131,5 @@ export * from '../business/lv.foundation.utility.js';
 export * from '../business/lv.foundation.favorite.js';
 export
 {
-    reactRoot, initialize, loadTumblrs, loadFavorites
+    reactRoot, initialize, loadTumblrs, loadFavorites, loadComments, getLoadingButtonStyle
 };
