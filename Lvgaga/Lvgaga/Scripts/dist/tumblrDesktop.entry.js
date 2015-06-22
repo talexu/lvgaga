@@ -85,11 +85,11 @@
 
 	var Core = _interopRequireWildcard(_lvTumblrCoreJs);
 
-	var _commonLvControlDesktopTumblrJsx = __webpack_require__(98);
+	var _commonLvControlDesktopTumblrJsx = __webpack_require__(99);
 
 	var _commonLvControlDesktopTumblrJsx2 = _interopRequireDefault(_commonLvControlDesktopTumblrJsx);
 
-	var _commonLvControlDesktopLoadingJsx = __webpack_require__(99);
+	var _commonLvControlDesktopLoadingJsx = __webpack_require__(100);
 
 	var _commonLvControlDesktopLoadingJsx2 = _interopRequireDefault(_commonLvControlDesktopLoadingJsx);
 
@@ -206,6 +206,10 @@
 
 	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
 
+	var _businessLvFoundationTokenJs = __webpack_require__(98);
+
+	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
+
 	var _sprintfJs = __webpack_require__(5);
 
 	var reactRoot;
@@ -236,7 +240,11 @@
 	            reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(data.value));
 	            util.refreshState(reactRoot);
 	        });
-	    }, function () {}, button);
+	    }, function () {
+	        return token.getToken([tableNameOfTumblr]).done(function (data) {
+	            tumSas = data;
+	        });
+	    }, button);
 	};
 
 	var initialize = function initialize(reactRoot1, tumSas1, continuationToken1, mediaType1, tumblrCategory1, tableNameOfTumblr1, tableNameOfFavorite1, tableNameOfComment1) {
@@ -13764,6 +13772,28 @@
 
 /***/ },
 /* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _sprintfJs = __webpack_require__(5);
+
+	var defaultRetryTime = 3;
+
+	var getToken = function getToken(paths) {
+	    return $.get((0, _sprintfJs.sprintf)("/api/v1/tokens/%s", paths.join("/"))).retry({
+	        times: defaultRetryTime
+	    });
+	};
+
+	exports.getToken = getToken;
+
+/***/ },
+/* 99 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13839,7 +13869,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports) {
 
 	"use strict";

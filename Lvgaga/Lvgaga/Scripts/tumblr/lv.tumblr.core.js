@@ -1,5 +1,6 @@
 ﻿import * as factory from '../business/lv.foundation.factory.js';
 import * as util from '../business/lv.foundation.utility.js';
+import * as token from '../business/lv.foundation.token.js';
 import {sprintf} from 'sprintf-js';
 
 var reactRoot;
@@ -31,7 +32,9 @@ var loadTumblrs = function (e) {
             util.refreshState(reactRoot);
         });
     }, function () {
-
+        return token.getToken([tableNameOfTumblr]).done(function (data) {
+            tumSas = data;
+        });
     }, button);
 };
 
