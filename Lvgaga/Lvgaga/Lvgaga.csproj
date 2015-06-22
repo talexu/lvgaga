@@ -349,6 +349,8 @@
     <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
     <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
     <Content Include="Scripts\business\lv.foundation.factory.js" />
+    <Content Include="Scripts\business\lv.foundation.token.js" />
+    <Content Include="Scripts\business\lv.foundation.utility.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
     <Content Include="webpack.config.js" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
@@ -409,9 +411,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Scripts\common\lv.control.tumblr.jsx" />
-    <Content Include="Scripts\common\lv.control.comment.jsx" />
-    <Content Include="Scripts\common\lv.control.commentlist.jsx" />
+    <Content Include="Scripts\common\lv.control.desktop.tumblr.jsx" />
+    <Content Include="Scripts\common\lv.control.desktop.comment.jsx" />
+    <Content Include="Scripts\common\lv.control.desktop.commentlist.jsx" />
+    <Content Include="Scripts\common\lv.control.desktop.loading.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

@@ -1,8 +1,6 @@
-﻿import sprintfNode from 'sprintf-js';
-import Base64Node from 'js-base64';
+﻿import {sprintf} from 'sprintf-js';
+import {Base64} from 'js-base64';
 import moment from 'moment';
-var sprintf = sprintfNode.sprintf;
-var Base64 = Base64Node.Base64;
 
 var getInvertedTicks = function (rowKey) {
     return rowKey.slice(2);
@@ -60,5 +58,12 @@ var createComments = function (dataEntities) {
 };
 
 export{
-    getInvertedTicks, getLocalTime, getCommentUri, getShareUri, createTumblr, createTumblrs, createComment, createComments
+    getInvertedTicks,
+    getLocalTime,
+    getCommentUri,
+    getShareUri,
+    createTumblr,
+    createTumblrs,
+    createComment,
+    createComments
 };

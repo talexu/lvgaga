@@ -1,1 +1,1 @@
-﻿import Lv from 'expose?Lv!./lv.tumblr.control.desktop.jsx'
+﻿import TumblrContainerBoxDesktop from 'expose?TumblrContainerBoxDesktop!./lv.tumblr.control.desktop.jsx'

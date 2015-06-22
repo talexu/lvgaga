@@ -1,5 +1,6 @@
-﻿import * as Core from './lv.tumblr.core.js'
-import Tumblr from '../common/lv.control.tumblr.jsx'
+﻿import * as Core from './lv.tumblr.core.js';
+import Tumblr from '../common/lv.control.desktop.tumblr.jsx';
+import Loading from '../common/lv.control.desktop.loading.jsx';
 
 class TumblrContainer extends React.Component {
     render() {
@@ -21,7 +22,7 @@ class TumblrContainerList extends React.Component {
 
         var TumblrContainerNodes = dataContext.map(function (tumblr) {
             return (
-                <TumblrContainer dataContext={tumblr}/>
+                <TumblrContainer key={tumblr.Base64Id} dataContext={tumblr}/>
             );
         });
         return (
@@ -35,6 +36,17 @@ class TumblrContainerList extends React.Component {
 class TumblrContainerBox extends React.Component {
     constructor(props) {
         super(props);
+
+        Core.initialize(
+            this,
+            props.dataContext.Sas,
+            props.dataContext.ContinuationToken,
+            props.dataContext.MediaType,
+            props.dataContext.TumblrCategory,
+            props.tableNameOfTumblr,
+            props.tableNameOfFavorite,
+            props.tableNameOfComment
+        );
         this.state = {dataContext: Core.createTumblrs(props.dataContext.Tumblrs)};
     }
 
@@ -42,9 +54,10 @@ class TumblrContainerBox extends React.Component {
         return (
             <div className="g-mn">
                 <TumblrContainerList dataContext={this.state.dataContext}/>
+                <Loading onClickHandler={Core.loadTumblrs}/>
             </div>
         );
     }
 }
 
-export {TumblrContainerBox};
+export default TumblrContainerBox;

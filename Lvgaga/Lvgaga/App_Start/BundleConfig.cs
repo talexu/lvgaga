@@ -57,7 +57,8 @@ namespace Lvgaga
                 "~/Scripts/ladda*"));
 
             // Home Page
-            bundles.Add(new ScriptBundle("~/bundles/home").Include());
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                "~/Scripts/dist/tumblrDesktop.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.tumblr.js",

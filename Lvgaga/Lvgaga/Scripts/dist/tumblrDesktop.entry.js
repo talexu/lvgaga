@@ -48,15 +48,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeTumblrContainerBoxLvTumblrControlDesktopJsx = __webpack_require__(1);
+	var _exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx = __webpack_require__(1);
 
-	var _exposeTumblrContainerBoxLvTumblrControlDesktopJsx2 = _interopRequireDefault(_exposeTumblrContainerBoxLvTumblrControlDesktopJsx);
+	var _exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx2 = _interopRequireDefault(_exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx);
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["TumblrContainerBox"] = __webpack_require__(2);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["TumblrContainerBoxDesktop"] = __webpack_require__(2);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -13668,7 +13668,7 @@
 
 	var authorizedExecute = function authorizedExecute(func) {
 	    var d = $.Deferred();
-	    func.apply(this, arguments).done(function (data, textStatus, jqXhr) {
+	    func.apply(null, arguments).done(function (data, textStatus, jqXhr) {
 	        switch (jqXhr.status) {
 	            case 201:
 	                d.resolve(data, textStatus, jqXhr);
