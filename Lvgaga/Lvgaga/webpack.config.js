@@ -1,6 +1,7 @@
 ﻿module.exports = {
     entry: {
-        tumblrDesktop: "./Scripts/tumblr/lv.tumblr.index.desktop.jsx"
+        tumblrDesktop: "./Scripts/tumblr/lv.tumblr.index.desktop.js",
+        commentDesktop: "./Scripts/comment/lv.comment.index.desktop.js"
     },
     output: {
         path: "./Scripts/dist",

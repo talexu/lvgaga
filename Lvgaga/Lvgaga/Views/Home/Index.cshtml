@@ -21,15 +21,4 @@
     @Scripts.Render("~/bundles/home")
     @Html.ReactInitJavaScript()
     <!--React end-->
-    @*<script>
-            (function() {
-                "use strict";
-                var dataContext = @Html.Raw(Model.ToJsonString());
-                dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
-                dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
-                dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
-
-                lv.tumblr.initialize(dataContext);
-            })();
-        </script>*@
 }

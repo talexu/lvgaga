@@ -68,9 +68,7 @@ namespace Lvgaga
 
             // Comment Page
             bundles.Add(new ScriptBundle("~/bundles/comment").Include(
-                "~/Scripts/lv.comment.js",
-                "~/Scripts/lv.favorite.js",
-                "~/Scripts/lv.social.js"));
+                "~/Scripts/dist/commentDesktop.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/comment/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.comment.js",

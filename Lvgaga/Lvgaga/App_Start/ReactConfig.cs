@@ -26,7 +26,8 @@ namespace Lvgaga
 			//	.AddScript("~/Scripts/First.jsx")
 			//	.AddScript("~/Scripts/Second.jsx");
             ReactSiteConfiguration.Configuration
-                .AddScript("~/Scripts/dist/tumblrDesktop.entry.js");
+                .AddScript("~/Scripts/dist/tumblrDesktop.entry.js")
+                .AddScript("~/Scripts/dist/commentDesktop.entry.js");
 		}
 	}
 }
