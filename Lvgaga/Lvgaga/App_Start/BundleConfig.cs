@@ -54,19 +54,10 @@ namespace Lvgaga
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/spin*",
-                "~/Scripts/ladda*",
-                "~/Scripts/moment*",
-                "~/bower_components/sprintf/dist/sprintf.min.js",
-                "~/Scripts/lv.utilities.js",
-                "~/Scripts/lv.token.js",
-                "~/Scripts/lv.factory.js"));
+                "~/Scripts/ladda*"));
 
             // Home Page
-            bundles.Add(new ScriptBundle("~/bundles/home").Include(
-                "~/Scripts/lv.tumblr.js",
-                "~/Scripts/lv.comment.js",
-                "~/Scripts/lv.favorite.js",
-                "~/Scripts/lv.social.js"));
+            bundles.Add(new ScriptBundle("~/bundles/home").Include());
             bundles.Add(new ScriptBundle("~/bundles/home/mobile").Include(
                 "~/Scripts/jquery.lazyload*",
                 "~/Scripts/lv.tumblr.js",

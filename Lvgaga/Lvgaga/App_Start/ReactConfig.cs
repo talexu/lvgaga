@@ -25,7 +25,7 @@ namespace Lvgaga
 			//ReactSiteConfiguration.Configuration
 			//	.AddScript("~/Scripts/First.jsx")
 			//	.AddScript("~/Scripts/Second.jsx");
-            ReactSiteConfiguration.Configuration = new ReactSiteConfiguration()
+            ReactSiteConfiguration.Configuration
                 .AddScript("~/Scripts/dist/tumblr.entry.js");
 		}
 	}

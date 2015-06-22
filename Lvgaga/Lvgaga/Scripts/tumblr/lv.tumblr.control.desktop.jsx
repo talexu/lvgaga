@@ -1,4 +1,4 @@
-﻿import Core from './lv.tumblr.core.js'
+﻿import * as Core from './lv.tumblr.core.js'
 import Tumblr from '../common/lv.control.tumblr.jsx'
 
 class TumblrContainer extends React.Component {
@@ -35,7 +35,7 @@ class TumblrContainerList extends React.Component {
 class TumblrContainerBox extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {dataContext: props.dataContext.Tumblrs};
+        this.state = {dataContext: Core.createTumblrs(props.dataContext.Tumblrs)};
     }
 
     render() {
