@@ -69,9 +69,9 @@
 	    value: true
 	});
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -85,24 +85,85 @@
 
 	var Core = _interopRequireWildcard(_lvTumblrCoreJs);
 
-	var _commonLvControlDesktopTumblrJsx = __webpack_require__(99);
+	var _commonLvControlDesktopTumblrJsx = __webpack_require__(100);
 
 	var _commonLvControlDesktopTumblrJsx2 = _interopRequireDefault(_commonLvControlDesktopTumblrJsx);
 
-	var _commonLvControlDesktopLoadingJsx = __webpack_require__(100);
+	var _commonLvControlDesktopLoadingJsx = __webpack_require__(101);
 
 	var _commonLvControlDesktopLoadingJsx2 = _interopRequireDefault(_commonLvControlDesktopLoadingJsx);
 
-	var TumblrContainer = (function (_React$Component) {
+	var Functions = (function (_React$Component) {
+	    function Functions() {
+	        _classCallCheck(this, Functions);
+
+	        _get(Object.getPrototypeOf(Functions.prototype), 'constructor', this).call(this);
+	        this.setFavorite = this.setFavorite.bind(this);
+	    }
+
+	    _inherits(Functions, _React$Component);
+
+	    _createClass(Functions, [{
+	        key: 'setFavorite',
+	        value: function setFavorite(e) {
+	            var dataContext = this.props.dataContext;
+
+	            return Core.setFavorite({
+	                button: e.target,
+	                tumblr: dataContext,
+	                done: function done() {
+	                    Core.refreshState(Core.reactRoot);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var dataContext = this.props.dataContext;
+
+	            var classNameOfFavorite = 'btn btn-default btn-sm ladda-button';
+	            classNameOfFavorite += dataContext.IsFavorited ? ' btn-selected' : '';
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'button',
+	                    { type: 'button', className: classNameOfFavorite, 'data-style': 'zoom-out',
+	                        'data-spinner-color': '#333',
+	                        onClick: this.setFavorite },
+	                    React.createElement('span', { className: 'ladda-label glyphicon glyphicon-heart', 'aria-hidden': 'true' })
+	                ),
+	                React.createElement(
+	                    'a',
+	                    { className: 'btn btn-default btn-sm mar-left', href: dataContext.sharingUri, target: '_blank' },
+	                    React.createElement('span', { className: 'glyphicon glyphicon-share-alt', 'aria-hidden': 'true' })
+	                ),
+	                React.createElement(
+	                    'button',
+	                    { type: 'button display-block mar-right', className: 'btn btn-default btn-sm pull-right',
+	                        'data-toggle': 'collapse',
+	                        'data-target': '#' + dataContext.Base64Id, 'aria-expanded': 'false',
+	                        'aria-controls': dataContext.Base64Id },
+	                    React.createElement('span', { className: 'glyphicon glyphicon-th-list', 'aria-hidden': 'true' })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Functions;
+	})(React.Component);
+
+	var TumblrContainer = (function (_React$Component2) {
 	    function TumblrContainer() {
 	        _classCallCheck(this, TumblrContainer);
 
-	        if (_React$Component != null) {
-	            _React$Component.apply(this, arguments);
+	        if (_React$Component2 != null) {
+	            _React$Component2.apply(this, arguments);
 	        }
 	    }
 
-	    _inherits(TumblrContainer, _React$Component);
+	    _inherits(TumblrContainer, _React$Component2);
 
 	    _createClass(TumblrContainer, [{
 	        key: 'render',
@@ -115,7 +176,8 @@
 	                React.createElement(
 	                    'div',
 	                    { className: 'm-post photo' },
-	                    React.createElement(_commonLvControlDesktopTumblrJsx2['default'], { dataContext: dataContext })
+	                    React.createElement(_commonLvControlDesktopTumblrJsx2['default'], { dataContext: dataContext }),
+	                    React.createElement(Functions, { dataContext: dataContext })
 	                )
 	            );
 	        }
@@ -124,16 +186,16 @@
 	    return TumblrContainer;
 	})(React.Component);
 
-	var TumblrContainerList = (function (_React$Component2) {
+	var TumblrContainerList = (function (_React$Component3) {
 	    function TumblrContainerList() {
 	        _classCallCheck(this, TumblrContainerList);
 
-	        if (_React$Component2 != null) {
-	            _React$Component2.apply(this, arguments);
+	        if (_React$Component3 != null) {
+	            _React$Component3.apply(this, arguments);
 	        }
 	    }
 
-	    _inherits(TumblrContainerList, _React$Component2);
+	    _inherits(TumblrContainerList, _React$Component3);
 
 	    _createClass(TumblrContainerList, [{
 	        key: 'render',
@@ -154,7 +216,7 @@
 	    return TumblrContainerList;
 	})(React.Component);
 
-	var TumblrContainerBox = (function (_React$Component3) {
+	var TumblrContainerBox = (function (_React$Component4) {
 	    function TumblrContainerBox(props) {
 	        _classCallCheck(this, TumblrContainerBox);
 
@@ -164,7 +226,7 @@
 	        this.state = { dataContext: Core.createTumblrs(props.dataContext.Tumblrs) };
 	    }
 
-	    _inherits(TumblrContainerBox, _React$Component3);
+	    _inherits(TumblrContainerBox, _React$Component4);
 
 	    _createClass(TumblrContainerBox, [{
 	        key: 'render',
@@ -210,6 +272,10 @@
 
 	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
 
+	var _businessLvFoundationFavoriteJs = __webpack_require__(99);
+
+	var favorite = _interopRequireWildcard(_businessLvFoundationFavoriteJs);
+
 	var _sprintfJs = __webpack_require__(5);
 
 	var reactRoot;
@@ -225,6 +291,87 @@
 	var tableNameOfFavorite;
 	var tableNameOfComment;
 
+	var initTumblrs = function initTumblrs(entities) {
+	    reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(entities));
+	    util.refreshState(reactRoot);
+	    return entities;
+	};
+
+	var loadFavorites = function loadFavorites(tumblrs) {
+	    return util.retryExecute(function () {
+	        var from = tumblrs[0].RowKey;
+	        var to = tumblrs[tumblrs.length - 1].RowKey;
+
+	        return util.queryAzureTable(favSas, {
+	            filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s_%s\' and RowKey le \'%s_%s\'', mediaType, from, mediaType, to),
+	            select: 'RowKey'
+	        }).done(function (data) {
+	            var loadedFavs = {};
+
+	            // read all favorites
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = data.value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var f = _step.value;
+
+	                    loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
+	                }
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator['return']) {
+	                        _iterator['return']();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
+	            }
+
+	            // set favorite for tumblrs
+	            var _iteratorNormalCompletion2 = true;
+	            var _didIteratorError2 = false;
+	            var _iteratorError2 = undefined;
+
+	            try {
+	                for (var _iterator2 = tumblrs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	                    var t = _step2.value;
+
+	                    if (loadedFavs[t.RowKey]) {
+	                        t.IsFavorited = true;
+	                    }
+	                }
+	            } catch (err) {
+	                _didIteratorError2 = true;
+	                _iteratorError2 = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+	                        _iterator2['return']();
+	                    }
+	                } finally {
+	                    if (_didIteratorError2) {
+	                        throw _iteratorError2;
+	                    }
+	                }
+	            }
+
+	            // refresh UI
+	            util.refreshState(reactRoot);
+	        });
+	    }, function () {
+	        return token.getToken([tableNameOfFavorite]).done(function (data) {
+	            favSas = data;
+	        });
+	    });
+	};
+
 	var loadTumblrs = function loadTumblrs(e) {
 	    var button = e.target;
 
@@ -237,8 +384,8 @@
 	            continuationToken.NextPartitionKey = jqXhr.getResponseHeader('x-ms-continuation-NextPartitionKey');
 	            continuationToken.NextRowKey = jqXhr.getResponseHeader('x-ms-continuation-NextRowKey');
 	        }).done(function (data) {
-	            reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(data.value));
-	            util.refreshState(reactRoot);
+	            initTumblrs(data.value);
+	            loadFavorites(data.value);
 	        });
 	    }, function () {
 	        return token.getToken([tableNameOfTumblr]).done(function (data) {
@@ -248,7 +395,7 @@
 	};
 
 	var initialize = function initialize(reactRoot1, tumSas1, continuationToken1, mediaType1, tumblrCategory1, tableNameOfTumblr1, tableNameOfFavorite1, tableNameOfComment1) {
-	    reactRoot = reactRoot1;
+	    exports.reactRoot = reactRoot = reactRoot1;
 	    tumSas = tumSas1;
 	    continuationToken = continuationToken1 || {};
 	    mediaType = mediaType1;
@@ -260,6 +407,11 @@
 
 	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFactoryJs));
 
+	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
+
+	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
+
+	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
 	exports.loadTumblrs = loadTumblrs;
 
@@ -13794,6 +13946,170 @@
 
 /***/ },
 /* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+	var _sprintfJs = __webpack_require__(5);
+
+	var _businessLvFoundationFactoryJs = __webpack_require__(4);
+
+	var factory = _interopRequireWildcard(_businessLvFoundationFactoryJs);
+
+	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+
+	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+
+	var _businessLvFoundationTokenJs = __webpack_require__(98);
+
+	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
+
+	var retryTime = 3;
+
+	var postFavorite = function postFavorite(tumblr) {
+	    return util.authorizedExecute(function () {
+	        return $.post((0, _sprintfJs.sprintf)('/api/v1/favorites/%s/%s', tumblr.MediaType, tumblr.RowKey)).retry({ times: retryTime });
+	    });
+	};
+
+	var deleteFavorite = function deleteFavorite(tumblr) {
+	    return util.authorizedExecute(function () {
+	        return $.ajax({
+	            url: (0, _sprintfJs.sprintf)('/api/v1/favorites/%s/%s', tumblr.MediaType, tumblr.RowKey),
+	            type: 'DELETE'
+	        }).retry({ times: retryTime });
+	    });
+	};
+
+	var setFavorite = function setFavorite(parameters) {
+	    var button = parameters.button;
+	    var tumblr = parameters.tumblr;
+	    var done = parameters.done;
+
+	    if (tumblr.IsFavorited) {
+	        return util.ajaxLadda(function () {
+	            return deleteFavorite(tumblr).done(function () {
+	                tumblr.IsFavorited = false;
+	                done(tumblr);
+	            });
+	        }, button);
+	    } else {
+	        return util.ajaxLadda(function () {
+	            return postFavorite(tumblr).done(function () {
+	                tumblr.IsFavorited = true;
+	                done(tumblr);
+	            });
+	        }, button);
+	    }
+	};
+
+	exports.postFavorite = postFavorite;
+	exports.deleteFavorite = deleteFavorite;
+	exports.setFavorite = setFavorite;
+
+	var loadFavorite = function loadFavorite(parameters) {
+	    var favSas = parameters.favSas;
+	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
+	    var tumblr = parameters.tumblr;
+	    var onReceiveNewToken = parameters.onReceiveNewToken;
+	    var done = parameters.done;
+
+	    return util.retryExecute(function () {
+	        return util.queryAzureTable(favSas, {
+	            filter: (0, _sprintfJs.sprintf)('RowKey eq \'%s_%s\'', tumblr.MediaType, tumblr.RowKey),
+	            select: 'RowKey'
+	        }).done(function (data) {
+	            if (data.value.length > 0) {
+	                tumblr.IsFavorited = true;
+	                done(tumblr);
+	            }
+	        });
+	    }, function () {
+	        return token.getToken([tableNameOfFavorite]).done(function (data) {
+	            favSas = data;
+	            onReceiveNewToken(data);
+	        });
+	    });
+	};
+
+	var loadFavorites = function loadFavorites(parameters) {
+	    var favSas = parameters.favSas;
+	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
+	    var tumblrs = parameters.tumblrs;
+	    var mediaType = parameters.mediaType;
+	    var onReceiveNewToken = parameters.onReceiveNewToken;
+	    var done = parameters.done;
+
+	    return util.retryExecute(function () {
+	        var from = tumblrs[0].RowKey;
+	        var to = tumblrs[tumblrs.length - 1].RowKey;
+
+	        return util.queryAzureTable(favSas, {
+	            filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s_%s\' and RowKey le \'%s_%s\'', mediaType, from, mediaType, to),
+	            select: 'RowKey'
+	        }).done(function (data) {
+	            var loadedFavs = {};
+	            $.each(data.value, function (index, value) {
+	                loadedFavs[util.getInvertedTicks(value.RowKey)] = true;
+	            });
+
+	            $.each(tumblrs, function (index, value) {
+	                if (loadedFavs[value.RowKey]) {
+	                    value.IsFavorited = true;
+	                }
+	            });
+
+	            done(tumblrs);
+	        });
+	    }, function () {
+	        return token.getToken([tableNameOfFavorite]).done(function (data) {
+	            favSas = data;
+	            onReceiveNewToken(data);
+	        });
+	    });
+	};
+
+	var loadFavoritesWithContinuationToken = function loadFavoritesWithContinuationToken(parameters) {
+	    var button = parameters.button;
+	    var sasFav = parameters.sasFav;
+	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
+	    var continuationToken = parameters.continuationToken;
+	    var mediaType = parameters.mediaType;
+	    var takingCount = parameters.takingCount;
+	    var onReceiveNewToken = parameters.onReceiveNewToken;
+	    var onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
+	    var done = parameters.done;
+
+	    return util.retryExecute(function () {
+	        return util.ajaxLadda(function () {
+	            return util.queryAzureTable(sasFav, {
+	                continuationToken: continuationToken,
+	                filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s\' and RowKey lt \'%s\'', mediaType, mediaType + 1),
+	                top: takingCount
+	            }).done(function (data, textStatus, jqXhr) {
+	                onReceiveNewContinuationToken(jqXhr.getResponseHeader('x-ms-continuation-NextPartitionKey'), jqXhr.getResponseHeader('x-ms-continuation-NextRowKey'));
+	            }).done(function (data) {
+	                done(factory.createTumblrs(data.value, true));
+	            });
+	        }, button);
+	    }, function () {
+	        return util.ajaxLadda(function () {
+	            return token.getToken([tableNameOfFavorite]).done(function (data) {
+	                sasFav = data;
+	                onReceiveNewToken(data);
+	            });
+	        }, button);
+	    });
+	};
+
+/***/ },
+/* 100 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13869,7 +14185,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -1,6 +1,7 @@
 ﻿import * as factory from '../business/lv.foundation.factory.js';
 import * as util from '../business/lv.foundation.utility.js';
 import * as token from '../business/lv.foundation.token.js';
+import * as favorite from '../business/lv.foundation.favorite.js';
 import {sprintf} from 'sprintf-js';
 
 var reactRoot;
@@ -10,11 +11,50 @@ var comSas;
 var continuationToken;
 var mediaType;
 var tumblrCategory;
-var takingCount = 20;
-var commentTakingCount = 5;
+const takingCount = 20;
+const commentTakingCount = 5;
 var tableNameOfTumblr;
 var tableNameOfFavorite;
 var tableNameOfComment;
+
+var initTumblrs = function (entities) {
+    reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(entities));
+    util.refreshState(reactRoot);
+    return entities;
+};
+
+var loadFavorites = function (tumblrs) {
+    return util.retryExecute(function () {
+        var from = tumblrs[0].RowKey;
+        var to = tumblrs[tumblrs.length - 1].RowKey;
+
+        return util.queryAzureTable(favSas, {
+            filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
+            select: "RowKey"
+        }).done(function (data) {
+            let loadedFavs = {};
+
+            // read all favorites
+            for (let f of data.value) {
+                loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
+            }
+
+            // set favorite for tumblrs
+            for (let t of tumblrs) {
+                if (loadedFavs[t.RowKey]) {
+                    t.IsFavorited = true;
+                }
+            }
+
+            // refresh UI
+            util.refreshState(reactRoot);
+        });
+    }, function () {
+        return token.getToken([tableNameOfFavorite]).done(function (data) {
+            favSas = data;
+        });
+    });
+};
 
 var loadTumblrs = function (e) {
     var button = e.target;
@@ -28,8 +68,8 @@ var loadTumblrs = function (e) {
             continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
             continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
         }).done(function (data) {
-            reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(data.value));
-            util.refreshState(reactRoot);
+            initTumblrs(data.value);
+            loadFavorites(data.value);
         });
     }, function () {
         return token.getToken([tableNameOfTumblr]).done(function (data) {
@@ -57,7 +97,9 @@ var initialize = function (reactRoot1,
 };
 
 export * from '../business/lv.foundation.factory.js';
+export * from '../business/lv.foundation.utility.js';
+export * from '../business/lv.foundation.favorite.js';
 export
 {
-    initialize, loadTumblrs
+    reactRoot, initialize, loadTumblrs
 };

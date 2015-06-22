@@ -349,6 +349,7 @@
     <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
     <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
     <Content Include="Scripts\business\lv.foundation.factory.js" />
+    <Content Include="Scripts\business\lv.foundation.favorite.js" />
     <Content Include="Scripts\business\lv.foundation.token.js" />
     <Content Include="Scripts\business\lv.foundation.utility.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
