@@ -1,7 +1,7 @@
 ﻿export default class Comment extends React.Component {
     render() {
-        var {dataContext} = this.props;
-        
+        let {dataContext} = this.props;
+
         return (
             <div>
                 <div className="info mar-zero">

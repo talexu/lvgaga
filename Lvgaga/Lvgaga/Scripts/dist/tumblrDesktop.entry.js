@@ -109,9 +109,9 @@
 	            var dataContext = this.props.dataContext;
 
 	            return Core.setFavorite({
-	                button: e.target,
-	                tumblr: dataContext,
-	                done: function done() {
+	                buttonK: e.target,
+	                tumblrK: dataContext,
+	                doneK: function doneK() {
 	                    Core.refreshState(Core.reactRoot);
 	                }
 	            });
@@ -221,14 +221,29 @@
 	        _classCallCheck(this, TumblrContainerBox);
 
 	        _get(Object.getPrototypeOf(TumblrContainerBox.prototype), 'constructor', this).call(this, props);
+	        this.componentDidMount = this.componentDidMount.bind(this);
 
-	        Core.initialize(this, props.dataContext.Sas, props.dataContext.ContinuationToken, props.dataContext.MediaType, props.dataContext.TumblrCategory, props.tableNameOfTumblr, props.tableNameOfFavorite, props.tableNameOfComment);
+	        Core.initialize({
+	            reactRootK: this,
+	            tumSasK: props.dataContext.Sas,
+	            continuationTokenK: props.dataContext.ContinuationToken,
+	            mediaTypeK: props.dataContext.MediaType,
+	            tumblrCategoryK: props.dataContext.TumblrCategory,
+	            tableNameOfTumblrK: props.tableNameOfTumblr,
+	            tableNameOfFavoriteK: props.tableNameOfFavorite,
+	            tableNameOfCommentK: props.tableNameOfComment
+	        });
 	        this.state = { dataContext: Core.createTumblrs(props.dataContext.Tumblrs) };
 	    }
 
 	    _inherits(TumblrContainerBox, _React$Component4);
 
 	    _createClass(TumblrContainerBox, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            Core.loadFavorites(this.state.dataContext);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return React.createElement(
@@ -278,18 +293,18 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var reactRoot;
-	var tumSas;
-	var favSas;
-	var comSas;
-	var continuationToken;
-	var mediaType;
-	var tumblrCategory;
+	var reactRoot = undefined;
+	var tumSas = undefined;
+	var favSas = undefined;
+	var comSas = undefined;
+	var continuationToken = undefined;
+	var mediaType = undefined;
+	var tumblrCategory = undefined;
 	var takingCount = 20;
 	var commentTakingCount = 5;
-	var tableNameOfTumblr;
-	var tableNameOfFavorite;
-	var tableNameOfComment;
+	var tableNameOfTumblr = undefined;
+	var tableNameOfFavorite = undefined;
+	var tableNameOfComment = undefined;
 
 	var initTumblrs = function initTumblrs(entities) {
 	    reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(entities));
@@ -394,15 +409,24 @@
 	    }, button);
 	};
 
-	var initialize = function initialize(reactRoot1, tumSas1, continuationToken1, mediaType1, tumblrCategory1, tableNameOfTumblr1, tableNameOfFavorite1, tableNameOfComment1) {
-	    exports.reactRoot = reactRoot = reactRoot1;
-	    tumSas = tumSas1;
-	    continuationToken = continuationToken1 || {};
-	    mediaType = mediaType1;
-	    tumblrCategory = tumblrCategory1;
-	    tableNameOfTumblr = tableNameOfTumblr1;
-	    tableNameOfFavorite = tableNameOfFavorite1;
-	    tableNameOfComment = tableNameOfComment1;
+	var initialize = function initialize(_ref) {
+	    var reactRootV = _ref.reactRootK;
+	    var tumSasV = _ref.tumSasK;
+	    var continuationTokenV = _ref.continuationTokenK;
+	    var mediaTypeV = _ref.mediaTypeK;
+	    var tumblrCategoryV = _ref.tumblrCategoryK;
+	    var tableNameOfTumblrV = _ref.tableNameOfTumblrK;
+	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
+	    var tableNameOfCommentV = _ref.tableNameOfCommentK;
+
+	    exports.reactRoot = reactRoot = reactRootV;
+	    tumSas = tumSasV;
+	    continuationToken = continuationTokenV || {};
+	    mediaType = mediaTypeV;
+	    tumblrCategory = tumblrCategoryV;
+	    tableNameOfTumblr = tableNameOfTumblrV;
+	    tableNameOfFavorite = tableNameOfFavoriteV;
+	    tableNameOfComment = tableNameOfCommentV;
 	};
 
 	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFactoryJs));
@@ -414,6 +438,7 @@
 	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
 	exports.loadTumblrs = loadTumblrs;
+	exports.loadFavorites = loadFavorites;
 
 /***/ },
 /* 4 */
@@ -13853,7 +13878,7 @@
 	var ajaxLadda = function ajaxLadda(func, button) {
 	    if (!button) return func(null, arguments);
 
-	    var l;
+	    var l = undefined;
 	    if (button instanceof jQuery) {
 	        l = Ladda.create(button.get(0));
 	    } else {
@@ -13987,10 +14012,10 @@
 	    });
 	};
 
-	var setFavorite = function setFavorite(parameters) {
-	    var button = parameters.button;
-	    var tumblr = parameters.tumblr;
-	    var done = parameters.done;
+	var setFavorite = function setFavorite(_ref) {
+	    var button = _ref.buttonK;
+	    var tumblr = _ref.tumblrK;
+	    var done = _ref.doneK;
 
 	    if (tumblr.IsFavorited) {
 	        return util.ajaxLadda(function () {

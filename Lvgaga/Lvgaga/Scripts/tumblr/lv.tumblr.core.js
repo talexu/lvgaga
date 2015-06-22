@@ -4,34 +4,34 @@ import * as token from '../business/lv.foundation.token.js';
 import * as favorite from '../business/lv.foundation.favorite.js';
 import {sprintf} from 'sprintf-js';
 
-var reactRoot;
-var tumSas;
-var favSas;
-var comSas;
-var continuationToken;
-var mediaType;
-var tumblrCategory;
+let reactRoot;
+let tumSas;
+let favSas;
+let comSas;
+let continuationToken;
+let mediaType;
+let tumblrCategory;
 const takingCount = 20;
 const commentTakingCount = 5;
-var tableNameOfTumblr;
-var tableNameOfFavorite;
-var tableNameOfComment;
+let tableNameOfTumblr;
+let tableNameOfFavorite;
+let tableNameOfComment;
 
-var initTumblrs = function (entities) {
+let initTumblrs = (entities) => {
     reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(entities));
     util.refreshState(reactRoot);
     return entities;
 };
 
-var loadFavorites = function (tumblrs) {
-    return util.retryExecute(function () {
-        var from = tumblrs[0].RowKey;
-        var to = tumblrs[tumblrs.length - 1].RowKey;
+let loadFavorites = (tumblrs) => {
+    return util.retryExecute(() => {
+        let from = tumblrs[0].RowKey;
+        let to = tumblrs[tumblrs.length - 1].RowKey;
 
         return util.queryAzureTable(favSas, {
             filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
             select: "RowKey"
-        }).done(function (data) {
+        }).done((data) => {
             let loadedFavs = {};
 
             // read all favorites
@@ -49,51 +49,53 @@ var loadFavorites = function (tumblrs) {
             // refresh UI
             util.refreshState(reactRoot);
         });
-    }, function () {
-        return token.getToken([tableNameOfFavorite]).done(function (data) {
+    }, () => {
+        return token.getToken([tableNameOfFavorite]).done((data) => {
             favSas = data;
         });
     });
 };
 
-var loadTumblrs = function (e) {
-    var button = e.target;
+let loadTumblrs = (e) => {
+    let button = e.target;
 
-    return util.retryExecuteLadda(function () {
+    return util.retryExecuteLadda(() => {
         return util.queryAzureTable(tumSas, {
             continuationToken: continuationToken,
             filter: sprintf("PartitionKey ge '%s' and PartitionKey lt '%s' and RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
             top: takingCount
-        }).done(function (data, textStatus, jqXhr) {
+        }).done((data, textStatus, jqXhr) => {
             continuationToken.NextPartitionKey = jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey");
             continuationToken.NextRowKey = jqXhr.getResponseHeader("x-ms-continuation-NextRowKey");
-        }).done(function (data) {
+        }).done((data) => {
             initTumblrs(data.value);
             loadFavorites(data.value);
         });
-    }, function () {
-        return token.getToken([tableNameOfTumblr]).done(function (data) {
+    }, () => {
+        return token.getToken([tableNameOfTumblr]).done((data) => {
             tumSas = data;
         });
     }, button);
 };
 
-var initialize = function (reactRoot1,
-                           tumSas1,
-                           continuationToken1,
-                           mediaType1,
-                           tumblrCategory1,
-                           tableNameOfTumblr1,
-                           tableNameOfFavorite1,
-                           tableNameOfComment1) {
-    reactRoot = reactRoot1;
-    tumSas = tumSas1;
-    continuationToken = continuationToken1 || {};
-    mediaType = mediaType1;
-    tumblrCategory = tumblrCategory1;
-    tableNameOfTumblr = tableNameOfTumblr1;
-    tableNameOfFavorite = tableNameOfFavorite1;
-    tableNameOfComment = tableNameOfComment1;
+let initialize = ({
+    reactRootK:reactRootV,
+    tumSasK:tumSasV,
+    continuationTokenK:continuationTokenV,
+    mediaTypeK:mediaTypeV,
+    tumblrCategoryK:tumblrCategoryV,
+    tableNameOfTumblrK:tableNameOfTumblrV,
+    tableNameOfFavoriteK:tableNameOfFavoriteV,
+    tableNameOfCommentK:tableNameOfCommentV
+    }) => {
+    reactRoot = reactRootV;
+    tumSas = tumSasV;
+    continuationToken = continuationTokenV || {};
+    mediaType = mediaTypeV;
+    tumblrCategory = tumblrCategoryV;
+    tableNameOfTumblr = tableNameOfTumblrV;
+    tableNameOfFavorite = tableNameOfFavoriteV;
+    tableNameOfComment = tableNameOfCommentV;
 };
 
 export * from '../business/lv.foundation.factory.js';
@@ -101,5 +103,5 @@ export * from '../business/lv.foundation.utility.js';
 export * from '../business/lv.foundation.favorite.js';
 export
 {
-    reactRoot, initialize, loadTumblrs
+    reactRoot, initialize, loadTumblrs, loadFavorites
 };

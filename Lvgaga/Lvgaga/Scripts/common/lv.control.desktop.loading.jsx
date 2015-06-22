@@ -1,6 +1,6 @@
 ﻿export default class Loading extends React.Component {
     render() {
-        var {onClickHandler} = this.props;
+        let {onClickHandler} = this.props;
 
         return (
             <button type="button" className="btn btn-default btn-lg btn-block btn-rectangle ladda-button"

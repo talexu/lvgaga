@@ -1,6 +1,6 @@
-﻿var defaultRetryTime = 3;
+﻿const defaultRetryTime = 3;
 
-var retryExecute = function (func, handler, retry) {
+let retryExecute = function (func, handler, retry) {
     retry = retry === undefined ? defaultRetryTime - 1 : retry;
     if (retry < 0)
         return undefined;
@@ -12,15 +12,15 @@ var retryExecute = function (func, handler, retry) {
     });
 };
 
-var authorizedExecute = function (func) {
-    var d = $.Deferred();
+let authorizedExecute = function (func) {
+    let d = $.Deferred();
     func.apply(null, arguments).done(function (data, textStatus, jqXhr) {
         switch (jqXhr.status) {
             case 201:
                 d.resolve(data, textStatus, jqXhr);
                 break;
             case 200:
-                var res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
+                let res = $.parseJSON(jqXhr.getResponseHeader("X-Responded-JSON"));
                 if (res && res.status === 401) {
                     $(location).attr("href", res.headers.location.replace(/(ReturnUrl=)(.+)/, "$1" + encodeURIComponent(location.pathname)));
                     d.reject(data, textStatus, jqXhr);
@@ -36,23 +36,23 @@ var authorizedExecute = function (func) {
     return d;
 };
 
-var ajaxLadda = function (func, button) {
+let ajaxLadda = function (func, button) {
     if (!button)
         return func(null, arguments);
 
-    var l;
+    let l;
     if (button instanceof jQuery) {
         l = Ladda.create(button.get(0));
     } else {
         l = Ladda.create(button);
     }
     l.start();
-    return func.apply(null, arguments).always(function () {
+    return func.apply(null, arguments).always(()=> {
         l.stop();
     });
 };
 
-var retryExecuteLadda = function (func, handler, button, retry) {
+let retryExecuteLadda = function (func, handler, button, retry) {
     return retryExecute(function () {
         return ajaxLadda(function () {
             return func.apply(null, arguments);
@@ -64,11 +64,11 @@ var retryExecuteLadda = function (func, handler, button, retry) {
     }, retry);
 };
 
-var queryAzureTable = function (tableSasUrl, p) {
+let queryAzureTable = function (tableSasUrl, p) {
     if (!tableSasUrl || typeof tableSasUrl !== "string")
         return $.Deferred().reject();
 
-    var uri = tableSasUrl;
+    let uri = tableSasUrl;
     if (p.continuationToken) {
         if (p.continuationToken.NextPartitionKey) {
             uri += "&NextPartitionKey=" + p.continuationToken.NextPartitionKey;
@@ -99,7 +99,7 @@ var queryAzureTable = function (tableSasUrl, p) {
     });
 };
 
-var refreshState = function (that) {
+let refreshState = function (that) {
     that.setState(that.state);
 };
 

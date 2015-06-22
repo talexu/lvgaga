@@ -9,21 +9,21 @@ class Functions extends React.Component {
     }
 
     setFavorite(e) {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
 
         return Core.setFavorite({
-            button: e.target,
-            tumblr: dataContext,
-            done: function () {
+            buttonK: e.target,
+            tumblrK: dataContext,
+            doneK: ()=> {
                 Core.refreshState(Core.reactRoot);
             }
         });
     }
 
     render() {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
 
-        var classNameOfFavorite = "btn btn-default btn-sm ladda-button";
+        let classNameOfFavorite = "btn btn-default btn-sm ladda-button";
         classNameOfFavorite += dataContext.IsFavorited ? " btn-selected" : "";
 
         return (
@@ -51,7 +51,7 @@ class Functions extends React.Component {
 
 class TumblrContainer extends React.Component {
     render() {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
 
         return (
             <div className="box">
@@ -66,9 +66,9 @@ class TumblrContainer extends React.Component {
 
 class TumblrContainerList extends React.Component {
     render() {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
 
-        var TumblrContainerNodes = dataContext.map(function (tumblr) {
+        let TumblrContainerNodes = dataContext.map((tumblr) => {
             return (
                 <TumblrContainer key={tumblr.Base64Id} dataContext={tumblr}/>
             );
@@ -84,18 +84,23 @@ class TumblrContainerList extends React.Component {
 class TumblrContainerBox extends React.Component {
     constructor(props) {
         super(props);
+        this.componentDidMount = this.componentDidMount.bind(this);
 
-        Core.initialize(
-            this,
-            props.dataContext.Sas,
-            props.dataContext.ContinuationToken,
-            props.dataContext.MediaType,
-            props.dataContext.TumblrCategory,
-            props.tableNameOfTumblr,
-            props.tableNameOfFavorite,
-            props.tableNameOfComment
-        );
+        Core.initialize({
+            reactRootK: this,
+            tumSasK: props.dataContext.Sas,
+            continuationTokenK: props.dataContext.ContinuationToken,
+            mediaTypeK: props.dataContext.MediaType,
+            tumblrCategoryK: props.dataContext.TumblrCategory,
+            tableNameOfTumblrK: props.tableNameOfTumblr,
+            tableNameOfFavoriteK: props.tableNameOfFavorite,
+            tableNameOfCommentK: props.tableNameOfComment
+        });
         this.state = {dataContext: Core.createTumblrs(props.dataContext.Tumblrs)};
+    }
+
+    componentDidMount() {
+        Core.loadFavorites(this.state.dataContext);
     }
 
     render() {

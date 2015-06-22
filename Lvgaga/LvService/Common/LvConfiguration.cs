@@ -5,7 +5,7 @@ namespace LvService.Common
 {
     public class LvConfiguration
     {
-        private const double DefaultTokenExpireOffset = 60;
+        private const double DefaultTokenExpireOffset = 1;
         public static readonly double TokenExpireOffset = DefaultTokenExpireOffset;
 
         private const double DefaultCacheExpireOffset = 30;

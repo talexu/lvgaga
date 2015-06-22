@@ -1,7 +1,7 @@
 ﻿export default class Tumblr extends React.Component {
     render() {
-        var {dataContext} = this.props;
-        
+        let {dataContext} = this.props;
+
         return (
             <div className="cont">
                 <div className="pic">

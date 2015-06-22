@@ -2,15 +2,15 @@
 import * as factory from '../business/lv.foundation.factory.js';
 import * as util from '../business/lv.foundation.utility.js';
 import * as token from '../business/lv.foundation.token.js';
-var retryTime = 3;
+const retryTime = 3;
 
-var postFavorite = function (tumblr) {
+let postFavorite = function (tumblr) {
     return util.authorizedExecute(function () {
         return $.post(sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey)).retry({times: retryTime});
     });
 };
 
-var deleteFavorite = function (tumblr) {
+let deleteFavorite = function (tumblr) {
     return util.authorizedExecute(function () {
         return $.ajax({
             url: sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey),
@@ -19,11 +19,11 @@ var deleteFavorite = function (tumblr) {
     });
 };
 
-var setFavorite = function (parameters) {
-    var button = parameters.button;
-    var tumblr = parameters.tumblr;
-    var done = parameters.done;
-
+let setFavorite = function ({
+    buttonK:button,
+    tumblrK:tumblr,
+    doneK:done
+    }) {
     if (tumblr.IsFavorited) {
         return util.ajaxLadda(function () {
             return deleteFavorite(tumblr).done(function () {
@@ -47,12 +47,12 @@ export{
     setFavorite
 };
 
-var loadFavorite = function (parameters) {
-    var favSas = parameters.favSas;
-    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-    var tumblr = parameters.tumblr;
-    var onReceiveNewToken = parameters.onReceiveNewToken;
-    var done = parameters.done;
+let loadFavorite = function (parameters) {
+    let favSas = parameters.favSas;
+    let tableNameOfFavorite = parameters.tableNameOfFavorite;
+    let tumblr = parameters.tumblr;
+    let onReceiveNewToken = parameters.onReceiveNewToken;
+    let done = parameters.done;
 
     return util.retryExecute(function () {
         return util.queryAzureTable(favSas, {
@@ -72,23 +72,23 @@ var loadFavorite = function (parameters) {
     });
 };
 
-var loadFavorites = function (parameters) {
-    var favSas = parameters.favSas;
-    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-    var tumblrs = parameters.tumblrs;
-    var mediaType = parameters.mediaType;
-    var onReceiveNewToken = parameters.onReceiveNewToken;
-    var done = parameters.done;
+let loadFavorites = function (parameters) {
+    let favSas = parameters.favSas;
+    let tableNameOfFavorite = parameters.tableNameOfFavorite;
+    let tumblrs = parameters.tumblrs;
+    let mediaType = parameters.mediaType;
+    let onReceiveNewToken = parameters.onReceiveNewToken;
+    let done = parameters.done;
 
     return util.retryExecute(function () {
-        var from = tumblrs[0].RowKey;
-        var to = tumblrs[tumblrs.length - 1].RowKey;
+        let from = tumblrs[0].RowKey;
+        let to = tumblrs[tumblrs.length - 1].RowKey;
 
         return util.queryAzureTable(favSas, {
             filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
             select: "RowKey"
         }).done(function (data) {
-            var loadedFavs = {};
+            let loadedFavs = {};
             $.each(data.value, function (index, value) {
                 loadedFavs[util.getInvertedTicks(value.RowKey)] = true;
             });
@@ -109,16 +109,16 @@ var loadFavorites = function (parameters) {
     });
 };
 
-var loadFavoritesWithContinuationToken = function (parameters) {
-    var button = parameters.button;
-    var sasFav = parameters.sasFav;
-    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-    var continuationToken = parameters.continuationToken;
-    var mediaType = parameters.mediaType;
-    var takingCount = parameters.takingCount;
-    var onReceiveNewToken = parameters.onReceiveNewToken;
-    var onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
-    var done = parameters.done;
+let loadFavoritesWithContinuationToken = function (parameters) {
+    let button = parameters.button;
+    let sasFav = parameters.sasFav;
+    let tableNameOfFavorite = parameters.tableNameOfFavorite;
+    let continuationToken = parameters.continuationToken;
+    let mediaType = parameters.mediaType;
+    let takingCount = parameters.takingCount;
+    let onReceiveNewToken = parameters.onReceiveNewToken;
+    let onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
+    let done = parameters.done;
 
     return util.retryExecute(function () {
         return util.ajaxLadda(function () {
