@@ -4,14 +4,14 @@ import * as util from '../business/lv.foundation.utility.js';
 import * as token from '../business/lv.foundation.token.js';
 const retryTime = 3;
 
-let postFavorite = function (tumblr) {
-    return util.authorizedExecute(function () {
+let postFavorite = (tumblr) => {
+    return util.authorizedExecute(() => {
         return $.post(sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey)).retry({times: retryTime});
     });
 };
 
-let deleteFavorite = function (tumblr) {
-    return util.authorizedExecute(function () {
+let deleteFavorite = (tumblr) => {
+    return util.authorizedExecute(() => {
         return $.ajax({
             url: sprintf("/api/v1/favorites/%s/%s", tumblr.MediaType, tumblr.RowKey),
             type: "DELETE"
@@ -19,21 +19,21 @@ let deleteFavorite = function (tumblr) {
     });
 };
 
-let setFavorite = function ({
+let setFavorite = ({
     buttonK:button,
     tumblrK:tumblr,
     doneK:done
-    }) {
+    }) => {
     if (tumblr.IsFavorited) {
-        return util.ajaxLadda(function () {
-            return deleteFavorite(tumblr).done(function () {
+        return util.ajaxLadda(() => {
+            return deleteFavorite(tumblr).done(() => {
                 tumblr.IsFavorited = false;
                 done(tumblr);
             });
         }, button);
     } else {
-        return util.ajaxLadda(function () {
-            return postFavorite(tumblr).done(function () {
+        return util.ajaxLadda(() => {
+            return postFavorite(tumblr).done(() => {
                 tumblr.IsFavorited = true;
                 done(tumblr);
             });
@@ -47,32 +47,32 @@ export{
     setFavorite
 };
 
-let loadFavorite = function (parameters) {
+let loadFavorite = (parameters) => {
     let favSas = parameters.favSas;
     let tableNameOfFavorite = parameters.tableNameOfFavorite;
     let tumblr = parameters.tumblr;
     let onReceiveNewToken = parameters.onReceiveNewToken;
     let done = parameters.done;
 
-    return util.retryExecute(function () {
+    return util.retryExecute(() => {
         return util.queryAzureTable(favSas, {
             filter: sprintf("RowKey eq '%s_%s'", tumblr.MediaType, tumblr.RowKey),
             select: "RowKey"
-        }).done(function (data) {
+        }).done((data)  => {
             if (data.value.length > 0) {
                 tumblr.IsFavorited = true;
                 done(tumblr);
             }
         });
-    }, function () {
-        return token.getToken([tableNameOfFavorite]).done(function (data) {
+    }, () => {
+        return token.getToken([tableNameOfFavorite]).done((data) => {
             favSas = data;
             onReceiveNewToken(data);
         });
     });
 };
 
-let loadFavorites = function (parameters) {
+let loadFavorites = (parameters) => {
     let favSas = parameters.favSas;
     let tableNameOfFavorite = parameters.tableNameOfFavorite;
     let tumblrs = parameters.tumblrs;
@@ -80,20 +80,20 @@ let loadFavorites = function (parameters) {
     let onReceiveNewToken = parameters.onReceiveNewToken;
     let done = parameters.done;
 
-    return util.retryExecute(function () {
+    return util.retryExecute(() => {
         let from = tumblrs[0].RowKey;
         let to = tumblrs[tumblrs.length - 1].RowKey;
 
         return util.queryAzureTable(favSas, {
             filter: sprintf("RowKey ge '%s_%s' and RowKey le '%s_%s'", mediaType, from, mediaType, to),
             select: "RowKey"
-        }).done(function (data) {
+        }).done((data) => {
             let loadedFavs = {};
-            $.each(data.value, function (index, value) {
+            $.each(data.value, (index, value) => {
                 loadedFavs[util.getInvertedTicks(value.RowKey)] = true;
             });
 
-            $.each(tumblrs, function (index, value) {
+            $.each(tumblrs, (index, value) => {
                 if (loadedFavs[value.RowKey]) {
                     value.IsFavorited = true;
                 }
@@ -101,15 +101,15 @@ let loadFavorites = function (parameters) {
 
             done(tumblrs);
         });
-    }, function () {
-        return token.getToken([tableNameOfFavorite]).done(function (data) {
+    }, () => {
+        return token.getToken([tableNameOfFavorite]).done((data) => {
             favSas = data;
             onReceiveNewToken(data);
         });
     });
 };
 
-let loadFavoritesWithContinuationToken = function (parameters) {
+let loadFavoritesWithContinuationToken = (parameters) => {
     let button = parameters.button;
     let sasFav = parameters.sasFav;
     let tableNameOfFavorite = parameters.tableNameOfFavorite;
@@ -120,21 +120,21 @@ let loadFavoritesWithContinuationToken = function (parameters) {
     let onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
     let done = parameters.done;
 
-    return util.retryExecute(function () {
-        return util.ajaxLadda(function () {
+    return util.retryExecute(() => {
+        return util.ajaxLadda(() => {
             return util.queryAzureTable(sasFav, {
                 continuationToken: continuationToken,
                 filter: sprintf("RowKey ge '%s' and RowKey lt '%s'", mediaType, mediaType + 1),
                 top: takingCount
-            }).done(function (data, textStatus, jqXhr) {
+            }).done((data, textStatus, jqXhr) => {
                 onReceiveNewContinuationToken(jqXhr.getResponseHeader("x-ms-continuation-NextPartitionKey"), jqXhr.getResponseHeader("x-ms-continuation-NextRowKey"));
-            }).done(function (data) {
+            }).done((data) => {
                 done(factory.createTumblrs(data.value, true));
             });
         }, button);
-    }, function () {
-        return util.ajaxLadda(function () {
-            return token.getToken([tableNameOfFavorite]).done(function (data) {
+    }, () => {
+        return util.ajaxLadda(() => {
+            return token.getToken([tableNameOfFavorite]).done((data) => {
                 sasFav = data;
                 onReceiveNewToken(data);
             });

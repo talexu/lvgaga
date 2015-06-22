@@ -1,20 +1,20 @@
 ﻿const defaultRetryTime = 3;
 
-let retryExecute = function (func, handler, retry) {
+let retryExecute = (func, handler, retry) => {
     retry = retry === undefined ? defaultRetryTime - 1 : retry;
     if (retry < 0)
         return undefined;
 
-    return func.apply(null, arguments).fail(function () {
-        handler.apply(null, arguments).always(function () {
+    return func.apply(null, arguments).fail(() => {
+        handler.apply(null, arguments).always(() => {
             retryExecute(func, handler, retry - 1);
         });
     });
 };
 
-let authorizedExecute = function (func) {
+let authorizedExecute = (func) => {
     let d = $.Deferred();
-    func.apply(null, arguments).done(function (data, textStatus, jqXhr) {
+    func.apply(null, arguments).done((data, textStatus, jqXhr) => {
         switch (jqXhr.status) {
             case 201:
                 d.resolve(data, textStatus, jqXhr);
@@ -36,7 +36,7 @@ let authorizedExecute = function (func) {
     return d;
 };
 
-let ajaxLadda = function (func, button) {
+let ajaxLadda = (func, button) => {
     if (!button)
         return func(null, arguments);
 
@@ -52,19 +52,19 @@ let ajaxLadda = function (func, button) {
     });
 };
 
-let retryExecuteLadda = function (func, handler, button, retry) {
-    return retryExecute(function () {
-        return ajaxLadda(function () {
+let retryExecuteLadda = (func, handler, button, retry) => {
+    return retryExecute(()  => {
+        return ajaxLadda(() => {
             return func.apply(null, arguments);
         }, button);
-    }, function () {
-        return ajaxLadda(function () {
+    }, () => {
+        return ajaxLadda(() => {
             return handler.apply(null, arguments);
         }, button);
     }, retry);
 };
 
-let queryAzureTable = function (tableSasUrl, p) {
+let queryAzureTable = (tableSasUrl, p) => {
     if (!tableSasUrl || typeof tableSasUrl !== "string")
         return $.Deferred().reject();
 
@@ -90,7 +90,7 @@ let queryAzureTable = function (tableSasUrl, p) {
         type: "GET",
         datatype: "json",
         url: uri,
-        beforeSend: function (xhr) {
+        beforeSend: (xhr) => {
             xhr.setRequestHeader("MaxDataServiceVersion", "3.0");
             xhr.setRequestHeader("Accept", "application/json;odata=nometadata");
         }
@@ -99,7 +99,7 @@ let queryAzureTable = function (tableSasUrl, p) {
     });
 };
 
-let refreshState = function (that) {
+let refreshState = (that) => {
     that.setState(that.state);
 };
 

@@ -13838,14 +13838,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	var _arguments = arguments;
 	var defaultRetryTime = 3;
 
 	var retryExecute = function retryExecute(func, handler, retry) {
 	    retry = retry === undefined ? defaultRetryTime - 1 : retry;
 	    if (retry < 0) return undefined;
 
-	    return func.apply(null, arguments).fail(function () {
-	        handler.apply(null, arguments).always(function () {
+	    return func.apply(null, _arguments).fail(function () {
+	        handler.apply(null, _arguments).always(function () {
 	            retryExecute(func, handler, retry - 1);
 	        });
 	    });
@@ -13853,7 +13854,7 @@
 
 	var authorizedExecute = function authorizedExecute(func) {
 	    var d = $.Deferred();
-	    func.apply(null, arguments).done(function (data, textStatus, jqXhr) {
+	    func.apply(null, _arguments).done(function (data, textStatus, jqXhr) {
 	        switch (jqXhr.status) {
 	            case 201:
 	                d.resolve(data, textStatus, jqXhr);
@@ -13876,7 +13877,7 @@
 	};
 
 	var ajaxLadda = function ajaxLadda(func, button) {
-	    if (!button) return func(null, arguments);
+	    if (!button) return func(null, _arguments);
 
 	    var l = undefined;
 	    if (button instanceof jQuery) {
@@ -13885,7 +13886,7 @@
 	        l = Ladda.create(button);
 	    }
 	    l.start();
-	    return func.apply(null, arguments).always(function () {
+	    return func.apply(null, _arguments).always(function () {
 	        l.stop();
 	    });
 	};
@@ -13893,11 +13894,11 @@
 	var retryExecuteLadda = function retryExecuteLadda(func, handler, button, retry) {
 	    return retryExecute(function () {
 	        return ajaxLadda(function () {
-	            return func.apply(null, arguments);
+	            return func.apply(null, _arguments);
 	        }, button);
 	    }, function () {
 	        return ajaxLadda(function () {
-	            return handler.apply(null, arguments);
+	            return handler.apply(null, _arguments);
 	        }, button);
 	    }, retry);
 	};

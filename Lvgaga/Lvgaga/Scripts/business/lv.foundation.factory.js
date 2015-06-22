@@ -2,19 +2,19 @@
 import {Base64} from 'js-base64';
 import moment from 'moment';
 
-let getInvertedTicks = function (rowKey) {
+let getInvertedTicks = (rowKey) => {
     return rowKey.slice(2);
 };
 
-let getLocalTime = function (dataTime) {
+let getLocalTime = (dataTime) => {
     return moment.utc(dataTime).local().format("YYYY-MM-DD HH:mm:ss");
 };
 
-let getCommentUri = function (tumblr) {
+let getCommentUri = (tumblr) => {
     return ["/comments", tumblr.MediaType, tumblr.RowKey].join("/");
 };
 
-let getShareUri = function (tumblr) {
+let getShareUri = (tumblr) => {
     return sprintf("http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s",
         encodeURIComponent("http://" + "qingyulu.azurewebsites.net" + tumblr.Uri),
         encodeURIComponent(tumblr.Text),
@@ -22,7 +22,7 @@ let getShareUri = function (tumblr) {
         encodeURIComponent(tumblr.MediaLargeUri));
 };
 
-let createTumblr = function (dataEntity) {
+let createTumblr = (dataEntity) => {
     dataEntity.RowKey = getInvertedTicks(dataEntity.RowKey);
     let id = sprintf("%s/%s", dataEntity.MediaType, dataEntity.RowKey);
     let base64Id = Base64.encode(id);
@@ -35,7 +35,7 @@ let createTumblr = function (dataEntity) {
 
     return dataEntity;
 };
-let createTumblrs = function (dataEntities, isFavorited = false) {
+let createTumblrs = (dataEntities, isFavorited = false) => {
     for (let dataEntity of dataEntities) {
         createTumblr(dataEntity);
         dataEntity.IsFavorited = isFavorited;
@@ -44,12 +44,12 @@ let createTumblrs = function (dataEntities, isFavorited = false) {
     return dataEntities;
 };
 
-let createComment = function (dataEntity) {
+let createComment = (dataEntity) => {
     dataEntity.CommentTime = lv.getLocalTime(dataEntity.CommentTime);
 
     return dataEntity;
 };
-let createComments = function (dataEntities) {
+let createComments = (dataEntities) => {
     for (let dataEntity of dataEntities) {
         createComment(dataEntity);
     }
