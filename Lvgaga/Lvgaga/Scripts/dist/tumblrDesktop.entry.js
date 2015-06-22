@@ -288,7 +288,6 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-
 	            return React.createElement(
 	                'div',
 	                { className: 'g-mn' },
@@ -572,8 +571,8 @@
 	        for (var _iterator = dataEntities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	            var dataEntity = _step.value;
 
-	            createTumblr(dataEntity);
 	            dataEntity.IsFavorited = isFavorited;
+	            createTumblr(dataEntity);
 	        }
 	    } catch (err) {
 	        _didIteratorError = true;
@@ -13916,7 +13915,9 @@
 
 	var retryExecute = function retryExecute(func, handler, retry) {
 	    retry = retry === undefined ? defaultRetryTime - 1 : retry;
-	    if (retry < 0) return undefined;
+	    if (retry < 0) {
+	        return undefined;
+	    }
 
 	    return func.apply(null, _arguments).fail(function () {
 	        handler.apply(null, _arguments).always(function () {
@@ -13950,7 +13951,9 @@
 	};
 
 	var ajaxLadda = function ajaxLadda(func, button) {
-	    if (!button) return func(null, _arguments);
+	    if (!button) {
+	        return func(null, _arguments);
+	    }
 
 	    var l = undefined;
 	    if (button instanceof jQuery) {
@@ -13977,7 +13980,9 @@
 	};
 
 	var queryAzureTable = function queryAzureTable(tableSasUrl, p) {
-	    if (!tableSasUrl || typeof tableSasUrl !== "string") return $.Deferred().reject();
+	    if (!tableSasUrl || typeof tableSasUrl !== "string") {
+	        return $.Deferred().reject();
+	    }
 
 	    var uri = tableSasUrl;
 	    if (p.continuationToken) {
@@ -14057,23 +14062,15 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var _businessLvFoundationFactoryJs = __webpack_require__(4);
-
-	var factory = _interopRequireWildcard(_businessLvFoundationFactoryJs);
-
 	var _businessLvFoundationUtilityJs = __webpack_require__(97);
 
 	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
 
-	var _businessLvFoundationTokenJs = __webpack_require__(98);
-
-	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
-
-	var retryTime = 3;
+	var defaultRetryTime = 3;
 
 	var postFavorite = function postFavorite(tumblr) {
 	    return util.authorizedExecute(function () {
-	        return $.post((0, _sprintfJs.sprintf)('/api/v1/favorites/%s/%s', tumblr.MediaType, tumblr.RowKey)).retry({ times: retryTime });
+	        return $.post((0, _sprintfJs.sprintf)('/api/v1/favorites/%s/%s', tumblr.MediaType, tumblr.RowKey)).retry({ times: defaultRetryTime });
 	    });
 	};
 
@@ -14082,7 +14079,7 @@
 	        return $.ajax({
 	            url: (0, _sprintfJs.sprintf)('/api/v1/favorites/%s/%s', tumblr.MediaType, tumblr.RowKey),
 	            type: 'DELETE'
-	        }).retry({ times: retryTime });
+	        }).retry({ times: defaultRetryTime });
 	    });
 	};
 
@@ -14111,101 +14108,6 @@
 	exports.postFavorite = postFavorite;
 	exports.deleteFavorite = deleteFavorite;
 	exports.setFavorite = setFavorite;
-
-	var loadFavorite = function loadFavorite(parameters) {
-	    var favSas = parameters.favSas;
-	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-	    var tumblr = parameters.tumblr;
-	    var onReceiveNewToken = parameters.onReceiveNewToken;
-	    var done = parameters.done;
-
-	    return util.retryExecute(function () {
-	        return util.queryAzureTable(favSas, {
-	            filter: (0, _sprintfJs.sprintf)('RowKey eq \'%s_%s\'', tumblr.MediaType, tumblr.RowKey),
-	            select: 'RowKey'
-	        }).done(function (data) {
-	            if (data.value.length > 0) {
-	                tumblr.IsFavorited = true;
-	                done(tumblr);
-	            }
-	        });
-	    }, function () {
-	        return token.getToken([tableNameOfFavorite]).done(function (data) {
-	            favSas = data;
-	            onReceiveNewToken(data);
-	        });
-	    });
-	};
-
-	var loadFavorites = function loadFavorites(parameters) {
-	    var favSas = parameters.favSas;
-	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-	    var tumblrs = parameters.tumblrs;
-	    var mediaType = parameters.mediaType;
-	    var onReceiveNewToken = parameters.onReceiveNewToken;
-	    var done = parameters.done;
-
-	    return util.retryExecute(function () {
-	        var from = tumblrs[0].RowKey;
-	        var to = tumblrs[tumblrs.length - 1].RowKey;
-
-	        return util.queryAzureTable(favSas, {
-	            filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s_%s\' and RowKey le \'%s_%s\'', mediaType, from, mediaType, to),
-	            select: 'RowKey'
-	        }).done(function (data) {
-	            var loadedFavs = {};
-	            $.each(data.value, function (index, value) {
-	                loadedFavs[util.getInvertedTicks(value.RowKey)] = true;
-	            });
-
-	            $.each(tumblrs, function (index, value) {
-	                if (loadedFavs[value.RowKey]) {
-	                    value.IsFavorited = true;
-	                }
-	            });
-
-	            done(tumblrs);
-	        });
-	    }, function () {
-	        return token.getToken([tableNameOfFavorite]).done(function (data) {
-	            favSas = data;
-	            onReceiveNewToken(data);
-	        });
-	    });
-	};
-
-	var loadFavoritesWithContinuationToken = function loadFavoritesWithContinuationToken(parameters) {
-	    var button = parameters.button;
-	    var sasFav = parameters.sasFav;
-	    var tableNameOfFavorite = parameters.tableNameOfFavorite;
-	    var continuationToken = parameters.continuationToken;
-	    var mediaType = parameters.mediaType;
-	    var takingCount = parameters.takingCount;
-	    var onReceiveNewToken = parameters.onReceiveNewToken;
-	    var onReceiveNewContinuationToken = parameters.onReceiveNewContinuationToken;
-	    var done = parameters.done;
-
-	    return util.retryExecute(function () {
-	        return util.ajaxLadda(function () {
-	            return util.queryAzureTable(sasFav, {
-	                continuationToken: continuationToken,
-	                filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s\' and RowKey lt \'%s\'', mediaType, mediaType + 1),
-	                top: takingCount
-	            }).done(function (data, textStatus, jqXhr) {
-	                onReceiveNewContinuationToken(jqXhr.getResponseHeader('x-ms-continuation-NextPartitionKey'), jqXhr.getResponseHeader('x-ms-continuation-NextRowKey'));
-	            }).done(function (data) {
-	                done(factory.createTumblrs(data.value, true));
-	            });
-	        }, button);
-	    }, function () {
-	        return util.ajaxLadda(function () {
-	            return token.getToken([tableNameOfFavorite]).done(function (data) {
-	                sasFav = data;
-	                onReceiveNewToken(data);
-	            });
-	        }, button);
-	    });
-	};
 
 /***/ },
 /* 100 */

@@ -2,8 +2,9 @@
 
 let retryExecute = (func, handler, retry) => {
     retry = retry === undefined ? defaultRetryTime - 1 : retry;
-    if (retry < 0)
+    if (retry < 0) {
         return undefined;
+    }
 
     return func.apply(null, arguments).fail(() => {
         handler.apply(null, arguments).always(() => {
@@ -37,8 +38,9 @@ let authorizedExecute = (func) => {
 };
 
 let ajaxLadda = (func, button) => {
-    if (!button)
+    if (!button) {
         return func(null, arguments);
+    }
 
     let l;
     if (button instanceof jQuery) {
@@ -65,8 +67,9 @@ let retryExecuteLadda = (func, handler, button, retry) => {
 };
 
 let queryAzureTable = (tableSasUrl, p) => {
-    if (!tableSasUrl || typeof tableSasUrl !== "string")
+    if (!tableSasUrl || typeof tableSasUrl !== "string") {
         return $.Deferred().reject();
+    }
 
     let uri = tableSasUrl;
     if (p.continuationToken) {

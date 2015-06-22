@@ -96,7 +96,7 @@ let loadComments = (tumblr) => {
 };
 
 let getLoadingButtonStyle = ()=> {
-    var btnStyle = {
+    let btnStyle = {
         display: "inline"
     };
     if (continuationToken && (!continuationToken.NextPartitionKey || !continuationToken.NextRowKey)) {

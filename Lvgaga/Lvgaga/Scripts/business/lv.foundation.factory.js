@@ -37,8 +37,8 @@ let createTumblr = (dataEntity) => {
 };
 let createTumblrs = (dataEntities, isFavorited = false) => {
     for (let dataEntity of dataEntities) {
-        createTumblr(dataEntity);
         dataEntity.IsFavorited = isFavorited;
+        createTumblr(dataEntity);
     }
 
     return dataEntities;

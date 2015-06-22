@@ -51,7 +51,6 @@ class Functions extends React.Component {
     }
 }
 
-
 class TumblrContainer extends React.Component {
     constructor() {
         super();
@@ -60,7 +59,7 @@ class TumblrContainer extends React.Component {
     }
 
     componentDidMount() {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
 
         $('#' + dataContext.Base64Id).on('show.bs.collapse', () => {
             if (dataContext.comments.length <= 0) {
@@ -70,7 +69,7 @@ class TumblrContainer extends React.Component {
     }
 
     postSuccess(comment) {
-        var {dataContext} = this.props;
+        let {dataContext} = this.props;
         dataContext.comments.unshift(Core.createComment(comment));
         Core.refreshState(Core.reactRoot);
     }
@@ -138,8 +137,6 @@ class TumblrContainerBox extends React.Component {
     }
 
     render() {
-
-
         return (
             <div className="g-mn">
                 <TumblrContainerList dataContext={this.state.dataContext}/>

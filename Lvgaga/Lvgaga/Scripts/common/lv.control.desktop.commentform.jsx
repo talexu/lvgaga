@@ -14,7 +14,7 @@ export default class CommentForm extends React.Component {
     }
 
     postComment(e) {
-        var {dataContext, postSuccess} = this.props;
+        let {dataContext, postSuccess} = this.props;
 
         return comment.postComment({
             tumblrK: dataContext,
