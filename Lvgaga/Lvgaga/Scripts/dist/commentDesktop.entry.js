@@ -172,7 +172,7 @@
 	    }, {
 	        key: 'postSuccess',
 	        value: function postSuccess(comment) {
-	            var dataContext = this.state.dataContext;
+	            var dataContext = this.props.dataContext;
 
 	            dataContext.comments.unshift(Core.createComment(comment));
 	            Core.refreshState(Core.reactRoot);
@@ -345,7 +345,7 @@
 	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
 	    var tableNameOfCommentV = _ref.tableNameOfCommentK;
 
-	    reactRoot = reactRootV;
+	    exports.reactRoot = reactRoot = reactRootV;
 	    comSas = comSasV;
 	    continuationToken = continuationTokenV || {};
 	    favSas = favSasV;
@@ -359,6 +359,7 @@
 
 	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
 
+	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
 	exports.loadFavorite = loadFavorite;
 	exports.loadComments = loadComments;

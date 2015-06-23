@@ -55,7 +55,7 @@ class TumblrContainer extends React.Component {
     }
 
     postSuccess(comment) {
-        let {dataContext} = this.state;
+        let {dataContext} = this.props;
         dataContext.comments.unshift(Core.createComment(comment));
         Core.refreshState(Core.reactRoot);
     }

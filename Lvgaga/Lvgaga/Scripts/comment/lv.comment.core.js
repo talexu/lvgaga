@@ -87,5 +87,5 @@ export * from '../business/lv.foundation.factory.js';
 export * from '../business/lv.foundation.utility.js';
 export * from '../business/lv.foundation.favorite.js';
 export{
-    initialize, loadFavorite, loadComments, getLoadingButtonStyle
+    reactRoot, initialize, loadFavorite, loadComments, getLoadingButtonStyle
 };
