@@ -353,6 +353,12 @@
     <Content Include="Scripts\business\lv.foundation.utility.js" />
     <Content Include="Scripts\comment\lv.comment.core.js" />
     <Content Include="Scripts\comment\lv.comment.index.mobile.js" />
+    <Content Include="Scripts\dist\commentDesktop.entry.js" />
+    <Content Include="Scripts\dist\commentMobile.entry.js" />
+    <Content Include="Scripts\dist\favoriteDesktop.entry.js" />
+    <Content Include="Scripts\dist\favoriteMobile.entry.js" />
+    <Content Include="Scripts\dist\tumblrDesktop.entry.js" />
+    <Content Include="Scripts\dist\tumblrMobile.entry.js" />
     <Content Include="Scripts\favorite\lv.favorite.core.js" />
     <Content Include="Scripts\favorite\lv.favorite.index.desktop.js" />
     <Content Include="Scripts\favorite\lv.favorite.index.mobile.js" />
@@ -500,7 +506,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\dist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
