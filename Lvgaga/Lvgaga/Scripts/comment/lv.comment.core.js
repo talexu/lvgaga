@@ -75,6 +75,7 @@ let initialize = ({
     tableNameOfFavoriteK:tableNameOfFavoriteV,
     tableNameOfCommentK:tableNameOfCommentV
     }) => {
+
     reactRoot = reactRootV;
     comSas = comSasV;
     continuationToken = continuationTokenV || {};

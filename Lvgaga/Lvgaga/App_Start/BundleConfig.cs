@@ -78,8 +78,7 @@ namespace Lvgaga
             // Favorite Page
             bundles.Add(new ScriptBundle("~/bundles/favorite").Include(
                 "~/bower_components/blueimp-gallery/js/blueimp-gallery.js",
-                "~/Scripts/lv.favorite.js",
-                "~/Scripts/lv.social.js"));
+                "~/Scripts/dist/favoriteDesktop.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/favorite/mobile").Include(
                 "~/bower_components/blueimp-gallery/js/blueimp-gallery.js",
                 "~/Scripts/lv.favorite.js",

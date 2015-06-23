@@ -354,6 +354,8 @@
     <Content Include="Scripts\business\lv.foundation.token.js" />
     <Content Include="Scripts\business\lv.foundation.utility.js" />
     <Content Include="Scripts\comment\lv.comment.core.js" />
+    <Content Include="Scripts\favorite\lv.favorite.core.js" />
+    <Content Include="Scripts\favorite\lv.favorite.index.desktop.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
     <Content Include="webpack.config.js" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
@@ -421,6 +423,7 @@
     <Content Include="Scripts\common\lv.control.desktop.commentform.jsx" />
     <Content Include="Scripts\comment\lv.comment.control.desktop.jsx" />
     <Content Include="Scripts\comment\lv.comment.index.desktop.js" />
+    <Content Include="Scripts\favorite\lv.favorite.control.desktop.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -511,7 +514,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\dist\" />
-    <Folder Include="Scripts\favorite\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

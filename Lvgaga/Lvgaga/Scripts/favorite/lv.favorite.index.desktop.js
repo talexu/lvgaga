@@ -1,0 +1,1 @@
+﻿import LightBox from 'expose?LightBox!./lv.favorite.control.desktop.jsx'
