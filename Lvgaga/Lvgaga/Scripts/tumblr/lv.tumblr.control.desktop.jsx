@@ -61,7 +61,7 @@ class TumblrContainer extends React.Component {
     componentDidMount() {
         let {dataContext} = this.props;
 
-        $('#' + dataContext.Base64Id).on('show.bs.collapse', () => {
+        $(React.findDOMNode(this.refs[dataContext.Base64Id])).on('show.bs.collapse', () => {
             if (dataContext.comments.length <= 0) {
                 Core.loadComments(dataContext);
             }
@@ -83,7 +83,7 @@ class TumblrContainer extends React.Component {
                     <Tumblr dataContext={dataContext}/>
                     <Functions dataContext={dataContext}/>
 
-                    <div className="collapse" id={dataContext.Base64Id}>
+                    <div className="collapse" id={dataContext.Base64Id} ref={dataContext.Base64Id}>
                         <CommentForm dataContext={dataContext} postSuccess={this.postSuccess}/>
                         <CommentList dataContext={dataContext.comments}/>
 

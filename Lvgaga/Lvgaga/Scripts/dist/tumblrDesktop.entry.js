@@ -14172,7 +14172,7 @@
 	        value: function componentDidMount() {
 	            var dataContext = this.props.dataContext;
 
-	            $('#' + dataContext.Base64Id).on('show.bs.collapse', function () {
+	            $(React.findDOMNode(this.refs[dataContext.Base64Id])).on('show.bs.collapse', function () {
 	                if (dataContext.comments.length <= 0) {
 	                    Core.loadComments(dataContext);
 	                }
@@ -14201,7 +14201,7 @@
 	                    React.createElement(Functions, { dataContext: dataContext }),
 	                    React.createElement(
 	                        'div',
-	                        { className: 'collapse', id: dataContext.Base64Id },
+	                        { className: 'collapse', id: dataContext.Base64Id, ref: dataContext.Base64Id },
 	                        React.createElement(_commonLvControlDesktopCommentformJsx2['default'], { dataContext: dataContext, postSuccess: this.postSuccess }),
 	                        React.createElement(_commonLvControlDesktopCommentlistJsx2['default'], { dataContext: dataContext.comments }),
 	                        React.createElement(
