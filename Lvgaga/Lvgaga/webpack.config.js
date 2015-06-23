@@ -1,6 +1,7 @@
 ﻿module.exports = {
     entry: {
         tumblrDesktop: "./Scripts/tumblr/lv.tumblr.index.desktop.js",
+        tumblrMobile: "./Scripts/tumblr/lv.tumblr.index.mobile.js",
         commentDesktop: "./Scripts/comment/lv.comment.index.desktop.js",
         favoriteDesktop: "./Scripts/favorite/lv.favorite.index.desktop.js"
     },

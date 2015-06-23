@@ -46,6 +46,7 @@ let createTumblrs = (dataEntities, isFavorited = false) => {
 
 let createComment = (dataEntity) => {
     dataEntity.CommentTime = getLocalTime(dataEntity.CommentTime);
+    dataEntity.Base64Id = Base64.encode(dataEntity.PartitionKey + dataEntity.RowKey);
 
     return dataEntity;
 };

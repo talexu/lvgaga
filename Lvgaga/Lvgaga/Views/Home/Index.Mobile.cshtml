@@ -1,29 +1,21 @@
 ﻿@using LvModel.Common
-@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
 }
 
-<div id="div_content">
-
+<div>
+    @Html.React("TumblrBox", new
+    {
+        dataContext = Model,
+        tableNameOfFavorite = LvConstants.TableNameOfFavorite,
+        tableNameOfTumblr = LvConstants.TableNameOfTumblr,
+        tableNameOfComment = LvConstants.TableNameOfComment
+    })
 </div>
 
 @section scripts
 {
     @Scripts.Render("~/bundles/home/mobile")
-    <!--React-->
-    <script src="@Url.Content("~/Scripts/lv.tumblr.mobile.jsx")"></script>
-    <!--React end-->
-
-    <script>
-        (function() {
-            "use strict";
-            var dataContext = @Html.Raw(Model.ToJsonString());
-            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
-            dataContext.tableNameOfTumblr = "@LvConstants.TableNameOfTumblr";
-
-            lv.tumblr.initialize(dataContext);
-        })();
-    </script>
+    @Html.ReactInitJavaScript()
 }

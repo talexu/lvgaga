@@ -447,6 +447,7 @@
 
 	var createComment = function createComment(dataEntity) {
 	    dataEntity.CommentTime = getLocalTime(dataEntity.CommentTime);
+	    dataEntity.Base64Id = _jsBase64.Base64.encode(dataEntity.PartitionKey + dataEntity.RowKey);
 
 	    return dataEntity;
 	};
@@ -14276,7 +14277,7 @@
 	            var dataContext = this.props.dataContext;
 
 	            var commentNodes = dataContext.map(function (comment) {
-	                return React.createElement(_lvControlDesktopCommentJsx2['default'], { dataContext: comment });
+	                return React.createElement(_lvControlDesktopCommentJsx2['default'], { key: comment.Base64Id, dataContext: comment });
 	            });
 	            return React.createElement(
 	                'div',

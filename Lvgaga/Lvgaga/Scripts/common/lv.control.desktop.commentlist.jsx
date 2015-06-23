@@ -6,7 +6,7 @@ export default class CommentList extends React.Component {
 
         let commentNodes = dataContext.map((comment) => {
             return (
-                <Comment dataContext={comment}/>
+                <Comment key={comment.Base64Id} dataContext={comment}/>
             );
         });
         return (

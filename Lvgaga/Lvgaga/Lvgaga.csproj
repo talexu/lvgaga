@@ -357,6 +357,7 @@
     <Content Include="Scripts\favorite\lv.favorite.core.js" />
     <Content Include="Scripts\favorite\lv.favorite.index.desktop.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
+    <Content Include="Scripts\tumblr\lv.tumblr.index.mobile.js" />
     <Content Include="webpack.config.js" />
     <None Include="ClearScript.V8\ClearScriptV8-32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -424,6 +425,8 @@
     <Content Include="Scripts\comment\lv.comment.control.desktop.jsx" />
     <Content Include="Scripts\comment\lv.comment.index.desktop.js" />
     <Content Include="Scripts\favorite\lv.favorite.control.desktop.jsx" />
+    <Content Include="Scripts\common\lv.control.mobile.tumblr.jsx" />
+    <Content Include="Scripts\common\lv.control.mobile.loading.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -510,6 +513,7 @@
     <Content Include="Scripts\lv.favorite.mobile.jsx" />
     <Content Include="Scripts\tumblr\lv.tumblr.control.desktop.jsx" />
     <Content Include="Scripts\tumblr\lv.tumblr.index.desktop.js" />
+    <Content Include="Scripts\tumblr\lv.tumblr.control.mobile.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -57,7 +57,7 @@ class LightBox extends React.Component {
     render() {
         let Thumbnails = this.state.tumblrs.map((tumblr) => {
             return (
-                <Thumbnail dataContext={tumblr}/>
+                <Thumbnail key={tumblr.Base64Id} dataContext={tumblr}/>
             );
         });
 
