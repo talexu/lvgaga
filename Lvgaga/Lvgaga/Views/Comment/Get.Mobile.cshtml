@@ -1,29 +1,20 @@
 ﻿@using LvModel.Common
-@using LvService.Utilities
 @model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
 
-<div id="div_content">
-
+<div>
+    @Html.React("CommentContainerBoxMobile", new
+    {
+        dataContext = Model,
+        tableNameOfFavorite = LvConstants.TableNameOfFavorite,
+        tableNameOfComment = LvConstants.TableNameOfComment
+    })
 </div>
 
 @section scripts
 {
     @Scripts.Render("~/bundles/comment/mobile")
-    <!--React-->
-    <script src="@Url.Content("~/Scripts/lv.comment.mobile.jsx")"></script>
-    <!--React end-->
-
-    <script>
-        (function() {
-            "use strict";
-            var dataContext = @Html.Raw(Model.ToJsonString());
-            dataContext.tableNameOfFavorite = "@LvConstants.TableNameOfFavorite";
-            dataContext.tableNameOfComment = "@LvConstants.TableNameOfComment";
-
-            lv.comment.initialize(dataContext);
-        })();
-    </script>
+    @Html.ReactInitJavaScript()
 }

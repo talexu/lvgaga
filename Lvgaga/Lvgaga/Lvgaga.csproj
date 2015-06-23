@@ -354,6 +354,7 @@
     <Content Include="Scripts\business\lv.foundation.token.js" />
     <Content Include="Scripts\business\lv.foundation.utility.js" />
     <Content Include="Scripts\comment\lv.comment.core.js" />
+    <Content Include="Scripts\comment\lv.comment.index.mobile.js" />
     <Content Include="Scripts\favorite\lv.favorite.core.js" />
     <Content Include="Scripts\favorite\lv.favorite.index.desktop.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
@@ -427,6 +428,8 @@
     <Content Include="Scripts\favorite\lv.favorite.control.desktop.jsx" />
     <Content Include="Scripts\common\lv.control.mobile.tumblr.jsx" />
     <Content Include="Scripts\common\lv.control.mobile.loading.jsx" />
+    <Content Include="Scripts\comment\lv.comment.control.mobile.jsx" />
+    <Content Include="Scripts\common\lv.control.mobile.tumblr.instant.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
