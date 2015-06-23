@@ -1,11 +1,10 @@
 ﻿@using LvModel.Common
-@using LvService.Utilities
 @model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
 }
 
-<div id="div_content" class="g-doc">
+<div class="g-doc">
     @Html.React("CommentContainerBoxDesktop", new
     {
         dataContext = Model,
@@ -16,8 +15,6 @@
 
 @section scripts
 {
-    <!--React-->
     @Scripts.Render("~/bundles/comment")
     @Html.ReactInitJavaScript()
-    <!--React end-->
 }

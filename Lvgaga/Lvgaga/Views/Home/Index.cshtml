@@ -1,11 +1,10 @@
 ﻿@using LvModel.Common
-@using LvService.Utilities
 @model LvModel.View.Tumblr.TumblrsModel
 @{
     ViewBag.Title = "首页";
 }
 
-<div id="div_content" class="g-doc">
+<div class="g-doc">
     @Html.React("TumblrContainerBoxDesktop", new
     {
         dataContext = Model,
@@ -17,8 +16,6 @@
 
 @section scripts
 {
-    <!--React-->
     @Scripts.Render("~/bundles/home")
     @Html.ReactInitJavaScript()
-    <!--React end-->
 }
