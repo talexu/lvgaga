@@ -1,1 +1,1 @@
-﻿import LightBox from 'expose?LightBox!./lv.favorite.control.desktop.jsx'
+﻿import LightBoxDesktop from 'expose?LightBoxDesktop!./lv.favorite.control.desktop.jsx'

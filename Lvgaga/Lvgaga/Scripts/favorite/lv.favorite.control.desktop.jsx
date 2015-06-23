@@ -33,7 +33,7 @@ class LightBox extends React.Component {
 
     componentDidMount() {
         let links = React.findDOMNode(this.refs.links);
-        Core.setSize(links.scrollWidth);
+        Core.setSize(links.scrollWidth, 300);
 
         links.onclick = function (event) {
             event = event || window.event;

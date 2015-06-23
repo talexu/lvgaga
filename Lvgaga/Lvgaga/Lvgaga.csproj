@@ -357,6 +357,7 @@
     <Content Include="Scripts\comment\lv.comment.index.mobile.js" />
     <Content Include="Scripts\favorite\lv.favorite.core.js" />
     <Content Include="Scripts\favorite\lv.favorite.index.desktop.js" />
+    <Content Include="Scripts\favorite\lv.favorite.index.mobile.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.core.js" />
     <Content Include="Scripts\tumblr\lv.tumblr.index.mobile.js" />
     <Content Include="webpack.config.js" />
@@ -430,6 +431,7 @@
     <Content Include="Scripts\common\lv.control.mobile.loading.jsx" />
     <Content Include="Scripts\comment\lv.comment.control.mobile.jsx" />
     <Content Include="Scripts\common\lv.control.mobile.tumblr.instant.jsx" />
+    <Content Include="Scripts\favorite\lv.favorite.control.mobile.jsx" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />

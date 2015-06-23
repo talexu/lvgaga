@@ -48,9 +48,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeTumblrBoxMobileLvTumblrControlMobileJsx = __webpack_require__(118);
+	var _exposeLightBoxMobileLvFavoriteControlMobileJsx = __webpack_require__(113);
 
-	var _exposeTumblrBoxMobileLvTumblrControlMobileJsx2 = _interopRequireDefault(_exposeTumblrBoxMobileLvTumblrControlMobileJsx);
+	var _exposeLightBoxMobileLvFavoriteControlMobileJsx2 = _interopRequireDefault(_exposeLightBoxMobileLvFavoriteControlMobileJsx);
 
 /***/ },
 /* 1 */,
@@ -13723,12 +13723,7 @@
 /***/ },
 /* 110 */,
 /* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13760,135 +13755,41 @@
 	var _sprintfJs = __webpack_require__(5);
 
 	var reactRoot = undefined;
-	var tumSas = undefined;
-	var favSas = undefined;
-	var comSas = undefined;
-	var continuationToken = undefined;
+	var sasFav = undefined;
+	var continuationToken = {};
 	var mediaType = undefined;
-	var tumblrCategory = undefined;
-	var takingCount = 20;
-	var commentTakingCount = 5;
-	var tableNameOfTumblr = undefined;
+	var takingCount = undefined;
 	var tableNameOfFavorite = undefined;
-	var tableNameOfComment = undefined;
+	var expectedCellWidth = undefined;
+	var loadingRow = 5;
+	var cellWidth = undefined;
 
-	var initTumblrs = function initTumblrs(entities) {
-	    reactRoot.state.dataContext = reactRoot.state.dataContext.concat(factory.createTumblrs(entities));
-	    util.refreshState(reactRoot);
-	    return entities;
-	};
+	var loadFavorites = function loadFavorites(e) {
+	    var button = undefined;
+	    if (e) {
+	        button = e.target;
+	    }
 
-	var loadFavorites = function loadFavorites(tumblrs) {
 	    return util.retryExecute(function () {
-	        var from = tumblrs[0].RowKey;
-	        var to = tumblrs[tumblrs.length - 1].RowKey;
-
-	        return util.queryAzureTable(favSas, {
-	            filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s_%s\' and RowKey le \'%s_%s\'', mediaType, from, mediaType, to),
-	            select: 'RowKey'
-	        }).done(function (data) {
-	            var loadedFavs = {};
-
-	            // read all favorites
-	            var _iteratorNormalCompletion = true;
-	            var _didIteratorError = false;
-	            var _iteratorError = undefined;
-
-	            try {
-	                for (var _iterator = data.value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                    var f = _step.value;
-
-	                    loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
-	                }
-	            } catch (err) {
-	                _didIteratorError = true;
-	                _iteratorError = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion && _iterator['return']) {
-	                        _iterator['return']();
-	                    }
-	                } finally {
-	                    if (_didIteratorError) {
-	                        throw _iteratorError;
-	                    }
-	                }
-	            }
-
-	            // set favorite for tumblrs
-	            var _iteratorNormalCompletion2 = true;
-	            var _didIteratorError2 = false;
-	            var _iteratorError2 = undefined;
-
-	            try {
-	                for (var _iterator2 = tumblrs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	                    var t = _step2.value;
-
-	                    if (loadedFavs[t.RowKey]) {
-	                        t.IsFavorited = true;
-	                    }
-	                }
-	            } catch (err) {
-	                _didIteratorError2 = true;
-	                _iteratorError2 = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-	                        _iterator2['return']();
-	                    }
-	                } finally {
-	                    if (_didIteratorError2) {
-	                        throw _iteratorError2;
-	                    }
-	                }
-	            }
-
-	            // refresh UI
-	            util.refreshState(reactRoot);
-	        });
+	        return util.ajaxLadda(function () {
+	            return util.queryAzureTable(sasFav, {
+	                continuationToken: continuationToken,
+	                filter: (0, _sprintfJs.sprintf)('RowKey ge \'%s\' and RowKey lt \'%s\'', mediaType, mediaType + 1),
+	                top: takingCount
+	            }).done(function (data, textStatus, jqXhr) {
+	                continuationToken.NextPartitionKey = jqXhr.getResponseHeader('x-ms-continuation-NextPartitionKey');
+	                continuationToken.NextRowKey = jqXhr.getResponseHeader('x-ms-continuation-NextRowKey');
+	            }).done(function (data) {
+	                reactRoot.state.tumblrs = reactRoot.state.tumblrs.concat(factory.createTumblrs(data.value, true));
+	                util.refreshState(reactRoot);
+	            });
+	        }, button);
 	    }, function () {
-	        return token.getToken([tableNameOfFavorite]).done(function (data) {
-	            favSas = data;
-	        });
-	    });
-	};
-
-	var loadTumblrs = function loadTumblrs(e) {
-	    var button = e.target;
-
-	    return util.retryExecuteLadda(function () {
-	        return util.queryAzureTable(tumSas, {
-	            continuationToken: continuationToken,
-	            filter: (0, _sprintfJs.sprintf)('PartitionKey ge \'%s\' and PartitionKey lt \'%s\' and RowKey ge \'%s\' and RowKey lt \'%s\'', mediaType, mediaType + 1, tumblrCategory, tumblrCategory + 1),
-	            top: takingCount
-	        }).done(function (data, textStatus, jqXhr) {
-	            continuationToken.NextPartitionKey = jqXhr.getResponseHeader('x-ms-continuation-NextPartitionKey');
-	            continuationToken.NextRowKey = jqXhr.getResponseHeader('x-ms-continuation-NextRowKey');
-	        }).done(function (data) {
-	            initTumblrs(data.value);
-	            loadFavorites(data.value);
-	        });
-	    }, function () {
-	        return token.getToken([tableNameOfTumblr]).done(function (data) {
-	            tumSas = data;
-	        });
-	    }, button);
-	};
-
-	var loadComments = function loadComments(tumblr) {
-	    return util.retryExecute(function () {
-	        return util.queryAzureTable(comSas, {
-	            filter: (0, _sprintfJs.sprintf)('PartitionKey eq \'%s\'', tumblr.RowKey),
-	            top: commentTakingCount
-	        }).done(function (data) {
-	            tumblr.comments = factory.createComments(data.value);
-
-	            util.refreshState(reactRoot);
-	        });
-	    }, function () {
-	        return token.getToken([tableNameOfComment]).done(function (data) {
-	            comSas = data;
-	        });
+	        return util.ajaxLadda(function () {
+	            return token.getToken([tableNameOfFavorite]).done(function (data) {
+	                sasFav = data;
+	            });
+	        }, button);
 	    });
 	};
 
@@ -13905,25 +13806,24 @@
 
 	var initialize = function initialize(_ref) {
 	    var reactRootV = _ref.reactRootK;
-	    var tumSasV = _ref.tumSasK;
-	    var continuationTokenV = _ref.continuationTokenK;
+	    var sasFavV = _ref.sasFavK;
 	    var mediaTypeV = _ref.mediaTypeK;
-	    var tumblrCategoryV = _ref.tumblrCategoryK;
-	    var tableNameOfTumblrV = _ref.tableNameOfTumblrK;
 	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
-	    var tableNameOfCommentV = _ref.tableNameOfCommentK;
 
 	    exports.reactRoot = reactRoot = reactRootV;
-	    tumSas = tumSasV;
-	    continuationToken = continuationTokenV || {};
+	    sasFav = sasFavV;
 	    mediaType = mediaTypeV;
-	    tumblrCategory = tumblrCategoryV;
-	    tableNameOfTumblr = tableNameOfTumblrV;
 	    tableNameOfFavorite = tableNameOfFavoriteV;
-	    tableNameOfComment = tableNameOfCommentV;
 	};
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFactoryJs));
+	var setSize = function setSize(containerWidth) {
+	    var expectedCellWidth1 = arguments[1] === undefined ? 300 : arguments[1];
+
+	    expectedCellWidth = expectedCellWidth1;
+	    var rowCapacity = Math.ceil(containerWidth / expectedCellWidth);
+	    exports.cellWidth = cellWidth = containerWidth / rowCapacity;
+	    takingCount = rowCapacity * loadingRow || takingCount;
+	};
 
 	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
 
@@ -13931,20 +13831,20 @@
 
 	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
-	exports.loadTumblrs = loadTumblrs;
+	exports.setSize = setSize;
 	exports.loadFavorites = loadFavorites;
-	exports.loadComments = loadComments;
 	exports.getLoadingButtonStyle = getLoadingButtonStyle;
+	exports.cellWidth = cellWidth;
 
 /***/ },
-/* 118 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["TumblrBoxMobile"] = __webpack_require__(119);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["LightBoxMobile"] = __webpack_require__(114);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 119 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13953,9 +13853,9 @@
 	    value: true
 	});
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -13965,36 +13865,96 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _lvTumblrCoreJs = __webpack_require__(117);
+	var _lvFavoriteCoreJs = __webpack_require__(112);
 
-	var Core = _interopRequireWildcard(_lvTumblrCoreJs);
-
-	var _commonLvControlMobileTumblrJsx = __webpack_require__(120);
-
-	var _commonLvControlMobileTumblrJsx2 = _interopRequireDefault(_commonLvControlMobileTumblrJsx);
+	var Core = _interopRequireWildcard(_lvFavoriteCoreJs);
 
 	var _commonLvControlMobileLoadingJsx = __webpack_require__(109);
 
 	var _commonLvControlMobileLoadingJsx2 = _interopRequireDefault(_commonLvControlMobileLoadingJsx);
 
-	var Functions = (function (_React$Component) {
-	    function Functions() {
-	        _classCallCheck(this, Functions);
+	var Thumbnail = (function (_React$Component) {
+	    function Thumbnail() {
+	        _classCallCheck(this, Thumbnail);
 
-	        _get(Object.getPrototypeOf(Functions.prototype), 'constructor', this).call(this);
-	        this.setFavorite = this.setFavorite.bind(this);
+	        if (_React$Component != null) {
+	            _React$Component.apply(this, arguments);
+	        }
 	    }
 
-	    _inherits(Functions, _React$Component);
+	    _inherits(Thumbnail, _React$Component);
 
-	    _createClass(Functions, [{
+	    _createClass(Thumbnail, [{
+	        key: 'render',
+	        value: function render() {
+	            var dataContext = this.props.dataContext;
+
+	            return React.createElement(
+	                'a',
+	                { href: dataContext.MediaLargeUri, title: dataContext.Text, 'data-gallery': true },
+	                React.createElement('img', { src: dataContext.MediaMediumUri, alt: dataContext.Text, width: Core.cellWidth })
+	            );
+	        }
+	    }]);
+
+	    return Thumbnail;
+	})(React.Component);
+
+	var LightBox = (function (_React$Component2) {
+	    function LightBox(props) {
+	        _classCallCheck(this, LightBox);
+
+	        _get(Object.getPrototypeOf(LightBox.prototype), 'constructor', this).call(this, props);
+	        this.componentDidMount = this.componentDidMount.bind(this);
+	        this.setFavorite = this.setFavorite.bind(this);
+
+	        this.state = {
+	            tumblrs: [],
+	            selectedTumblr: undefined
+	        };
+
+	        Core.initialize({
+	            reactRootK: this,
+	            sasFavK: props.dataContext.Sas,
+	            mediaTypeK: props.dataContext.MediaType,
+	            tableNameOfFavoriteK: props.tableNameOfFavorite
+	        });
+	    }
+
+	    _inherits(LightBox, _React$Component2);
+
+	    _createClass(LightBox, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var links = React.findDOMNode(this.refs.links);
+	            Core.setSize(links.scrollWidth, 100);
+
+	            var self = this;
+	            links.onclick = function (event) {
+	                event = event || window.event;
+	                var target = event.target || event.srcElement,
+	                    link = target.src ? target.parentNode : target,
+	                    options = { index: link, event: event },
+	                    links = this.getElementsByTagName('a');
+
+	                options.onslide = function (index, slide) {
+	                    // Callback function executed on slide change.
+	                    self.state.selectedTumblr = self.state.tumblrs[index];
+	                    Core.refreshState(self);
+	                };
+	                blueimp.Gallery(links, options);
+	            };
+
+	            Core.loadFavorites();
+	        }
+	    }, {
 	        key: 'setFavorite',
 	        value: function setFavorite(e) {
-	            var dataContext = this.props.dataContext;
+	            var selectedTumblr = this.state.selectedTumblr;
 
 	            return Core.setFavorite({
 	                buttonK: e.target,
-	                tumblrK: dataContext,
+	                tumblrK: selectedTumblr,
 	                doneK: function doneK() {
 	                    Core.refreshState(Core.reactRoot);
 	                }
@@ -14003,210 +13963,95 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var dataContext = this.props.dataContext;
-
-	            var classNameOfFavorite = 'btn btn-default btn-favorite ladda-button';
-	            classNameOfFavorite += dataContext.IsFavorited ? ' btn-selected' : '';
-
-	            return React.createElement(
-	                'div',
-	                { className: 'content' },
-	                React.createElement(
-	                    'button',
-	                    { className: classNameOfFavorite, type: 'button', 'data-style': 'zoom-out',
-	                        'data-spinner-color': '#333', onClick: this.setFavorite },
-	                    React.createElement('span', {
-	                        className: 'ladda-label glyphicon glyphicon-heart', 'aria-hidden': 'true' })
-	                ),
-	                React.createElement(
-	                    'a',
-	                    { className: 'btn btn-default btn-share', href: dataContext.sharingUri, target: '_blank' },
-	                    React.createElement('span', {
-	                        className: 'glyphicon glyphicon-share-alt', 'aria-hidden': 'true' })
-	                ),
-	                React.createElement(
-	                    'a',
-	                    { className: 'btn btn-default pull-right btn-comment', href: dataContext.Uri },
-	                    React.createElement('span', {
-	                        className: 'glyphicon glyphicon-th-list', 'aria-hidden': 'true' })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Functions;
-	})(React.Component);
-
-	var TumblrContainer = (function (_React$Component2) {
-	    function TumblrContainer() {
-	        _classCallCheck(this, TumblrContainer);
-
-	        if (_React$Component2 != null) {
-	            _React$Component2.apply(this, arguments);
-	        }
-	    }
-
-	    _inherits(TumblrContainer, _React$Component2);
-
-	    _createClass(TumblrContainer, [{
-	        key: 'render',
-	        value: function render() {
-	            var dataContext = this.props.dataContext;
-
-	            return React.createElement(
-	                'div',
-	                { className: 'container-tumblr' },
-	                React.createElement(_commonLvControlMobileTumblrJsx2['default'], { dataContext: dataContext }),
-	                React.createElement(Functions, { dataContext: dataContext }),
-	                React.createElement('hr', { className: 'hr-tumblr' })
-	            );
-	        }
-	    }]);
-
-	    return TumblrContainer;
-	})(React.Component);
-
-	var TumblrContainerList = (function (_React$Component3) {
-	    function TumblrContainerList() {
-	        _classCallCheck(this, TumblrContainerList);
-
-	        if (_React$Component3 != null) {
-	            _React$Component3.apply(this, arguments);
-	        }
-	    }
-
-	    _inherits(TumblrContainerList, _React$Component3);
-
-	    _createClass(TumblrContainerList, [{
-	        key: 'render',
-	        value: function render() {
-	            var dataContext = this.props.dataContext;
-
-	            var TumblrContainerNodes = dataContext.map(function (tumblr) {
-	                return React.createElement(TumblrContainer, { key: tumblr.Base64Id, dataContext: tumblr });
+	            var Thumbnails = this.state.tumblrs.map(function (tumblr) {
+	                return React.createElement(Thumbnail, { key: tumblr.Base64Id, dataContext: tumblr });
 	            });
+
+	            var selectedTumblr = this.state.selectedTumblr;
+	            var Text = selectedTumblr && selectedTumblr.Text;
+	            var Uri = selectedTumblr && selectedTumblr.Uri;
+	            var SharingUri = selectedTumblr && selectedTumblr.sharingUri;
+	            var IsFavorited = selectedTumblr && selectedTumblr.IsFavorited;
+
+	            var classNameOfFavorite = 'btn btn-default btn-outline navbar-btn ladda-button';
+	            classNameOfFavorite += IsFavorited ? ' btn-selected' : ' btn-white';
+
 	            return React.createElement(
 	                'div',
 	                null,
-	                TumblrContainerNodes
-	            );
-	        }
-	    }]);
-
-	    return TumblrContainerList;
-	})(React.Component);
-
-	var TumblrBox = (function (_React$Component4) {
-	    function TumblrBox(props) {
-	        _classCallCheck(this, TumblrBox);
-
-	        _get(Object.getPrototypeOf(TumblrBox.prototype), 'constructor', this).call(this, props);
-	        this.componentDidMount = this.componentDidMount.bind(this);
-
-	        Core.initialize({
-	            reactRootK: this,
-	            tumSasK: props.dataContext.Sas,
-	            continuationTokenK: props.dataContext.ContinuationToken,
-	            mediaTypeK: props.dataContext.MediaType,
-	            tumblrCategoryK: props.dataContext.TumblrCategory,
-	            tableNameOfTumblrK: props.tableNameOfTumblr,
-	            tableNameOfFavoriteK: props.tableNameOfFavorite,
-	            tableNameOfCommentK: props.tableNameOfComment
-	        });
-	        this.state = { dataContext: Core.createTumblrs(props.dataContext.Tumblrs) };
-	    }
-
-	    _inherits(TumblrBox, _React$Component4);
-
-	    _createClass(TumblrBox, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            Core.loadFavorites(this.state.dataContext);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(TumblrContainerList, { dataContext: this.state.dataContext }),
-	                React.createElement(_commonLvControlMobileLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
-	            );
-	        }
-	    }]);
-
-	    return TumblrBox;
-	})(React.Component);
-
-	exports['default'] = TumblrBox;
-	module.exports = exports['default'];
-
-/***/ },
-/* 120 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-	var Tumblr = (function (_React$Component) {
-	    function Tumblr() {
-	        _classCallCheck(this, Tumblr);
-
-	        _get(Object.getPrototypeOf(Tumblr.prototype), "constructor", this).call(this);
-	        this.componentDidMount = this.componentDidMount.bind(this);
-	    }
-
-	    _inherits(Tumblr, _React$Component);
-
-	    _createClass(Tumblr, [{
-	        key: "componentDidMount",
-	        value: function componentDidMount() {
-	            var image = $(React.findDOMNode(this.refs.lazyImage));
-	            image.lazyload();
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
-	            var dataContext = this.props.dataContext;
-
-	            return React.createElement(
-	                "div",
-	                null,
-	                React.createElement("img", { className: "img-tumblr lazy", ref: "lazyImage", "data-original": dataContext.MediaLargeUri, alt: "" }),
 	                React.createElement(
-	                    "div",
-	                    { className: "content" },
+	                    'div',
+	                    { id: 'links', ref: 'links' },
+	                    Thumbnails
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'container-block' },
+	                    React.createElement(_commonLvControlMobileLoadingJsx2['default'], { onClickHandler: Core.loadFavorites, style: Core.getLoadingButtonStyle() })
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { id: 'blueimp-gallery', className: 'blueimp-gallery blueimp-gallery-controls' },
+	                    React.createElement('div', { className: 'slides' }),
 	                    React.createElement(
-	                        "p",
-	                        { className: "text-tumblr" },
-	                        dataContext.Text
+	                        'a',
+	                        { className: 'prev' },
+	                        '‹'
 	                    ),
 	                    React.createElement(
-	                        "p",
-	                        { className: "date-tumblr" },
-	                        dataContext.CreateTime
+	                        'a',
+	                        { className: 'next' },
+	                        '›'
+	                    ),
+	                    React.createElement(
+	                        'a',
+	                        { className: 'close' },
+	                        '×'
+	                    ),
+	                    React.createElement(
+	                        'nav',
+	                        { className: 'navbar navbar-inverse navbar-fixed-bottom fav-nav' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'container' },
+	                            React.createElement(
+	                                'p',
+	                                { className: 'text-fav' },
+	                                Text
+	                            ),
+	                            React.createElement(
+	                                'button',
+	                                { type: 'button',
+	                                    className: classNameOfFavorite,
+	                                    'data-style': 'zoom-out', 'data-spinner-color': '#333', onClick: this.setFavorite },
+	                                React.createElement('span', { className: 'ladda-label glyphicon glyphicon-heart', 'aria-hidden': 'true' })
+	                            ),
+	                            React.createElement(
+	                                'a',
+	                                { className: 'btn btn-default btn-white btn-outline navbar-btn btn-share',
+	                                    href: SharingUri,
+	                                    target: '_blank' },
+	                                React.createElement('span', { className: 'glyphicon glyphicon-share-alt',
+	                                    'aria-hidden': 'true' })
+	                            ),
+	                            React.createElement(
+	                                'a',
+	                                { className: 'btn btn-default btn-white btn-outline navbar-btn pull-right', href: Uri },
+	                                React.createElement('span', {
+	                                    className: 'glyphicon glyphicon-th-list', 'aria-hidden': 'true' })
+	                            )
+	                        )
 	                    )
 	                )
 	            );
 	        }
 	    }]);
 
-	    return Tumblr;
+	    return LightBox;
 	})(React.Component);
 
-	exports["default"] = Tumblr;
-	module.exports = exports["default"];
+	exports['default'] = LightBox;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

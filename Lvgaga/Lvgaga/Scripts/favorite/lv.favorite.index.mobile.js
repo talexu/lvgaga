@@ -1,0 +1,1 @@
+﻿import LightBoxMobile from 'expose?LightBoxMobile!./lv.favorite.control.mobile.jsx'

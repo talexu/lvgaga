@@ -67,7 +67,6 @@ namespace Lvgaga
             bundles.Add(new ScriptBundle("~/bundles/comment").Include(
                 "~/Scripts/dist/commentDesktop.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/comment/mobile").Include(
-                "~/Scripts/jquery.lazyload*",
                 "~/Scripts/dist/commentMobile.entry.js"));
 
             // Favorite Page
@@ -76,8 +75,7 @@ namespace Lvgaga
                 "~/Scripts/dist/favoriteDesktop.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/favorite/mobile").Include(
                 "~/bower_components/blueimp-gallery/js/blueimp-gallery.js",
-                "~/Scripts/lv.favorite.js",
-                "~/Scripts/lv.social.js"));
+                "~/Scripts/dist/favoriteMobile.entry.js"));
             #endregion
         }
     }

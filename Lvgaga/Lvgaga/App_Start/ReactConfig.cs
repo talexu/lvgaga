@@ -30,7 +30,8 @@ namespace Lvgaga
                 .AddScript("~/Scripts/dist/tumblrMobile.entry.js")
                 .AddScript("~/Scripts/dist/commentDesktop.entry.js")
                 .AddScript("~/Scripts/dist/commentMobile.entry.js")
-                .AddScript("~/Scripts/dist/favoriteDesktop.entry.js");
+                .AddScript("~/Scripts/dist/favoriteDesktop.entry.js")
+                .AddScript("~/Scripts/dist/favoriteMobile.entry.js");
 		}
 	}
 }

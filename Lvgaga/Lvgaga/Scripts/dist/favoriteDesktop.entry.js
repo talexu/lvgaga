@@ -48,9 +48,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeLightBoxLvFavoriteControlDesktopJsx = __webpack_require__(110);
+	var _exposeLightBoxDesktopLvFavoriteControlDesktopJsx = __webpack_require__(110);
 
-	var _exposeLightBoxLvFavoriteControlDesktopJsx2 = _interopRequireDefault(_exposeLightBoxLvFavoriteControlDesktopJsx);
+	var _exposeLightBoxDesktopLvFavoriteControlDesktopJsx2 = _interopRequireDefault(_exposeLightBoxDesktopLvFavoriteControlDesktopJsx);
 
 /***/ },
 /* 1 */,
@@ -13720,7 +13720,7 @@
 /* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["LightBox"] = __webpack_require__(111);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["LightBoxDesktop"] = __webpack_require__(111);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -13806,7 +13806,7 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var links = React.findDOMNode(this.refs.links);
-	            Core.setSize(links.scrollWidth);
+	            Core.setSize(links.scrollWidth, 300);
 
 	            links.onclick = function (event) {
 	                event = event || window.event;
@@ -13893,6 +13893,8 @@
 	    value: true
 	});
 
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
 	var _businessLvFoundationFactoryJs = __webpack_require__(4);
@@ -13919,7 +13921,7 @@
 	var mediaType = undefined;
 	var takingCount = undefined;
 	var tableNameOfFavorite = undefined;
-	var expectedCellWidth = 300;
+	var expectedCellWidth = undefined;
 	var loadingRow = 5;
 	var cellWidth = undefined;
 
@@ -13969,19 +13971,26 @@
 	    var mediaTypeV = _ref.mediaTypeK;
 	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
 
-	    reactRoot = reactRootV;
+	    exports.reactRoot = reactRoot = reactRootV;
 	    sasFav = sasFavV;
 	    mediaType = mediaTypeV;
 	    tableNameOfFavorite = tableNameOfFavoriteV;
 	};
 
 	var setSize = function setSize(containerWidth) {
+	    var expectedCellWidth1 = arguments[1] === undefined ? 300 : arguments[1];
 
+	    expectedCellWidth = expectedCellWidth1;
 	    var rowCapacity = Math.ceil(containerWidth / expectedCellWidth);
 	    exports.cellWidth = cellWidth = containerWidth / rowCapacity;
 	    takingCount = rowCapacity * loadingRow || takingCount;
 	};
 
+	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
+
+	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
+
+	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
 	exports.setSize = setSize;
 	exports.loadFavorites = loadFavorites;

@@ -10,7 +10,7 @@ let continuationToken = {};
 let mediaType;
 let takingCount;
 let tableNameOfFavorite;
-const expectedCellWidth = 300;
+let expectedCellWidth;
 const loadingRow = 5;
 let cellWidth;
 
@@ -67,13 +67,15 @@ let initialize = ({
     tableNameOfFavorite = tableNameOfFavoriteV;
 };
 
-let setSize = (containerWidth)=> {
-
+let setSize = (containerWidth, expectedCellWidth1 = 300)=> {
+    expectedCellWidth = expectedCellWidth1;
     let rowCapacity = Math.ceil(containerWidth / expectedCellWidth);
     cellWidth = containerWidth / rowCapacity;
     takingCount = rowCapacity * loadingRow || takingCount;
 };
 
+export * from '../business/lv.foundation.utility.js';
+export * from '../business/lv.foundation.favorite.js';
 export{
-    initialize, setSize, loadFavorites, getLoadingButtonStyle, cellWidth
+    reactRoot, initialize, setSize, loadFavorites, getLoadingButtonStyle, cellWidth
 };

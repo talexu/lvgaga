@@ -4,7 +4,8 @@
         tumblrMobile: "./Scripts/tumblr/lv.tumblr.index.mobile.js",
         commentDesktop: "./Scripts/comment/lv.comment.index.desktop.js",
         commentMobile: "./Scripts/comment/lv.comment.index.mobile.js",
-        favoriteDesktop: "./Scripts/favorite/lv.favorite.index.desktop.js"
+        favoriteDesktop: "./Scripts/favorite/lv.favorite.index.desktop.js",
+        favoriteMobile: "./Scripts/favorite/lv.favorite.index.mobile.js"
     },
     output: {
         path: "./Scripts/dist",
