@@ -346,8 +346,6 @@
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.min.js" />
     <Content Include="bower_components\sisyphus\sisyphus.js" />
     <Content Include="bower_components\sisyphus\sisyphus.min.js" />
-    <Content Include="bower_components\sprintf\dist\angular-sprintf.min.js" />
-    <Content Include="bower_components\sprintf\dist\sprintf.min.js" />
     <Content Include="Scripts\business\lv.foundation.comment.js" />
     <Content Include="Scripts\business\lv.foundation.factory.js" />
     <Content Include="Scripts\business\lv.foundation.favorite.js" />
@@ -400,8 +398,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="Content\lvgaga.mobile.less" />
-    <Content Include="bower_components\sprintf\dist\angular-sprintf.min.map" />
-    <Content Include="bower_components\sprintf\dist\sprintf.min.map" />
     <Content Include="Content\lvgaga.mobile.css.map">
       <DependentUpon>lvgaga.mobile.css</DependentUpon>
     </Content>
