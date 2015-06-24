@@ -1,4 +1,7 @@
-﻿module.exports = {
+﻿const webpack = require('webpack');
+const commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
+
+module.exports = {
     entry: {
         tumblrDesktop: "./Scripts/tumblr/lv.tumblr.index.desktop.js",
         tumblrMobile: "./Scripts/tumblr/lv.tumblr.index.mobile.js",
