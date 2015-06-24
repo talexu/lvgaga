@@ -129,10 +129,6 @@ class TumblrContainer extends React.Component {
         this.postSuccess = this.postSuccess.bind(this);
     }
 
-    componentDidMount() {
-        Core.loadComments();
-    }
-
     postSuccess(comment) {
         let {dataContext} = this.props;
         dataContext.comments.unshift(Core.createComment(comment));
@@ -178,6 +174,7 @@ class TumblrContainerBox extends React.Component {
     }
 
     componentDidMount() {
+        Core.loadComments();
         Core.loadFavorite(this.state.dataContext);
     }
 

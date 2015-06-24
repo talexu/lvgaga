@@ -165,11 +165,6 @@
 	    _inherits(TumblrContainer, _React$Component2);
 
 	    _createClass(TumblrContainer, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            Core.loadComments();
-	        }
-	    }, {
 	        key: 'postSuccess',
 	        value: function postSuccess(comment) {
 	            var dataContext = this.props.dataContext;
@@ -222,6 +217,7 @@
 	    _createClass(TumblrContainerBox, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            Core.loadComments();
 	            Core.loadFavorite(this.state.dataContext);
 	        }
 	    }, {
