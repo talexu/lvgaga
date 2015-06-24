@@ -1,7 +1,7 @@
-﻿import * as Core from './lv.comment.core.js';
-import * as comment from '../business/lv.foundation.comment.js';
-import Tumblr from '../common/lv.control.mobile.tumblr.instant.jsx';
-import Loading from '../common/lv.control.mobile.loading.jsx';
+﻿import * as Core from '../core.js';
+import * as comment from '../../business/comment.js';
+import Tumblr from '../../common/mobile/tumblr.instant.jsx';
+import Loading from '../../common/mobile/loading.jsx';
 
 class Functions extends React.Component {
     constructor() {

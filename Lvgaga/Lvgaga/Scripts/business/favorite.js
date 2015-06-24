@@ -1,5 +1,5 @@
 ﻿import {sprintf} from 'sprintf-js';
-import * as util from '../business/lv.foundation.utility.js';
+import * as util from '../business/utility.js';
 const defaultRetryTime = 3;
 
 let postFavorite = (tumblr) => {

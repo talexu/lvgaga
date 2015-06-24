@@ -1,5 +1,5 @@
-﻿import * as Core from './lv.favorite.core.js';
-import Loading from '../common/lv.control.desktop.loading.jsx';
+﻿import * as Core from '../core.js';
+import Loading from '../../common/desktop/loading.jsx';
 
 class Thumbnail extends React.Component {
     render() {

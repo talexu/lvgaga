@@ -3,12 +3,12 @@ const commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
 module.exports = {
     entry: {
-        tumblrDesktop: "./Scripts/tumblr/lv.tumblr.index.desktop.js",
-        tumblrMobile: "./Scripts/tumblr/lv.tumblr.index.mobile.js",
-        commentDesktop: "./Scripts/comment/lv.comment.index.desktop.js",
-        commentMobile: "./Scripts/comment/lv.comment.index.mobile.js",
-        favoriteDesktop: "./Scripts/favorite/lv.favorite.index.desktop.js",
-        favoriteMobile: "./Scripts/favorite/lv.favorite.index.mobile.js"
+        tumblrDesktop: "./Scripts/tumblr/desktop/index.js",
+        tumblrMobile: "./Scripts/tumblr/mobile/index.js",
+        commentDesktop: "./Scripts/comment/desktop/index.js",
+        commentMobile: "./Scripts/comment/mobile/index.js",
+        favoriteDesktop: "./Scripts/favorite/desktop/index.js",
+        favoriteMobile: "./Scripts/favorite/mobile/index.js"
     },
     output: {
         path: "./Scripts/dist",

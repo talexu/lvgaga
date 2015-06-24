@@ -1,0 +1,1 @@
+﻿import LightBoxDesktop from 'expose?LightBoxDesktop!./control.jsx'

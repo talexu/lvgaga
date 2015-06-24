@@ -1,4 +1,4 @@
-﻿import * as comment from '../business/lv.foundation.comment.js';
+﻿import * as comment from '../../business/comment.js';
 
 export default class CommentForm extends React.Component {
     constructor() {

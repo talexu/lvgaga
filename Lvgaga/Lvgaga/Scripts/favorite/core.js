@@ -1,7 +1,7 @@
-﻿import * as factory from '../business/lv.foundation.factory.js';
-import * as util from '../business/lv.foundation.utility.js';
-import * as token from '../business/lv.foundation.token.js';
-import * as favorite from '../business/lv.foundation.favorite.js';
+﻿import * as factory from '../business/factory.js';
+import * as util from '../business/utility.js';
+import * as token from '../business/token.js';
+import * as favorite from '../business/favorite.js';
 import {sprintf} from 'sprintf-js';
 
 let reactRoot;
@@ -74,8 +74,8 @@ let setSize = (containerWidth, expectedCellWidth1 = 300)=> {
     takingCount = rowCapacity * loadingRow || takingCount;
 };
 
-export * from '../business/lv.foundation.utility.js';
-export * from '../business/lv.foundation.favorite.js';
+export * from '../business/utility.js';
+export * from '../business/favorite.js';
 export{
     reactRoot, initialize, setSize, loadFavorites, getLoadingButtonStyle, cellWidth
 };

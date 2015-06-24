@@ -1,8 +1,8 @@
-﻿import * as Core from './lv.comment.core.js';
-import Tumblr from '../common/lv.control.desktop.tumblr.jsx';
-import Loading from '../common/lv.control.desktop.loading.jsx';
-import CommentForm from '../common/lv.control.desktop.commentform.jsx';
-import CommentList from '../common/lv.control.desktop.commentlist.jsx';
+﻿import * as Core from '../core.js';
+import Tumblr from '../../common/desktop/tumblr.jsx';
+import Loading from '../../common/desktop/loading.jsx';
+import CommentForm from '../../common/desktop/commentform.jsx';
+import CommentList from '../../common/desktop/commentlist.jsx';
 
 class Functions extends React.Component {
     constructor() {
@@ -39,6 +39,13 @@ class Functions extends React.Component {
                 <a className="btn btn-default btn-sm mar-left" href={dataContext.sharingUri} target="_blank">
                     <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                 </a>
+
+                <button type="button display-block mar-right" className="btn btn-default btn-sm pull-right"
+                        data-toggle="collapse"
+                        data-target={"#"+dataContext.Base64Id} aria-expanded="false"
+                        aria-controls={dataContext.Base64Id}>
+                    <span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                </button>
             </div>
         );
     }
@@ -48,6 +55,17 @@ class TumblrContainer extends React.Component {
     constructor() {
         super();
         this.postSuccess = this.postSuccess.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+        let {dataContext} = this.props;
+
+        $(React.findDOMNode(this.refs[dataContext.Base64Id])).on('show.bs.collapse', () => {
+            if (dataContext.comments.length <= 0) {
+                Core.loadComments(dataContext);
+            }
+        });
     }
 
     postSuccess(comment) {
@@ -65,9 +83,32 @@ class TumblrContainer extends React.Component {
                     <Tumblr dataContext={dataContext}/>
                     <Functions dataContext={dataContext}/>
 
-                    <CommentForm dataContext={dataContext} postSuccess={this.postSuccess}/>
-                    <CommentList dataContext={dataContext.comments}/>
+                    <div className="collapse" id={dataContext.Base64Id} ref={dataContext.Base64Id}>
+                        <CommentForm dataContext={dataContext} postSuccess={this.postSuccess}/>
+                        <CommentList dataContext={dataContext.comments}/>
+
+                        <div className="info2">
+                            <a href={dataContext.Uri} target="_blank">全文链接</a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        );
+    }
+}
+
+class TumblrContainerList extends React.Component {
+    render() {
+        let {dataContext} = this.props;
+
+        let TumblrContainerNodes = dataContext.map((tumblr) => {
+            return (
+                <TumblrContainer key={tumblr.Base64Id} dataContext={tumblr}/>
+            );
+        });
+        return (
+            <div>
+                {TumblrContainerNodes}
             </div>
         );
     }
@@ -80,24 +121,26 @@ class TumblrContainerBox extends React.Component {
 
         Core.initialize({
             reactRootK: this,
-            comSasK: props.dataContext.Sas,
+            tumSasK: props.dataContext.Sas,
             continuationTokenK: props.dataContext.ContinuationToken,
+            mediaTypeK: props.dataContext.MediaType,
+            tumblrCategoryK: props.dataContext.TumblrCategory,
+            tableNameOfTumblrK: props.tableNameOfTumblr,
             tableNameOfFavoriteK: props.tableNameOfFavorite,
             tableNameOfCommentK: props.tableNameOfComment
         });
-        this.state = {dataContext: Core.createTumblr(props.dataContext)};
+        this.state = {dataContext: Core.createTumblrs(props.dataContext.Tumblrs)};
     }
 
     componentDidMount() {
-        Core.loadComments();
-        Core.loadFavorite(this.state.dataContext);
+        Core.loadFavorites(this.state.dataContext);
     }
 
     render() {
         return (
             <div className="g-mn">
-                <TumblrContainer dataContext={this.state.dataContext}/>
-                <Loading onClickHandler={Core.loadComments} style={Core.getLoadingButtonStyle()}/>
+                <TumblrContainerList dataContext={this.state.dataContext}/>
+                <Loading onClickHandler={Core.loadTumblrs} style={Core.getLoadingButtonStyle()}/>
             </div>
         );
     }

@@ -1,4 +1,4 @@
-﻿import Comment from './lv.control.desktop.comment.jsx';
+﻿import Comment from './comment.jsx';
 
 export default class CommentList extends React.Component {
     render() {

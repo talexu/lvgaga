@@ -48,9 +48,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeLightBoxDesktopLvFavoriteControlDesktopJsx = __webpack_require__(110);
+	var _exposeLightBoxDesktopControlJsx = __webpack_require__(110);
 
-	var _exposeLightBoxDesktopLvFavoriteControlDesktopJsx2 = _interopRequireDefault(_exposeLightBoxDesktopLvFavoriteControlDesktopJsx);
+	var _exposeLightBoxDesktopControlJsx2 = _interopRequireDefault(_exposeLightBoxDesktopControlJsx);
 
 /***/ },
 /* 1 */,
@@ -13565,9 +13565,9 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
 	var defaultRetryTime = 3;
 
@@ -13704,13 +13704,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _lvFavoriteCoreJs = __webpack_require__(112);
+	var _coreJs = __webpack_require__(112);
 
-	var Core = _interopRequireWildcard(_lvFavoriteCoreJs);
+	var Core = _interopRequireWildcard(_coreJs);
 
-	var _commonLvControlDesktopLoadingJsx = __webpack_require__(101);
+	var _commonDesktopLoadingJsx = __webpack_require__(101);
 
-	var _commonLvControlDesktopLoadingJsx2 = _interopRequireDefault(_commonLvControlDesktopLoadingJsx);
+	var _commonDesktopLoadingJsx2 = _interopRequireDefault(_commonDesktopLoadingJsx);
 
 	var Thumbnail = (function (_React$Component) {
 	    function Thumbnail() {
@@ -13803,7 +13803,7 @@
 	                React.createElement(
 	                    'div',
 	                    { className: 'mar-top' },
-	                    React.createElement(_commonLvControlDesktopLoadingJsx2['default'], { onClickHandler: Core.loadFavorites, style: Core.getLoadingButtonStyle() })
+	                    React.createElement(_commonDesktopLoadingJsx2['default'], { onClickHandler: Core.loadFavorites, style: Core.getLoadingButtonStyle() })
 	                ),
 	                React.createElement(
 	                    'div',
@@ -13856,21 +13856,21 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-	var _businessLvFoundationFactoryJs = __webpack_require__(4);
+	var _businessFactoryJs = __webpack_require__(4);
 
-	var factory = _interopRequireWildcard(_businessLvFoundationFactoryJs);
+	var factory = _interopRequireWildcard(_businessFactoryJs);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
-	var _businessLvFoundationTokenJs = __webpack_require__(98);
+	var _businessTokenJs = __webpack_require__(98);
 
-	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
+	var token = _interopRequireWildcard(_businessTokenJs);
 
-	var _businessLvFoundationFavoriteJs = __webpack_require__(99);
+	var _businessFavoriteJs = __webpack_require__(99);
 
-	var favorite = _interopRequireWildcard(_businessLvFoundationFavoriteJs);
+	var favorite = _interopRequireWildcard(_businessFavoriteJs);
 
 	var _sprintfJs = __webpack_require__(5);
 
@@ -13945,9 +13945,9 @@
 	    takingCount = rowCapacity * loadingRow || takingCount;
 	};
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
+	_defaults(exports, _interopRequireWildcard(_businessUtilityJs));
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
+	_defaults(exports, _interopRequireWildcard(_businessFavoriteJs));
 
 	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;

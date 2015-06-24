@@ -48,9 +48,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx = __webpack_require__(115);
+	var _exposeTumblrContainerBoxDesktopControlJsx = __webpack_require__(115);
 
-	var _exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx2 = _interopRequireDefault(_exposeTumblrContainerBoxDesktopLvTumblrControlDesktopJsx);
+	var _exposeTumblrContainerBoxDesktopControlJsx2 = _interopRequireDefault(_exposeTumblrContainerBoxDesktopControlJsx);
 
 /***/ },
 /* 1 */,
@@ -13565,9 +13565,9 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
 	var defaultRetryTime = 3;
 
@@ -13762,9 +13762,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _businessLvFoundationCommentJs = __webpack_require__(103);
+	var _businessCommentJs = __webpack_require__(103);
 
-	var comment = _interopRequireWildcard(_businessLvFoundationCommentJs);
+	var comment = _interopRequireWildcard(_businessCommentJs);
 
 	var CommentForm = (function (_React$Component) {
 	    function CommentForm() {
@@ -13863,9 +13863,9 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
 	var defaultRetryTime = 3;
 
@@ -13905,9 +13905,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _lvControlDesktopCommentJsx = __webpack_require__(105);
+	var _commentJsx = __webpack_require__(105);
 
-	var _lvControlDesktopCommentJsx2 = _interopRequireDefault(_lvControlDesktopCommentJsx);
+	var _commentJsx2 = _interopRequireDefault(_commentJsx);
 
 	var CommentList = (function (_React$Component) {
 	    function CommentList() {
@@ -13926,7 +13926,7 @@
 	            var dataContext = this.props.dataContext;
 
 	            var commentNodes = dataContext.map(function (comment) {
-	                return React.createElement(_lvControlDesktopCommentJsx2['default'], { key: comment.Base64Id, dataContext: comment });
+	                return React.createElement(_commentJsx2['default'], { key: comment.Base64Id, dataContext: comment });
 	            });
 	            return React.createElement(
 	                'div',
@@ -14044,25 +14044,25 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _lvTumblrCoreJs = __webpack_require__(117);
+	var _coreJs = __webpack_require__(117);
 
-	var Core = _interopRequireWildcard(_lvTumblrCoreJs);
+	var Core = _interopRequireWildcard(_coreJs);
 
-	var _commonLvControlDesktopTumblrJsx = __webpack_require__(100);
+	var _commonDesktopTumblrJsx = __webpack_require__(100);
 
-	var _commonLvControlDesktopTumblrJsx2 = _interopRequireDefault(_commonLvControlDesktopTumblrJsx);
+	var _commonDesktopTumblrJsx2 = _interopRequireDefault(_commonDesktopTumblrJsx);
 
-	var _commonLvControlDesktopLoadingJsx = __webpack_require__(101);
+	var _commonDesktopLoadingJsx = __webpack_require__(101);
 
-	var _commonLvControlDesktopLoadingJsx2 = _interopRequireDefault(_commonLvControlDesktopLoadingJsx);
+	var _commonDesktopLoadingJsx2 = _interopRequireDefault(_commonDesktopLoadingJsx);
 
-	var _commonLvControlDesktopCommentformJsx = __webpack_require__(102);
+	var _commonDesktopCommentformJsx = __webpack_require__(102);
 
-	var _commonLvControlDesktopCommentformJsx2 = _interopRequireDefault(_commonLvControlDesktopCommentformJsx);
+	var _commonDesktopCommentformJsx2 = _interopRequireDefault(_commonDesktopCommentformJsx);
 
-	var _commonLvControlDesktopCommentlistJsx = __webpack_require__(104);
+	var _commonDesktopCommentlistJsx = __webpack_require__(104);
 
-	var _commonLvControlDesktopCommentlistJsx2 = _interopRequireDefault(_commonLvControlDesktopCommentlistJsx);
+	var _commonDesktopCommentlistJsx2 = _interopRequireDefault(_commonDesktopCommentlistJsx);
 
 	var Functions = (function (_React$Component) {
 	    function Functions() {
@@ -14166,13 +14166,13 @@
 	                React.createElement(
 	                    'div',
 	                    { className: 'm-post photo' },
-	                    React.createElement(_commonLvControlDesktopTumblrJsx2['default'], { dataContext: dataContext }),
+	                    React.createElement(_commonDesktopTumblrJsx2['default'], { dataContext: dataContext }),
 	                    React.createElement(Functions, { dataContext: dataContext }),
 	                    React.createElement(
 	                        'div',
 	                        { className: 'collapse', id: dataContext.Base64Id, ref: dataContext.Base64Id },
-	                        React.createElement(_commonLvControlDesktopCommentformJsx2['default'], { dataContext: dataContext, postSuccess: this.postSuccess }),
-	                        React.createElement(_commonLvControlDesktopCommentlistJsx2['default'], { dataContext: dataContext.comments }),
+	                        React.createElement(_commonDesktopCommentformJsx2['default'], { dataContext: dataContext, postSuccess: this.postSuccess }),
+	                        React.createElement(_commonDesktopCommentlistJsx2['default'], { dataContext: dataContext.comments }),
 	                        React.createElement(
 	                            'div',
 	                            { className: 'info2' },
@@ -14255,7 +14255,7 @@
 	                'div',
 	                { className: 'g-mn' },
 	                React.createElement(TumblrContainerList, { dataContext: this.state.dataContext }),
-	                React.createElement(_commonLvControlDesktopLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
+	                React.createElement(_commonDesktopLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
 	            );
 	        }
 	    }]);
@@ -14280,21 +14280,21 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-	var _businessLvFoundationFactoryJs = __webpack_require__(4);
+	var _businessFactoryJs = __webpack_require__(4);
 
-	var factory = _interopRequireWildcard(_businessLvFoundationFactoryJs);
+	var factory = _interopRequireWildcard(_businessFactoryJs);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
-	var _businessLvFoundationTokenJs = __webpack_require__(98);
+	var _businessTokenJs = __webpack_require__(98);
 
-	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
+	var token = _interopRequireWildcard(_businessTokenJs);
 
-	var _businessLvFoundationFavoriteJs = __webpack_require__(99);
+	var _businessFavoriteJs = __webpack_require__(99);
 
-	var favorite = _interopRequireWildcard(_businessLvFoundationFavoriteJs);
+	var favorite = _interopRequireWildcard(_businessFavoriteJs);
 
 	var _sprintfJs = __webpack_require__(5);
 
@@ -14420,11 +14420,11 @@
 	    tableNameOfComment = tableNameOfCommentV;
 	};
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFactoryJs));
+	_defaults(exports, _interopRequireWildcard(_businessFactoryJs));
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
+	_defaults(exports, _interopRequireWildcard(_businessUtilityJs));
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
+	_defaults(exports, _interopRequireWildcard(_businessFavoriteJs));
 
 	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;

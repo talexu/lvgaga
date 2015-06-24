@@ -1,1 +1,0 @@
-﻿import LightBoxDesktop from 'expose?LightBoxDesktop!./lv.favorite.control.desktop.jsx'

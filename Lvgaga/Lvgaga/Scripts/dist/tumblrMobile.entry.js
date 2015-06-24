@@ -48,9 +48,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _exposeTumblrBoxMobileLvTumblrControlMobileJsx = __webpack_require__(118);
+	var _exposeTumblrBoxMobileControlJsx = __webpack_require__(118);
 
-	var _exposeTumblrBoxMobileLvTumblrControlMobileJsx2 = _interopRequireDefault(_exposeTumblrBoxMobileLvTumblrControlMobileJsx);
+	var _exposeTumblrBoxMobileControlJsx2 = _interopRequireDefault(_exposeTumblrBoxMobileControlJsx);
 
 /***/ },
 /* 1 */,
@@ -13565,9 +13565,9 @@
 
 	var _sprintfJs = __webpack_require__(5);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
 	var defaultRetryTime = 3;
 
@@ -13700,21 +13700,21 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
-	var _businessLvFoundationFactoryJs = __webpack_require__(4);
+	var _businessFactoryJs = __webpack_require__(4);
 
-	var factory = _interopRequireWildcard(_businessLvFoundationFactoryJs);
+	var factory = _interopRequireWildcard(_businessFactoryJs);
 
-	var _businessLvFoundationUtilityJs = __webpack_require__(97);
+	var _businessUtilityJs = __webpack_require__(97);
 
-	var util = _interopRequireWildcard(_businessLvFoundationUtilityJs);
+	var util = _interopRequireWildcard(_businessUtilityJs);
 
-	var _businessLvFoundationTokenJs = __webpack_require__(98);
+	var _businessTokenJs = __webpack_require__(98);
 
-	var token = _interopRequireWildcard(_businessLvFoundationTokenJs);
+	var token = _interopRequireWildcard(_businessTokenJs);
 
-	var _businessLvFoundationFavoriteJs = __webpack_require__(99);
+	var _businessFavoriteJs = __webpack_require__(99);
 
-	var favorite = _interopRequireWildcard(_businessLvFoundationFavoriteJs);
+	var favorite = _interopRequireWildcard(_businessFavoriteJs);
 
 	var _sprintfJs = __webpack_require__(5);
 
@@ -13840,11 +13840,11 @@
 	    tableNameOfComment = tableNameOfCommentV;
 	};
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFactoryJs));
+	_defaults(exports, _interopRequireWildcard(_businessFactoryJs));
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationUtilityJs));
+	_defaults(exports, _interopRequireWildcard(_businessUtilityJs));
 
-	_defaults(exports, _interopRequireWildcard(_businessLvFoundationFavoriteJs));
+	_defaults(exports, _interopRequireWildcard(_businessFavoriteJs));
 
 	exports.reactRoot = reactRoot;
 	exports.initialize = initialize;
@@ -13882,17 +13882,17 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _lvTumblrCoreJs = __webpack_require__(117);
+	var _coreJs = __webpack_require__(117);
 
-	var Core = _interopRequireWildcard(_lvTumblrCoreJs);
+	var Core = _interopRequireWildcard(_coreJs);
 
-	var _commonLvControlMobileTumblrJsx = __webpack_require__(120);
+	var _commonMobileTumblrJsx = __webpack_require__(120);
 
-	var _commonLvControlMobileTumblrJsx2 = _interopRequireDefault(_commonLvControlMobileTumblrJsx);
+	var _commonMobileTumblrJsx2 = _interopRequireDefault(_commonMobileTumblrJsx);
 
-	var _commonLvControlMobileLoadingJsx = __webpack_require__(109);
+	var _commonMobileLoadingJsx = __webpack_require__(109);
 
-	var _commonLvControlMobileLoadingJsx2 = _interopRequireDefault(_commonLvControlMobileLoadingJsx);
+	var _commonMobileLoadingJsx2 = _interopRequireDefault(_commonMobileLoadingJsx);
 
 	var Functions = (function (_React$Component) {
 	    function Functions() {
@@ -13973,7 +13973,7 @@
 	            return React.createElement(
 	                'div',
 	                { className: 'container-tumblr' },
-	                React.createElement(_commonLvControlMobileTumblrJsx2['default'], { dataContext: dataContext }),
+	                React.createElement(_commonMobileTumblrJsx2['default'], { dataContext: dataContext }),
 	                React.createElement(Functions, { dataContext: dataContext }),
 	                React.createElement('hr', { className: 'hr-tumblr' })
 	            );
@@ -14047,7 +14047,7 @@
 	                'div',
 	                null,
 	                React.createElement(TumblrContainerList, { dataContext: this.state.dataContext }),
-	                React.createElement(_commonLvControlMobileLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
+	                React.createElement(_commonMobileLoadingJsx2['default'], { onClickHandler: Core.loadTumblrs, style: Core.getLoadingButtonStyle() })
 	            );
 	        }
 	    }]);
