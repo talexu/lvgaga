@@ -346,6 +346,11 @@
     <Content Include="bower_components\jquery-ajax-retry\dist\jquery.ajax-retry.min.js" />
     <Content Include="bower_components\sisyphus\sisyphus.js" />
     <Content Include="bower_components\sisyphus\sisyphus.min.js" />
+    <Content Include="git_modules\backTop\demo\css\backTop.css" />
+    <Content Include="git_modules\backTop\demo\img\uparr-48-b.png" />
+    <Content Include="git_modules\backTop\demo\img\uparr-48-w.png" />
+    <Content Include="git_modules\backTop\dist\jquery.backTop.js" />
+    <Content Include="git_modules\backTop\dist\jquery.backTop.min.js" />
     <Content Include="Scripts\business\comment.js" />
     <Content Include="Scripts\business\factory.js" />
     <Content Include="Scripts\business\favorite.js" />

@@ -38,6 +38,7 @@ namespace Lvgaga
                 "~/Content/site.css",
                 "~/Content/ladda-themeless.css"));
             bundles.Add(new StyleBundle("~/Content/css/desktop").Include(
+                "~/git_modules/backTop/demo/css/backTop.css",
                 "~/Content/lofter.css",
                 "~/Content/lvgaga.css"));
             bundles.Add(new StyleBundle("~/Content/css/mobile").Include(
@@ -55,6 +56,8 @@ namespace Lvgaga
                 "~/Scripts/respond.js",
                 "~/Scripts/spin*",
                 "~/Scripts/ladda*"));
+            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+                "~/git_modules/backTop/dist/jquery.backTop*"));
 
             // Home Page
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
