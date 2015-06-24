@@ -106,31 +106,11 @@
 	};
 	var createTumblrs = function createTumblrs(dataEntities) {
 	    var isFavorited = arguments[1] === undefined ? false : arguments[1];
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
 
-	    try {
-	        for (var _iterator = dataEntities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var dataEntity = _step.value;
-
-	            dataEntity.IsFavorited = isFavorited;
-	            createTumblr(dataEntity);
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator['return']) {
-	                _iterator['return']();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
-	    }
+	    dataEntities.forEach(function (dataEntity) {
+	        dataEntity.IsFavorited = isFavorited;
+	        createTumblr(dataEntity);
+	    });
 
 	    return dataEntities;
 	};
@@ -142,30 +122,9 @@
 	    return dataEntity;
 	};
 	var createComments = function createComments(dataEntities) {
-	    var _iteratorNormalCompletion2 = true;
-	    var _didIteratorError2 = false;
-	    var _iteratorError2 = undefined;
-
-	    try {
-	        for (var _iterator2 = dataEntities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	            var dataEntity = _step2.value;
-
-	            createComment(dataEntity);
-	        }
-	    } catch (err) {
-	        _didIteratorError2 = true;
-	        _iteratorError2 = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-	                _iterator2['return']();
-	            }
-	        } finally {
-	            if (_didIteratorError2) {
-	                throw _iteratorError2;
-	            }
-	        }
-	    }
+	    dataEntities.forEach(function (dataEntity) {
+	        createComment(dataEntity);
+	    });
 
 	    return dataEntities;
 	};
@@ -14370,58 +14329,16 @@
 	            var loadedFavs = {};
 
 	            // read all favorites
-	            var _iteratorNormalCompletion = true;
-	            var _didIteratorError = false;
-	            var _iteratorError = undefined;
-
-	            try {
-	                for (var _iterator = data.value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                    var f = _step.value;
-
-	                    loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
-	                }
-	            } catch (err) {
-	                _didIteratorError = true;
-	                _iteratorError = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion && _iterator['return']) {
-	                        _iterator['return']();
-	                    }
-	                } finally {
-	                    if (_didIteratorError) {
-	                        throw _iteratorError;
-	                    }
-	                }
-	            }
+	            data.value.forEach(function (f) {
+	                loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
+	            });
 
 	            // set favorite for tumblrs
-	            var _iteratorNormalCompletion2 = true;
-	            var _didIteratorError2 = false;
-	            var _iteratorError2 = undefined;
-
-	            try {
-	                for (var _iterator2 = tumblrs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	                    var t = _step2.value;
-
-	                    if (loadedFavs[t.RowKey]) {
-	                        t.IsFavorited = true;
-	                    }
+	            tumblrs.forEach(function (t) {
+	                if (loadedFavs[t.RowKey]) {
+	                    t.IsFavorited = true;
 	                }
-	            } catch (err) {
-	                _didIteratorError2 = true;
-	                _iteratorError2 = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-	                        _iterator2['return']();
-	                    }
-	                } finally {
-	                    if (_didIteratorError2) {
-	                        throw _iteratorError2;
-	                    }
-	                }
-	            }
+	            });
 
 	            // refresh UI
 	            util.refreshState(reactRoot);

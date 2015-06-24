@@ -36,10 +36,10 @@ let createTumblr = (dataEntity) => {
     return dataEntity;
 };
 let createTumblrs = (dataEntities, isFavorited = false) => {
-    for (let dataEntity of dataEntities) {
+    dataEntities.forEach(function (dataEntity) {
         dataEntity.IsFavorited = isFavorited;
         createTumblr(dataEntity);
-    }
+    });
 
     return dataEntities;
 };
@@ -51,9 +51,9 @@ let createComment = (dataEntity) => {
     return dataEntity;
 };
 let createComments = (dataEntities) => {
-    for (let dataEntity of dataEntities) {
+    dataEntities.forEach(function (dataEntity) {
         createComment(dataEntity);
-    }
+    });
 
     return dataEntities;
 };
