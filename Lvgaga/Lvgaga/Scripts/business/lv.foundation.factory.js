@@ -36,7 +36,7 @@ let createTumblr = (dataEntity) => {
     return dataEntity;
 };
 let createTumblrs = (dataEntities, isFavorited = false) => {
-    dataEntities.forEach(function (dataEntity) {
+    dataEntities.forEach((dataEntity) => {
         dataEntity.IsFavorited = isFavorited;
         createTumblr(dataEntity);
     });
@@ -51,7 +51,7 @@ let createComment = (dataEntity) => {
     return dataEntity;
 };
 let createComments = (dataEntities) => {
-    dataEntities.forEach(function (dataEntity) {
+    dataEntities.forEach((dataEntity) => {
         createComment(dataEntity);
     });
 

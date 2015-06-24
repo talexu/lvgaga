@@ -13749,14 +13749,14 @@
 	            var loadedFavs = {};
 
 	            // read all favorites
-	            data.value.forEach(function (f) {
-	                loadedFavs[factory.getInvertedTicks(f.RowKey)] = true;
+	            data.value.forEach(function (favorite) {
+	                loadedFavs[factory.getInvertedTicks(favorite.RowKey)] = true;
 	            });
 
 	            // set favorite for tumblrs
-	            tumblrs.forEach(function (t) {
-	                if (loadedFavs[t.RowKey]) {
-	                    t.IsFavorited = true;
+	            tumblrs.forEach(function (tumblr) {
+	                if (loadedFavs[tumblr.RowKey]) {
+	                    tumblr.IsFavorited = true;
 	                }
 	            });
 
