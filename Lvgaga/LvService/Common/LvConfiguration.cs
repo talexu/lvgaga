@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Web.Configuration;
 
 namespace LvService.Common
 {
     public class LvConfiguration
     {
-        private const double DefaultTokenExpireOffset = 1;
-        public static readonly double TokenExpireOffset = DefaultTokenExpireOffset;
+        static readonly NameValueCollection AppSettings = WebConfigurationManager.AppSettings;
 
-        private const double DefaultCacheExpireOffset = 30;
-        public static readonly double CacheExpireOffset = new[] { TokenExpireOffset, DefaultCacheExpireOffset }.Min();
+        private const string DefaultTokenExpireOffset = "60";
+        public static readonly double TokenExpireOffset = double.Parse(AppSettings["TokenExpireOffset"] ?? DefaultTokenExpireOffset);
 
-        private const double DefaultAsyncCacheExpireOffset = 30;
-        public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset, DefaultAsyncCacheExpireOffset }.Min();
+        private const string DefaultCacheExpireOffset = "30";
+        public static readonly double CacheExpireOffset = new[] { TokenExpireOffset, double.Parse(AppSettings["CacheExpireOffset"] ?? DefaultCacheExpireOffset) }.Min();
 
-        public const int DefaultTakingCount = 20;
+        private const string DefaultAsyncCacheExpireOffset = "30";
+        public static readonly double AsyncCacheExpireOffset = new[] { CacheExpireOffset, double.Parse(AppSettings["AsyncCacheExpireOffset"] ?? DefaultAsyncCacheExpireOffset) }.Min();
+
+        private const string DefaultTakingCount = "20";
+        public static readonly int TakingCount = int.Parse(AppSettings["TakingCount"] ?? DefaultTakingCount);
 
         public static DateTimeOffset GetExpireTime(double offset)
         {

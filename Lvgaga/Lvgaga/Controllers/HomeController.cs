@@ -48,7 +48,7 @@ namespace Lvgaga.Controllers
                     _tumblrService.GetTumblrsModelAsync(
                         mediaType.ToString(),
                         (TumblrCategory)category,
-                        LvConfiguration.DefaultTakingCount);
+                        LvConfiguration.TakingCount);
             if (homeModel == null || homeModel.Tumblrs == null || !homeModel.Tumblrs.Any()) return HttpNotFound();
 
             homeModel.MediaType = mediaType;

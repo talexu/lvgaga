@@ -24,7 +24,7 @@ namespace Lvgaga.Controllers
         [Route("{partitionKey}/{rowKey}")]
         public async Task<ActionResult> Get(string partitionKey, string rowKey)
         {
-            var comments = await _commentService.GetCommentModelsAsync(partitionKey, rowKey, LvConfiguration.DefaultTakingCount);
+            var comments = await _commentService.GetCommentModelsAsync(partitionKey, rowKey, LvConfiguration.TakingCount);
             if (comments != null)
             {
                 return View(comments);
