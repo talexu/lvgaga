@@ -13943,11 +13943,7 @@
 	                    { id: 'links', ref: 'links' },
 	                    Thumbnails
 	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'container-block' },
-	                    React.createElement(_commonLvControlMobileLoadingJsx2['default'], { onClickHandler: Core.loadFavorites, style: Core.getLoadingButtonStyle() })
-	                ),
+	                React.createElement(_commonLvControlMobileLoadingJsx2['default'], { onClickHandler: Core.loadFavorites, style: Core.getLoadingButtonStyle() }),
 	                React.createElement(
 	                    'div',
 	                    { id: 'blueimp-gallery', className: 'blueimp-gallery blueimp-gallery-controls' },

@@ -88,9 +88,7 @@ class LightBox extends React.Component {
                 <div id="links" ref="links">
                     {Thumbnails}
                 </div>
-                <div className="container-block">
-                    <Loading onClickHandler={Core.loadFavorites} style={Core.getLoadingButtonStyle()}/>
-                </div>
+                <Loading onClickHandler={Core.loadFavorites} style={Core.getLoadingButtonStyle()}/>
                 <div id="blueimp-gallery" className="blueimp-gallery blueimp-gallery-controls">
                     <div className="slides"></div>
                     <a className="prev">‹</a>
