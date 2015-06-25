@@ -413,35 +413,10 @@
 	var createTumblrs = function createTumblrs(dataEntities) {
 	    var isFavorited = arguments[1] === undefined ? false : arguments[1];
 
-	    /*dataEntities.forEach((dataEntity) => {
-	     dataEntity.IsFavorited = isFavorited;
-	     createTumblr(dataEntity);
-	     });*/
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	        for (var _iterator = dataEntities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var dataEntity = _step.value;
-
-	            dataEntity.IsFavorited = isFavorited;
-	            createTumblr(dataEntity);
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator['return']) {
-	                _iterator['return']();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
-	    }
+	    dataEntities.forEach(function (dataEntity) {
+	        dataEntity.IsFavorited = isFavorited;
+	        createTumblr(dataEntity);
+	    });
 
 	    return dataEntities;
 	};
