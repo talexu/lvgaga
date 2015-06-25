@@ -1,4 +1,5 @@
 ﻿@using LvModel.Common
+@using LvService.Common
 @model LvModel.View.Comment.CommentModel
 @{
     ViewBag.Title = "评论";
@@ -9,7 +10,8 @@
     {
         dataContext = Model,
         tableNameOfFavorite = LvConstants.TableNameOfFavorite,
-        tableNameOfComment = LvConstants.TableNameOfComment
+        tableNameOfComment = LvConstants.TableNameOfComment,
+        host = Request.Url != null ? Request.Url.DnsSafeHost : LvConfiguration.DefaultHostName
     })
 </div>
 

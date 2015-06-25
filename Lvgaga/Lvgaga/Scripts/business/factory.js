@@ -2,6 +2,11 @@
 import {Base64} from 'js-base64';
 import moment from 'moment';
 
+let hostName = "www.qingyulu.com";
+let setHost = (host)=> {
+    hostName = host;
+};
+
 let getInvertedTicks = (rowKey) => {
     return rowKey.slice(2);
 };
@@ -16,7 +21,7 @@ let getCommentUri = (tumblr) => {
 
 let getShareUri = (tumblr) => {
     return sprintf("http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s",
-        encodeURIComponent("http://" + "qingyulu.azurewebsites.net" + tumblr.Uri),
+        encodeURIComponent("http://" + hostName + tumblr.Uri),
         encodeURIComponent(tumblr.Text),
         encodeURIComponent("35de718f-8cbf-4a01-8d69-486b3e6c3437"),
         encodeURIComponent(tumblr.MediaLargeUri));
@@ -59,6 +64,7 @@ let createComments = (dataEntities) => {
 };
 
 export{
+    setHost,
     getInvertedTicks,
     getLocalTime,
     getCommentUri,

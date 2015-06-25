@@ -58,13 +58,15 @@ let initialize = ({
     reactRootK : reactRootV,
     sasFavK : sasFavV,
     mediaTypeK : mediaTypeV,
-    tableNameOfFavoriteK : tableNameOfFavoriteV
+    tableNameOfFavoriteK : tableNameOfFavoriteV,
+    hostK: hostV
     }) => {
 
     reactRoot = reactRootV;
     sasFav = sasFavV;
     mediaType = mediaTypeV;
     tableNameOfFavorite = tableNameOfFavoriteV;
+    factory.setHost(hostV);
 };
 
 let setSize = (containerWidth, expectedCellWidth1 = 300)=> {

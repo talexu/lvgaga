@@ -21,6 +21,8 @@ namespace LvService.Common
         private const string DefaultTakingCount = "20";
         public static readonly int TakingCount = int.Parse(AppSettings["TakingCount"] ?? DefaultTakingCount);
 
+        public static readonly string DefaultHostName = AppSettings["DefaultHostName"] ?? "www.qingyulu.com";
+
         public static DateTimeOffset GetExpireTime(double offset)
         {
             return DateTimeOffset.UtcNow.AddMinutes(offset);

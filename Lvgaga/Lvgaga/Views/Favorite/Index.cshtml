@@ -1,4 +1,5 @@
 ﻿@using LvModel.Common
+@using LvService.Common
 @model LvModel.View.Favorite.FavoritesModel
 @{
     ViewBag.Title = "收藏";
@@ -13,6 +14,7 @@
     {
         dataContext = Model,
         tableNameOfFavorite = LvConstants.TableNameOfFavorite,
+        host = Request.Url != null ? Request.Url.DnsSafeHost : LvConfiguration.DefaultHostName
     })
 </div>
 

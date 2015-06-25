@@ -83,7 +83,8 @@ class TumblrContainerBox extends React.Component {
             comSasK: props.dataContext.Sas,
             continuationTokenK: props.dataContext.ContinuationToken,
             tableNameOfFavoriteK: props.tableNameOfFavorite,
-            tableNameOfCommentK: props.tableNameOfComment
+            tableNameOfCommentK: props.tableNameOfComment,
+            hostK: props.host
         });
         this.state = {dataContext: Core.createTumblr(props.dataContext)};
     }

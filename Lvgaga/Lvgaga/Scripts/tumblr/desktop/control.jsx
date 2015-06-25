@@ -127,7 +127,8 @@ class TumblrContainerBox extends React.Component {
             tumblrCategoryK: props.dataContext.TumblrCategory,
             tableNameOfTumblrK: props.tableNameOfTumblr,
             tableNameOfFavoriteK: props.tableNameOfFavorite,
-            tableNameOfCommentK: props.tableNameOfComment
+            tableNameOfCommentK: props.tableNameOfComment,
+            hostK: props.host
         });
         this.state = {dataContext: Core.createTumblrs(props.dataContext.Tumblrs)};
     }

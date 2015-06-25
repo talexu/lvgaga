@@ -28,7 +28,8 @@ class LightBox extends React.Component {
             reactRootK: this,
             sasFavK: props.dataContext.Sas,
             mediaTypeK: props.dataContext.MediaType,
-            tableNameOfFavoriteK: props.tableNameOfFavorite
+            tableNameOfFavoriteK: props.tableNameOfFavorite,
+            hostK: props.host
         });
     }
 

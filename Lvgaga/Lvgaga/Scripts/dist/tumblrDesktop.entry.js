@@ -75,6 +75,11 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var hostName = 'www.qingyulu.com';
+	var setHost = function setHost(host) {
+	    hostName = host;
+	};
+
 	var getInvertedTicks = function getInvertedTicks(rowKey) {
 	    return rowKey.slice(2);
 	};
@@ -88,7 +93,7 @@
 	};
 
 	var getShareUri = function getShareUri(tumblr) {
-	    return (0, _sprintfJs.sprintf)('http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s', encodeURIComponent('http://' + 'qingyulu.azurewebsites.net' + tumblr.Uri), encodeURIComponent(tumblr.Text), encodeURIComponent('35de718f-8cbf-4a01-8d69-486b3e6c3437'), encodeURIComponent(tumblr.MediaLargeUri));
+	    return (0, _sprintfJs.sprintf)('http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s', encodeURIComponent('http://' + hostName + tumblr.Uri), encodeURIComponent(tumblr.Text), encodeURIComponent('35de718f-8cbf-4a01-8d69-486b3e6c3437'), encodeURIComponent(tumblr.MediaLargeUri));
 	};
 
 	var createTumblr = function createTumblr(dataEntity) {
@@ -129,6 +134,7 @@
 	    return dataEntities;
 	};
 
+	exports.setHost = setHost;
 	exports.getInvertedTicks = getInvertedTicks;
 	exports.getLocalTime = getLocalTime;
 	exports.getCommentUri = getCommentUri;
@@ -14234,7 +14240,8 @@
 	            tumblrCategoryK: props.dataContext.TumblrCategory,
 	            tableNameOfTumblrK: props.tableNameOfTumblr,
 	            tableNameOfFavoriteK: props.tableNameOfFavorite,
-	            tableNameOfCommentK: props.tableNameOfComment
+	            tableNameOfCommentK: props.tableNameOfComment,
+	            hostK: props.host
 	        });
 	        this.state = { dataContext: Core.createTumblrs(props.dataContext.Tumblrs) };
 	    }
@@ -14407,6 +14414,7 @@
 	    var tableNameOfTumblrV = _ref.tableNameOfTumblrK;
 	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
 	    var tableNameOfCommentV = _ref.tableNameOfCommentK;
+	    var hostV = _ref.hostK;
 
 	    exports.reactRoot = reactRoot = reactRootV;
 	    tumSas = tumSasV;
@@ -14416,6 +14424,7 @@
 	    tableNameOfTumblr = tableNameOfTumblrV;
 	    tableNameOfFavorite = tableNameOfFavoriteV;
 	    tableNameOfComment = tableNameOfCommentV;
+	    factory.setHost(hostV);
 	};
 
 	_defaults(exports, _interopRequireWildcard(_businessFactoryJs));

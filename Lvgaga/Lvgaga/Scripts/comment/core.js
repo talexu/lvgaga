@@ -73,7 +73,8 @@ let initialize = ({
     continuationTokenK:continuationTokenV,
     favSasK:favSasV,
     tableNameOfFavoriteK:tableNameOfFavoriteV,
-    tableNameOfCommentK:tableNameOfCommentV
+    tableNameOfCommentK:tableNameOfCommentV,
+    hostK: hostV
     }) => {
 
     reactRoot = reactRootV;
@@ -82,6 +83,7 @@ let initialize = ({
     favSas = favSasV;
     tableNameOfFavorite = tableNameOfFavoriteV;
     tableNameOfComment = tableNameOfCommentV;
+    factory.setHost(hostV);
 };
 
 export * from '../business/factory.js';

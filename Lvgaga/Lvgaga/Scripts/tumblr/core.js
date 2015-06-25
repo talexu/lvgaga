@@ -114,7 +114,8 @@ let initialize = ({
     tumblrCategoryK:tumblrCategoryV,
     tableNameOfTumblrK:tableNameOfTumblrV,
     tableNameOfFavoriteK:tableNameOfFavoriteV,
-    tableNameOfCommentK:tableNameOfCommentV
+    tableNameOfCommentK:tableNameOfCommentV,
+    hostK: hostV
     }) => {
 
     reactRoot = reactRootV;
@@ -125,6 +126,7 @@ let initialize = ({
     tableNameOfTumblr = tableNameOfTumblrV;
     tableNameOfFavorite = tableNameOfFavoriteV;
     tableNameOfComment = tableNameOfCommentV;
+    factory.setHost(hostV);
 };
 
 export * from '../business/factory.js';

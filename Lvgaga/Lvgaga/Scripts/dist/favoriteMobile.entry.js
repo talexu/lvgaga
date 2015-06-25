@@ -75,6 +75,11 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var hostName = 'www.qingyulu.com';
+	var setHost = function setHost(host) {
+	    hostName = host;
+	};
+
 	var getInvertedTicks = function getInvertedTicks(rowKey) {
 	    return rowKey.slice(2);
 	};
@@ -88,7 +93,7 @@
 	};
 
 	var getShareUri = function getShareUri(tumblr) {
-	    return (0, _sprintfJs.sprintf)('http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s', encodeURIComponent('http://' + 'qingyulu.azurewebsites.net' + tumblr.Uri), encodeURIComponent(tumblr.Text), encodeURIComponent('35de718f-8cbf-4a01-8d69-486b3e6c3437'), encodeURIComponent(tumblr.MediaLargeUri));
+	    return (0, _sprintfJs.sprintf)('http://api.bshare.cn/share/bsharesync?url=%s&summary=%s&publisherUuid=%s&pic=%s', encodeURIComponent('http://' + hostName + tumblr.Uri), encodeURIComponent(tumblr.Text), encodeURIComponent('35de718f-8cbf-4a01-8d69-486b3e6c3437'), encodeURIComponent(tumblr.MediaLargeUri));
 	};
 
 	var createTumblr = function createTumblr(dataEntity) {
@@ -129,6 +134,7 @@
 	    return dataEntities;
 	};
 
+	exports.setHost = setHost;
 	exports.getInvertedTicks = getInvertedTicks;
 	exports.getLocalTime = getLocalTime;
 	exports.getCommentUri = getCommentUri;
@@ -13768,11 +13774,13 @@
 	    var sasFavV = _ref.sasFavK;
 	    var mediaTypeV = _ref.mediaTypeK;
 	    var tableNameOfFavoriteV = _ref.tableNameOfFavoriteK;
+	    var hostV = _ref.hostK;
 
 	    exports.reactRoot = reactRoot = reactRootV;
 	    sasFav = sasFavV;
 	    mediaType = mediaTypeV;
 	    tableNameOfFavorite = tableNameOfFavoriteV;
+	    factory.setHost(hostV);
 	};
 
 	var setSize = function setSize(containerWidth) {
@@ -13874,7 +13882,8 @@
 	            reactRootK: this,
 	            sasFavK: props.dataContext.Sas,
 	            mediaTypeK: props.dataContext.MediaType,
-	            tableNameOfFavoriteK: props.tableNameOfFavorite
+	            tableNameOfFavoriteK: props.tableNameOfFavorite,
+	            hostK: props.host
 	        });
 	    }
 
