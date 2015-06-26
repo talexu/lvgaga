@@ -41,10 +41,14 @@ let createTumblr = (dataEntity) => {
     return dataEntity;
 };
 let createTumblrs = (dataEntities, isFavorited = false) => {
-    dataEntities.forEach((dataEntity) => {
+/*    dataEntities.forEach((dataEntity) => {
         dataEntity.IsFavorited = isFavorited;
         createTumblr(dataEntity);
-    });
+    });*/
+    for (let dataEntity of dataEntities) {
+        dataEntity.IsFavorited = isFavorited;
+        createTumblr(dataEntity);
+    }
 
     return dataEntities;
 };
