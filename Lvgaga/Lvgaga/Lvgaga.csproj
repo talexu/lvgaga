@@ -365,6 +365,7 @@
     <Content Include="Scripts\dist\commentMobile.entry.js" />
     <Content Include="Scripts\dist\favoriteDesktop.entry.js" />
     <Content Include="Scripts\dist\favoriteMobile.entry.js" />
+    <Content Include="Scripts\dist\polyfill.js" />
     <Content Include="Scripts\dist\tumblrDesktop.entry.js" />
     <Content Include="Scripts\dist\tumblrMobile.entry.js" />
     <Content Include="Scripts\favorite\core.js" />
