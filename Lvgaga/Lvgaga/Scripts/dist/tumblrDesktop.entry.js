@@ -111,11 +111,6 @@
 	};
 	var createTumblrs = function createTumblrs(dataEntities) {
 	    var isFavorited = arguments[1] === undefined ? false : arguments[1];
-
-	    /*    dataEntities.forEach((dataEntity) => {
-	            dataEntity.IsFavorited = isFavorited;
-	            createTumblr(dataEntity);
-	        });*/
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -152,9 +147,30 @@
 	    return dataEntity;
 	};
 	var createComments = function createComments(dataEntities) {
-	    dataEntities.forEach(function (dataEntity) {
-	        createComment(dataEntity);
-	    });
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+
+	    try {
+	        for (var _iterator2 = dataEntities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	            var dataEntity = _step2.value;
+
+	            createComment(dataEntity);
+	        }
+	    } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+	                _iterator2['return']();
+	            }
+	        } finally {
+	            if (_didIteratorError2) {
+	                throw _iteratorError2;
+	            }
+	        }
+	    }
 
 	    return dataEntities;
 	};
@@ -14359,16 +14375,58 @@
 	            var loadedFavs = {};
 
 	            // read all favorites
-	            data.value.forEach(function (favorite) {
-	                loadedFavs[factory.getInvertedTicks(favorite.RowKey)] = true;
-	            });
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = data.value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var _favorite = _step.value;
+
+	                    loadedFavs[factory.getInvertedTicks(_favorite.RowKey)] = true;
+	                }
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator['return']) {
+	                        _iterator['return']();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
+	            }
 
 	            // set favorite for tumblrs
-	            tumblrs.forEach(function (tumblr) {
-	                if (loadedFavs[tumblr.RowKey]) {
-	                    tumblr.IsFavorited = true;
+	            var _iteratorNormalCompletion2 = true;
+	            var _didIteratorError2 = false;
+	            var _iteratorError2 = undefined;
+
+	            try {
+	                for (var _iterator2 = tumblrs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	                    var tumblr = _step2.value;
+
+	                    if (loadedFavs[tumblr.RowKey]) {
+	                        tumblr.IsFavorited = true;
+	                    }
 	                }
-	            });
+	            } catch (err) {
+	                _didIteratorError2 = true;
+	                _iteratorError2 = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+	                        _iterator2['return']();
+	                    }
+	                } finally {
+	                    if (_didIteratorError2) {
+	                        throw _iteratorError2;
+	                    }
+	                }
+	            }
 
 	            // refresh UI
 	            util.refreshState(reactRoot);

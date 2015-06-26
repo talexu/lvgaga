@@ -35,16 +35,16 @@ let loadFavorites = (tumblrs) => {
             let loadedFavs = {};
 
             // read all favorites
-            data.value.forEach((favorite) => {
+            for (let favorite of data.value) {
                 loadedFavs[factory.getInvertedTicks(favorite.RowKey)] = true;
-            });
+            }
 
             // set favorite for tumblrs
-            tumblrs.forEach((tumblr) => {
+            for (let tumblr of tumblrs) {
                 if (loadedFavs[tumblr.RowKey]) {
                     tumblr.IsFavorited = true;
                 }
-            });
+            }
 
             // refresh UI
             util.refreshState(reactRoot);
