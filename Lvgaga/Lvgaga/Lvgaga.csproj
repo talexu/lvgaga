@@ -360,7 +360,7 @@
     <Content Include="Scripts\business\utility.js" />
     <Content Include="Scripts\comment\core.js" />
     <Content Include="Scripts\comment\mobile\index.js" />
-    <Content Include="Scripts\common\polyfill.js" />
+    <Content Include="Scripts\common\static.js" />
     <Content Include="Scripts\dist\commentDesktop.entry.js" />
     <Content Include="Scripts\dist\commentMobile.entry.js" />
     <Content Include="Scripts\dist\favoriteDesktop.entry.js" />

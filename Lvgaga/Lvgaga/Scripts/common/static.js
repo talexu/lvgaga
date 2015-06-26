@@ -1,0 +1,1 @@
+﻿import 'file?name=polyfill.[ext]!babel-core/browser-polyfill.min.js';

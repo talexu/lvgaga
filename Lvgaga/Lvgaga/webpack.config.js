@@ -6,7 +6,7 @@
         commentMobile: "./Scripts/comment/mobile/index.js",
         favoriteDesktop: "./Scripts/favorite/desktop/index.js",
         favoriteMobile: "./Scripts/favorite/mobile/index.js",
-        polyfill: "./Scripts/common/polyfill.js"
+        static: "./Scripts/common/static.js"
     },
     output: {
         path: "./Scripts/dist",
