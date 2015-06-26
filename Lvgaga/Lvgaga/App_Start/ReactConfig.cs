@@ -26,7 +26,6 @@ namespace Lvgaga
 			//	.AddScript("~/Scripts/First.jsx")
 			//	.AddScript("~/Scripts/Second.jsx");
             ReactSiteConfiguration.Configuration
-                .AddScript("~/Scripts/dist/polyfill.entry.js")
                 .AddScript("~/Scripts/dist/tumblrDesktop.entry.js")
                 .AddScript("~/Scripts/dist/tumblrMobile.entry.js")
                 .AddScript("~/Scripts/dist/commentDesktop.entry.js")
