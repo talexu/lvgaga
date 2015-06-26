@@ -1,0 +1,1 @@
+﻿import 'script!babel-core/browser-polyfill.js';

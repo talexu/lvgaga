@@ -1,1 +1,1 @@
-﻿import TumblrContainerBoxDesktop from 'expose?TumblrContainerBoxDesktop!./control.jsx'
+﻿import TumblrContainerBoxDesktop from 'expose?TumblrContainerBoxDesktop!./control.jsx';

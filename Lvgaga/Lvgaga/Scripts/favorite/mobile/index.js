@@ -1,1 +1,1 @@
-﻿import LightBoxMobile from 'expose?LightBoxMobile!./control.jsx'
+﻿import LightBoxMobile from 'expose?LightBoxMobile!./control.jsx';

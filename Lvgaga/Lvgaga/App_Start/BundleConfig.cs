@@ -52,11 +52,11 @@ namespace Lvgaga
             bundles.Add(new ScriptBundle("~/bundles/utilities").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/bower_components/jquery-ajax-retry/dist/jquery.ajax-retry*",
-                "~/Scripts/babel/browser-polyfill*",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",
                 "~/Scripts/spin*",
-                "~/Scripts/ladda*"));
+                "~/Scripts/ladda*",
+                "~/Scripts/dist/polyfill.entry.js"));
             bundles.Add(new ScriptBundle("~/bundles/layout").Include(
                 "~/git_modules/backTop/dist/jquery.backTop*"));
 

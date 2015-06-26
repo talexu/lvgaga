@@ -1,1 +1,1 @@
-﻿import CommentContainerBoxMobile from 'expose?CommentContainerBoxMobile!./control.jsx'
+﻿import CommentContainerBoxMobile from 'expose?CommentContainerBoxMobile!./control.jsx';

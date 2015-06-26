@@ -12,7 +12,7 @@ namespace Lvgaga
 		{
 			// ES6 features are enabled by default. Uncomment the below line to disable them.
 			// See http://reactjs.net/guides/es6.html for more information.
-			//ReactSiteConfiguration.Configuration.SetUseHarmony(false);
+			ReactSiteConfiguration.Configuration.SetUseHarmony(false);
 
 			// Uncomment the below line if you are using Flow
 			// See http://reactjs.net/guides/flow.html for more information.
@@ -26,6 +26,7 @@ namespace Lvgaga
 			//	.AddScript("~/Scripts/First.jsx")
 			//	.AddScript("~/Scripts/Second.jsx");
             ReactSiteConfiguration.Configuration
+                .AddScript("~/Scripts/dist/polyfill.entry.js")
                 .AddScript("~/Scripts/dist/tumblrDesktop.entry.js")
                 .AddScript("~/Scripts/dist/tumblrMobile.entry.js")
                 .AddScript("~/Scripts/dist/commentDesktop.entry.js")

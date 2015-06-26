@@ -1,14 +1,12 @@
-﻿const webpack = require('webpack');
-const commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
-
-module.exports = {
+﻿module.exports = {
     entry: {
         tumblrDesktop: "./Scripts/tumblr/desktop/index.js",
         tumblrMobile: "./Scripts/tumblr/mobile/index.js",
         commentDesktop: "./Scripts/comment/desktop/index.js",
         commentMobile: "./Scripts/comment/mobile/index.js",
         favoriteDesktop: "./Scripts/favorite/desktop/index.js",
-        favoriteMobile: "./Scripts/favorite/mobile/index.js"
+        favoriteMobile: "./Scripts/favorite/mobile/index.js",
+        polyfill: "./Scripts/common/polyfill.js"
     },
     output: {
         path: "./Scripts/dist",
@@ -16,7 +14,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" }
+            {test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader"}
         ]
     }
 };

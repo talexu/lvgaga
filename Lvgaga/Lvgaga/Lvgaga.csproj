@@ -353,10 +353,6 @@
     <Content Include="git_modules\backTop\demo\img\uparr-48-w.png" />
     <Content Include="git_modules\backTop\dist\jquery.backTop.js" />
     <Content Include="git_modules\backTop\dist\jquery.backTop.min.js" />
-    <Content Include="Scripts\babel\browser-polyfill.js" />
-    <Content Include="Scripts\babel\browser-polyfill.min.js" />
-    <Content Include="Scripts\babel\browser.js" />
-    <Content Include="Scripts\babel\browser.min.js" />
     <Content Include="Scripts\business\comment.js" />
     <Content Include="Scripts\business\factory.js" />
     <Content Include="Scripts\business\favorite.js" />
@@ -364,6 +360,7 @@
     <Content Include="Scripts\business\utility.js" />
     <Content Include="Scripts\comment\core.js" />
     <Content Include="Scripts\comment\mobile\index.js" />
+    <Content Include="Scripts\common\polyfill.js" />
     <Content Include="Scripts\dist\commentDesktop.entry.js" />
     <Content Include="Scripts\dist\commentMobile.entry.js" />
     <Content Include="Scripts\dist\favoriteDesktop.entry.js" />

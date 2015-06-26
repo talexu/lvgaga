@@ -1,1 +1,1 @@
-﻿import CommentContainerBoxDesktop from 'expose?CommentContainerBoxDesktop!./control.jsx'
+﻿import CommentContainerBoxDesktop from 'expose?CommentContainerBoxDesktop!./control.jsx';

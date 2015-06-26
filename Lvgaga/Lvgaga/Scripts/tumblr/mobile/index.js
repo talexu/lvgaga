@@ -1,1 +1,1 @@
-﻿import TumblrBoxMobile from 'expose?TumblrBoxMobile!./control.jsx'
+﻿import TumblrBoxMobile from 'expose?TumblrBoxMobile!./control.jsx';
