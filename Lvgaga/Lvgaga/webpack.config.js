@@ -5,8 +5,7 @@
         commentDesktop: "./Scripts/comment/desktop/index.js",
         commentMobile: "./Scripts/comment/mobile/index.js",
         favoriteDesktop: "./Scripts/favorite/desktop/index.js",
-        favoriteMobile: "./Scripts/favorite/mobile/index.js",
-        static: "./Scripts/common/static.js"
+        favoriteMobile: "./Scripts/favorite/mobile/index.js"
     },
     output: {
         path: "./Scripts/dist",

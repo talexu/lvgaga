@@ -56,7 +56,7 @@ namespace Lvgaga
                 "~/Scripts/respond.js",
                 "~/Scripts/spin*",
                 "~/Scripts/ladda*",
-                "~/Scripts/dist/polyfill.js"));
+                "~/bower_components/babel-polyfill/browser-polyfill.js"));
             bundles.Add(new ScriptBundle("~/bundles/layout").Include(
                 "~/git_modules/backTop/dist/jquery.backTop*"));
 
