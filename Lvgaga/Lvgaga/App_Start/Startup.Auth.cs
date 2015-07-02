@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Web.Configuration;
 using Lvgaga.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -10,6 +12,8 @@ namespace Lvgaga
 {
     public partial class Startup
     {
+        static readonly NameValueCollection AppSettings = WebConfigurationManager.AppSettings;
+
         // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -54,7 +58,7 @@ namespace Lvgaga
             //app.UseFacebookAuthentication(
             //   appId: "",
             //   appSecret: "");
-            app.UseFacebookAuthentication("1563391700611817", "6450b790e4cfb3fd863c09a49f7aeb8c");
+            app.UseFacebookAuthentication(AppSettings["AppIdOfFacebook"], AppSettings["AppSecretOfFaceook"]);
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
@@ -62,7 +66,7 @@ namespace Lvgaga
             //    ClientSecret = ""
             //});
 
-            app.UseSinaWeiboAuthentication("3373708810", "dc42879ee77dc59cbce8c6f053885620");
+            app.UseSinaWeiboAuthentication(AppSettings["AppIdOfWeibo"], AppSettings["AppSecretOfWeibo"]);
         }
     }
 }
