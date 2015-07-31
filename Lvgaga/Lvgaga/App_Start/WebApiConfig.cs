@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using WebApiContrib.MessageHandlers;
 
 namespace Lvgaga
 {
@@ -11,8 +12,13 @@ namespace Lvgaga
             // Web API 路由
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional }
+            config.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional }
             );
+
+            config.MessageHandlers.Add(new RequireHttpsHandler());
         }
     }
 }
